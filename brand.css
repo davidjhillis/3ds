@@ -708,6 +708,28 @@ pre, table.doc th { background: var(--mds-navy); }
 .hub-card__cta:hover { background: var(--mds-tertiary); }
 .hub-card .hub-card__cta .mds-icon { color: var(--mds-white); }
 
+/* Compact article tile — the .hub-card family at list scale. Same flat
+   field, no ring, gentler lift. */
+.hub-tile {
+  display: block;
+  padding: 16px 20px;
+  border-radius: 12px;
+  background: var(--mds-card-bg);
+  transition: transform .4s cubic-bezier(.19, 1, .22, 1), box-shadow .3s ease;
+}
+.hub-tile:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 26px -22px rgba(0, 40, 85, .45);
+}
+.hub-tile:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--mds-cyan);
+}
+@media (prefers-reduced-motion: reduce) {
+  .hub-tile { transition-duration: .01ms; }
+  .hub-tile:hover { transform: none; }
+}
+
 .hub-chip {
   display: inline-flex;
   align-items: center;
