@@ -247,6 +247,26 @@ h1, h2, h3, h4,
   max-height: 23rem;
   border-radius: 0 0 3rem 3rem;
   overflow: hidden;
+  background: var(--mds-navy);
+}
+/* The band is far wider than the photos (≈16:9), so cover would slice out
+   a head-height strip at desktop. Instead the sharp photo keeps its full
+   composition: natural aspect, full band height, pinned right, left edge
+   feathered into a full-bleed blurred plate of the same image. */
+.mds-photo--section .mds-photo__img:not(.mds-photo__img--blur) {
+  left: auto;
+  right: 0;
+  width: auto;
+  height: 100%;
+  z-index: 1; /* the unmasked blur plate follows it in the DOM */
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 26%);
+  mask-image: linear-gradient(90deg, transparent 0%, #000 26%);
+}
+.mds-photo--section .mds-photo__img--blur {
+  -webkit-mask-image: none;
+  mask-image: none;
+  filter: blur(60px) saturate(1.1);
+  transform: scale(1.25);
 }
 
 .mds-photo__img--blur {
@@ -582,6 +602,7 @@ pre, table.doc th { background: var(--mds-navy); }
 .exp-hero-study,
 .exp-hero-patient,
 .exp-hero-data {
+  z-index: 2; /* scrim sits above both photo layers; type column above it */
   background:
     linear-gradient(95deg, rgba(0,40,85,.96) 0%, rgba(0,40,85,.86) 38%, rgba(0,40,85,.42) 66%, rgba(0,40,85,.08) 100%),
     linear-gradient(150deg, var(--exp-ramp-0) 0%, var(--exp-ramp-1) 52%, var(--exp-ramp-2) 100%);
