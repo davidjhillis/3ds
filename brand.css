@@ -118,6 +118,11 @@ h1, h2, h3, h4,
   font-size: clamp(1.875rem, 3.4vw, 2.5rem);
   line-height: 1.15;
 }
+/* Banner headlines run light, the way the .com sets its large headings. */
+.mds-display--light {
+  font-weight: 300;
+  font-size: clamp(2.25rem, 4vw, 3rem);
+}
 .mds-section-title {
   font-weight: 300;
   font-size: clamp(1.875rem, 3vw, 2.25rem);
@@ -233,11 +238,15 @@ h1, h2, h3, h4,
 .mds-photo--hero > .h-1 { display: none; }
 
 /* Experience section headers — interior banner, not a home-hero. Crop
-   torso and furniture, never skulls. Home hero (.mds-photo--hero) is separate. */
+   torso and furniture, never skulls. Home hero (.mds-photo--hero) is separate.
+   Same construction language as the home hero: generous height, heavy
+   rounded bottom corners sitting on the page field, type clear of the face. */
 .mds-photo--section {
-  min-height: 15rem;
-  height: 20vw;
-  max-height: 18rem;
+  min-height: 18rem;
+  height: 26vw;
+  max-height: 23rem;
+  border-radius: 0 0 3rem 3rem;
+  overflow: hidden;
 }
 
 .mds-photo__img--blur {
@@ -567,17 +576,16 @@ pre, table.doc th { background: var(--mds-navy); }
 }
 
 /* Navy-first overlay keeps white type ≥4.5:1; the experience colour rides on
-   top as a 150deg ramp so each hero still reads as its own experience. */
+   top as a 150deg ramp so each hero still reads as its own experience. The
+   scrim runs solid behind the type column and releases toward the photo —
+   identity comes from the eyebrow + ramp, not an accent bar. */
 .exp-hero-study,
 .exp-hero-patient,
 .exp-hero-data {
   background:
-    linear-gradient(100deg, rgba(0,40,85,.93) 0%, rgba(0,40,85,.79) 48%, rgba(0,40,85,.36) 100%),
+    linear-gradient(95deg, rgba(0,40,85,.96) 0%, rgba(0,40,85,.86) 38%, rgba(0,40,85,.42) 66%, rgba(0,40,85,.08) 100%),
     linear-gradient(150deg, var(--exp-ramp-0) 0%, var(--exp-ramp-1) 52%, var(--exp-ramp-2) 100%);
 }
-.exp-hero-study { box-shadow: inset 0 -6px 0 var(--mds-study-on-dark); }
-.exp-hero-patient { box-shadow: inset 0 -6px 0 var(--mds-patient-on-dark); }
-.exp-hero-data { box-shadow: inset 0 -6px 0 var(--mds-data-on-dark); }
 [data-view="study"] .mds-photo__img { object-position: 72% 8%; }
 [data-view="patient"] .mds-photo__img { object-position: 88% 28%; }
 [data-view="data"] .mds-photo__img { object-position: 84% 6%; }
