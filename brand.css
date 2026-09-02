@@ -234,8 +234,6 @@ h1, h2, h3, h4,
   .mds-photo--hero .mds-photo__img { object-position: 96% 40%; }
 }
 .mds-photo--hero > .relative { z-index: 3; }
-/* The thin accent bar under the hero fights the curve — hide it. */
-.mds-photo--hero > .h-1 { display: none; }
 
 /* Experience section headers — interior banner, not a home-hero. Crop
    torso and furniture, never skulls. Home hero (.mds-photo--hero) is separate.
@@ -344,11 +342,11 @@ h1, h2, h3, h4,
 .callout.info { background: #e6f6fc; border-color: var(--mds-cyan); }
 .callout.tip { background: #f8fad6; border-color: var(--mds-green); }
 pre, table.doc th { background: var(--mds-navy); }
-.filterpill:hover { box-shadow: inset 0 0 0 1px var(--mds-cyan); color: var(--mds-cyan); }
+.filterpill:hover { box-shadow: inset 0 0 0 1px var(--mds-tertiary); color: var(--mds-tertiary); }
 .filterpill[aria-pressed="true"] { background: var(--mds-navy); color: #fff; box-shadow: none; }
 .filterpill:focus-visible { outline: none; box-shadow: 0 0 0 2px var(--mds-cyan); }
 .pd-side:hover { color: var(--mds-navy); }
-.pd-side.pd-on { background: #e6f6fc; color: var(--mds-cyan); }
+.pd-side.pd-on { background: #e6f6fc; color: var(--mds-tertiary); }
 
 /* Experience identity: Study green, Patient cyan, Data navy */
 .exp-bar-study,
@@ -743,7 +741,8 @@ pre, table.doc th { background: var(--mds-navy); }
   line-height: 1.4;
   white-space: nowrap;
 }
-.hub-chip--new { background: var(--mds-cyan); color: var(--mds-white); }
+/* Steel Blue, not Light Blue: white 10px type on cyan is 2.8:1. */
+.hub-chip--new { background: var(--mds-tertiary); color: var(--mds-white); }
 .hub-chip--guide,
 .hub-chip--newsletter { background: var(--mds-navy); color: var(--mds-white); }
 .hub-chip--issue { background: var(--mds-tertiary); color: var(--mds-white); }
