@@ -1,0 +1,3093 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Getting Started - Discover CX Docs</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="../assets/theme-loader.js"></script>
+  <script>
+    // Configure Tailwind for dark mode
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            // Semantic color tokens mapped to CSS variables
+            primary: {
+              50: 'rgb(var(--color-primary-50))',
+              100: 'rgb(var(--color-primary-100))',
+              200: 'rgb(var(--color-primary-200))',
+              300: 'rgb(var(--color-primary-300))',
+              400: 'rgb(var(--color-primary-400))',
+              500: 'rgb(var(--color-primary-500))',
+              600: 'rgb(var(--color-primary-600))',
+              700: 'rgb(var(--color-primary-700))',
+              800: 'rgb(var(--color-primary-800))',
+              900: 'rgb(var(--color-primary-900))',
+              950: 'rgb(var(--color-primary-950))',
+            },
+            accent: {
+              50: 'rgb(var(--color-accent-50))',
+              100: 'rgb(var(--color-accent-100))',
+              200: 'rgb(var(--color-accent-200))',
+              300: 'rgb(var(--color-accent-300))',
+              400: 'rgb(var(--color-accent-400))',
+              500: 'rgb(var(--color-accent-500))',
+              600: 'rgb(var(--color-accent-600))',
+              700: 'rgb(var(--color-accent-700))',
+              800: 'rgb(var(--color-accent-800))',
+              900: 'rgb(var(--color-accent-900))',
+              950: 'rgb(var(--color-accent-950))',
+            },
+            neutral: {
+              50: 'rgb(var(--color-neutral-50))',
+              100: 'rgb(var(--color-neutral-100))',
+              200: 'rgb(var(--color-neutral-200))',
+              300: 'rgb(var(--color-neutral-300))',
+              400: 'rgb(var(--color-neutral-400))',
+              500: 'rgb(var(--color-neutral-500))',
+              600: 'rgb(var(--color-neutral-600))',
+              700: 'rgb(var(--color-neutral-700))',
+              800: 'rgb(var(--color-neutral-800))',
+              900: 'rgb(var(--color-neutral-900))',
+              950: 'rgb(var(--color-neutral-950))',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    /* Default theme CSS variables - Indigo */
+    :root {
+      --color-primary-50: 238 242 255;
+      --color-primary-100: 224 231 255;
+      --color-primary-200: 199 210 254;
+      --color-primary-300: 165 180 252;
+      --color-primary-400: 129 140 248;
+      --color-primary-500: 99 102 241;
+      --color-primary-600: 79 70 229;
+      --color-primary-700: 67 56 202;
+      --color-primary-800: 55 48 163;
+      --color-primary-900: 49 46 129;
+      --color-primary-950: 30 27 75;
+      
+      --color-accent-50: 238 242 255;
+      --color-accent-100: 224 231 255;
+      --color-accent-200: 199 210 254;
+      --color-accent-300: 165 180 252;
+      --color-accent-400: 129 140 248;
+      --color-accent-500: 99 102 241;
+      --color-accent-600: 79 70 229;
+      --color-accent-700: 67 56 202;
+      --color-accent-800: 55 48 163;
+      --color-accent-900: 49 46 129;
+      --color-accent-950: 30 27 75;
+      
+      --color-neutral-50: 249 250 251;
+      --color-neutral-100: 243 244 246;
+      --color-neutral-200: 229 231 235;
+      --color-neutral-300: 209 213 219;
+      --color-neutral-400: 156 163 175;
+      --color-neutral-500: 107 114 128;
+      --color-neutral-600: 75 85 99;
+      --color-neutral-700: 65 65 65;
+      --color-neutral-800: 50 50 50;
+      --color-neutral-900: 37 37 37;
+      --color-neutral-950: 20 20 20;
+    }
+    
+    /* Remove default margins */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    /* Prevent horizontal overflow on mobile */
+    html, body {
+      overflow-x: clip;  /* Use 'clip' instead of 'hidden' to allow sticky positioning */
+      max-width: 100vw;
+    }
+    
+    /* Ensure all elements wrap */
+    article *, pre, code {
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      max-width: 100%;
+    }
+    
+    /* Article styling - Syntax-inspired */
+    article h1 { 
+      font-size: 2.25rem; 
+      font-weight: 800; 
+      color: #111827; 
+      margin-bottom: 0.75rem;
+      line-height: 1.2;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+    }
+    @media (max-width: 640px) {
+      article h1 {
+        font-size: 1.75rem;
+      }
+    }
+    article h2 { 
+      font-size: 1.5rem; 
+      font-weight: 700; 
+      color: #111827; 
+      margin-top: 3rem; 
+      margin-bottom: 1rem; 
+      padding-top: 3rem;
+      border-top: 1px solid #e5e7eb;
+    }
+    article h3 { 
+      font-size: 1.25rem; 
+      font-weight: 600; 
+      color: #111827; 
+      margin-top: 2rem; 
+      margin-bottom: 0.75rem; 
+    }
+    article p { 
+      color: #6b7280; 
+      line-height: 1.75; 
+      margin-bottom: 1.25rem;
+      font-size: 1rem;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+    }
+    article hr {
+      border: none;
+      border-top: 1px solid #e5e7eb;
+      margin: 3rem 0;
+    }
+    
+    /* Dark mode */
+    .dark article h1, .dark article h2, .dark article h3 { color: #f9fafb; }
+    .dark article h2 { border-top-color: #374151; }
+    .dark article p { color: #9ca3af; }
+    .dark article hr { border-top-color: #374151; }
+    
+    /* Glossary terms */
+    .glossary-term {
+      cursor: help;
+      transition: all 0.2s;
+    }
+    .glossary-active .glossary-term {
+      border-bottom: 2px dashed #9333ea;
+      border-bottom-color: #9333ea;
+    }
+    .dark .glossary-active .glossary-term {
+      border-bottom-color: #a855f7;
+    }
+    .glossary-term:hover {
+      color: #9333ea;
+    }
+    .dark .glossary-term:hover {
+      color: #a855f7;
+    }
+    
+    /* Custom scrollbar styling for TOC sidebars - Apple-style */
+    aside::-webkit-scrollbar {
+      width: 8px;
+    }
+    
+    aside::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    
+    aside::-webkit-scrollbar-thumb {
+      background-color: rgba(0, 0, 0, 0.2);
+      border-radius: 20px;
+      border: 2px solid transparent;
+      background-clip: content-box;
+    }
+    
+    aside::-webkit-scrollbar-thumb:hover {
+      background-color: rgba(0, 0, 0, 0.3);
+    }
+    
+    .dark aside::-webkit-scrollbar-thumb {
+      background-color: rgba(255, 255, 255, 0.2);
+    }
+    
+    .dark aside::-webkit-scrollbar-thumb:hover {
+      background-color: rgba(255, 255, 255, 0.3);
+    }
+    
+    /* Firefox scrollbar styling */
+    aside {
+      scrollbar-width: thin;
+      scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
+    }
+    
+    .dark aside {
+      scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+    }
+    
+    /* Blinking cursor animation */
+    @keyframes blink {
+      0%, 50% { opacity: 1; }
+      51%, 100% { opacity: 0; }
+    }
+    
+    .animate-blink {
+      animation: blink 1s infinite;
+    }
+  </style>
+</head>
+<body class="bg-neutral-50 dark:bg-neutral-900 text-neutral-900 dark:text-white">
+
+  <!-- Header -->
+  <header class="sticky top-0 z-50 bg-neutral-50 dark:bg-neutral-900 border-b border-neutral-200 dark:border-neutral-700">
+    <div class="max-w-screen-2xl mx-auto px-6">
+      <div class="flex items-center h-16 gap-4">
+        
+        <!-- Logo (Always visible) -->
+        <a href="index.html" class="flex items-center gap-3 hover:opacity-90 transition-opacity flex-shrink-0 mr-8">
+          <img src="../assets/discover-cx-logo.svg" alt="Discover CX" class="h-7 w-auto dark:hidden">
+          <img src="../assets/discover-cx-logo-white.svg" alt="Discover CX" class="h-7 w-auto hidden dark:block">
+          <span class="hidden lg:inline font-normal text-lg text-neutral-600 dark:text-neutral-400 whitespace-nowrap">Product Documentation</span>
+        </a>
+        
+        <!-- Command K Search Trigger (Big search bar - desktop only, centered to screen) -->
+        <button id="cmd-k-trigger" class="absolute left-1/2 -translate-x-1/2 max-w-2xl w-full mx-4 hidden lg:flex items-center gap-3 px-4 py-2 border border-neutral-300 dark:border-neutral-600 rounded-lg bg-white dark:bg-neutral-800 text-left hover:border-primary-500 dark:hover:border-primary-400 transition-colors group">
+          <i data-lucide="search" class="w-5 h-5 text-neutral-400 group-hover:text-primary-600 dark:group-hover:text-primary-400"></i>
+          <span class="flex-1 text-sm text-neutral-500 dark:text-neutral-400">Search or ask a question</span>
+          <kbd class="hidden lg:inline-flex items-center gap-1 px-2 py-1 text-xs font-semibold text-neutral-600 dark:text-neutral-400 bg-neutral-100 dark:bg-neutral-700 border border-neutral-300 dark:border-neutral-600 rounded">
+            <span class="text-xs">⌘</span>K
+          </kbd>
+        </button>
+        
+        <!-- Right Actions -->
+        <div class="flex items-center gap-3 ml-auto">
+          <!-- Mobile/Tablet Search Icon Button -->
+          <button id="mobile-search-btn" class="lg:hidden p-2 hover:bg-neutral-100 dark:hover:bg-neutral-700 rounded-lg">
+            <i data-lucide="search" class="w-6 h-6 text-neutral-600 dark:text-neutral-400"></i>
+          </button>
+          <!-- Menu Button with Dropdown -->
+          <div class="relative">
+            <button id="mobile-menu-btn" class="p-2 hover:bg-neutral-100 dark:hover:bg-neutral-700 rounded-lg flex-shrink-0">
+              <i data-lucide="menu" class="w-6 h-6 text-neutral-600 dark:text-neutral-400"></i>
+            </button>
+            
+            <!-- Mobile Menu Dropdown -->
+            <div id="mobile-menu" class="hidden absolute right-0 top-full mt-2 w-64 bg-neutral-50 dark:bg-neutral-900 rounded-xl shadow-2xl border border-neutral-200 dark:border-neutral-700 z-50 py-2">
+              <nav class="py-2">
+                <a href="index.html#products" class="flex items-center gap-3 px-4 py-3 hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors">
+                  <i data-lucide="package" class="w-4 h-4 text-neutral-600 dark:text-neutral-400"></i>
+                  <span class="text-sm font-medium text-neutral-900 dark:text-white">Products</span>
+                </a>
+                <a href="doc-page.html" class="flex items-center gap-3 px-4 py-3 hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors">
+                  <i data-lucide="book-open" class="w-4 h-4 text-neutral-600 dark:text-neutral-400"></i>
+                  <span class="text-sm font-medium text-neutral-900 dark:text-white">Documentation</span>
+                </a>
+                <a href="#" class="flex items-center gap-3 px-4 py-3 hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors">
+                  <i data-lucide="life-buoy" class="w-4 h-4 text-neutral-600 dark:text-neutral-400"></i>
+                  <span class="text-sm font-medium text-neutral-900 dark:text-white">Support</span>
+                </a>
+              </nav>
+            </div>
+          </div>
+          
+          <!-- User Avatar Dropdown -->
+        <div class="relative">
+          <button id="user-menu-btn" class="flex items-center gap-2 p-1.5 hover:bg-neutral-100 dark:hover:bg-neutral-700 rounded-lg transition-colors">
+            <div class="w-8 h-8 rounded-full bg-gradient-to-br from-neutral-600 to-neutral-700 flex items-center justify-center text-white font-semibold text-sm">
+              JD
+            </div>
+            <i data-lucide="chevron-down" class="w-4 h-4 text-neutral-600 dark:text-neutral-400 hidden sm:block"></i>
+          </button>
+          
+          <!-- Dropdown Menu -->
+          <div id="user-dropdown" class="hidden absolute right-0 mt-2 w-56 bg-white dark:bg-neutral-800 rounded-xl shadow-2xl border border-neutral-200 dark:border-neutral-700 py-2 z-50">
+            <!-- User Info -->
+            <div class="px-4 py-3 border-b border-neutral-200 dark:border-neutral-700">
+              <p class="text-sm font-semibold text-neutral-900 dark:text-white">Jane Doe</p>
+              <p class="text-xs text-neutral-600 dark:text-neutral-400">jane.doe@company.com</p>
+            </div>
+            
+            <!-- Theme Selector -->
+            <div class="px-4 py-3 border-b border-neutral-200 dark:border-neutral-700">
+              <div class="flex items-center justify-between gap-2">
+                <button id="theme-auto" class="flex-1 p-2 rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors" title="Auto">
+                  <i data-lucide="monitor" class="w-4 h-4 mx-auto text-neutral-600 dark:text-neutral-400"></i>
+                </button>
+                <button id="theme-light" class="flex-1 p-2 rounded-lg bg-yellow-100 dark:bg-yellow-900/30 transition-colors" title="Light">
+                  <i data-lucide="sun" class="w-4 h-4 mx-auto text-yellow-600 dark:text-yellow-400"></i>
+                </button>
+                <button id="theme-dark" class="flex-1 p-2 rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors" title="Dark">
+                  <i data-lucide="moon" class="w-4 h-4 mx-auto text-neutral-600 dark:text-neutral-400"></i>
+                </button>
+              </div>
+            </div>
+            
+            <!-- Menu Items -->
+            <div class="py-2">
+              <a href="user-profile.html" class="flex items-center gap-3 px-4 py-2 hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors">
+                <i data-lucide="user" class="w-4 h-4 text-neutral-600 dark:text-neutral-400"></i>
+                <span class="text-sm text-neutral-900 dark:text-white">My Profile</span>
+              </a>
+              <a href="#" class="flex items-center gap-3 px-4 py-2 hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors">
+                <i data-lucide="bookmark" class="w-4 h-4 text-neutral-600 dark:text-neutral-400"></i>
+                <span class="text-sm text-neutral-900 dark:text-white">Bookmarks</span>
+              </a>
+              <a href="#" class="flex items-center gap-3 px-4 py-2 hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors">
+                <i data-lucide="clock" class="w-4 h-4 text-neutral-600 dark:text-neutral-400"></i>
+                <span class="text-sm text-neutral-900 dark:text-white">Reading History</span>
+              </a>
+              <a href="#" class="flex items-center gap-3 px-4 py-2 hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors">
+                <i data-lucide="settings" class="w-4 h-4 text-neutral-600 dark:text-neutral-400"></i>
+                <span class="text-sm text-neutral-900 dark:text-white">Settings</span>
+              </a>
+            </div>
+            
+            <!-- Divider -->
+            <div class="border-t border-neutral-200 dark:border-neutral-700 my-2"></div>
+            
+            <!-- Logout -->
+            <div class="py-2">
+              <a href="login.html" class="flex items-center gap-3 px-4 py-2 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors">
+                <i data-lucide="log-out" class="w-4 h-4 text-red-600 dark:text-red-400"></i>
+                <span class="text-sm text-red-600 dark:text-red-400 font-semibold">Log Out</span>
+              </a>
+            </div>
+          </div>
+        </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- 3-Column Layout Container -->
+  <div class="max-w-screen-2xl mx-auto relative">
+    <div class="flex">
+      
+      <!-- Left Sidebar - Syntax-style Navigation (Desktop) -->
+      <aside id="desktop-toc" class="hidden lg:block fixed left-0 top-16 bottom-0 w-80 bg-neutral-50 dark:bg-neutral-900 border-r border-neutral-200 dark:border-neutral-700 overflow-y-auto" style="left: max(0px, calc(50% - 768px))">
+      <nav class="p-6">
+        
+        <!-- Table of Contents Header -->
+        <div class="mb-4 pb-4 border-b border-neutral-200 dark:border-neutral-700">
+          <div class="flex items-center justify-between">
+            <h2 class="text-sm font-bold text-neutral-900 dark:text-white">Table of Contents</h2>
+            
+            <!-- Hide TOC Icon Button -->
+            <button id="hide-toc-btn" class="group p-2 hover:bg-neutral-100 dark:hover:bg-neutral-700 rounded-lg transition-colors" title="Hide table of contents">
+              <i data-lucide="panel-left-close" class="w-4 h-4 text-neutral-600 dark:text-neutral-400 group-hover:text-primary-600 dark:group-hover:text-primary-400"></i>
+            </button>
+          </div>
+          
+          <!-- Expand/Collapse All -->
+          <div class="flex items-center gap-3 mt-3">
+            <button id="expand-all-btn" class="flex items-center gap-1.5 text-sm text-neutral-600 dark:text-neutral-400 hover:text-primary-600 dark:hover:text-primary-400">
+              <i data-lucide="chevron-down" class="w-4 h-4"></i>
+              <span>Expand</span>
+            </button>
+            <button id="collapse-all-btn" class="flex items-center gap-1.5 text-sm text-neutral-600 dark:text-neutral-400 hover:text-primary-600 dark:hover:text-primary-400">
+              <i data-lucide="chevron-up" class="w-4 h-4"></i>
+              <span>Collapse</span>
+            </button>
+          </div>
+        </div>
+        
+        <!-- Section: Getting Started -->
+        <div class="mb-6">
+          <button class="nav-section-toggle flex items-center justify-between w-full text-xs font-semibold text-neutral-900 dark:text-white uppercase tracking-wide mb-3 hover:text-primary-600 dark:hover:text-primary-400" data-chevron-state="down">
+            <span>Getting Started</span>
+            <i data-lucide="chevron-down" class="w-4 h-4"></i>
+          </button>
+          <ul class="space-y-2 text-sm nav-section-content hidden">
+            <li><a href="#" class="text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white">Logging In</a></li>
+            <li><a href="#" class="text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white">Navigation Bar</a></li>
+            <li><a href="#" class="text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white">Dashboard</a></li>
+          </ul>
+        </div>
+        
+        <!-- Section: Authoring Basics -->
+        <div class="mb-6">
+          <button class="nav-section-toggle flex items-center justify-between w-full text-xs font-semibold text-neutral-900 dark:text-white uppercase tracking-wide mb-3 hover:text-primary-600 dark:hover:text-primary-400" data-chevron-state="up">
+            <span>Authoring Basics</span>
+            <i data-lucide="chevron-up" class="w-4 h-4"></i>
+          </button>
+          <div class="nav-section-content">
+            <!-- Topic: Creating and Managing Pages -->
+            <div class="mb-3">
+              <button class="topic-toggle flex items-center justify-between w-full text-sm font-semibold text-neutral-900 dark:text-white mb-2 hover:text-primary-600 dark:hover:text-primary-400 pl-2" data-chevron-state="up">
+                <span>Creating and Managing Pages</span>
+                <i data-lucide="chevron-up" class="w-3.5 h-3.5"></i>
+              </button>
+              <ul class="space-y-1.5 text-sm topic-content pl-4">
+                <li><a href="doc-page.html" class="text-primary-600 dark:text-primary-400 font-semibold hover:underline">Creating Pages</a></li>
+                <li><a href="#" class="text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white">Checking Pages In/Out</a></li>
+                <li><a href="#" class="text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white">Saving Pages</a></li>
+                <li><a href="#" class="text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white">Deleting & Restoring</a></li>
+              </ul>
+            </div>
+            
+            <!-- Topic: Publishing -->
+            <div class="mb-3">
+              <button class="topic-toggle flex items-center justify-between w-full text-sm font-semibold text-neutral-900 dark:text-white mb-2 hover:text-primary-600 dark:hover:text-primary-400 pl-2" data-chevron-state="down">
+                <span>Publishing</span>
+                <i data-lucide="chevron-down" class="w-3.5 h-3.5"></i>
+              </button>
+              <ul class="space-y-1.5 text-sm topic-content hidden pl-4">
+                <li><a href="#" class="text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white">Publishing Overview</a></li>
+                <li><a href="#" class="text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white">Publishing Settings</a></li>
+                <li><a href="#" class="text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white">Batch Publishing</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Section: Editing Basics -->
+        <div class="mb-6">
+          <button class="nav-section-toggle flex items-center justify-between w-full text-xs font-semibold text-neutral-900 dark:text-white uppercase tracking-wide mb-3 hover:text-primary-600 dark:hover:text-primary-400" data-chevron-state="down">
+            <span>Editing Basics</span>
+            <i data-lucide="chevron-down" class="w-4 h-4"></i>
+          </button>
+          <ul class="space-y-2 text-sm nav-section-content hidden">
+            <li><a href="#" class="text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white">In-Context Editing</a></li>
+            <li><a href="#" class="text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white">Page Builder</a></li>
+            <li><a href="#" class="text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white">Using History</a></li>
+            <li><a href="#" class="text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white">Managing Pages</a></li>
+            <li><a href="#" class="text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white">XHTML Editor</a></li>
+          </ul>
+        </div>
+        
+        <!-- Section: Assets Manager -->
+        <div class="mb-6">
+          <button class="nav-section-toggle flex items-center justify-between w-full text-xs font-semibold text-neutral-900 dark:text-white uppercase tracking-wide mb-3 hover:text-primary-600 dark:hover:text-primary-400" data-chevron-state="down">
+            <span>Assets Manager</span>
+            <i data-lucide="chevron-down" class="w-4 h-4"></i>
+          </button>
+          <ul class="space-y-2 text-sm nav-section-content hidden">
+            <li><a href="#" class="text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white">Uploading Assets</a></li>
+            <li><a href="#" class="text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white">Managing Assets</a></li>
+            <li><a href="#" class="text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white">Asset Metadata</a></li>
+            <li><a href="#" class="text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white">Asset History</a></li>
+          </ul>
+        </div>
+        
+        <!-- Section: Administration -->
+        <div class="mb-6">
+          <button class="nav-section-toggle flex items-center justify-between w-full text-xs font-semibold text-neutral-900 dark:text-white uppercase tracking-wide mb-3 hover:text-primary-600 dark:hover:text-primary-400" data-chevron-state="down">
+            <span>Administration</span>
+            <i data-lucide="chevron-down" class="w-4 h-4"></i>
+          </button>
+          <ul class="space-y-2 text-sm nav-section-content hidden">
+            <li><a href="#" class="text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white">Schema Designer</a></li>
+            <li><a href="#" class="text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white">Publishing System</a></li>
+            <li><a href="#" class="text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white">Users & Groups</a></li>
+            <li><a href="#" class="text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white">Workflows</a></li>
+          </ul>
+        </div>
+        
+      </nav>
+    </aside>
+
+      <!-- Show TOC Button (appears where TOC normally is) -->
+      <button id="show-toc-btn" class="hidden fixed top-24 z-40 p-2 bg-neutral-50 dark:bg-neutral-900 border-2 border-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded shadow-md transition-colors" style="left: max(24px, calc(50% - 768px))" title="Show table of contents">
+        <i data-lucide="chevron-right" class="w-4 h-4 text-blue-600 dark:text-blue-400"></i>
+      </button>
+
+      <!-- Main Content -->
+      <main class="flex-1 w-full lg:ml-80 lg:mr-64 overflow-x-hidden">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
+          
+          <!-- Breadcrumb Navigation (Hidden on mobile) -->
+          <nav class="hidden sm:block mb-6" aria-label="Breadcrumb">
+            <ol class="flex items-center gap-2 text-sm text-neutral-600 dark:text-neutral-400">
+              <li>
+                <a href="index.html" class="hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Home</a>
+              </li>
+              <li>
+                <i data-lucide="chevron-right" class="w-4 h-4 text-neutral-400"></i>
+              </li>
+              <li>
+                <a href="index.html#products" class="hover:text-primary-600 dark:hover:text-primary-400 transition-colors">CMS 10</a>
+              </li>
+              <li>
+                <i data-lucide="chevron-right" class="w-4 h-4 text-neutral-400"></i>
+              </li>
+              <li>
+                <a href="#" class="hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Authoring Basics</a>
+              </li>
+              <li>
+                <i data-lucide="chevron-right" class="w-4 h-4 text-neutral-400"></i>
+              </li>
+              <li class="text-neutral-900 dark:text-neutral-100 font-medium" aria-current="page">Creating Pages</li>
+            </ol>
+          </nav>
+          
+          <!-- Article Toolbar -->
+          <div class="flex items-center justify-between mb-6 pb-4 border-b border-neutral-200 dark:border-neutral-700">
+            <div class="flex items-center gap-2">
+              <a href="index.html" class="p-2 hover:bg-neutral-100 dark:hover:bg-neutral-700 rounded-lg transition-colors" title="Previous article">
+                <i data-lucide="chevron-left" class="w-5 h-5 text-neutral-600 dark:text-neutral-400"></i>
+              </a>
+              <a href="doc-page-checking-in-out.html" class="p-2 hover:bg-neutral-100 dark:hover:bg-neutral-700 rounded-lg transition-colors" title="Next article: Checking Pages In/Out">
+                <i data-lucide="chevron-right" class="w-5 h-5 text-neutral-600 dark:text-neutral-400"></i>
+              </a>
+            </div>
+            
+            <div class="flex items-center gap-2">
+              <button class="p-2 hover:bg-neutral-100 dark:hover:bg-neutral-700 rounded-lg transition-colors" title="Download PDF">
+                <i data-lucide="download" class="w-5 h-5 text-neutral-600 dark:text-neutral-400"></i>
+              </button>
+              <button class="p-2 hover:bg-neutral-100 dark:hover:bg-neutral-700 rounded-lg transition-colors" title="Share">
+                <i data-lucide="share-2" class="w-5 h-5 text-neutral-600 dark:text-neutral-400"></i>
+              </button>
+              <button id="feedback-btn" class="p-2 hover:bg-neutral-100 dark:hover:bg-neutral-700 rounded-lg transition-colors" title="Feedback">
+                <i data-lucide="message-square" class="w-5 h-5 text-neutral-600 dark:text-neutral-400"></i>
+              </button>
+            </div>
+          </div>
+          
+          <!-- Version & Tags -->
+          <div class="flex flex-wrap items-center gap-3 mb-6 pb-4 border-b border-neutral-200 dark:border-neutral-700">
+            <div class="flex items-center gap-2 relative">
+              <span class="text-sm text-neutral-600 dark:text-neutral-400">Version:</span>
+              <button id="version-dropdown-btn" class="group inline-flex items-center gap-2 border-b-2 border-primary-600 dark:border-primary-400 pb-1 hover:border-primary-700 dark:hover:border-primary-300 transition-colors">
+                <span class="text-primary-600 dark:text-primary-400 font-medium group-hover:text-primary-700 dark:group-hover:text-primary-300">CMS 10.6</span>
+                <i data-lucide="chevron-down" class="w-4 h-4 text-neutral-600 dark:text-neutral-400"></i>
+              </button>
+              
+              <!-- Version Dropdown Menu -->
+              <div id="version-dropdown" class="hidden absolute top-full left-0 mt-2 w-48 bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-lg shadow-lg z-50">
+                <div class="py-2">
+                  <a href="#" class="block px-4 py-2 text-sm text-primary-600 dark:text-primary-400 font-medium bg-primary-50 dark:bg-primary-900/20">CMS 10.6 (Latest)</a>
+                  <a href="#" class="block px-4 py-2 text-sm text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-700">CMS 10.5</a>
+                  <a href="#" class="block px-4 py-2 text-sm text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-700">CMS 10.3</a>
+                  <a href="#" class="block px-4 py-2 text-sm text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-700">CMS 10.2</a>
+                  <a href="#" class="block px-4 py-2 text-sm text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-700">CMS 10.1</a>
+                  <a href="#" class="block px-4 py-2 text-sm text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-700">CMS 10.0</a>
+                  <div class="border-t border-neutral-200 dark:border-neutral-700 my-2"></div>
+                  <a href="#" class="block px-4 py-2 text-sm text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-700">CMS 9</a>
+                </div>
+              </div>
+            </div>
+            <span class="text-neutral-400">|</span>
+            <span class="text-sm text-neutral-600 dark:text-neutral-400">Last updated Feb 1, 2025</span>
+            <span class="text-neutral-400">|</span>
+            <span class="text-sm text-neutral-600 dark:text-neutral-400">Documentation</span>
+            <div class="flex items-center gap-2 ml-auto">
+              <span class="px-3 py-1 bg-primary-100 dark:bg-primary-900/20 text-primary-700 dark:text-primary-300 text-xs font-semibold rounded-full">Ingeniux CMS</span>
+              <span class="px-3 py-1 bg-blue-100 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300 text-xs font-semibold rounded-full">Authoring</span>
+              <span class="px-3 py-1 bg-green-100 dark:bg-green-900/20 text-green-700 dark:text-green-300 text-xs font-semibold rounded-full">Getting Started</span>
+            </div>
+          </div>
+          
+          <!-- AI Tools (Below version/tags, above section label) -->
+          <div id="ai-tools-container" class="flex flex-wrap gap-3 mb-6">
+            <button id="generate-summary-btn" class="inline-flex items-center gap-2 px-4 py-2 bg-white dark:bg-neutral-800 border border-neutral-300 dark:border-neutral-600 text-neutral-700 dark:text-neutral-300 rounded-lg text-sm font-semibold hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-all">
+              <i data-lucide="sparkles" class="w-4 h-4"></i>
+              Summarize
+            </button>
+            <button id="listen-btn" class="inline-flex items-center gap-2 px-4 py-2 bg-white dark:bg-neutral-800 border border-neutral-300 dark:border-neutral-600 text-neutral-700 dark:text-neutral-300 rounded-lg text-sm font-semibold hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-all">
+              <i data-lucide="headphones" class="w-4 h-4"></i>
+              Listen
+            </button>
+            <button id="ask-ai-btn" class="inline-flex items-center gap-2 px-4 py-2 bg-white dark:bg-neutral-800 border border-neutral-300 dark:border-neutral-600 text-neutral-700 dark:text-neutral-300 rounded-lg text-sm font-semibold hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-all">
+              <i data-lucide="message-circle" class="w-4 h-4"></i>
+              Ask AI
+            </button>
+            <button id="glossary-toggle" class="inline-flex items-center gap-2 px-4 py-2 bg-white dark:bg-neutral-800 border-2 border-neutral-300 dark:border-neutral-600 text-neutral-700 dark:text-neutral-300 rounded-lg text-sm font-semibold hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-all">
+              <i data-lucide="book-open" class="w-4 h-4"></i>
+              <span>Glossary</span>
+              <span class="text-xs opacity-60">Off</span>
+            </button>
+          </div>
+          
+          <!-- Section Label -->
+          <p class="text-sm font-semibold text-primary-600 dark:text-primary-400 mb-4">Authoring Basics</p>
+          
+          <!-- Mobile TOC Button (At top of article on mobile) -->
+          <button id="mobile-toc-btn" class="lg:hidden w-full flex items-center justify-between gap-3 px-4 py-3 mb-6 border-2 border-neutral-300 dark:border-neutral-600 bg-white dark:bg-neutral-800 rounded-lg hover:border-primary-500 dark:hover:border-primary-400 transition-colors">
+            <div class="flex items-center gap-2">
+              <i data-lucide="list" class="w-5 h-5 text-neutral-600 dark:text-neutral-400"></i>
+              <span class="font-medium text-neutral-900 dark:text-white">Table of Contents</span>
+            </div>
+            <i data-lucide="chevron-right" class="w-5 h-5 text-neutral-400"></i>
+          </button>
+        
+        <!-- Article -->
+        <article>
+          
+          <!-- Title -->
+          <h1>Creating Pages with Visual Editing</h1>
+          <p style="font-size: 1.25rem; color: #6b7280; margin-bottom: 2rem; margin-top: 0.5rem;">
+            By default, new web pages can be created anywhere in the Site Tree. However, it is a good idea to keep the site's information architecture in mind when you place a new page.
+          </p>
+          
+          <!-- Important Note -->
+          <div class="p-4 bg-blue-50 dark:bg-blue-900/20 border-l-4 border-blue-500 rounded-r mb-6">
+            <p class="text-sm font-semibold text-blue-800 dark:text-blue-400 mb-2">Important</p>
+            <p class="text-sm text-blue-700 dark:text-blue-300">
+              Do not include the following characters in folder, page, component, or asset names: commas (,), forward slashes (/), backslashes (\), question marks (?), exclamation marks (!), at symbols (@), pound signs (#), dollar signs ($), percent signs (%), carets (^), ampersands (&), asterisks (*), semicolons (;), single quotation marks ('), and double quotation marks (").
+            </p>
+          </div>
+          
+          <!-- Page Creation Overview -->
+          <h2 id="quick-start">Overview</h2>
+          <p>By placing pages logically and consistently, you'll help site visitors find the content they are looking for. The <span class="glossary-term" data-term="cms" data-definition="Content Management System - a software application that allows users to create, manage, and publish content.">Ingeniux CMS</span> provides multiple ways to create new pages in your <span class="glossary-term" data-term="site-tree" data-definition="A hierarchical structure representing the organization of pages in your website.">Site Tree</span>.</p>
+          
+          <h3 id="installing-dependencies">Creating Pages from the Site Toolbar</h3>
+          <p>The Site Toolbar provides quick access to page creation functionality. This method is useful when you want to create a new page as a sibling or child of the currently selected page in the <span class="glossary-term" data-term="site-tree" data-definition="A hierarchical structure representing the organization of pages in your website.">Site Tree</span>.</p>
+          
+          <ol style="padding-left: 1.5rem; margin-bottom: 1.5rem; list-style-type: decimal;">
+            <li style="margin-bottom: 0.5rem;">Navigate to the Site view in the CMS</li>
+            <li style="margin-bottom: 0.5rem;">Select the parent page in the Site Tree</li>
+            <li style="margin-bottom: 0.5rem;">Click the "New Page" button in the toolbar</li>
+            <li style="margin-bottom: 0.5rem;">Choose the appropriate page schema from the list</li>
+            <li style="margin-bottom: 0.5rem;">Enter the page name and complete any required fields</li>
+            <li style="margin-bottom: 0.5rem;">Click "Create" to add the new page to the Site Tree</li>
+          </ol>
+          
+          <p>For automated page creation via API, you can use the following code example:</p>
+          
+          <!-- Code Block with AI -->
+          <div class="not-prose mb-6">
+            <pre class="bg-neutral-950 rounded-lg p-4 overflow-x-auto" style="margin: 0;"><code style="font-size: 14px; color: #e5e7eb; line-height: 1.7;"><span style="color: #9ca3af;">// Create a new page using the CMS API</span>
+<span style="color: #f472b6;">const</span> <span style="color: #fbbf24;">newPage</span> = <span style="color: #f472b6;">await</span> <span style="color: #60a5fa;">cmsAPI</span>.<span style="color: #34d399;">createPage</span>({
+  <span style="color: #fbbf24;">name</span>: <span style="color: #34d399;">'getting-started'</span>,
+  <span style="color: #fbbf24;">schema</span>: <span style="color: #34d399;">'ArticlePage'</span>,
+  <span style="color: #fbbf24;">parentId</span>: <span style="color: #34d399;">'x123'</span>,
+  <span style="color: #fbbf24;">title</span>: <span style="color: #34d399;">'Getting Started Guide'</span>
+});</code></pre>
+          </div>
+          
+          <h3 id="configuring">Creating Pages from Site Tree</h3>
+          <p>You can also create pages directly from the <span class="glossary-term" data-term="site-tree" data-definition="A hierarchical structure representing the organization of pages in your website.">Site Tree</span> context menu. This approach provides more control over where the new page is placed in the site hierarchy.</p>
+          
+          <ol style="padding-left: 1.5rem; margin-bottom: 1.5rem; list-style-type: decimal;">
+            <li style="margin-bottom: 0.5rem;">Right-click on the desired parent page in the Site Tree</li>
+            <li style="margin-bottom: 0.5rem;">Select "New Page" from the context menu</li>
+            <li style="margin-bottom: 0.5rem;">Choose whether to create a child or sibling page</li>
+            <li style="margin-bottom: 0.5rem;">Select the page schema that matches your content type</li>
+            <li style="margin-bottom: 0.5rem;">Complete the required information</li>
+            <li style="margin-bottom: 0.5rem;">Save to add the page to your site</li>
+          </ol>
+          
+          <h3>Creating Pages from Content Creation Wizard</h3>
+          <p>The Content Creation Wizard provides a guided approach to creating new pages, particularly useful for users who are new to the <span class="glossary-term" data-term="cms" data-definition="Content Management System - a software application that allows users to create, manage, and publish content.">CMS</span> or when creating complex page types.</p>
+          
+          <ol style="padding-left: 1.5rem; margin-bottom: 1.5rem; list-style-type: decimal;">
+            <li style="margin-bottom: 0.5rem;">Open the Content Creation Wizard from the navigation pane</li>
+            <li style="margin-bottom: 0.5rem;">Follow the step-by-step prompts to select page location</li>
+            <li style="margin-bottom: 0.5rem;">Choose the appropriate page schema</li>
+            <li style="margin-bottom: 0.5rem;">Fill in the guided form with your content</li>
+            <li style="margin-bottom: 0.5rem;">Review and confirm your selections</li>
+            <li style="margin-bottom: 0.5rem;">Submit to create the new page</li>
+          </ol>
+          
+          <!-- Basic usage -->
+          <h2 id="basic-usage">Best Practices</h2>
+          <p>Following these best practices will help ensure a well-organized and maintainable site structure:</p>
+          
+          <ul style="padding-left: 1.5rem; margin-bottom: 1.5rem; list-style-type: disc;">
+            <li style="margin-bottom: 0.5rem;">Plan your site's <span class="glossary-term" data-term="information-architecture" data-definition="The structural design of shared information environments to facilitate intuitive access to content.">information architecture</span> before creating pages</li>
+            <li style="margin-bottom: 0.5rem;">Use descriptive page names that clearly indicate content</li>
+            <li style="margin-bottom: 0.5rem;">Follow naming conventions established for your organization</li>
+            <li style="margin-bottom: 0.5rem;">Choose the most appropriate page <span class="glossary-term" data-term="schema" data-definition="A template that defines the structure and fields available for a page or component.">schema</span> for your content type</li>
+            <li style="margin-bottom: 0.5rem;">Consider SEO implications when naming pages and organizing structure</li>
+          </ul>
+          
+          <h3 id="first-cache">Character Restrictions</h3>
+          <p>As noted in the important callout above, certain special characters should never be used in content item names. This helps ensure compatibility across different systems and prevents potential issues during <span class="glossary-term" data-term="publishing" data-definition="The process of deploying content from the CMS to a live website or delivery platform.">publishing</span>.</p>
+          <p>Even though Ingeniux CMS 10.3.x and below allow users to save these characters in content item names, they are not to be included. In subsequent releases, users will be unable to save these characters in content item names.</p>
+          
+          <h3 id="clearing">Information Architecture</h3>
+          <p>The way you organize your pages affects not only how easily visitors can find content, but also how efficiently your team can manage the site. Consider creating a logical hierarchy that mirrors how users think about your content.</p>
+          <p>Keep your site's navigation structure in mind when placing new pages. A well-planned <span class="glossary-term" data-term="information-architecture" data-definition="The structural design of shared information environments to facilitate intuitive access to content.">information architecture</span> makes it easier for site visitors to find what they're looking for and improves overall user experience.</p>
+          
+          <h3 id="middleware">Schema Selection</h3>
+          <p>Choosing the right page <span class="glossary-term" data-term="schema" data-definition="A template that defines the structure and fields available for a page or component.">schema</span> is crucial. Each schema is designed for specific types of content and includes appropriate fields and elements. Consult with your CMS administrator if you're unsure which schema to use for your content.</p>
+          
+          <p>Here's an example of how to query available schemas programmatically:</p>
+          
+          <!-- Code Block with AI -->
+          <div class="not-prose mb-6">
+            <pre class="bg-neutral-950 rounded-lg p-4 overflow-x-auto" style="margin: 0;"><code style="font-size: 14px; color: #e5e7eb; line-height: 1.7;"><span style="color: #9ca3af;">// Get available schemas for a parent page</span>
+<span style="color: #f472b6;">const</span> <span style="color: #fbbf24;">schemas</span> = <span style="color: #f472b6;">await</span> <span style="color: #60a5fa;">cmsAPI</span>.<span style="color: #34d399;">getAvailableSchemas</span>({
+  <span style="color: #fbbf24;">parentId</span>: <span style="color: #34d399;">'x123'</span>,
+  <span style="color: #fbbf24;">filterBy</span>: <span style="color: #34d399;">'pageCreationRules'</span>
+});
+
+<span style="color: #9ca3af;">// Filter schemas by type</span>
+<span style="color: #f472b6;">const</span> <span style="color: #fbbf24;">articleSchemas</span> = <span style="color: #fbbf24;">schemas</span>.<span style="color: #34d399;">filter</span>(<span style="color: #fbbf24;">s</span> => 
+  <span style="color: #fbbf24;">s</span>.<span style="color: #fbbf24;">type</span> === <span style="color: #34d399;">'article'</span> || <span style="color: #fbbf24;">s</span>.<span style="color: #fbbf24;">type</span> === <span style="color: #34d399;">'documentation'</span>
+);</code></pre>
+          </div>
+          
+          <!-- Getting help -->
+          <h2 id="getting-help">Next Steps</h2>
+          <p>After creating a new page, you'll want to complete several additional steps to prepare it for publication:</p>
+          
+          <h3>Check Out and Edit</h3>
+          <p>Check out the page to begin editing content. This locks the page to prevent conflicts with other users making simultaneous changes. Add your content using the available page elements defined in your selected <span class="glossary-term" data-term="schema" data-definition="A template that defines the structure and fields available for a page or component.">schema</span>.</p>
+          
+          <p>Example of checking out a page programmatically:</p>
+          
+          <!-- Code Block with AI -->
+          <div class="not-prose mb-6">
+            <pre class="bg-neutral-950 rounded-lg p-4 overflow-x-auto" style="margin: 0;"><code style="font-size: 14px; color: #e5e7eb; line-height: 1.7;"><span style="color: #9ca3af;">// Check out a page for editing</span>
+<span style="color: #f472b6;">const</span> <span style="color: #fbbf24;">checkout</span> = <span style="color: #f472b6;">await</span> <span style="color: #60a5fa;">cmsAPI</span>.<span style="color: #34d399;">checkoutPage</span>({
+  <span style="color: #fbbf24;">pageId</span>: <span style="color: #34d399;">'x456'</span>,
+  <span style="color: #fbbf24;">userId</span>: <span style="color: #34d399;">'user123'</span>
+});
+
+<span style="color: #f472b6;">if</span> (<span style="color: #fbbf24;">checkout</span>.<span style="color: #fbbf24;">success</span>) {
+  <span style="color: #9ca3af;">// Update page content</span>
+  <span style="color: #f472b6;">await</span> <span style="color: #60a5fa;">cmsAPI</span>.<span style="color: #34d399;">updatePage</span>({
+    <span style="color: #fbbf24;">pageId</span>: <span style="color: #34d399;">'x456'</span>,
+    <span style="color: #fbbf24;">title</span>: <span style="color: #34d399;">'Updated Title'</span>,
+    <span style="color: #fbbf24;">markForPublish</span>: <span style="color: #60a5fa;">true</span>
+  });
+}</code></pre>
+          </div>
+          
+          <h3>Review and Publish</h3>
+          <p>Preview your changes before <span class="glossary-term" data-term="publishing" data-definition="The process of deploying content from the CMS to a live website or delivery platform.">publishing</span> to ensure everything looks correct. Mark the page for publish when ready, and submit through <span class="glossary-term" data-term="workflow" data-definition="A series of steps and approvals that content must go through before publication.">workflow</span> if configured for your site.</p>
+          
+        </article>
+
+        <!-- Feedback Section -->
+        <div class="mt-12 pt-8 border-t border-neutral-200 dark:border-neutral-700">
+          <p class="text-sm font-semibold text-neutral-900 dark:text-white mb-4 text-center">Was this article helpful?</p>
+          <div class="flex items-center justify-center gap-4 mb-12">
+            <button class="flex items-center gap-2 px-4 py-2 border border-neutral-300 dark:border-neutral-600 rounded-lg text-sm font-medium text-neutral-700 dark:text-neutral-300 hover:border-green-500 hover:text-green-600 dark:hover:text-green-400 hover:bg-green-50 dark:hover:bg-green-900/20 transition-colors">
+              <i data-lucide="thumbs-up" class="w-4 h-4"></i>
+              <span>Yes</span>
+            </button>
+            <button class="flex items-center gap-2 px-4 py-2 border border-neutral-300 dark:border-neutral-600 rounded-lg text-sm font-medium text-neutral-700 dark:text-neutral-300 hover:border-red-500 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors">
+              <i data-lucide="thumbs-down" class="w-4 h-4"></i>
+              <span>No</span>
+            </button>
+          </div>
+        </div>
+        
+        <!-- Next/Previous Navigation (Centered) -->
+        <nav class="flex items-center justify-between">
+          <a href="index.html" class="flex items-start gap-3 text-sm hover:text-primary-600 dark:hover:text-primary-400 transition-colors group">
+            <i data-lucide="arrow-left" class="w-5 h-5 text-neutral-400 group-hover:text-primary-600 dark:group-hover:text-primary-400 mt-1"></i>
+            <div>
+              <p class="text-xs text-neutral-500 dark:text-neutral-400 mb-1">Previous</p>
+              <p class="font-semibold text-neutral-900 dark:text-white">Home</p>
+            </div>
+          </a>
+          <a href="doc-page-checking-in-out.html" class="flex items-start gap-3 text-sm hover:text-primary-600 dark:hover:text-primary-400 transition-colors group text-right">
+            <div>
+              <p class="text-xs text-neutral-500 dark:text-neutral-400 mb-1">Next</p>
+              <p class="font-semibold text-neutral-900 dark:text-white">Checking Pages In or Out</p>
+            </div>
+            <i data-lucide="arrow-right" class="w-5 h-5 text-neutral-400 group-hover:text-primary-600 dark:group-hover:text-primary-400 mt-1"></i>
+          </a>
+        </nav>
+
+      </div>
+    </main>
+
+      <!-- Right Sidebar - "On this page" TOC (Syntax-style) -->
+      <aside class="hidden lg:block fixed right-0 top-16 bottom-0 w-64 bg-neutral-50 dark:bg-neutral-900 border-l border-neutral-200 dark:border-neutral-700 overflow-y-auto" style="right: max(0px, calc(50% - 768px))">
+        <nav class="p-6">
+        <h2 class="text-xs font-semibold text-neutral-900 dark:text-white uppercase tracking-wide mb-4">On this page</h2>
+        <ul class="space-y-3 text-sm">
+          <li><a href="#quick-start" class="text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white block">Overview</a>
+            <ul class="ml-4 mt-2 space-y-2 text-xs">
+              <li><a href="#installing-dependencies" class="text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white block">Site Toolbar</a></li>
+              <li><a href="#configuring" class="text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white block">Site Tree</a></li>
+              <li><a href="#wizard" class="text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white block">Content Creation Wizard</a></li>
+            </ul>
+          </li>
+          <li><a href="#basic-usage" class="text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white block">Best Practices</a>
+            <ul class="ml-4 mt-2 space-y-2 text-xs">
+              <li><a href="#first-cache" class="text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white block">Character restrictions</a></li>
+              <li><a href="#clearing" class="text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white block">Information architecture</a></li>
+              <li><a href="#middleware" class="text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white block">Schema selection</a></li>
+            </ul>
+          </li>
+          <li><a href="#getting-help" class="text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white block">Next Steps</a></li>
+        </ul>
+        </nav>
+      </aside>
+
+    </div>
+  </div>
+  
+<!-- Footer (outside flex container for full width) -->
+<footer class="bg-neutral-900 dark:bg-neutral-950 text-white py-12" style="width: 100vw; position: relative; left: 0; right: 0;">
+    <div class="max-w-screen-2xl mx-auto px-6">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div class="col-span-1">
+          <div class="flex items-center space-x-2 mb-4">
+            <svg class="w-8 h-8 text-accent-400" viewBox="0 0 32 32" fill="currentColor">
+              <path d="M16 2L3 9v14l13 7 13-7V9L16 2zm0 3.24L25.08 9 16 13.76 6.92 9 16 5.24zM5 10.92l10 5.38v10.46l-10-5.38V10.92zm12 15.84V16.3l10-5.38v10.46l-10 5.38z"/>
+            </svg>
+            <span class="font-bold text-lg">Discover CX</span>
+          </div>
+        </div>
+        <div>
+          <h3 class="font-bold mb-4">Products</h3>
+          <div class="space-y-2 text-sm text-neutral-400">
+            <a href="#" class="block hover:text-white">Discover CX Platform</a>
+            <a href="#" class="block hover:text-white">Discover CX</a>
+            <a href="#" class="block hover:text-white">AI Assists</a>
+            <a href="#" class="block hover:text-white">InSite Search</a>
+          </div>
+        </div>
+        <div>
+          <h3 class="font-bold mb-4">Resources</h3>
+          <div class="space-y-2 text-sm text-neutral-400">
+            <a href="#" class="block hover:text-white">Documentation</a>
+            <a href="#" class="block hover:text-white">API Reference</a>
+            <a href="#" class="block hover:text-white">Knowledge Base</a>
+            <a href="#" class="block hover:text-white">Blog</a>
+          </div>
+        </div>
+        <div>
+          <h3 class="font-bold mb-4">Company</h3>
+          <div class="space-y-2 text-sm text-neutral-400">
+            <a href="#" class="block hover:text-white">About Us</a>
+            <a href="#" class="block hover:text-white">Careers</a>
+            <a href="#" class="block hover:text-white">Contact Sales</a>
+            <a href="#" class="block hover:text-white">Support</a>
+          </div>
+        </div>
+      </div>
+      <div class="border-t border-neutral-700 mt-8 pt-8 text-center text-sm text-neutral-500">
+        © 2025 Discover CX by Ingeniux. All rights reserved.
+      </div>
+    </div>
+  </footer>
+
+  <!-- Command K Search Modal -->
+  <div id="cmd-k-modal" class="hidden fixed inset-0 bg-neutral-950/50 backdrop-blur-sm z-50 p-4 md:p-8">
+    <div class="max-w-3xl mx-auto mt-20">
+      <!-- Search Container -->
+      <div class="bg-neutral-50 dark:bg-neutral-900 rounded-xl shadow-2xl border border-neutral-200 dark:border-neutral-700 overflow-hidden">
+        
+        <!-- Search Input -->
+        <div class="flex items-center gap-3 px-4 py-4 border-b border-neutral-200 dark:border-neutral-700">
+          <i data-lucide="search" class="w-5 h-5 text-neutral-400"></i>
+          <input 
+            id="cmd-k-input"
+            type="text" 
+            placeholder="Search or ask a question" 
+            class="flex-1 bg-transparent text-neutral-900 dark:text-white placeholder-gray-400 focus:outline-none text-lg"
+            autocomplete="off"
+          />
+          <button id="cmd-k-close" class="p-1.5 hover:bg-neutral-100 dark:hover:bg-neutral-700 rounded">
+            <i data-lucide="x" class="w-5 h-5 text-neutral-400"></i>
+          </button>
+        </div>
+        
+        <!-- Filters -->
+        <div class="flex items-center gap-2 px-4 py-3 border-b border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-800">
+          <span class="text-xs font-semibold text-neutral-500 dark:text-neutral-400 uppercase tracking-wide">Filter:</span>
+          <div class="flex gap-2">
+            <button class="filter-btn active px-3 py-1.5 rounded-lg text-xs font-semibold bg-primary-600 text-white">
+              All Results
+            </button>
+            <button class="filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-neutral-50 dark:bg-neutral-700 text-neutral-700 dark:text-neutral-300 border border-neutral-300 dark:border-neutral-600 hover:bg-neutral-100 dark:hover:bg-neutral-600">
+              Documentation
+            </button>
+            <button class="filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-neutral-50 dark:bg-neutral-700 text-neutral-700 dark:text-neutral-300 border border-neutral-300 dark:border-neutral-600 hover:bg-neutral-100 dark:hover:bg-neutral-600">
+              AI Answers
+            </button>
+          </div>
+        </div>
+        
+        <!-- Search Results -->
+        <div id="cmd-k-results" class="max-h-96 overflow-y-auto">
+          
+          <!-- Recent Searches (when empty) -->
+          <div id="recent-searches" class="p-4">
+            <p class="text-xs font-semibold text-neutral-500 dark:text-neutral-400 uppercase tracking-wide mb-3">Recent Searches</p>
+            <div class="space-y-1">
+              <button class="w-full flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors text-left">
+                <i data-lucide="clock" class="w-4 h-4 text-neutral-400"></i>
+                <span class="text-sm text-neutral-700 dark:text-neutral-300">Getting started with component schemas</span>
+              </button>
+              <button class="w-full flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors text-left">
+                <i data-lucide="clock" class="w-4 h-4 text-neutral-400"></i>
+                <span class="text-sm text-neutral-700 dark:text-neutral-300">API authentication methods</span>
+              </button>
+              <button class="w-full flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors text-left">
+                <i data-lucide="clock" class="w-4 h-4 text-neutral-400"></i>
+                <span class="text-sm text-neutral-700 dark:text-neutral-300">Workflow automation examples</span>
+              </button>
+            </div>
+          </div>
+          
+          <!-- Search Results (when searching) -->
+          <div id="search-results" class="hidden">
+            <!-- AI Answers (Top Priority) -->
+            <div class="p-4 bg-gradient-to-r from-primary-50 to-blue-50 dark:from-primary-900/10 dark:to-blue-900/10">
+              <p class="text-xs font-semibold text-neutral-500 dark:text-neutral-400 uppercase tracking-wide mb-3 flex items-center gap-2">
+                <i data-lucide="sparkles" class="w-4 h-4 text-primary-600 dark:text-primary-400"></i>
+                AI Answer
+              </p>
+              <div class="space-y-4">
+                <div class="p-4 rounded-lg bg-white dark:bg-neutral-800 border border-primary-200 dark:border-primary-700">
+                  <p class="text-base font-semibold text-neutral-900 dark:text-white mb-3 flex items-center gap-2">
+                    <i data-lucide="zap" class="w-5 h-5 text-primary-600 dark:text-primary-400"></i>
+                    Quick Answer
+                  </p>
+                  <p class="text-sm text-neutral-700 dark:text-neutral-300 leading-relaxed mb-4">
+                    Component schemas in Discover CX allow you to define reusable content structures with custom fields, validation rules, and relationships. They act as templates for your content, ensuring consistency and enabling powerful content modeling capabilities across your entire system.
+                  </p>
+                  
+                  <!-- Key Points -->
+                  <div class="bg-neutral-50 dark:bg-neutral-900 rounded-lg p-3 mb-3">
+                    <p class="text-xs font-semibold text-neutral-700 dark:text-neutral-300 mb-2">Key Features:</p>
+                    <ul class="text-xs text-neutral-600 dark:text-neutral-400 space-y-1 ml-4 list-disc">
+                      <li>Define custom fields with validation</li>
+                      <li>Create relationships between content types</li>
+                      <li>Reusable across multiple projects</li>
+                      <li>Version control and migration support</li>
+                    </ul>
+                  </div>
+                  
+                  <div class="flex flex-wrap gap-2">
+                    <a href="doc-page.html" class="inline-flex items-center gap-1 text-xs text-primary-600 dark:text-primary-400 font-semibold hover:underline">
+                      <i data-lucide="book-open" class="w-3 h-3"></i>
+                      Read full guide
+                    </a>
+                    <a href="#" class="inline-flex items-center gap-1 text-xs text-primary-600 dark:text-primary-400 font-semibold hover:underline">
+                      <i data-lucide="code" class="w-3 h-3"></i>
+                      View examples
+                    </a>
+                    <a href="#" class="inline-flex items-center gap-1 text-xs text-primary-600 dark:text-primary-400 font-semibold hover:underline">
+                      <i data-lucide="play-circle" class="w-3 h-3"></i>
+                      Watch tutorial
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Documentation Results -->
+            <div class="p-4">
+              <p class="text-xs font-semibold text-neutral-500 dark:text-neutral-400 uppercase tracking-wide mb-3 flex items-center justify-between">
+                <span>Documentation</span>
+                <span class="text-neutral-400">8 results</span>
+              </p>
+              <div class="space-y-1">
+                <!-- Result 1 -->
+                <a href="doc-page.html" class="flex items-start gap-3 px-3 py-3 rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors group">
+                  <i data-lucide="file-text" class="w-5 h-5 text-blue-600 dark:text-blue-400 flex-shrink-0 mt-0.5"></i>
+                  <div class="flex-1 min-w-0">
+                    <p class="text-sm font-semibold text-neutral-900 dark:text-white group-hover:text-primary-600 dark:group-hover:text-primary-400">Component Schemas Overview</p>
+                    <p class="text-xs text-neutral-600 dark:text-neutral-400 mt-1 line-clamp-2">Learn how to define reusable content structures with custom fields, validation rules, and relationships between content types.</p>
+                    <div class="flex items-center gap-3 mt-2">
+                      <span class="text-xs text-neutral-500 dark:text-neutral-400">Core Concepts</span>
+                      <span class="text-xs text-neutral-400">•</span>
+                      <span class="text-xs text-neutral-500 dark:text-neutral-400">5 min read</span>
+                    </div>
+                  </div>
+                  <span class="text-xs px-2 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 rounded font-semibold flex-shrink-0">Guide</span>
+                </a>
+                
+                <!-- Result 2 -->
+                <a href="#" class="flex items-start gap-3 px-3 py-3 rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors group">
+                  <i data-lucide="code" class="w-5 h-5 text-primary-600 dark:text-primary-400 flex-shrink-0 mt-0.5"></i>
+                  <div class="flex-1 min-w-0">
+                    <p class="text-sm font-semibold text-neutral-900 dark:text-white group-hover:text-primary-600 dark:group-hover:text-primary-400">Schema API Reference</p>
+                    <p class="text-xs text-neutral-600 dark:text-neutral-400 mt-1 line-clamp-2">Complete API documentation for creating, updating, and managing component schemas programmatically.</p>
+                    <div class="flex items-center gap-3 mt-2">
+                      <span class="text-xs text-neutral-500 dark:text-neutral-400">API Reference</span>
+                      <span class="text-xs text-neutral-400">•</span>
+                      <span class="text-xs text-neutral-500 dark:text-neutral-400">Reference</span>
+                    </div>
+                  </div>
+                  <span class="text-xs px-2 py-1 bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300 rounded font-semibold flex-shrink-0">API</span>
+                </a>
+                
+                <!-- Result 3 -->
+                <a href="#" class="flex items-start gap-3 px-3 py-3 rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors group">
+                  <i data-lucide="play-circle" class="w-5 h-5 text-green-600 dark:text-green-400 flex-shrink-0 mt-0.5"></i>
+                  <div class="flex-1 min-w-0">
+                    <p class="text-sm font-semibold text-neutral-900 dark:text-white group-hover:text-primary-600 dark:group-hover:text-primary-400">Building Your First Schema</p>
+                    <p class="text-xs text-neutral-600 dark:text-neutral-400 mt-1 line-clamp-2">Step-by-step tutorial with code examples showing how to create a blog post schema with title, content, and author fields.</p>
+                    <div class="flex items-center gap-3 mt-2">
+                      <span class="text-xs text-neutral-500 dark:text-neutral-400">Tutorials</span>
+                      <span class="text-xs text-neutral-400">•</span>
+                      <span class="text-xs text-neutral-500 dark:text-neutral-400">12 min</span>
+                    </div>
+                  </div>
+                  <span class="text-xs px-2 py-1 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 rounded font-semibold flex-shrink-0">Tutorial</span>
+                </a>
+                
+                <!-- Result 4 -->
+                <a href="#" class="flex items-start gap-3 px-3 py-3 rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors group">
+                  <i data-lucide="file-code" class="w-5 h-5 text-orange-600 dark:text-orange-400 flex-shrink-0 mt-0.5"></i>
+                  <div class="flex-1 min-w-0">
+                    <p class="text-sm font-semibold text-neutral-900 dark:text-white group-hover:text-primary-600 dark:group-hover:text-primary-400">Schema Field Types</p>
+                    <p class="text-xs text-neutral-600 dark:text-neutral-400 mt-1 line-clamp-2">Reference for all available field types including text, rich text, media, relationships, and custom validators.</p>
+                    <div class="flex items-center gap-3 mt-2">
+                      <span class="text-xs text-neutral-500 dark:text-neutral-400">Reference</span>
+                      <span class="text-xs text-neutral-400">•</span>
+                      <span class="text-xs text-neutral-500 dark:text-neutral-400">Updated 2 days ago</span>
+                    </div>
+                  </div>
+                  <span class="text-xs px-2 py-1 bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-300 rounded font-semibold flex-shrink-0">Reference</span>
+                </a>
+                
+                <!-- Result 5 -->
+                <a href="#" class="flex items-start gap-3 px-3 py-3 rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors group">
+                  <i data-lucide="lightbulb" class="w-5 h-5 text-yellow-600 dark:text-yellow-400 flex-shrink-0 mt-0.5"></i>
+                  <div class="flex-1 min-w-0">
+                    <p class="text-sm font-semibold text-neutral-900 dark:text-white group-hover:text-primary-600 dark:group-hover:text-primary-400">Schema Best Practices</p>
+                    <p class="text-xs text-neutral-600 dark:text-neutral-400 mt-1 line-clamp-2">Design patterns and recommendations for building maintainable, scalable content schemas.</p>
+                    <div class="flex items-center gap-3 mt-2">
+                      <span class="text-xs text-neutral-500 dark:text-neutral-400">Best Practices</span>
+                      <span class="text-xs text-neutral-400">•</span>
+                      <span class="text-xs text-neutral-500 dark:text-neutral-400">8 min read</span>
+                    </div>
+                  </div>
+                  <span class="text-xs px-2 py-1 bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-300 rounded font-semibold flex-shrink-0">Guide</span>
+                </a>
+                
+                <!-- View all results -->
+                <a href="search-results.html" class="block w-full text-center py-3 text-sm text-primary-600 dark:text-primary-400 font-semibold hover:bg-primary-50 dark:hover:bg-primary-900/20 rounded-lg transition-colors">
+                  View all 8 results →
+                </a>
+              </div>
+            </div>
+            
+            <!-- Related Topics -->
+            <div class="p-4 border-t border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-800">
+              <p class="text-xs font-semibold text-neutral-500 dark:text-neutral-400 uppercase tracking-wide mb-3">Related Topics</p>
+              <div class="flex flex-wrap gap-2">
+                <a href="#" class="px-3 py-1.5 bg-neutral-50 dark:bg-neutral-700 border border-neutral-200 dark:border-neutral-600 rounded-full text-xs font-medium text-neutral-700 dark:text-neutral-300 hover:border-primary-500 dark:hover:border-primary-400 transition-colors">
+                  Content Types
+                </a>
+                <a href="#" class="px-3 py-1.5 bg-neutral-50 dark:bg-neutral-700 border border-neutral-200 dark:border-neutral-600 rounded-full text-xs font-medium text-neutral-700 dark:text-neutral-300 hover:border-primary-500 dark:hover:border-primary-400 transition-colors">
+                  Field Validation
+                </a>
+                <a href="#" class="px-3 py-1.5 bg-neutral-50 dark:bg-neutral-700 border border-neutral-200 dark:border-neutral-600 rounded-full text-xs font-medium text-neutral-700 dark:text-neutral-300 hover:border-primary-500 dark:hover:border-primary-400 transition-colors">
+                  Relationships
+                </a>
+                <a href="#" class="px-3 py-1.5 bg-neutral-50 dark:bg-neutral-700 border border-neutral-200 dark:border-neutral-600 rounded-full text-xs font-medium text-neutral-700 dark:text-neutral-300 hover:border-primary-500 dark:hover:border-primary-400 transition-colors">
+                  Migration
+                </a>
+              </div>
+            </div>
+          </div>
+          
+        </div>
+        
+        <!-- Footer hint -->
+        <div class="flex items-center justify-between px-4 py-3 bg-white dark:bg-neutral-800 border-t border-neutral-200 dark:border-neutral-700">
+          <div class="flex items-center gap-4 text-xs text-neutral-500 dark:text-neutral-400">
+            <span class="flex items-center gap-1.5">
+              <kbd class="px-1.5 py-0.5 bg-neutral-50 dark:bg-neutral-700 border border-neutral-300 dark:border-neutral-600 rounded text-xs">↑↓</kbd>
+              Navigate
+            </span>
+            <span class="flex items-center gap-1.5">
+              <kbd class="px-1.5 py-0.5 bg-neutral-50 dark:bg-neutral-700 border border-neutral-300 dark:border-neutral-600 rounded text-xs">↵</kbd>
+              Select
+            </span>
+            <span class="flex items-center gap-1.5">
+              <kbd class="px-1.5 py-0.5 bg-neutral-50 dark:bg-neutral-700 border border-neutral-300 dark:border-neutral-600 rounded text-xs">esc</kbd>
+              Close
+            </span>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <!-- Inline AI Chat Area (appears below "Ask AI" button when clicked) -->
+  <div id="inline-chat" class="hidden">
+    <!-- This will be inserted into the page by JavaScript -->
+  </div>
+  
+  <!-- Glossary Tooltip (appears on hover) -->
+  <div id="glossary-tooltip" class="fixed hidden z-50 max-w-xs pointer-events-none">
+    <div class="bg-white dark:bg-neutral-800 rounded-lg shadow-xl border-2 border-neutral-200 dark:border-neutral-600 overflow-hidden">
+      <div class="px-4 py-2 border-b border-neutral-200 dark:border-neutral-700">
+        <h4 id="glossary-term-title" class="text-sm font-semibold text-neutral-900 dark:text-white">
+          <!-- Term name here -->
+        </h4>
+      </div>
+      <div class="p-4">
+        <p id="glossary-definition" class="text-sm text-neutral-700 dark:text-neutral-300 leading-relaxed">
+          <!-- Definition here -->
+        </p>
+      </div>
+      <!-- Tooltip Arrow - pointing up to term -->
+      <div class="absolute -top-2 left-6 w-4 h-4 bg-white dark:bg-neutral-800 border-l-2 border-t-2 border-neutral-200 dark:border-neutral-600 rotate-45"></div>
+    </div>
+  </div>
+  
+  <!-- Text Selection AI Tooltip (Grammarly-style) -->
+  <div id="selection-tooltip" class="fixed hidden z-50 max-w-sm" style="pointer-events: auto;">
+    <div class="bg-white dark:bg-neutral-800 rounded-xl shadow-2xl border-2 border-neutral-200 dark:border-neutral-600 overflow-hidden">
+      <!-- Tooltip Header -->
+      <div class="px-4 py-3 border-b border-neutral-200 dark:border-neutral-700 flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <i data-lucide="sparkles" class="w-4 h-4 text-primary-600 dark:text-primary-400"></i>
+          <span class="text-sm font-semibold text-neutral-900 dark:text-white">AI Explain</span>
+        </div>
+        <button onclick="document.getElementById('selection-tooltip').classList.add('hidden')" class="p-1 hover:bg-neutral-100 dark:hover:bg-neutral-700 rounded transition-colors">
+          <i data-lucide="x" class="w-4 h-4 text-neutral-600 dark:text-neutral-400"></i>
+        </button>
+      </div>
+      
+      <!-- Tooltip Content -->
+      <div class="p-4 max-h-72 overflow-y-auto">
+        <!-- Selected Text -->
+        <div class="mb-3 pb-3 border-b border-neutral-200 dark:border-neutral-700">
+          <p class="text-xs text-neutral-500 dark:text-neutral-400 mb-1">Selected text:</p>
+          <p id="selected-text-tooltip" class="text-sm text-neutral-900 dark:text-white font-medium">
+            <!-- Selected text here -->
+          </p>
+        </div>
+        
+        <!-- Quick Explanation -->
+        <div class="mb-4">
+          <p class="text-sm text-neutral-700 dark:text-neutral-300 leading-relaxed">
+            This concept refers to a caching strategy that anticipates future user actions and preloads content before it's requested.
+          </p>
+        </div>
+        
+        <!-- Quick Actions -->
+        <div class="flex flex-wrap gap-2">
+          <button class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-neutral-50 dark:bg-neutral-700 border border-neutral-300 dark:border-neutral-600 rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-600 transition-colors text-xs text-neutral-700 dark:text-neutral-300 font-medium">
+            <i data-lucide="book-open" class="w-3.5 h-3.5"></i>
+            <span>Learn more</span>
+          </button>
+          <button class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-neutral-50 dark:bg-neutral-700 border border-neutral-300 dark:border-neutral-600 rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-600 transition-colors text-xs text-neutral-700 dark:text-neutral-300 font-medium">
+            <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+            <span>Related docs</span>
+          </button>
+        </div>
+      </div>
+      
+      <!-- Tooltip Arrow (pointing to selection) -->
+      <div class="absolute -top-2 left-1/2 transform -translate-x-1/2 w-4 h-4 bg-white dark:bg-neutral-800 border-l-2 border-t-2 border-neutral-200 dark:border-neutral-600 rotate-45"></div>
+    </div>
+  </div>
+
+  <!-- Send Feedback Modal -->
+  <div id="feedback-modal" class="fixed inset-0 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white dark:bg-neutral-800 rounded-2xl max-w-xl w-full overflow-hidden shadow-2xl">
+      <!-- Header -->
+      <div class="px-6 py-4 border-b border-neutral-200 dark:border-neutral-700 flex items-center justify-between">
+        <h3 id="feedback-modal-title" class="text-xl font-bold text-neutral-900 dark:text-white">Send feedback</h3>
+        <button id="feedback-close-btn" class="p-2 hover:bg-neutral-100 dark:hover:bg-neutral-700 rounded-lg transition-colors">
+          <i data-lucide="x" class="w-5 h-5 text-neutral-600 dark:text-neutral-400"></i>
+        </button>
+      </div>
+      
+      <!-- Form Content -->
+      <div id="feedback-form-content" class="p-6">
+        <!-- Was this helpful? -->
+        <div class="mb-6">
+          <p class="text-sm font-semibold text-neutral-900 dark:text-white mb-3">Was this article helpful?</p>
+          <div class="flex items-center gap-3">
+            <button id="feedback-yes" class="flex items-center gap-2 px-4 py-2 border border-neutral-300 dark:border-neutral-600 rounded-lg text-sm font-medium text-neutral-700 dark:text-neutral-300 hover:border-green-500 hover:text-green-600 dark:hover:text-green-400 hover:bg-green-50 dark:hover:bg-green-900/20 transition-colors">
+              <i data-lucide="thumbs-up" class="w-4 h-4"></i>
+              <span>Yes</span>
+            </button>
+            <button id="feedback-no" class="flex items-center gap-2 px-4 py-2 border border-neutral-300 dark:border-neutral-600 rounded-lg text-sm font-medium text-neutral-700 dark:text-neutral-300 hover:border-red-500 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors">
+              <i data-lucide="thumbs-down" class="w-4 h-4"></i>
+              <span>No</span>
+            </button>
+          </div>
+        </div>
+        
+        <!-- Comments/Details -->
+        <div class="mb-6">
+          <label class="block text-sm font-semibold text-neutral-900 dark:text-white mb-2">
+            Tell us more <span class="text-red-500">*</span>
+          </label>
+          <textarea 
+            id="feedback-comments"
+            rows="4" 
+            placeholder="What did you like, and what could we improve?"
+            class="w-full px-4 py-3 border border-neutral-300 dark:border-neutral-600 rounded-lg bg-white dark:bg-neutral-900 text-neutral-900 dark:text-white placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 resize-none"
+            required
+          ></textarea>
+        </div>
+        
+        <!-- Email (optional) -->
+        <div class="mb-6">
+          <label class="block text-sm font-semibold text-neutral-900 dark:text-white mb-2">
+            Your email
+          </label>
+          <input 
+            id="feedback-email"
+            type="email" 
+            placeholder="Provide your email if you'd like us to respond"
+            class="w-full px-4 py-3 border border-neutral-300 dark:border-neutral-600 rounded-lg bg-white dark:bg-neutral-900 text-neutral-900 dark:text-white placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+          />
+        </div>
+      </div>
+      
+      <!-- Footer Actions -->
+      <div id="feedback-footer" class="px-6 py-4 bg-neutral-50 dark:bg-neutral-900 border-t border-neutral-200 dark:border-neutral-700 flex items-center justify-end gap-3">
+        <button id="feedback-cancel-btn" class="px-4 py-2 border border-neutral-300 dark:border-neutral-600 text-neutral-700 dark:text-neutral-300 rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors font-semibold text-sm">
+          Cancel
+        </button>
+        <button id="feedback-submit-btn" class="px-6 py-2 bg-gradient-to-r from-primary-600 to-blue-600 text-white rounded-lg hover:from-primary-700 hover:to-blue-700 transition-all font-semibold text-sm shadow-lg shadow-primary-500/20">
+          Send feedback
+        </button>
+      </div>
+      
+      <!-- Success Confirmation (Hidden by default) -->
+      <div id="feedback-success" class="hidden p-8 text-center">
+        <div class="w-16 h-16 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
+          <i data-lucide="check-circle" class="w-8 h-8 text-green-600 dark:text-green-400"></i>
+        </div>
+        <h4 class="text-xl font-bold text-neutral-900 dark:text-white mb-2">Thank you for your feedback!</h4>
+        <p class="text-sm text-neutral-600 dark:text-neutral-400 mb-6">
+          Your input helps us improve our documentation and provide better content for everyone.
+        </p>
+        <button id="feedback-success-close" class="px-6 py-2 bg-gradient-to-r from-primary-600 to-blue-600 text-white rounded-lg hover:from-primary-700 hover:to-blue-700 transition-all font-semibold text-sm shadow-lg shadow-primary-500/20">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- JavaScript -->
+  <script src="js/main.js"></script>
+  
+  <!-- Navigation Dropdown -->
+  <script>
+    // Hamburger menu dropdown
+    const navMenuBtn = document.getElementById('mobile-menu-btn');
+    const navMenu = document.getElementById('mobile-menu');
+    
+    navMenuBtn?.addEventListener('click', function(e) {
+      e.stopPropagation();
+      navMenu?.classList.toggle('hidden');
+      lucide.createIcons();
+    });
+    
+    // Close when clicking outside
+    document.addEventListener('click', function(e) {
+      if (navMenu && !navMenu.contains(e.target) && !navMenuBtn?.contains(e.target)) {
+        navMenu?.classList.add('hidden');
+      }
+    });
+  </script>
+  
+  <!-- Theme Switcher in User Menu -->
+  <script>
+    // Theme switching
+    function setTheme(theme) {
+      if (theme === 'dark') {
+        document.documentElement.classList.add('dark');
+        localStorage.setItem('theme', 'dark');
+      } else if (theme === 'light') {
+        document.documentElement.classList.remove('dark');
+        localStorage.setItem('theme', 'light');
+      } else {
+        // Auto mode - use system preference
+        if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+          document.documentElement.classList.add('dark');
+        } else {
+          document.documentElement.classList.remove('dark');
+        }
+        localStorage.setItem('theme', 'auto');
+      }
+      updateThemeButtons(theme);
+    }
+    
+    function updateThemeButtons(activeTheme) {
+      const buttons = {
+        auto: document.getElementById('theme-auto'),
+        light: document.getElementById('theme-light'),
+        dark: document.getElementById('theme-dark')
+      };
+      
+      // Reset all
+      Object.values(buttons).forEach(btn => {
+        btn?.classList.remove('bg-yellow-100', 'dark:bg-yellow-900/30', 'bg-neutral-700', 'bg-neutral-100');
+        btn?.classList.add('hover:bg-neutral-100', 'dark:hover:bg-neutral-700');
+      });
+      
+      // Highlight active
+      if (activeTheme === 'light') {
+        buttons.light?.classList.add('bg-yellow-100', 'dark:bg-yellow-900/30');
+        buttons.light?.classList.remove('hover:bg-neutral-100', 'dark:hover:bg-neutral-700');
+      } else if (activeTheme === 'dark') {
+        buttons.dark?.classList.add('bg-neutral-100', 'dark:bg-neutral-700');
+      } else {
+        buttons.auto?.classList.add('bg-neutral-100', 'dark:bg-neutral-700');
+      }
+      
+      lucide.createIcons();
+    }
+    
+    // Load saved theme
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    setTheme(savedTheme);
+    
+    // Theme button listeners
+    document.getElementById('theme-auto')?.addEventListener('click', () => setTheme('auto'));
+    document.getElementById('theme-light')?.addEventListener('click', () => setTheme('light'));
+    document.getElementById('theme-dark')?.addEventListener('click', () => setTheme('dark'));
+  </script>
+  
+  <!-- Command K Search -->
+  <script>
+    const cmdKModal = document.getElementById('cmd-k-modal');
+    const cmdKTrigger = document.getElementById('cmd-k-trigger');
+    const cmdKInput = document.getElementById('cmd-k-input');
+    const cmdKClose = document.getElementById('cmd-k-close');
+    const recentSearches = document.getElementById('recent-searches');
+    const searchResults = document.getElementById('search-results');
+    
+    // Keyboard navigation state
+    let selectedResultIndex = -1;
+    const resultSelector = '#cmd-k-results a, #cmd-k-results button';
+    
+    function updateSelectedResult() {
+      const results = document.querySelectorAll(resultSelector);
+      results.forEach((result, index) => {
+        if (index === selectedResultIndex) {
+          result.classList.add('bg-primary-50', 'dark:bg-primary-900/30');
+          result.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+        } else {
+          result.classList.remove('bg-primary-50', 'dark:bg-primary-900/30');
+        }
+      });
+    }
+    
+    // Open modal
+    function openCmdK() {
+      cmdKModal?.classList.remove('hidden');
+      selectedResultIndex = -1;
+      setTimeout(() => {
+        cmdKInput?.focus();
+        lucide.createIcons();
+      }, 100);
+    }
+    
+    // Close modal
+    function closeCmdK() {
+      cmdKModal?.classList.add('hidden');
+      if (cmdKInput) cmdKInput.value = '';
+      recentSearches?.classList.remove('hidden');
+      searchResults?.classList.add('hidden');
+      selectedResultIndex = -1;
+      updateSelectedResult();
+    }
+    
+    // Keyboard shortcut: Cmd/Ctrl + K
+    document.addEventListener('keydown', (e) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault();
+        openCmdK();
+      }
+      
+      // ESC to close
+      if (e.key === 'Escape' && !cmdKModal?.classList.contains('hidden')) {
+        closeCmdK();
+      }
+    });
+    
+    // Click trigger button
+    cmdKTrigger?.addEventListener('click', openCmdK);
+    
+    // Click close button
+    cmdKClose?.addEventListener('click', closeCmdK);
+    
+    // Click outside modal
+    cmdKModal?.addEventListener('click', (e) => {
+      if (e.target === cmdKModal) {
+        closeCmdK();
+      }
+    });
+    
+    // Search input - show results when typing
+    cmdKInput?.addEventListener('input', (e) => {
+      if (e.target.value.trim().length > 0) {
+        recentSearches?.classList.add('hidden');
+        searchResults?.classList.remove('hidden');
+      } else {
+        recentSearches?.classList.remove('hidden');
+        searchResults?.classList.add('hidden');
+      }
+      // Reset selection when search changes
+      selectedResultIndex = -1;
+      updateSelectedResult();
+    });
+    
+    // Keyboard navigation in input
+    cmdKInput?.addEventListener('keydown', (e) => {
+      const results = document.querySelectorAll(resultSelector);
+      
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        selectedResultIndex = Math.min(selectedResultIndex + 1, results.length - 1);
+        updateSelectedResult();
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        selectedResultIndex = Math.max(selectedResultIndex - 1, -1);
+        updateSelectedResult();
+      } else if (e.key === 'Enter') {
+        if (selectedResultIndex >= 0) {
+          // Add selected suggestion to search box
+          e.preventDefault();
+          const selectedResult = results[selectedResultIndex];
+          const resultText = selectedResult.textContent.trim();
+          cmdKInput.value = resultText;
+          selectedResultIndex = -1;
+          updateSelectedResult();
+          
+          // Show results for this search
+          recentSearches?.classList.add('hidden');
+          searchResults?.classList.remove('hidden');
+        } else {
+          // Execute search query
+          e.preventDefault();
+          const query = cmdKInput.value.trim();
+          if (query) {
+            window.location.href = `search-results.html?q=${encodeURIComponent(query)}`;
+          }
+        }
+      }
+    });
+    
+    // Filter buttons
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        document.querySelectorAll('.filter-btn').forEach(b => {
+          b.classList.remove('bg-primary-600', 'text-white');
+          b.classList.add('bg-neutral-50', 'dark:bg-neutral-700', 'text-neutral-700', 'dark:text-neutral-300', 'border', 'border-neutral-300', 'dark:border-neutral-600');
+        });
+        
+        this.classList.remove('bg-neutral-50', 'dark:bg-neutral-700', 'text-neutral-700', 'dark:text-neutral-300', 'border', 'border-neutral-300', 'dark:border-neutral-600');
+        this.classList.add('bg-primary-600', 'text-white');
+        
+        // Reset selection when filter changes
+        selectedResultIndex = -1;
+        updateSelectedResult();
+      });
+    });
+  </script>
+  
+  <!-- AI Interactions -->
+  <script>
+    // Enhanced IGXDocs object with AI features
+    IGXDocs.inlineChatOpen = false;
+    IGXDocs.glossaryActive = false;
+    IGXDocs.summaryGenerated = false;
+    
+    // Code Explanation Configuration
+    const CodeExplainConfig = {
+      enabled: true,
+      // Target selector - only <code> inside <pre> tags
+      targetSelector: 'pre code',
+      // Minimum lines of code to show button
+      minLines: 2,
+      // Exclude elements matching these selectors
+      excludeSelector: '.prose pre, .quote, .formatted-text, [data-no-explain]',
+      // Require code indicators to avoid formatted text
+      requireCodeIndicators: true,
+      codeIndicators: ['const', 'function', 'var', 'let', 'class', 'import', 'export', 'async', 'await', '{', '}', '=>', '()', 'return'],
+      // Button position
+      buttonPosition: 'top-right'
+    };
+    
+    // Auto-inject "Explain this code" buttons
+    IGXDocs.initCodeExplainButtons = function() {
+      if (!CodeExplainConfig.enabled) return;
+      
+      const codeElements = document.querySelectorAll(CodeExplainConfig.targetSelector);
+      
+      codeElements.forEach((codeElement, index) => {
+        // Skip if excluded
+        if (CodeExplainConfig.excludeSelector && 
+            codeElement.closest(CodeExplainConfig.excludeSelector)) {
+          return;
+        }
+        
+        const codeText = codeElement.textContent || '';
+        
+        // Check minimum lines
+        const lines = codeText.trim().split('\n').length;
+        if (lines < CodeExplainConfig.minLines) return;
+        
+        // Check for code indicators if required
+        if (CodeExplainConfig.requireCodeIndicators) {
+          const hasIndicator = CodeExplainConfig.codeIndicators.some(indicator => 
+            codeText.includes(indicator)
+          );
+          if (!hasIndicator) return;
+        }
+        
+        // Find the container (look for .not-prose wrapper or the pre tag)
+        const container = codeElement.closest('.not-prose') || codeElement.closest('pre');
+        if (!container) return;
+        
+        // Skip if button already exists
+        if (container.querySelector('.code-actions')) return;
+        
+        // Create button bar if not exists
+        const buttonBar = document.createElement('div');
+        buttonBar.className = 'flex items-center justify-between mb-2';
+        buttonBar.innerHTML = `
+          <button class="explain-code-btn inline-flex items-center gap-2 px-4 py-2 bg-white dark:bg-neutral-800 border border-neutral-300 dark:border-neutral-600 text-neutral-700 dark:text-neutral-300 rounded-lg text-sm font-semibold hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-all" data-code-index="${index}">
+            <i data-lucide="sparkles" class="w-4 h-4"></i>
+            Explain this code
+          </button>
+          <button class="copy-code-btn inline-flex items-center gap-1.5 px-3 py-1.5 bg-neutral-700 dark:bg-neutral-800 text-white rounded-md text-xs font-semibold hover:bg-neutral-600">
+            <i data-lucide="copy" class="w-3 h-3"></i>
+            Copy
+          </button>
+        `;
+        
+        // Store reference to code element
+        buttonBar.querySelector('.explain-code-btn').codeElement = codeElement;
+        buttonBar.querySelector('.copy-code-btn').codeElement = codeElement;
+        
+        container.insertBefore(buttonBar, container.firstChild);
+      });
+      
+      lucide.createIcons();
+    };
+    
+    // AI Summary - Streaming Text Effect
+    IGXDocs.streamText = async function(element, text, speed = 30) {
+      element.textContent = '';
+      for (let i = 0; i < text.length; i++) {
+        element.textContent += text[i];
+        await new Promise(resolve => setTimeout(resolve, speed));
+      }
+    };
+    
+    IGXDocs.streamBulletPoints = async function(container, bullets, speed = 30) {
+      container.innerHTML = '';
+      for (const bullet of bullets) {
+        const li = document.createElement('li');
+        li.className = 'text-sm text-neutral-700 dark:text-neutral-300';
+        container.appendChild(li);
+        
+        for (let i = 0; i < bullet.length; i++) {
+          li.textContent += bullet[i];
+          await new Promise(resolve => setTimeout(resolve, speed));
+        }
+      }
+    };
+    
+    // Code Explanation - Inline with Q&A
+    IGXDocs.explainCode = async function(codeElement, codeIndex) {
+      // Check if explanation already exists
+      const existingExplanation = codeElement.closest('.not-prose, pre').parentElement.querySelector(`#code-explanation-${codeIndex}`);
+      if (existingExplanation) return; // Already explained
+      
+      const container = codeElement.closest('.not-prose') || codeElement.parentElement;
+      
+      // Create explanation container
+      const explanationContainer = document.createElement('div');
+      explanationContainer.id = `code-explanation-${codeIndex}`;
+      explanationContainer.className = 'mt-6 mb-8 p-6 border-2 border-neutral-200 dark:border-neutral-600 rounded-xl bg-white dark:bg-neutral-800';
+      explanationContainer.innerHTML = `
+        <!-- Thinking State -->
+        <div class="code-thinking flex items-center gap-3 py-4">
+          <div class="flex items-center gap-2">
+            <div class="w-2 h-2 bg-primary-600 dark:bg-primary-400 rounded-full animate-pulse"></div>
+            <div class="w-2 h-2 bg-primary-600 dark:bg-primary-400 rounded-full animate-pulse" style="animation-delay: 0.2s"></div>
+            <div class="w-2 h-2 bg-primary-600 dark:bg-primary-400 rounded-full animate-pulse" style="animation-delay: 0.4s"></div>
+          </div>
+          <span class="text-sm text-neutral-600 dark:text-neutral-400">Analyzing code<span class="inline-block w-0.5 h-4 bg-neutral-600 dark:bg-neutral-400 ml-1 animate-blink"></span></span>
+        </div>
+        
+        <!-- Explanation Content (Hidden initially) -->
+        <div class="code-explanation-text hidden">
+          <div class="mb-6">
+            <h4 class="text-sm font-semibold text-neutral-900 dark:text-white mb-3">What This Code Does</h4>
+            <p class="text-sm text-neutral-700 dark:text-neutral-300 leading-relaxed code-overview"></p>
+          </div>
+          
+          <div class="mb-6">
+            <h4 class="text-sm font-semibold text-neutral-900 dark:text-white mb-3">Line-by-line breakdown:</h4>
+            <div class="space-y-4 code-breakdown"></div>
+          </div>
+          
+          <!-- Ask Questions Section -->
+          <div class="mt-6 pt-6 border-t border-neutral-200 dark:border-neutral-700">
+            <h4 class="text-sm font-semibold text-neutral-900 dark:text-white mb-3">Ask a question about this code</h4>
+            <div class="flex flex-wrap gap-2 mb-4 quick-questions">
+              <button class="code-question-btn px-3 py-1.5 bg-neutral-50 dark:bg-neutral-700 border border-neutral-300 dark:border-neutral-600 rounded-full text-xs font-medium text-neutral-700 dark:text-neutral-300 hover:border-primary-500 dark:hover:border-primary-400 hover:bg-primary-50 dark:hover:bg-primary-900/20 transition-colors">
+                What does this do?
+              </button>
+              <button class="code-question-btn px-3 py-1.5 bg-neutral-50 dark:bg-neutral-700 border border-neutral-300 dark:border-neutral-600 rounded-full text-xs font-medium text-neutral-700 dark:text-neutral-300 hover:border-primary-500 dark:hover:border-primary-400 hover:bg-primary-50 dark:hover:bg-primary-900/20 transition-colors">
+                Why use this approach?
+              </button>
+              <button class="code-question-btn px-3 py-1.5 bg-neutral-50 dark:bg-neutral-700 border border-neutral-300 dark:border-neutral-600 rounded-full text-xs font-medium text-neutral-700 dark:text-neutral-300 hover:border-primary-500 dark:hover:border-primary-400 hover:bg-primary-50 dark:hover:bg-primary-900/20 transition-colors">
+                Are there alternatives?
+              </button>
+            </div>
+            <div class="flex gap-2">
+              <input 
+                type="text" 
+                placeholder="Or type your own question..."
+                class="flex-1 px-4 py-2 border border-neutral-300 dark:border-neutral-600 rounded-lg bg-white dark:bg-neutral-900 text-neutral-900 dark:text-white placeholder-neutral-400 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 code-custom-question"
+              />
+              <button class="px-4 py-2 bg-gradient-to-r from-primary-600 to-blue-600 text-white rounded-lg hover:from-primary-700 hover:to-blue-700 transition-all font-semibold text-sm code-ask-btn">
+                Ask
+              </button>
+            </div>
+            <div class="code-answer-area mt-4 hidden"></div>
+          </div>
+          
+          <!-- About AI & Feedback -->
+          <div class="text-right mb-4 mt-6">
+            <a href="#" class="inline-flex items-center gap-1.5 text-xs text-neutral-500 dark:text-neutral-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+              <i data-lucide="info" class="w-3.5 h-3.5"></i>
+              <span>About AI-based content</span>
+            </a>
+          </div>
+          
+          <div class="pt-4 border-t border-neutral-200 dark:border-neutral-700">
+            <div class="flex items-center justify-between">
+              <p class="text-sm text-neutral-600 dark:text-neutral-400">Was this explanation helpful?</p>
+              <div class="flex items-center gap-3">
+                <button class="flex items-center gap-2 px-4 py-2 border border-neutral-300 dark:border-neutral-600 rounded-lg text-sm font-medium text-neutral-700 dark:text-neutral-300 hover:border-green-500 hover:text-green-600 dark:hover:text-green-400 hover:bg-green-50 dark:hover:bg-green-900/20 transition-colors">
+                  <i data-lucide="thumbs-up" class="w-4 h-4"></i>
+                  <span>Yes</span>
+                </button>
+                <button class="flex items-center gap-2 px-4 py-2 border border-neutral-300 dark:border-neutral-600 rounded-lg text-sm font-medium text-neutral-700 dark:text-neutral-300 hover:border-red-500 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors">
+                  <i data-lucide="thumbs-down" class="w-4 h-4"></i>
+                  <span>No</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+      
+      container.parentNode.insertBefore(explanationContainer, container.nextSibling);
+      
+      // Start explanation
+      const thinking = explanationContainer.querySelector('.code-thinking');
+      const explanationText = explanationContainer.querySelector('.code-explanation-text');
+      const overview = explanationContainer.querySelector('.code-overview');
+      const breakdown = explanationContainer.querySelector('.code-breakdown');
+      
+      // Simulate AI thinking (2 seconds)
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      
+      // Hide thinking, show content
+      thinking.classList.add('hidden');
+      explanationText.classList.remove('hidden');
+      
+      // Stream overview
+      const overviewText = "This code snippet demonstrates how to create a new page using the CMS API. It uses async/await syntax to handle the asynchronous API call and includes essential parameters like name, schema, parent ID, and title.";
+      await this.streamText(overview, overviewText, 20);
+      
+      // Stream line-by-line breakdown
+      const breakdowns = [
+        { lines: '1', code: 'const newPage = await cmsAPI.createPage({', explanation: 'Declares a constant variable that will store the result of creating a new page. The await keyword pauses execution until the API call completes.' },
+        { lines: '2-5', code: '  name: \'getting-started\', schema: \'ArticlePage\', ...', explanation: 'Passes configuration object with page name (URL-friendly), schema type (defines structure), parent location, and display title.' },
+        { lines: '6', code: '});', explanation: 'Closes the configuration object and completes the function call.' }
+      ];
+      
+      for (const item of breakdowns) {
+        const lineDiv = document.createElement('div');
+        lineDiv.className = 'flex gap-3';
+        lineDiv.innerHTML = `
+          <div class="w-12 h-8 bg-primary-100 dark:bg-primary-900/30 rounded-lg flex items-center justify-center flex-shrink-0">
+            <span class="text-xs font-bold text-primary-700 dark:text-primary-300">${item.lines}</span>
+          </div>
+          <div class="flex-1">
+            <p class="text-xs font-mono text-neutral-600 dark:text-neutral-400 mb-1 code-line-snippet"></p>
+            <p class="text-sm text-neutral-700 dark:text-neutral-300 code-line-explanation"></p>
+          </div>
+        `;
+        breakdown.appendChild(lineDiv);
+        
+        const snippet = lineDiv.querySelector('.code-line-snippet');
+        const explanation = lineDiv.querySelector('.code-line-explanation');
+        
+        await this.streamText(snippet, item.code, 15);
+        await this.streamText(explanation, item.explanation, 15);
+      }
+      
+      lucide.createIcons();
+      
+      // Setup Q&A functionality
+      this.setupCodeQuestions(explanationContainer);
+    };
+    
+    // Setup Q&A for code explanations
+    IGXDocs.setupCodeQuestions = function(container) {
+      const quickQuestions = container.querySelectorAll('.code-question-btn');
+      const customInput = container.querySelector('.code-custom-question');
+      const askBtn = container.querySelector('.code-ask-btn');
+      const answerArea = container.querySelector('.code-answer-area');
+      
+      async function answerQuestion(question) {
+        answerArea.classList.remove('hidden');
+        answerArea.innerHTML = `
+          <div class="p-4 bg-primary-50 dark:bg-primary-900/20 border-l-4 border-primary-500 rounded-r">
+            <p class="text-xs font-semibold text-primary-700 dark:text-primary-300 mb-2">Q: ${question}</p>
+            <p class="text-sm text-neutral-700 dark:text-neutral-300 answer-text"></p>
+          </div>
+        `;
+        
+        const answerText = answerArea.querySelector('.answer-text');
+        const answer = "This is a demonstration answer that would be generated by AI based on the code context. In production, this would analyze the specific code and provide a detailed, context-aware response.";
+        
+        await IGXDocs.streamText(answerText, answer, 20);
+        lucide.createIcons();
+      }
+      
+      quickQuestions.forEach(btn => {
+        btn.addEventListener('click', () => {
+          answerQuestion(btn.textContent.trim());
+        });
+      });
+      
+      askBtn?.addEventListener('click', () => {
+        const question = customInput?.value.trim();
+        if (question) {
+          answerQuestion(question);
+          customInput.value = '';
+        }
+      });
+      
+      customInput?.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          const question = customInput.value.trim();
+          if (question) {
+            answerQuestion(question);
+            customInput.value = '';
+          }
+        }
+      });
+    };
+    
+    // AI Summary - Streaming Text Effect
+    IGXDocs.streamText = async function(element, text, speed = 30) {
+      element.textContent = '';
+      for (let i = 0; i < text.length; i++) {
+        element.textContent += text[i];
+        await new Promise(resolve => setTimeout(resolve, speed));
+      }
+    };
+    
+    IGXDocs.generateSummary = async function() {
+      if (this.summaryGenerated) return;
+      
+      const container = document.getElementById('ai-tools-container');
+      
+      // Create summary container if it doesn't exist
+      let summaryContainer = document.getElementById('ai-summary-container');
+      if (!summaryContainer) {
+        summaryContainer = document.createElement('div');
+        summaryContainer.id = 'ai-summary-container';
+        summaryContainer.className = 'mt-6 mb-8 p-6 border-2 border-neutral-200 dark:border-neutral-600 rounded-xl bg-white dark:bg-neutral-800';
+        summaryContainer.innerHTML = `
+          <div class="flex items-center justify-between mb-4">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 bg-primary-100 dark:bg-primary-900/30 rounded-lg flex items-center justify-center">
+                <i data-lucide="sparkles" class="w-5 h-5 text-primary-600 dark:text-primary-400"></i>
+              </div>
+              <h4 class="text-sm font-semibold text-neutral-900 dark:text-white">AI Summary</h4>
+            </div>
+            <button class="p-2 hover:bg-neutral-100 dark:hover:bg-neutral-700 rounded-lg transition-colors close-summary-btn">
+              <i data-lucide="x" class="w-5 h-5 text-neutral-600 dark:text-neutral-400"></i>
+            </button>
+          </div>
+          
+          <!-- Thinking State -->
+          <div id="ai-thinking" class="flex items-center gap-3 py-4">
+            <div class="flex items-center gap-2">
+              <div class="w-2 h-2 bg-primary-600 dark:bg-primary-400 rounded-full animate-pulse"></div>
+              <div class="w-2 h-2 bg-primary-600 dark:bg-primary-400 rounded-full animate-pulse" style="animation-delay: 0.2s"></div>
+              <div class="w-2 h-2 bg-primary-600 dark:bg-primary-400 rounded-full animate-pulse" style="animation-delay: 0.4s"></div>
+            </div>
+            <span class="text-sm text-neutral-600 dark:text-neutral-400">Analyzing article<span class="inline-block w-0.5 h-4 bg-neutral-600 dark:bg-neutral-400 ml-1 animate-blink"></span></span>
+          </div>
+          
+          <!-- Summary Content (Hidden initially) -->
+          <div id="ai-summary-text" class="hidden">
+            <div class="prose prose-sm dark:prose-invert max-w-none">
+              <p class="text-neutral-700 dark:text-neutral-300 leading-relaxed mb-4" id="summary-paragraph"></p>
+              
+              <h4 class="text-sm font-semibold text-neutral-900 dark:text-white mb-2">Key Points:</h4>
+              <ul class="space-y-2 mb-4" id="summary-bullets">
+                <!-- Bullets will be added dynamically -->
+              </ul>
+            </div>
+            
+            <!-- About AI Content Link -->
+            <div class="text-right mb-4">
+              <a href="#" class="inline-flex items-center gap-1.5 text-xs text-neutral-500 dark:text-neutral-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+                <i data-lucide="info" class="w-3.5 h-3.5"></i>
+                <span>About AI-based content</span>
+              </a>
+            </div>
+            
+            <!-- Feedback Section -->
+            <div class="pt-4 border-t border-neutral-200 dark:border-neutral-700">
+              <div class="flex items-center justify-between">
+                <p class="text-sm text-neutral-600 dark:text-neutral-400">How was this response?</p>
+                <div class="flex items-center gap-3">
+                  <button class="flex items-center gap-2 px-4 py-2 border border-neutral-300 dark:border-neutral-600 rounded-lg text-sm font-medium text-neutral-700 dark:text-neutral-300 hover:border-green-500 hover:text-green-600 dark:hover:text-green-400 hover:bg-green-50 dark:hover:bg-green-900/20 transition-colors">
+                    <i data-lucide="thumbs-up" class="w-4 h-4"></i>
+                    <span>Yes</span>
+                  </button>
+                  <button class="flex items-center gap-2 px-4 py-2 border border-neutral-300 dark:border-neutral-600 rounded-lg text-sm font-medium text-neutral-700 dark:text-neutral-300 hover:border-red-500 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors">
+                    <i data-lucide="thumbs-down" class="w-4 h-4"></i>
+                    <span>No</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+        container.parentNode.insertBefore(summaryContainer, container.nextSibling);
+        lucide.createIcons();
+        
+        // Close button handler
+        summaryContainer.querySelector('.close-summary-btn')?.addEventListener('click', () => {
+          summaryContainer.remove();
+          this.summaryGenerated = false;
+        });
+      }
+      
+      const thinking = document.getElementById('ai-thinking');
+      const summaryText = document.getElementById('ai-summary-text');
+      const summaryParagraph = document.getElementById('summary-paragraph');
+      const summaryBullets = document.getElementById('summary-bullets');
+      
+      // Show thinking state
+      thinking.classList.remove('hidden');
+      summaryText.classList.add('hidden');
+      
+      // Simulate AI thinking (2 seconds)
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      
+      // Hide thinking, show content area
+      thinking.classList.add('hidden');
+      summaryText.classList.remove('hidden');
+      
+      // Stream the summary text
+      const summaryContent = "This guide explains the process of creating new pages in Ingeniux CMS. By placing pages logically and consistently, you'll help site visitors find content they're looking for. The CMS provides multiple methods for page creation including the Site Toolbar, Site Tree context menu, and Content Creation Wizard. Each method offers different levels of control over page placement in the site hierarchy.";
+      
+      await this.streamText(summaryParagraph, summaryContent, 20);
+      
+      // Stream bullet points
+      const bullets = [
+        "Create pages from Site Toolbar, Site Tree, or Content Creation Wizard",
+        "Choose appropriate page schemas that match your content type",
+        "Follow naming conventions and avoid special characters in page names",
+        "Consider SEO implications when organizing site structure",
+        "Check out pages before editing to prevent conflicts with other users"
+      ];
+      
+      await this.streamBulletPoints(summaryBullets, bullets, 20);
+      
+      this.summaryGenerated = true;
+    };
+    
+    // Generate Summary Button Click
+    document.getElementById('generate-summary-btn')?.addEventListener('click', function() {
+      // Generate summary
+      if (!IGXDocs.summaryGenerated) {
+        IGXDocs.generateSummary();
+      }
+    });
+    
+    IGXDocs.closeSelectionTooltip = function() {
+      document.getElementById('selection-tooltip').classList.add('hidden');
+    };
+    
+    // Toggle Glossary
+    IGXDocs.toggleGlossary = function() {
+      this.glossaryActive = !this.glossaryActive;
+      const article = document.querySelector('article');
+      const toggleBtn = document.getElementById('glossary-toggle');
+      const statusText = toggleBtn?.querySelector('.opacity-60');
+      
+      if (this.glossaryActive) {
+        article?.classList.add('glossary-active');
+        if (toggleBtn) {
+          toggleBtn.classList.remove('border-neutral-300', 'dark:border-neutral-600', 'text-neutral-700', 'dark:text-neutral-300');
+          toggleBtn.classList.add('border-primary-600', 'text-primary-600', 'dark:text-primary-400', 'bg-primary-50', 'dark:bg-primary-900/20');
+        }
+        if (statusText) statusText.textContent = 'On';
+      } else {
+        article?.classList.remove('glossary-active');
+        if (toggleBtn) {
+          toggleBtn.classList.remove('border-primary-600', 'text-primary-600', 'dark:text-primary-400', 'bg-primary-50', 'dark:bg-primary-900/20');
+          toggleBtn.classList.add('border-neutral-300', 'dark:border-neutral-600', 'text-neutral-700', 'dark:text-neutral-300');
+        }
+        if (statusText) statusText.textContent = 'Off';
+      }
+    };
+    
+    // Show glossary tooltip on hover
+    IGXDocs.showGlossaryTooltip = function(element, term, definition) {
+      const tooltip = document.getElementById('glossary-tooltip');
+      const arrow = tooltip.querySelector('.absolute');
+      const rect = element.getBoundingClientRect();
+      
+      // Update content
+      document.getElementById('glossary-term-title').textContent = term.replace(/-/g, ' ');
+      document.getElementById('glossary-definition').textContent = definition;
+      
+      // Position below term
+      const tooltipWidth = 300; // max-w-xs
+      const termCenter = rect.left + (rect.width / 2);
+      const left = Math.max(10, Math.min(window.innerWidth - tooltipWidth - 10, rect.left + (rect.width / 2) - (tooltipWidth / 2)));
+      const top = rect.bottom + window.scrollY + 8;
+      
+      // Calculate arrow position to point at term center
+      const arrowLeft = termCenter - left - 8; // 8px is half arrow width
+      
+      tooltip.style.left = left + 'px';
+      tooltip.style.top = top + 'px';
+      
+      // Position arrow to align with term
+      if (arrow) {
+        arrow.style.left = Math.max(12, Math.min(tooltipWidth - 20, arrowLeft)) + 'px';
+      }
+      
+      tooltip.classList.remove('hidden');
+    };
+    
+    IGXDocs.hideGlossaryTooltip = function() {
+      document.getElementById('glossary-tooltip').classList.add('hidden');
+    };
+    
+    // Handle dynamically created "Explain this code" buttons
+    document.addEventListener('click', (e) => {
+      const explainBtn = e.target.closest('.explain-code-btn');
+      if (explainBtn && explainBtn.codeElement) {
+        const codeIndex = explainBtn.getAttribute('data-code-index');
+        IGXDocs.explainCode(explainBtn.codeElement, codeIndex);
+      }
+      
+      // Handle copy buttons
+      const copyBtn = e.target.closest('.copy-code-btn');
+      if (copyBtn && copyBtn.codeElement) {
+        const codeText = copyBtn.codeElement.textContent;
+        navigator.clipboard.writeText(codeText).then(() => {
+          const originalText = copyBtn.innerHTML;
+          copyBtn.innerHTML = '<i data-lucide="check" class="w-3 h-3"></i> Copied!';
+          lucide.createIcons();
+          setTimeout(() => {
+            copyBtn.innerHTML = originalText;
+            lucide.createIcons();
+          }, 2000);
+        });
+      }
+    });
+    
+    // Toggle Inline Listen Player
+    let listenPlayerOpen = false;
+    document.getElementById('listen-btn')?.addEventListener('click', function() {
+      const container = document.getElementById('ai-tools-container');
+      let playerContainer = document.getElementById('listen-player-container');
+      
+      if (listenPlayerOpen && playerContainer) {
+        // Close player
+        playerContainer.remove();
+        listenPlayerOpen = false;
+      } else {
+        // Create and open player
+        playerContainer = document.createElement('div');
+        playerContainer.id = 'listen-player-container';
+        playerContainer.className = 'mt-6 mb-8 p-6 border-2 border-neutral-200 dark:border-neutral-600 rounded-xl bg-white dark:bg-neutral-800';
+        playerContainer.innerHTML = `
+          <div class="flex items-center justify-between mb-4">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex items-center justify-center">
+                <i data-lucide="headphones" class="w-5 h-5 text-blue-600 dark:text-blue-400"></i>
+              </div>
+              <div>
+                <h4 class="text-sm font-semibold text-neutral-900 dark:text-white">Listen to Article</h4>
+                <p class="text-xs text-neutral-600 dark:text-neutral-400">Creating Pages with Visual Editing</p>
+              </div>
+            </div>
+            <button class="p-2 hover:bg-neutral-100 dark:hover:bg-neutral-700 rounded-lg transition-colors close-listen-btn">
+              <i data-lucide="x" class="w-5 h-5 text-neutral-600 dark:text-neutral-400"></i>
+            </button>
+          </div>
+          
+          <!-- Progress Bar -->
+          <div class="mb-4">
+            <div class="w-full bg-neutral-200 dark:bg-neutral-700 rounded-full h-2 cursor-pointer hover:h-2.5 transition-all">
+              <div class="bg-gradient-to-r from-blue-600 to-cyan-600 h-2 rounded-full hover:h-2.5 transition-all" style="width: 31%"></div>
+            </div>
+            <div class="flex items-center justify-between text-xs text-neutral-600 dark:text-neutral-400 mt-2">
+              <span>2:34</span>
+              <span>8:15</span>
+            </div>
+          </div>
+          
+          <!-- Controls -->
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <!-- Play/Pause -->
+              <button class="play-pause-btn flex items-center justify-center px-4 py-2.5 rounded-lg border border-neutral-300 dark:border-neutral-600 hover:bg-neutral-50 dark:hover:bg-neutral-700 transition-all group/btn" data-playing="true">
+                <div class="w-7 h-7 rounded-full border border-neutral-300 dark:border-neutral-600 bg-neutral-100 dark:bg-neutral-700 flex items-center justify-center group-hover/btn:bg-blue-100 dark:group-hover/btn:bg-blue-900/30 group-hover/btn:border-blue-300 dark:group-hover/btn:border-blue-700 transition-all">
+                  <i data-lucide="pause" class="play-pause-icon w-4 h-4 text-neutral-600 dark:text-neutral-300 group-hover/btn:text-blue-600 dark:group-hover/btn:text-blue-400"></i>
+                </div>
+              </button>
+              
+              <!-- Skip Back -->
+              <button class="p-2 hover:bg-neutral-100 dark:hover:bg-neutral-700 rounded-lg transition-colors">
+                <i data-lucide="skip-back" class="w-4 h-4 text-neutral-600 dark:text-neutral-400"></i>
+              </button>
+              
+              <!-- Skip Forward -->
+              <button class="p-2 hover:bg-neutral-100 dark:hover:bg-neutral-700 rounded-lg transition-colors">
+                <i data-lucide="skip-forward" class="w-4 h-4 text-neutral-600 dark:text-neutral-400"></i>
+              </button>
+            </div>
+            
+            <!-- Speed Control -->
+            <div class="flex items-center gap-2">
+              <i data-lucide="gauge" class="w-4 h-4 text-neutral-600 dark:text-neutral-400"></i>
+              <select class="text-xs bg-neutral-100 dark:bg-neutral-700 border border-neutral-300 dark:border-neutral-600 rounded-lg px-3 py-1.5 text-neutral-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500">
+                <option>1x</option>
+                <option>1.25x</option>
+                <option>1.5x</option>
+                <option>2x</option>
+              </select>
+            </div>
+          </div>
+        `;
+        
+        container.parentNode.insertBefore(playerContainer, container.nextSibling);
+        listenPlayerOpen = true;
+        lucide.createIcons();
+        
+        // Close button handler
+        playerContainer.querySelector('.close-listen-btn')?.addEventListener('click', () => {
+          playerContainer.remove();
+          listenPlayerOpen = false;
+        });
+        
+        // Play/Pause toggle
+        const playPauseBtn = playerContainer.querySelector('.play-pause-btn');
+        playPauseBtn?.addEventListener('click', function() {
+          const isPlaying = this.getAttribute('data-playing') === 'true';
+          const icon = this.querySelector('.play-pause-icon');
+          
+          if (isPlaying) {
+            // Pause -> Play
+            this.setAttribute('data-playing', 'false');
+            icon.setAttribute('data-lucide', 'play');
+          } else {
+            // Play -> Pause
+            this.setAttribute('data-playing', 'true');
+            icon.setAttribute('data-lucide', 'pause');
+          }
+          
+          lucide.createIcons();
+        });
+      }
+    });
+    
+    // Toggle Inline Ask AI
+    let askAIOpen = false;
+    document.getElementById('ask-ai-btn')?.addEventListener('click', function() {
+      const container = document.getElementById('ai-tools-container');
+      let chatContainer = document.getElementById('ask-ai-container');
+      
+      if (askAIOpen && chatContainer) {
+        // Close chat
+        chatContainer.remove();
+        askAIOpen = false;
+      } else {
+        // Create and open chat
+        chatContainer = document.createElement('div');
+        chatContainer.id = 'ask-ai-container';
+        chatContainer.className = 'mt-6 mb-8 p-6 border-2 border-neutral-200 dark:border-neutral-600 rounded-xl bg-white dark:bg-neutral-800';
+        chatContainer.innerHTML = `
+          <div class="flex items-center justify-between mb-4">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 bg-primary-100 dark:bg-primary-900/30 rounded-lg flex items-center justify-center">
+                <i data-lucide="message-circle" class="w-5 h-5 text-primary-600 dark:text-primary-400"></i>
+              </div>
+              <h4 class="text-sm font-semibold text-neutral-900 dark:text-white">Ask about this article</h4>
+            </div>
+            <button class="p-2 hover:bg-neutral-100 dark:hover:bg-neutral-700 rounded-lg transition-colors close-chat-btn">
+              <i data-lucide="x" class="w-5 h-5 text-neutral-600 dark:text-neutral-400"></i>
+            </button>
+          </div>
+          
+          <!-- Question Input -->
+          <div class="mb-4">
+            <div class="flex gap-2">
+              <input 
+                type="text" 
+                placeholder="Ask a question about this article..."
+                class="flex-1 px-4 py-2.5 border border-neutral-300 dark:border-neutral-600 rounded-lg bg-white dark:bg-neutral-900 text-neutral-900 dark:text-white placeholder-neutral-400 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 ai-question-input"
+              />
+              <button class="px-4 py-2.5 bg-gradient-to-r from-primary-600 to-blue-600 text-white rounded-lg hover:from-primary-700 hover:to-blue-700 transition-all font-semibold text-sm ai-ask-btn">
+                Ask
+              </button>
+            </div>
+          </div>
+          
+          <!-- Quick Questions -->
+          <div class="mb-4">
+            <p class="text-xs text-neutral-500 dark:text-neutral-400 mb-2">Quick questions:</p>
+            <div class="flex flex-wrap gap-2">
+              <button class="quick-question-btn px-3 py-1.5 bg-neutral-50 dark:bg-neutral-700 border border-neutral-300 dark:border-neutral-600 rounded-lg text-xs font-medium text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-600 transition-colors">
+                How do I get started?
+              </button>
+              <button class="quick-question-btn px-3 py-1.5 bg-neutral-50 dark:bg-neutral-700 border border-neutral-300 dark:border-neutral-600 rounded-lg text-xs font-medium text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-600 transition-colors">
+                What are best practices?
+              </button>
+              <button class="quick-question-btn px-3 py-1.5 bg-neutral-50 dark:bg-neutral-700 border border-neutral-300 dark:border-neutral-600 rounded-lg text-xs font-medium text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-600 transition-colors">
+                Common mistakes?
+              </button>
+            </div>
+          </div>
+          
+          <!-- Answer Area -->
+          <div class="ai-answer-area"></div>
+        `;
+        
+        container.parentNode.insertBefore(chatContainer, container.nextSibling);
+        askAIOpen = true;
+        lucide.createIcons();
+        
+        // Close button handler
+        chatContainer.querySelector('.close-chat-btn')?.addEventListener('click', () => {
+          chatContainer.remove();
+          askAIOpen = false;
+        });
+        
+        // Ask AI functionality
+        const questionInput = chatContainer.querySelector('.ai-question-input');
+        const askBtn = chatContainer.querySelector('.ai-ask-btn');
+        const answerArea = chatContainer.querySelector('.ai-answer-area');
+        const quickQuestions = chatContainer.querySelectorAll('.quick-question-btn');
+        
+        async function askQuestion(question) {
+          // Show thinking state
+          answerArea.innerHTML = `
+            <div class="pt-4 border-t border-neutral-200 dark:border-neutral-700">
+              <div class="flex items-center gap-3 py-4">
+                <div class="flex items-center gap-2">
+                  <div class="w-2 h-2 bg-primary-600 dark:bg-primary-400 rounded-full animate-pulse"></div>
+                  <div class="w-2 h-2 bg-primary-600 dark:bg-primary-400 rounded-full animate-pulse" style="animation-delay: 0.2s"></div>
+                  <div class="w-2 h-2 bg-primary-600 dark:bg-primary-400 rounded-full animate-pulse" style="animation-delay: 0.4s"></div>
+                </div>
+                <span class="text-sm text-neutral-600 dark:text-neutral-400">Thinking<span class="inline-block w-0.5 h-4 bg-neutral-600 dark:bg-neutral-400 ml-1 animate-blink"></span></span>
+              </div>
+            </div>
+          `;
+          
+          await new Promise(resolve => setTimeout(resolve, 1500));
+          
+          // Show answer
+          answerArea.innerHTML = `
+            <div class="pt-4 border-t border-neutral-200 dark:border-neutral-700">
+              <div class="mb-3">
+                <p class="text-xs text-neutral-500 dark:text-neutral-400 mb-1">Question:</p>
+                <p class="text-sm font-medium text-neutral-900 dark:text-white">${question}</p>
+              </div>
+              <div class="mb-4">
+                <p class="text-xs text-neutral-500 dark:text-neutral-400 mb-2">Answer:</p>
+                <p class="text-sm text-neutral-700 dark:text-neutral-300 leading-relaxed ai-answer-text"></p>
+              </div>
+              
+              <!-- About AI & Feedback -->
+              <div class="text-right mb-4">
+                <a href="#" class="inline-flex items-center gap-1.5 text-xs text-neutral-500 dark:text-neutral-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors">
+                  <i data-lucide="info" class="w-3.5 h-3.5"></i>
+                  <span>About AI-based content</span>
+                </a>
+              </div>
+              
+              <div class="pt-4 border-t border-neutral-200 dark:border-neutral-700">
+                <div class="flex items-center justify-between">
+                  <p class="text-sm text-neutral-600 dark:text-neutral-400">Was this answer helpful?</p>
+                  <div class="flex items-center gap-3">
+                    <button class="flex items-center gap-2 px-4 py-2 border border-neutral-300 dark:border-neutral-600 rounded-lg text-sm font-medium text-neutral-700 dark:text-neutral-300 hover:border-green-500 hover:text-green-600 dark:hover:text-green-400 hover:bg-green-50 dark:hover:bg-green-900/20 transition-colors">
+                      <i data-lucide="thumbs-up" class="w-4 h-4"></i>
+                      <span>Yes</span>
+                    </button>
+                    <button class="flex items-center gap-2 px-4 py-2 border border-neutral-300 dark:border-neutral-600 rounded-lg text-sm font-medium text-neutral-700 dark:text-neutral-300 hover:border-red-500 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors">
+                      <i data-lucide="thumbs-down" class="w-4 h-4"></i>
+                      <span>No</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          `;
+          
+          const answerText = answerArea.querySelector('.ai-answer-text');
+          const answer = "To get started with creating pages in Ingeniux CMS, you have three main options: using the Site Toolbar for quick page creation, right-clicking in the Site Tree for more control over placement, or using the Content Creation Wizard for a guided approach. Choose the appropriate page schema that matches your content type, and remember to follow naming conventions while avoiding special characters.";
+          
+          await IGXDocs.streamText(answerText, answer, 20);
+          lucide.createIcons();
+        }
+        
+        // Quick question buttons
+        quickQuestions.forEach(btn => {
+          btn.addEventListener('click', () => {
+            askQuestion(btn.textContent.trim());
+          });
+        });
+        
+        // Ask button
+        askBtn?.addEventListener('click', () => {
+          const question = questionInput?.value.trim();
+          if (question) {
+            askQuestion(question);
+            questionInput.value = '';
+          }
+        });
+        
+        // Enter key
+        questionInput?.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter') {
+            const question = questionInput.value.trim();
+            if (question) {
+              askQuestion(question);
+              questionInput.value = '';
+            }
+          }
+        });
+      }
+    });
+    
+    // Text Selection AI - Show Grammarly-style tooltip
+    let selectionTimeout;
+    document.addEventListener('mouseup', (e) => {
+      // Don't show if clicking inside the tooltip itself
+      if (e.target.closest('#selection-tooltip')) return;
+      
+      clearTimeout(selectionTimeout);
+      selectionTimeout = setTimeout(() => {
+        const selection = window.getSelection();
+        const selectedText = selection.toString().trim();
+        const tooltip = document.getElementById('selection-tooltip');
+        
+        if (!selectedText || selectedText.length < 5 || selectedText.length > 200) {
+          tooltip.classList.add('hidden');
+          return;
+        }
+        
+        // Check if selection is within article (more robust check)
+        let node = selection.anchorNode;
+        let isInArticle = false;
+        
+        while (node && node !== document.body) {
+          if (node.tagName === 'ARTICLE') {
+            isInArticle = true;
+            break;
+          }
+          node = node.parentElement || node.parentNode;
+        }
+        
+        if (isInArticle) {
+          const range = selection.getRangeAt(0);
+          const rect = range.getBoundingClientRect();
+          
+          // Position tooltip below selection (Grammarly-style)
+          const tooltipWidth = 350; // max-w-sm
+          const left = Math.max(10, Math.min(window.innerWidth - tooltipWidth - 10, rect.left + (rect.width / 2) - (tooltipWidth / 2)));
+          const top = rect.bottom + window.scrollY + 10;
+          
+          tooltip.style.left = left + 'px';
+          tooltip.style.top = top + 'px';
+          tooltip.classList.remove('hidden');
+          
+          // Update selected text in tooltip
+          document.getElementById('selected-text-tooltip').textContent = selectedText;
+          
+          lucide.createIcons();
+        } else {
+          tooltip.classList.add('hidden');
+        }
+      }, 200);
+    });
+    
+    // Hide tooltip on click outside
+    document.addEventListener('mousedown', (e) => {
+      const tooltip = document.getElementById('selection-tooltip');
+      if (tooltip && !e.target.closest('#selection-tooltip')) {
+        tooltip.classList.add('hidden');
+      }
+    });
+    
+    // User Dropdown Menu
+    document.getElementById('user-menu-btn')?.addEventListener('click', function(e) {
+      e.stopPropagation();
+      const dropdown = document.getElementById('user-dropdown');
+      dropdown?.classList.toggle('hidden');
+      lucide.createIcons();
+    });
+    
+    // Close dropdown when clicking outside
+    document.addEventListener('click', (e) => {
+      const dropdown = document.getElementById('user-dropdown');
+      const button = document.getElementById('user-menu-btn');
+      if (dropdown && !dropdown.contains(e.target) && !button?.contains(e.target)) {
+        dropdown.classList.add('hidden');
+      }
+    });
+    
+    // Initialize code explanation buttons on page load
+    document.addEventListener('DOMContentLoaded', () => {
+      IGXDocs.initCodeExplainButtons();
+    });
+    
+    // Close modals on backdrop click
+    document.querySelectorAll('[id$="-modal"]').forEach(modal => {
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          modal.classList.add('hidden');
+        }
+      });
+    });
+    
+    // Feedback Modal
+    const feedbackBtn = document.getElementById('feedback-btn');
+    const feedbackModal = document.getElementById('feedback-modal');
+    const feedbackCloseBtn = document.getElementById('feedback-close-btn');
+    const feedbackCancelBtn = document.getElementById('feedback-cancel-btn');
+    const feedbackSubmitBtn = document.getElementById('feedback-submit-btn');
+    const feedbackYesBtn = document.getElementById('feedback-yes');
+    const feedbackNoBtn = document.getElementById('feedback-no');
+    
+    let feedbackHelpful = null;
+    
+    // Open feedback modal
+    feedbackBtn?.addEventListener('click', () => {
+      feedbackModal?.classList.remove('hidden');
+      lucide.createIcons();
+    });
+    
+    // Close feedback modal
+    function closeFeedbackModal() {
+      feedbackModal?.classList.add('hidden');
+      // Reset to form view
+      document.getElementById('feedback-form-content')?.classList.remove('hidden');
+      document.getElementById('feedback-footer')?.classList.remove('hidden');
+      document.getElementById('feedback-success')?.classList.add('hidden');
+      document.getElementById('feedback-modal-title').textContent = 'Send feedback';
+      // Reset form
+      feedbackHelpful = null;
+      document.getElementById('feedback-comments').value = '';
+      document.getElementById('feedback-email').value = '';
+      // Reset button states
+      feedbackYesBtn?.classList.remove('bg-green-100', 'dark:bg-green-900/30', 'border-green-500', 'text-green-600', 'dark:text-green-400');
+      feedbackNoBtn?.classList.remove('bg-red-100', 'dark:bg-red-900/30', 'border-red-500', 'text-red-600', 'dark:text-red-400');
+    }
+    
+    feedbackCloseBtn?.addEventListener('click', closeFeedbackModal);
+    feedbackCancelBtn?.addEventListener('click', closeFeedbackModal);
+    
+    // Track helpful/not helpful selection
+    feedbackYesBtn?.addEventListener('click', function() {
+      feedbackHelpful = true;
+      this.classList.add('bg-green-100', 'dark:bg-green-900/30', 'border-green-500', 'text-green-600', 'dark:text-green-400');
+      feedbackNoBtn?.classList.remove('bg-red-100', 'dark:bg-red-900/30', 'border-red-500', 'text-red-600', 'dark:text-red-400');
+    });
+    
+    feedbackNoBtn?.addEventListener('click', function() {
+      feedbackHelpful = false;
+      this.classList.add('bg-red-100', 'dark:bg-red-900/30', 'border-red-500', 'text-red-600', 'dark:text-red-400');
+      feedbackYesBtn?.classList.remove('bg-green-100', 'dark:bg-green-900/30', 'border-green-500', 'text-green-600', 'dark:text-green-400');
+    });
+    
+    // Submit feedback
+    feedbackSubmitBtn?.addEventListener('click', () => {
+      const comments = document.getElementById('feedback-comments').value.trim();
+      if (!comments) {
+        alert('Please tell us more about your feedback');
+        return;
+      }
+      
+      // Here you would send the feedback to your backend
+      console.log('Feedback submitted:', {
+        helpful: feedbackHelpful,
+        comments: comments,
+        email: document.getElementById('feedback-email').value
+      });
+      
+      // Show success confirmation
+      document.getElementById('feedback-form-content')?.classList.add('hidden');
+      document.getElementById('feedback-footer')?.classList.add('hidden');
+      document.getElementById('feedback-success')?.classList.remove('hidden');
+      lucide.createIcons();
+    });
+    
+    // Success close button
+    document.getElementById('feedback-success-close')?.addEventListener('click', closeFeedbackModal);
+    
+    // Glossary Toggle Button
+    document.getElementById('glossary-toggle')?.addEventListener('click', () => {
+      IGXDocs.toggleGlossary();
+    });
+    
+    // Glossary Term Hover Events
+    document.querySelectorAll('.glossary-term').forEach(term => {
+      term.addEventListener('mouseenter', function() {
+        const termName = this.dataset.term;
+        const definition = this.dataset.definition;
+        IGXDocs.showGlossaryTooltip(this, termName, definition);
+      });
+      
+      term.addEventListener('mouseleave', function() {
+        // Small delay before hiding to allow moving to tooltip
+        setTimeout(() => {
+          IGXDocs.hideGlossaryTooltip();
+        }, 100);
+      });
+    });
+  </script>
+  
+  <!-- Mobile Search Modal -->
+  <div id="mobile-search-modal" class="hidden fixed inset-0 z-50 bg-neutral-950/50 backdrop-blur-sm">
+    <div class="fixed inset-0 bg-neutral-50 dark:bg-neutral-900 p-4">
+      <div class="max-w-2xl mx-auto">
+        <!-- Header -->
+        <div class="flex items-center justify-between mb-6">
+          <h2 class="text-xl font-semibold text-neutral-900 dark:text-white">Search</h2>
+          <button id="mobile-search-close" class="p-2 hover:bg-neutral-100 dark:hover:bg-neutral-700 rounded-lg">
+            <i data-lucide="x" class="w-6 h-6 text-neutral-600 dark:text-neutral-400"></i>
+          </button>
+        </div>
+        
+        <!-- Search Input -->
+        <div class="relative mb-6">
+          <div class="relative flex items-center gap-4 h-14 px-5 border-2 border-neutral-300 dark:border-neutral-700 rounded-xl bg-white dark:bg-neutral-800">
+            <i data-lucide="search" class="w-6 h-6 text-neutral-400"></i>
+            <input 
+              type="text" 
+              id="mobile-search-input"
+              placeholder="Search or ask a question"
+              class="flex-1 text-lg text-neutral-900 dark:text-white bg-transparent border-none outline-none placeholder-gray-500 dark:placeholder-gray-400"
+              autofocus
+            />
+            <button id="mobile-search-submit" class="p-2 hover:bg-neutral-100 dark:hover:bg-neutral-700 rounded-lg">
+              <i data-lucide="arrow-right" class="w-5 h-5 text-primary-600 dark:text-primary-400"></i>
+            </button>
+          </div>
+        </div>
+        
+        <!-- Quick Links -->
+        <div class="space-y-2">
+          <p class="text-sm font-medium text-neutral-500 dark:text-neutral-400 mb-3">Popular searches:</p>
+          <a href="doc-page.html" class="flex items-center gap-3 p-3 rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors">
+            <i data-lucide="book-open" class="w-5 h-5 text-neutral-400"></i>
+            <span class="text-neutral-900 dark:text-white">Getting Started</span>
+          </a>
+          <a href="#" class="flex items-center gap-3 p-3 rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors">
+            <i data-lucide="key" class="w-5 h-5 text-neutral-400"></i>
+            <span class="text-neutral-900 dark:text-white">API Authentication</span>
+          </a>
+          <a href="#" class="flex items-center gap-3 p-3 rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors">
+            <i data-lucide="alert-circle" class="w-5 h-5 text-neutral-400"></i>
+            <span class="text-neutral-900 dark:text-white">Error Codes</span>
+          </a>
+          <a href="#" class="flex items-center gap-3 p-3 rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors">
+            <i data-lucide="link" class="w-5 h-5 text-neutral-400"></i>
+            <span class="text-neutral-900 dark:text-white">Integration Guide</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile TOC Full-Screen Modal -->
+  <div id="mobile-toc-modal" class="hidden fixed inset-0 z-50 bg-neutral-50 dark:bg-neutral-900">
+    <!-- Modal Header -->
+    <div class="sticky top-0 z-10 bg-neutral-50 dark:bg-neutral-900 border-b border-neutral-200 dark:border-neutral-700 px-6 py-4">
+      <div class="flex items-center justify-between mb-4">
+        <h2 class="text-lg font-bold text-neutral-900 dark:text-white">Table of Contents</h2>
+        <button id="close-mobile-toc" class="p-2 hover:bg-neutral-100 dark:hover:bg-neutral-700 rounded-lg transition-colors">
+          <i data-lucide="x" class="w-6 h-6 text-neutral-600 dark:text-neutral-400"></i>
+        </button>
+      </div>
+      
+      <!-- Expand/Collapse All -->
+      <div class="flex items-center gap-3">
+        <button id="mobile-expand-all-btn" class="flex items-center gap-1.5 text-sm text-neutral-600 dark:text-neutral-400 hover:text-primary-600 dark:hover:text-primary-400">
+          <i data-lucide="chevron-down" class="w-4 h-4"></i>
+          <span>Expand</span>
+        </button>
+        <button id="mobile-collapse-all-btn" class="flex items-center gap-1.5 text-sm text-neutral-600 dark:text-neutral-400 hover:text-primary-600 dark:hover:text-primary-400">
+          <i data-lucide="chevron-up" class="w-4 h-4"></i>
+          <span>Collapse</span>
+        </button>
+      </div>
+    </div>
+    
+    <!-- Modal Content (Scrollable) -->
+    <nav class="overflow-y-auto p-6" style="height: calc(100vh - 100px);">
+      <!-- Section: Getting Started -->
+      <div class="mb-6">
+        <button class="mobile-nav-section-toggle flex items-center justify-between w-full text-xs font-semibold text-neutral-900 dark:text-white uppercase tracking-wide mb-3 hover:text-primary-600 dark:hover:text-primary-400" data-chevron-state="down">
+          <span>Getting Started</span>
+          <i data-lucide="chevron-down" class="w-4 h-4"></i>
+        </button>
+        <ul class="space-y-2 text-sm mobile-nav-section-content hidden">
+          <li><a href="#" class="text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white">Logging In</a></li>
+          <li><a href="#" class="text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white">Navigation Bar</a></li>
+          <li><a href="#" class="text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white">Dashboard</a></li>
+        </ul>
+      </div>
+      
+      <!-- Section: Authoring Basics -->
+      <div class="mb-6">
+        <button class="mobile-nav-section-toggle flex items-center justify-between w-full text-xs font-semibold text-neutral-900 dark:text-white uppercase tracking-wide mb-3 hover:text-primary-600 dark:hover:text-primary-400" data-chevron-state="up">
+          <span>Authoring Basics</span>
+          <i data-lucide="chevron-up" class="w-4 h-4"></i>
+        </button>
+        <div class="mobile-nav-section-content">
+          <!-- Topic: Creating and Managing Pages -->
+          <div class="mb-3">
+            <button class="mobile-topic-toggle flex items-center justify-between w-full text-sm font-semibold text-neutral-900 dark:text-white mb-2 hover:text-primary-600 dark:hover:text-primary-400 pl-2" data-chevron-state="up">
+              <span>Creating and Managing Pages</span>
+              <i data-lucide="chevron-up" class="w-3.5 h-3.5"></i>
+            </button>
+            <ul class="space-y-1.5 text-sm mobile-topic-content pl-4">
+              <li><a href="doc-page.html" class="text-primary-600 dark:text-primary-400 font-semibold hover:underline">Creating Pages</a></li>
+              <li><a href="#" class="text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white">Checking Pages In/Out</a></li>
+              <li><a href="#" class="text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white">Saving Pages</a></li>
+              <li><a href="#" class="text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white">Deleting & Restoring</a></li>
+            </ul>
+          </div>
+          
+          <!-- Topic: Publishing -->
+          <div class="mb-3">
+            <button class="mobile-topic-toggle flex items-center justify-between w-full text-sm font-semibold text-neutral-900 dark:text-white mb-2 hover:text-primary-600 dark:hover:text-primary-400 pl-2" data-chevron-state="down">
+              <span>Publishing</span>
+              <i data-lucide="chevron-down" class="w-3.5 h-3.5"></i>
+            </button>
+            <ul class="space-y-1.5 text-sm mobile-topic-content hidden pl-4">
+              <li><a href="#" class="text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white">Publishing Overview</a></li>
+              <li><a href="#" class="text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white">Publishing Settings</a></li>
+              <li><a href="#" class="text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white">Batch Publishing</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Section: Editing Basics -->
+      <div class="mb-6">
+        <button class="mobile-nav-section-toggle flex items-center justify-between w-full text-xs font-semibold text-neutral-900 dark:text-white uppercase tracking-wide mb-3 hover:text-primary-600 dark:hover:text-primary-400" data-chevron-state="down">
+          <span>Editing Basics</span>
+          <i data-lucide="chevron-down" class="w-4 h-4"></i>
+        </button>
+        <ul class="space-y-2 text-sm mobile-nav-section-content hidden">
+          <li><a href="#" class="text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white">In-Context Editing</a></li>
+          <li><a href="#" class="text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white">Page Builder</a></li>
+          <li><a href="#" class="text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white">Using History</a></li>
+          <li><a href="#" class="text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white">Managing Pages</a></li>
+          <li><a href="#" class="text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white">XHTML Editor</a></li>
+        </ul>
+      </div>
+      
+      <!-- Section: Assets Manager -->
+      <div class="mb-6">
+        <button class="mobile-nav-section-toggle flex items-center justify-between w-full text-xs font-semibold text-neutral-900 dark:text-white uppercase tracking-wide mb-3 hover:text-primary-600 dark:hover:text-primary-400" data-chevron-state="down">
+          <span>Assets Manager</span>
+          <i data-lucide="chevron-down" class="w-4 h-4"></i>
+        </button>
+        <ul class="space-y-2 text-sm mobile-nav-section-content hidden">
+          <li><a href="#" class="text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white">Uploading Assets</a></li>
+          <li><a href="#" class="text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white">Managing Assets</a></li>
+          <li><a href="#" class="text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white">Asset Metadata</a></li>
+          <li><a href="#" class="text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white">Asset History</a></li>
+        </ul>
+      </div>
+      
+      <!-- Section: Administration -->
+      <div class="mb-6">
+        <button class="mobile-nav-section-toggle flex items-center justify-between w-full text-xs font-semibold text-neutral-900 dark:text-white uppercase tracking-wide mb-3 hover:text-primary-600 dark:hover:text-primary-400" data-chevron-state="down">
+          <span>Administration</span>
+          <i data-lucide="chevron-down" class="w-4 h-4"></i>
+        </button>
+        <ul class="space-y-2 text-sm mobile-nav-section-content hidden">
+          <li><a href="#" class="text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white">User Management</a></li>
+          <li><a href="#" class="text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white">Security & Permissions</a></li>
+          <li><a href="#" class="text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white">Workflows</a></li>
+          <li><a href="#" class="text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white">System Configuration</a></li>
+        </ul>
+      </div>
+    </nav>
+  </div>
+
+  <!-- Initialize Lucide Icons -->
+  <script>
+    lucide.createIcons();
+  </script>
+  
+  <!-- Left Navigation Toggle Script -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Setup left nav section toggles
+      const navToggles = document.querySelectorAll('.nav-section-toggle');
+      navToggles.forEach(button => {
+        button.addEventListener('click', function() {
+          const content = this.nextElementSibling;
+          const chevronContainer = this.querySelector('i, svg');
+          
+          if (content) {
+            content.classList.toggle('hidden');
+            
+            // Toggle chevron state
+            const currentState = this.getAttribute('data-chevron-state');
+            const newState = currentState === 'up' ? 'down' : 'up';
+            this.setAttribute('data-chevron-state', newState);
+            
+            // Replace icon
+            if (chevronContainer) {
+              const newIcon = document.createElement('i');
+              newIcon.setAttribute('data-lucide', `chevron-${newState}`);
+              newIcon.className = 'w-4 h-4';
+              chevronContainer.replaceWith(newIcon);
+              lucide.createIcons();
+            }
+          }
+        });
+      });
+      
+      // Setup topic-level toggles (nested within sections)
+      const topicToggles = document.querySelectorAll('.topic-toggle');
+      topicToggles.forEach(button => {
+        button.addEventListener('click', function() {
+          const content = this.nextElementSibling;
+          const chevronContainer = this.querySelector('i, svg');
+          
+          if (content) {
+            content.classList.toggle('hidden');
+            
+            // Toggle chevron state
+            const currentState = this.getAttribute('data-chevron-state');
+            const newState = currentState === 'up' ? 'down' : 'up';
+            this.setAttribute('data-chevron-state', newState);
+            
+            // Replace icon
+            if (chevronContainer) {
+              const newIcon = document.createElement('i');
+              newIcon.setAttribute('data-lucide', `chevron-${newState}`);
+              newIcon.className = 'w-3.5 h-3.5';
+              chevronContainer.replaceWith(newIcon);
+              lucide.createIcons();
+            }
+          }
+        });
+      });
+      
+      // Version Dropdown Toggle
+      const versionDropdownBtn = document.getElementById('version-dropdown-btn');
+      const versionDropdown = document.getElementById('version-dropdown');
+      
+      if (versionDropdownBtn && versionDropdown) {
+        versionDropdownBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          versionDropdown.classList.toggle('hidden');
+        });
+        
+        // Close dropdown when clicking outside
+        document.addEventListener('click', () => {
+          versionDropdown.classList.add('hidden');
+        });
+        
+        // Prevent dropdown from closing when clicking inside it
+        versionDropdown.addEventListener('click', (e) => {
+          e.stopPropagation();
+        });
+      }
+      
+      // Hide/Show Table of Contents
+      const hideTocBtn = document.getElementById('hide-toc-btn');
+      const showTocBtn = document.getElementById('show-toc-btn');
+      const leftSidebar = document.querySelector('aside.fixed.left-0');
+      const mainContent = document.querySelector('main.flex-1');
+      
+      function toggleToc() {
+        const isCurrentlyVisible = leftSidebar.classList.contains('lg:block');
+        
+        if (isCurrentlyVisible) {
+          // Hide TOC
+          leftSidebar.classList.remove('lg:block');
+          leftSidebar.classList.add('lg:hidden');
+          mainContent.classList.remove('lg:ml-80');
+          showTocBtn.classList.remove('hidden');
+          showTocBtn.classList.add('block');
+          
+          if (hideTocBtn) {
+            hideTocBtn.setAttribute('title', 'Show table of contents');
+            const icon = hideTocBtn.querySelector('i');
+            if (icon) {
+              icon.setAttribute('data-lucide', 'panel-left-open');
+              lucide.createIcons();
+            }
+          }
+        } else {
+          // Show TOC
+          leftSidebar.classList.remove('lg:hidden');
+          leftSidebar.classList.add('lg:block');
+          mainContent.classList.add('lg:ml-80');
+          showTocBtn.classList.remove('block');
+          showTocBtn.classList.add('hidden');
+          
+          if (hideTocBtn) {
+            hideTocBtn.setAttribute('title', 'Hide table of contents');
+            const icon = hideTocBtn.querySelector('i');
+            if (icon) {
+              icon.setAttribute('data-lucide', 'panel-left-close');
+              lucide.createIcons();
+            }
+          }
+        }
+      }
+      
+      if (hideTocBtn && leftSidebar && mainContent) {
+        hideTocBtn.addEventListener('click', toggleToc);
+      }
+      
+      if (showTocBtn && leftSidebar && mainContent) {
+        showTocBtn.addEventListener('click', toggleToc);
+      }
+      
+      // Expand All Sections
+      const expandAllBtn = document.getElementById('expand-all-btn');
+      if (expandAllBtn) {
+        expandAllBtn.addEventListener('click', function() {
+          // Expand sections
+          const allSections = document.querySelectorAll('.nav-section-toggle');
+          allSections.forEach(button => {
+            const content = button.nextElementSibling;
+            const icon = button.querySelector('i, svg');
+            
+            if (content && content.classList.contains('hidden')) {
+              content.classList.remove('hidden');
+              button.setAttribute('data-chevron-state', 'up');
+              
+              if (icon) {
+                const newIcon = document.createElement('i');
+                newIcon.setAttribute('data-lucide', 'chevron-up');
+                newIcon.className = 'w-4 h-4';
+                icon.replaceWith(newIcon);
+              }
+            }
+          });
+          
+          // Expand topics
+          const allTopics = document.querySelectorAll('.topic-toggle');
+          allTopics.forEach(button => {
+            const content = button.nextElementSibling;
+            const icon = button.querySelector('i, svg');
+            
+            if (content && content.classList.contains('hidden')) {
+              content.classList.remove('hidden');
+              button.setAttribute('data-chevron-state', 'up');
+              
+              if (icon) {
+                const newIcon = document.createElement('i');
+                newIcon.setAttribute('data-lucide', 'chevron-up');
+                newIcon.className = 'w-3.5 h-3.5';
+                icon.replaceWith(newIcon);
+              }
+            }
+          });
+          
+          lucide.createIcons();
+        });
+      }
+      
+      // Collapse All Sections
+      const collapseAllBtn = document.getElementById('collapse-all-btn');
+      if (collapseAllBtn) {
+        collapseAllBtn.addEventListener('click', function() {
+          // Collapse sections
+          const allSections = document.querySelectorAll('.nav-section-toggle');
+          allSections.forEach(button => {
+            const content = button.nextElementSibling;
+            const icon = button.querySelector('i, svg');
+            
+            if (content && !content.classList.contains('hidden')) {
+              content.classList.add('hidden');
+              button.setAttribute('data-chevron-state', 'down');
+              
+              if (icon) {
+                const newIcon = document.createElement('i');
+                newIcon.setAttribute('data-lucide', 'chevron-down');
+                newIcon.className = 'w-4 h-4';
+                icon.replaceWith(newIcon);
+              }
+            }
+          });
+          
+          // Collapse topics
+          const allTopics = document.querySelectorAll('.topic-toggle');
+          allTopics.forEach(button => {
+            const content = button.nextElementSibling;
+            const icon = button.querySelector('i, svg');
+            
+            if (content && !content.classList.contains('hidden')) {
+              content.classList.add('hidden');
+              button.setAttribute('data-chevron-state', 'down');
+              
+              if (icon) {
+                const newIcon = document.createElement('i');
+                newIcon.setAttribute('data-lucide', 'chevron-down');
+                newIcon.className = 'w-3.5 h-3.5';
+                icon.replaceWith(newIcon);
+              }
+            }
+          });
+          
+          lucide.createIcons();
+        });
+      }
+      
+      // ======================================
+      // Mobile Search Modal Functionality
+      // ======================================
+      
+      const mobileSearchBtn = document.getElementById('mobile-search-btn');
+      const mobileSearchModal = document.getElementById('mobile-search-modal');
+      const mobileSearchClose = document.getElementById('mobile-search-close');
+      const mobileSearchInput = document.getElementById('mobile-search-input');
+      const mobileSearchSubmit = document.getElementById('mobile-search-submit');
+      
+      function openMobileSearch() {
+        mobileSearchModal?.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+        setTimeout(() => mobileSearchInput?.focus(), 100);
+        lucide.createIcons();
+      }
+      
+      function closeMobileSearch() {
+        mobileSearchModal?.classList.add('hidden');
+        document.body.style.overflow = '';
+        if (mobileSearchInput) mobileSearchInput.value = '';
+      }
+      
+      mobileSearchBtn?.addEventListener('click', (e) => {
+        e.stopPropagation();
+        openMobileSearch();
+      });
+      
+      mobileSearchClose?.addEventListener('click', closeMobileSearch);
+      
+      mobileSearchSubmit?.addEventListener('click', () => {
+        const query = mobileSearchInput?.value.trim();
+        if (query) {
+          window.location.href = `search-results.html?q=${encodeURIComponent(query)}`;
+        }
+      });
+      
+      mobileSearchInput?.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          const query = mobileSearchInput.value.trim();
+          if (query) {
+            window.location.href = `search-results.html?q=${encodeURIComponent(query)}`;
+          }
+        } else if (e.key === 'Escape') {
+          closeMobileSearch();
+        }
+      });
+      
+      // Close modal when clicking backdrop
+      mobileSearchModal?.addEventListener('click', (e) => {
+        if (e.target === mobileSearchModal) {
+          closeMobileSearch();
+        }
+      });
+      
+      // ======================================
+      // Mobile TOC Modal Functionality
+      // ======================================
+      
+      const mobileTocBtn = document.getElementById('mobile-toc-btn');
+      const mobileTocModal = document.getElementById('mobile-toc-modal');
+      const closeMobileToc = document.getElementById('close-mobile-toc');
+      
+      // Open mobile TOC modal
+      if (mobileTocBtn && mobileTocModal) {
+        mobileTocBtn.addEventListener('click', function() {
+          mobileTocModal.classList.remove('hidden');
+          document.body.style.overflow = 'hidden'; // Prevent background scrolling
+          setTimeout(() => lucide.createIcons(), 10);
+        });
+      }
+      
+      // Close mobile TOC modal
+      if (closeMobileToc && mobileTocModal) {
+        closeMobileToc.addEventListener('click', function() {
+          mobileTocModal.classList.add('hidden');
+          document.body.style.overflow = ''; // Restore scrolling
+        });
+      }
+      
+      // Setup mobile nav section toggles
+      const mobileNavToggles = document.querySelectorAll('.mobile-nav-section-toggle');
+      mobileNavToggles.forEach(button => {
+        button.addEventListener('click', function() {
+          const content = this.nextElementSibling;
+          const icon = this.querySelector('i, svg');
+          
+          if (content) {
+            content.classList.toggle('hidden');
+            
+            // Toggle chevron
+            const currentState = this.getAttribute('data-chevron-state');
+            const newState = currentState === 'up' ? 'down' : 'up';
+            this.setAttribute('data-chevron-state', newState);
+            
+            if (icon) {
+              const newIcon = document.createElement('i');
+              newIcon.setAttribute('data-lucide', `chevron-${newState}`);
+              newIcon.className = 'w-4 h-4';
+              icon.replaceWith(newIcon);
+              lucide.createIcons();
+            }
+          }
+        });
+      });
+      
+      // Setup mobile topic-level toggles
+      const mobileTopicToggles = document.querySelectorAll('.mobile-topic-toggle');
+      mobileTopicToggles.forEach(button => {
+        button.addEventListener('click', function() {
+          const content = this.nextElementSibling;
+          const icon = this.querySelector('i, svg');
+          
+          if (content) {
+            content.classList.toggle('hidden');
+            
+            // Toggle chevron
+            const currentState = this.getAttribute('data-chevron-state');
+            const newState = currentState === 'up' ? 'down' : 'up';
+            this.setAttribute('data-chevron-state', newState);
+            
+            if (icon) {
+              const newIcon = document.createElement('i');
+              newIcon.setAttribute('data-lucide', `chevron-${newState}`);
+              newIcon.className = 'w-3.5 h-3.5';
+              icon.replaceWith(newIcon);
+              lucide.createIcons();
+            }
+          }
+        });
+      });
+      
+      // Mobile Expand All Sections
+      const mobileExpandAllBtn = document.getElementById('mobile-expand-all-btn');
+      if (mobileExpandAllBtn) {
+        mobileExpandAllBtn.addEventListener('click', function() {
+          // Expand sections
+          const allSections = document.querySelectorAll('.mobile-nav-section-toggle');
+          allSections.forEach(button => {
+            const content = button.nextElementSibling;
+            const icon = button.querySelector('i, svg');
+            
+            if (content && content.classList.contains('hidden')) {
+              content.classList.remove('hidden');
+              button.setAttribute('data-chevron-state', 'up');
+              
+              if (icon) {
+                const newIcon = document.createElement('i');
+                newIcon.setAttribute('data-lucide', 'chevron-up');
+                newIcon.className = 'w-4 h-4';
+                icon.replaceWith(newIcon);
+              }
+            }
+          });
+          
+          // Expand topics
+          const allTopics = document.querySelectorAll('.mobile-topic-toggle');
+          allTopics.forEach(button => {
+            const content = button.nextElementSibling;
+            const icon = button.querySelector('i, svg');
+            
+            if (content && content.classList.contains('hidden')) {
+              content.classList.remove('hidden');
+              button.setAttribute('data-chevron-state', 'up');
+              
+              if (icon) {
+                const newIcon = document.createElement('i');
+                newIcon.setAttribute('data-lucide', 'chevron-up');
+                newIcon.className = 'w-3.5 h-3.5';
+                icon.replaceWith(newIcon);
+              }
+            }
+          });
+          
+          lucide.createIcons();
+        });
+      }
+      
+      // Mobile Collapse All Sections
+      const mobileCollapseAllBtn = document.getElementById('mobile-collapse-all-btn');
+      if (mobileCollapseAllBtn) {
+        mobileCollapseAllBtn.addEventListener('click', function() {
+          // Collapse sections
+          const allSections = document.querySelectorAll('.mobile-nav-section-toggle');
+          allSections.forEach(button => {
+            const content = button.nextElementSibling;
+            const icon = button.querySelector('i, svg');
+            
+            if (content && !content.classList.contains('hidden')) {
+              content.classList.add('hidden');
+              button.setAttribute('data-chevron-state', 'down');
+              
+              if (icon) {
+                const newIcon = document.createElement('i');
+                newIcon.setAttribute('data-lucide', 'chevron-down');
+                newIcon.className = 'w-4 h-4';
+                icon.replaceWith(newIcon);
+              }
+            }
+          });
+          
+          // Collapse topics
+          const allTopics = document.querySelectorAll('.mobile-topic-toggle');
+          allTopics.forEach(button => {
+            const content = button.nextElementSibling;
+            const icon = button.querySelector('i, svg');
+            
+            if (content && !content.classList.contains('hidden')) {
+              content.classList.add('hidden');
+              button.setAttribute('data-chevron-state', 'down');
+              
+              if (icon) {
+                const newIcon = document.createElement('i');
+                newIcon.setAttribute('data-lucide', 'chevron-down');
+                newIcon.className = 'w-3.5 h-3.5';
+                icon.replaceWith(newIcon);
+              }
+            }
+          });
+          
+          lucide.createIcons();
+        });
+      }
+      
+      // Close modal when clicking a link (navigate to article)
+      const mobileTocLinks = mobileTocModal?.querySelectorAll('a');
+      if (mobileTocLinks) {
+        mobileTocLinks.forEach(link => {
+          link.addEventListener('click', function() {
+            mobileTocModal.classList.add('hidden');
+            document.body.style.overflow = '';
+          });
+        });
+      }
+    });
+  </script>
+
+  <!-- Support Chatbot Widget -->
+  <script src="../../assets/js/chatbot-widget.js"></script>
+
+</body>
+</html>
+

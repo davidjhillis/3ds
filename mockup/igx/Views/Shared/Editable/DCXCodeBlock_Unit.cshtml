@@ -1,0 +1,25 @@
+@model ICMSElement
+@using Ingeniux.Runtime
+@{
+    ICMSElement comp = Model.Element((Model as CMSPageRequest)?.RootElementName?.Replace("_Unit", "")) ?? Model;
+    var language = comp.GetElementValue("Language") ?? "text";
+    var code = comp.GetElementValue("Code");
+    var title = comp.GetElementValue("Title");
+}
+<div class="code-block-wrapper group relative my-6" @_Helpers.RenderICEAttribute(Model, true)>
+    @if (!string.IsNullOrEmpty(title))
+    {
+        <div class="flex items-center justify-between px-4 py-2 bg-neutral-800 dark:bg-neutral-900 border-b border-neutral-700 rounded-t-lg">
+            <span class="text-xs text-neutral-400 font-mono">@title</span>
+            <span class="text-xs text-neutral-500">@language</span>
+        </div>
+    }
+    <div class="relative">
+        <div class="absolute top-2 right-2 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+            <button class="copy-code-btn p-1.5 bg-neutral-700 hover:bg-neutral-600 text-neutral-300 rounded text-xs" title="Copy">
+                <i data-lucide="copy" class="w-4 h-4"></i>
+            </button>
+        </div>
+        <pre class="bg-neutral-900 dark:bg-neutral-950 text-neutral-100 p-4 @(string.IsNullOrEmpty(title) ? "rounded-lg" : "rounded-b-lg") overflow-x-auto"><code class="language-@language text-sm font-mono leading-relaxed" @_Helpers.RenderICEAttribute(comp.Element("Code"))>@code</code></pre>
+    </div>
+</div>

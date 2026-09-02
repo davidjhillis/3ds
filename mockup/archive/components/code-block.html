@@ -1,0 +1,141 @@
+<!-- IGX Documentation Portal - Code Block Component Examples -->
+
+<!-- Standard Code Block with AI Features -->
+<div class="code-block-wrapper group relative my-6">
+  <!-- AI Action Bar -->
+  <div class="code-actions">
+    <button class="btn-code-action" title="AI Explain Code" aria-label="Explain code with AI">
+      <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+        <path d="M10 2a8 8 0 100 16 8 8 0 000-16zm1 11H9v-2h2v2zm0-4H9V5h2v4z"/>
+      </svg>
+    </button>
+    <button class="copy-code-btn btn-code-action" title="Copy Code" aria-label="Copy code to clipboard">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+      </svg>
+    </button>
+  </div>
+  
+  <!-- Language Label -->
+  <div class="absolute top-2 left-3 text-xs text-gray-400 font-mono">JavaScript</div>
+  
+  <!-- Code Block -->
+  <pre class="code-block pt-8"><code class="language-javascript">// Initialize IGX CMS
+const igx = require('@igx/cms-sdk');
+
+const client = new igx.Client({
+  apiKey: process.env.IGX_API_KEY,
+  endpoint: 'https://api.igx.com/v1'
+});
+
+// Fetch content
+async function getContent(id) {
+  try {
+    const content = await client.content.get(id);
+    return content;
+  } catch (error) {
+    console.error('Failed to fetch content:', error);
+    throw error;
+  }
+}
+
+export { getContent };</code></pre>
+</div>
+
+<!-- Code Block with Highlighted Lines -->
+<div class="code-block-wrapper group relative my-6">
+  <div class="code-actions">
+    <button class="btn-code-action" title="AI Explain Code" aria-label="Explain code with AI">
+      <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+        <path d="M10 2a8 8 0 100 16 8 8 0 000-16zm1 11H9v-2h2v2zm0-4H9V5h2v4z"/>
+      </svg>
+    </button>
+    <button class="copy-code-btn btn-code-action" title="Copy Code" aria-label="Copy code to clipboard">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+      </svg>
+    </button>
+  </div>
+  
+  <div class="absolute top-2 left-3 text-xs text-gray-400 font-mono">Python</div>
+  
+  <pre class="code-block pt-8"><code class="language-python">from igx import Client
+
+# Initialize client
+client = Client(
+    api_key="your_api_key_here",
+    endpoint="https://api.igx.com/v1"
+)
+
+# Create new content
+def create_content(title, body):
+    """Create new content item"""
+    response = client.content.create({
+        "title": title,
+        "body": body,
+        "status": "draft"
+    })
+    return response
+
+# Example usage
+content = create_content("My Title", "Content body")
+print(f"Created: {content.id}")</code></pre>
+</div>
+
+<!-- Inline Code Example -->
+<p class="my-4 text-gray-700">
+  Use the <code class="text-purple-600 bg-purple-50 px-2 py-1 rounded text-sm font-mono">igx.Client()</code> method to initialize the SDK with your API credentials.
+</p>
+
+<!-- Terminal/Command Block -->
+<div class="code-block-wrapper group relative my-6">
+  <div class="code-actions">
+    <button class="copy-code-btn btn-code-action" title="Copy Command" aria-label="Copy command to clipboard">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+      </svg>
+    </button>
+  </div>
+  
+  <div class="absolute top-2 left-3 text-xs text-gray-400 font-mono">Terminal</div>
+  
+  <pre class="code-block pt-8"><code class="language-bash"># Install IGX CLI
+npm install -g @igx/cli
+
+# Initialize new project
+igx init my-project
+
+# Start development server
+cd my-project
+igx dev --port 3000</code></pre>
+</div>
+
+<!-- JSON Response Example -->
+<div class="code-block-wrapper group relative my-6">
+  <div class="code-actions">
+    <button class="copy-code-btn btn-code-action" title="Copy JSON" aria-label="Copy JSON to clipboard">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+      </svg>
+    </button>
+  </div>
+  
+  <div class="absolute top-2 left-3 text-xs text-gray-400 font-mono">JSON Response</div>
+  
+  <pre class="code-block pt-8"><code class="language-json">{
+  "id": "content_12345",
+  "title": "Getting Started with IGX",
+  "status": "published",
+  "author": {
+    "id": "user_789",
+    "name": "John Doe"
+  },
+  "created_at": "2025-10-30T10:00:00Z",
+  "updated_at": "2025-10-30T12:30:00Z",
+  "metadata": {
+    "tags": ["tutorial", "getting-started"],
+    "category": "documentation"
+  }
+}</code></pre>
+</div>
+

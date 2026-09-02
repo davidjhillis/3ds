@@ -1,0 +1,108 @@
+@model CMSPageRequest
+@using Ingeniux.Runtime
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var pageTitle = Model.GetElementValue("Title") ?? "Search Results";
+    var aiAnswerEnabled = Model.GetElementValue("AIAnswerEnabled") != "false";
+
+    // Search term comes from query string
+    var searchTerm = Request.QueryString["term"] ?? "";
+
+    // Breadcrumbs
+    ICMSLinkElement[] breadcrumbs = Model.GetNavigationItems("AncestorNavigation")
+        .Where(p => p.Schema != "Folder").ToArray();
+
+    // Filter categories from component list
+    ICMSElement filterGroups = Model.Element("FilterGroups");
+}
+
+<!-- Breadcrumbs -->
+<div class="bg-neutral-50 dark:bg-neutral-900 border-b border-neutral-200 dark:border-neutral-700">
+    <div class="max-w-screen-2xl mx-auto px-6 py-3">
+        <nav class="flex items-center gap-2 text-sm text-neutral-600 dark:text-neutral-400">
+            @for (int i = 0; i < breadcrumbs.Length; i++)
+            {
+                if (i > 0) { <i data-lucide="chevron-right" class="w-4 h-4"></i> }
+                <a href="@_Functions.GetLinkAction(breadcrumbs[i], Url)" class="hover:text-primary-600 dark:hover:text-primary-400">
+                    @_Functions.GetLinkName(breadcrumbs[i], useNavName: true)
+                </a>
+            }
+            <i data-lucide="chevron-right" class="w-4 h-4"></i>
+            <span class="text-neutral-900 dark:text-white">Search results</span>
+        </nav>
+    </div>
+</div>
+
+<div class="max-w-screen-2xl mx-auto px-6 py-8">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+
+        <!-- Left Sidebar - Filters -->
+        <aside class="lg:col-span-3">
+            <div class="sticky top-24 bg-neutral-50 dark:bg-neutral-900 rounded-lg border border-neutral-200 dark:border-neutral-700 p-6">
+                <h2 class="text-lg font-bold text-neutral-900 dark:text-white mb-4">Refine results</h2>
+
+                @if (filterGroups != null)
+                {
+                    foreach (ICMSElement group in filterGroups.Elements())
+                    {
+                        <div class="mb-6">
+                            <h3 class="text-sm font-semibold text-neutral-700 dark:text-neutral-300 mb-2">
+                                @group.GetElementValue("GroupTitle")
+                            </h3>
+                            <div class="space-y-2">
+                                @foreach (ICMSElement filter in group.Elements("FilterOption"))
+                                {
+                                    <label class="flex items-center gap-2 cursor-pointer">
+                                        <input type="checkbox" class="rounded border-neutral-300 dark:border-neutral-600 text-primary-600 focus:ring-primary-500">
+                                        <span class="text-sm text-neutral-700 dark:text-neutral-300">@filter.GetElementValue("Label")</span>
+                                    </label>
+                                }
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+        </aside>
+
+        <!-- Right Content - Results -->
+        <main class="lg:col-span-9">
+            <div class="mb-6">
+                <h1 class="text-2xl font-bold text-neutral-900 dark:text-white mb-2">
+                    Results for "@searchTerm"
+                </h1>
+                <p class="text-sm text-neutral-600 dark:text-neutral-400">
+                    @* Result count injected by search service at runtime *@
+                </p>
+            </div>
+
+            @if (aiAnswerEnabled)
+            {
+                <!-- AI Answer Section -->
+                <div class="mb-8 bg-gradient-to-br from-primary-50 to-blue-50 dark:from-primary-900/20 dark:to-blue-900/20 rounded-lg border border-primary-200 dark:border-primary-700 p-6">
+                    <h3 class="text-sm font-bold text-neutral-900 dark:text-white mb-3 flex items-center gap-2">
+                        <i data-lucide="sparkles" class="w-4 h-4 text-primary-600 dark:text-primary-400"></i>
+                        AI-powered response
+                    </h3>
+                    <div id="ai-answer" class="text-sm text-neutral-700 dark:text-neutral-300 space-y-3">
+                        @* AI answer content rendered by InSite Search / AI service at runtime *@
+                    </div>
+                </div>
+            }
+
+            <!-- Search Results List -->
+            <div id="search-results-list" class="space-y-4">
+                @* Search result items rendered by InSite Search at runtime.
+                   Each result follows this HTML pattern:
+                   <a href="..." class="block p-4 border rounded-lg hover:border-primary-300 transition-colors">
+                       <h3 class="text-base font-semibold text-primary-600">Title</h3>
+                       <p class="text-sm text-neutral-600 mt-1">Snippet...</p>
+                       <div class="flex items-center gap-3 mt-2 text-xs text-neutral-500">
+                           <span>Product</span><span>Type</span><span>Date</span>
+                       </div>
+                   </a>
+                *@
+            </div>
+        </main>
+    </div>
+</div>

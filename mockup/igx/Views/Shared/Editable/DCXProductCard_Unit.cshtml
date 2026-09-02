@@ -1,0 +1,44 @@
+@model ICMSElement
+@using Ingeniux.Runtime
+@{
+    ICMSElement comp = Model.Element((Model as CMSPageRequest)?.RootElementName?.Replace("_Unit", "")) ?? Model;
+    var productName = comp.GetElementValue("ProductName");
+    var subtitle = comp.GetElementValue("Subtitle");
+    var description = comp.GetElementValue("Description");
+    var iconUrl = comp.GetElementValue("Icon");
+    ICMSLinkElement[] links = comp.GetLinkItems("ProductLink").ToArray();
+}
+<div class="bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-xl overflow-hidden hover:shadow-lg transition-all"
+     @_Helpers.RenderICEAttribute(Model, true)>
+
+    <!-- Card Header -->
+    <div class="bg-gradient-to-br from-neutral-800 to-neutral-900 p-6 text-white">
+        @if (!string.IsNullOrEmpty(iconUrl))
+        {
+            <img src="@iconUrl" alt="" class="w-8 h-8 mb-3">
+        }
+        <h3 class="text-lg font-bold mb-1" @_Helpers.RenderICEAttribute(comp.Element("ProductName"))>@productName</h3>
+        @if (!string.IsNullOrEmpty(subtitle))
+        {
+            <p class="text-sm text-neutral-300" @_Helpers.RenderICEAttribute(comp.Element("Subtitle"))>@subtitle</p>
+        }
+    </div>
+
+    <!-- Card Body -->
+    <div class="p-6">
+        @if (!string.IsNullOrEmpty(description))
+        {
+            <p class="text-sm text-neutral-600 dark:text-neutral-400 mb-4" @_Helpers.RenderICEAttribute(comp.Element("Description"))>@description</p>
+        }
+        <div class="space-y-2">
+            @foreach (ICMSLinkElement link in links)
+            {
+                <a href="@_Functions.GetLinkAction(link, Url)"
+                   class="flex items-center justify-between text-sm text-neutral-700 dark:text-neutral-300 hover:text-primary-600 dark:hover:text-primary-400 py-1 transition-colors">
+                    <span>@_Functions.GetLinkName(link)</span>
+                    <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                </a>
+            }
+        </div>
+    </div>
+</div>

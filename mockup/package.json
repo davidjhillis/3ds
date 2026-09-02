@@ -1,0 +1,26 @@
+{
+  "name": "dcx-tpl",
+  "version": "1.0.0",
+  "description": "Static HTML templates for the Discover CX documentation portal. Compiled Tailwind CSS with per-client theming. Designed for implementation in Ingeniux CMS.",
+  "main": "tailwind.config.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/davidjhillis/dcx-portal-templates.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/davidjhillis/dcx-portal-templates/issues"
+  },
+  "homepage": "https://github.com/davidjhillis/dcx-portal-templates#readme",
+  "devDependencies": {
+    "tailwindcss": "^3.4.17"
+  }
+}

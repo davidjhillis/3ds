@@ -1,0 +1,287 @@
+@model CMSPageRequest
+@using Ingeniux.Runtime
+@using Cartella.Interfaces
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    IUser user = Utilities.CurrentUser();
+    var displayName = user?.DisplayName ?? "User";
+    var email = user?.Email ?? "";
+    var initials = displayName.Length >= 2
+        ? (displayName.Split(' ').Length > 1
+            ? "" + displayName.Split(' ')[0][0] + displayName.Split(' ').Last()[0]
+            : displayName.Substring(0, 2))
+        : "U";
+}
+
+<!-- Main Content -->
+<div class="max-w-screen-xl mx-auto px-6 py-8 flex-1">
+
+    <!-- Profile Header -->
+    <div class="flex items-center gap-4 mb-8 pb-8 border-b border-neutral-200 dark:border-neutral-700">
+        <div class="w-14 h-14 rounded-full bg-gradient-to-br from-neutral-600 to-neutral-700 flex items-center justify-center text-white font-bold text-xl flex-shrink-0">
+            @initials
+        </div>
+        <div class="flex-1 min-w-0">
+            <h1 class="text-lg font-bold text-neutral-900 dark:text-white">@displayName</h1>
+            <p class="text-sm text-neutral-500 dark:text-neutral-400">@email</p>
+        </div>
+    </div>
+
+    <!-- Tabs -->
+    <nav class="flex overflow-x-auto scrollbar-hide border-b border-neutral-200 dark:border-neutral-700 mb-8 -mx-6 px-6" style="-webkit-overflow-scrolling: touch;">
+        <button data-tab="settings" class="tab-btn flex-shrink-0 px-4 py-2.5 border-b-2 border-primary-600 text-primary-600 dark:text-primary-400 font-semibold text-sm whitespace-nowrap">Settings</button>
+        <button data-tab="subscriptions" class="tab-btn flex-shrink-0 px-4 py-2.5 border-b-2 border-transparent text-neutral-500 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white font-semibold text-sm whitespace-nowrap">Subscriptions</button>
+        <div class="flex-shrink-0 w-px bg-neutral-200 dark:bg-neutral-700 mx-2 my-2"></div>
+        <button data-tab="bookmarks" class="tab-btn flex-shrink-0 px-4 py-2.5 border-b-2 border-transparent text-neutral-500 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white font-semibold text-sm whitespace-nowrap">Bookmarks</button>
+        <button data-tab="watched" class="tab-btn flex-shrink-0 px-4 py-2.5 border-b-2 border-transparent text-neutral-500 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white font-semibold text-sm whitespace-nowrap">Watched</button>
+    </nav>
+
+    <!--
+        Tab content is rendered client-side.
+        Settings form posts to a controller action.
+        Bookmarks and Watched are loaded via API calls to the CMS.
+        Subscriptions are user preference toggles stored in the portal user profile.
+
+        The static template (user-profile.html) shows the full HTML for each tab.
+        In the CMS implementation, these would be populated by:
+        - Settings: IUser properties from Cartella.Interfaces
+        - Subscriptions: Custom user preference storage
+        - Bookmarks: Custom bookmark API (page IDs stored per user)
+        - Watched: Custom watch API (page IDs + last-visited timestamps)
+    -->
+
+    <!-- Settings Tab -->
+    <div id="settings-tab" class="tab-content max-w-2xl">
+        <form method="post" action="@Url.Action("UpdateProfile", "Portal")">
+            <section class="mb-10">
+                <h2 class="text-sm font-semibold text-neutral-900 dark:text-white uppercase tracking-wide mb-4">Personal Information</h2>
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm text-neutral-500 dark:text-neutral-400 mb-1">Photo</label>
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-neutral-600 to-neutral-700 flex items-center justify-center text-white font-semibold text-sm overflow-hidden flex-shrink-0">
+                                @initials
+                            </div>
+                            <button type="button" onclick="document.getElementById('avatar-upload').click();" class="text-sm text-primary-600 dark:text-primary-400 hover:underline">Upload</button>
+                            <input id="avatar-upload" type="file" name="avatar" accept="image/*" class="hidden" />
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm text-neutral-500 dark:text-neutral-400 mb-1">First Name</label>
+                            <input type="text" name="firstName" value="@user?.FirstName" class="w-full px-3 py-2 text-sm border border-neutral-200 dark:border-neutral-700 rounded-lg bg-white dark:bg-neutral-800 text-neutral-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent" />
+                        </div>
+                        <div>
+                            <label class="block text-sm text-neutral-500 dark:text-neutral-400 mb-1">Last Name</label>
+                            <input type="text" name="lastName" value="@user?.LastName" class="w-full px-3 py-2 text-sm border border-neutral-200 dark:border-neutral-700 rounded-lg bg-white dark:bg-neutral-800 text-neutral-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent" />
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-sm text-neutral-500 dark:text-neutral-400 mb-1">Email</label>
+                        <input type="email" name="email" value="@email" class="w-full px-3 py-2 text-sm border border-neutral-200 dark:border-neutral-700 rounded-lg bg-white dark:bg-neutral-800 text-neutral-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent" />
+                    </div>
+                </div>
+            </section>
+
+            <section class="mb-10 pt-8 border-t border-neutral-200 dark:border-neutral-700">
+                <h2 class="text-sm font-semibold text-neutral-900 dark:text-white uppercase tracking-wide mb-4">Preferences</h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm text-neutral-500 dark:text-neutral-400 mb-1">Language</label>
+                        <select name="language" class="w-full px-3 py-2 text-sm border border-neutral-200 dark:border-neutral-700 rounded-lg bg-white dark:bg-neutral-800 text-neutral-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500">
+                            <option>English (US)</option><option>English (UK)</option><option>Spanish</option><option>French</option><option>German</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm text-neutral-500 dark:text-neutral-400 mb-1">Timezone</label>
+                        <select name="timezone" class="w-full px-3 py-2 text-sm border border-neutral-200 dark:border-neutral-700 rounded-lg bg-white dark:bg-neutral-800 text-neutral-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500">
+                            <option>Pacific Time (PT)</option><option>Mountain Time (MT)</option><option>Central Time (CT)</option><option>Eastern Time (ET)</option>
+                        </select>
+                    </div>
+                </div>
+            </section>
+
+            <div class="flex items-center justify-end gap-3 pt-6 border-t border-neutral-200 dark:border-neutral-700">
+                <button type="button" class="px-4 py-2 text-sm text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white transition-colors">Cancel</button>
+                <button type="submit" class="px-5 py-2 text-sm font-semibold bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors">Save Changes</button>
+            </div>
+        </form>
+    </div>
+
+    @* ── Subscriptions Tab ─────────────────────────────── *@
+    <div id="subscriptions-tab" class="tab-content hidden max-w-2xl">
+        <form method="post" action="@Url.Action("SaveSubscriptions", "Portal")">
+            @Html.AntiForgeryToken()
+            <p class="text-sm text-neutral-500 dark:text-neutral-400 mb-6">Choose what triggers notifications</p>
+
+            <section class="mb-8">
+                <h2 class="text-sm font-semibold text-neutral-900 dark:text-white uppercase tracking-wide mb-3">Documentation</h2>
+                <div class="divide-y divide-neutral-100 dark:divide-neutral-800">
+                    @{
+                        var docSubs = new[] {
+                            new { Name = "sub_new_articles",      Label = "New articles published",    Desc = "When new documentation is added",                Checked = true  },
+                            new { Name = "sub_bookmark_updates",  Label = "Bookmarked articles updated", Desc = "Changes to articles you've saved",              Checked = true  },
+                            new { Name = "sub_watched_changes",   Label = "Watched page changes",      Desc = "When pages you're watching are modified",         Checked = true  }
+                        };
+                    }
+                    @foreach (var s in docSubs)
+                    {
+                        <label class="flex items-center justify-between py-3 cursor-pointer">
+                            <div>
+                                <p class="text-sm text-neutral-900 dark:text-white">@s.Label</p>
+                                <p class="text-xs text-neutral-500 mt-0.5">@s.Desc</p>
+                            </div>
+                            <div class="relative inline-flex items-center">
+                                <input type="checkbox" name="@s.Name" value="true" @(s.Checked ? "checked" : "") class="sr-only peer">
+                                <div class="w-9 h-5 bg-neutral-300 dark:bg-neutral-600 rounded-full peer peer-checked:bg-green-500 after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-full"></div>
+                            </div>
+                        </label>
+                    }
+                </div>
+            </section>
+
+            <section class="mb-8 pt-6 border-t border-neutral-200 dark:border-neutral-700">
+                <h2 class="text-sm font-semibold text-neutral-900 dark:text-white uppercase tracking-wide mb-3">Product</h2>
+                <div class="divide-y divide-neutral-100 dark:divide-neutral-800">
+                    @{
+                        var productSubs = new[] {
+                            new { Name = "sub_releases", Label = "Release announcements", Desc = "Major product releases and updates", Checked = true  },
+                            new { Name = "sub_beta",     Label = "Beta program updates",  Desc = "Early access to new features",       Checked = false }
+                        };
+                    }
+                    @foreach (var s in productSubs)
+                    {
+                        <label class="flex items-center justify-between py-3 cursor-pointer">
+                            <div>
+                                <p class="text-sm text-neutral-900 dark:text-white">@s.Label</p>
+                                <p class="text-xs text-neutral-500 mt-0.5">@s.Desc</p>
+                            </div>
+                            <div class="relative inline-flex items-center">
+                                <input type="checkbox" name="@s.Name" value="true" @(s.Checked ? "checked" : "") class="sr-only peer">
+                                <div class="w-9 h-5 bg-neutral-300 dark:bg-neutral-600 rounded-full peer peer-checked:bg-green-500 after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-full"></div>
+                            </div>
+                        </label>
+                    }
+                </div>
+            </section>
+
+            <section class="pt-6 border-t border-neutral-200 dark:border-neutral-700">
+                <h2 class="text-sm font-semibold text-neutral-900 dark:text-white uppercase tracking-wide mb-3">Email</h2>
+                <div class="divide-y divide-neutral-100 dark:divide-neutral-800">
+                    @{
+                        var emailSubs = new[] {
+                            new { Name = "sub_digest", Label = "Weekly digest",       Desc = "Summary of new and updated documentation",        Checked = false },
+                            new { Name = "sub_tips",   Label = "Tips & best practices", Desc = "Monthly recommendations from the documentation team", Checked = true  }
+                        };
+                    }
+                    @foreach (var s in emailSubs)
+                    {
+                        <label class="flex items-center justify-between py-3 cursor-pointer">
+                            <div>
+                                <p class="text-sm text-neutral-900 dark:text-white">@s.Label</p>
+                                <p class="text-xs text-neutral-500 mt-0.5">@s.Desc</p>
+                            </div>
+                            <div class="relative inline-flex items-center">
+                                <input type="checkbox" name="@s.Name" value="true" @(s.Checked ? "checked" : "") class="sr-only peer">
+                                <div class="w-9 h-5 bg-neutral-300 dark:bg-neutral-600 rounded-full peer peer-checked:bg-green-500 after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-full"></div>
+                            </div>
+                        </label>
+                    }
+                </div>
+            </section>
+
+            <div class="flex items-center justify-end gap-3 pt-6 mt-6 border-t border-neutral-200 dark:border-neutral-700">
+                <button type="submit" class="px-5 py-2 text-sm font-semibold bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors">Save Preferences</button>
+            </div>
+        </form>
+    </div>
+
+    @* ── Bookmarks Tab ─────────────────────────────────── *@
+    @*
+        Bookmarks are loaded asynchronously from /api/article-actions/bookmarks
+        (see TODO in article-actions.js). The list container renders empty-state
+        by default; article-actions.js populates it after the fetch resolves.
+        The expected item HTML pattern is shown in the commented block below.
+    *@
+    <div id="bookmarks-tab" class="tab-content hidden">
+        <div class="flex items-center gap-3 mb-5">
+            <div class="relative flex-1 max-w-xs">
+                <i data-lucide="search" class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-400"></i>
+                <input id="bookmark-search" type="text" placeholder="Search bookmarks..." class="w-full pl-9 pr-3 py-1.5 text-sm border border-neutral-200 dark:border-neutral-700 rounded-lg bg-white dark:bg-neutral-800 text-neutral-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent" />
+            </div>
+            <p id="bookmark-count" class="text-sm text-neutral-500 dark:text-neutral-400">0 articles</p>
+        </div>
+        <div id="bookmark-list" class="divide-y divide-neutral-200 dark:divide-neutral-700">
+            <!--
+                Each bookmark item follows this pattern:
+                <a href="/docs/article-id" class="group flex items-center py-3 hover:bg-neutral-50 dark:hover:bg-neutral-800/50 -mx-3 px-3 rounded-lg transition-colors">
+                    <div class="flex-1 min-w-0">
+                        <div class="flex items-center gap-2">
+                            <p class="text-sm font-medium text-neutral-900 dark:text-white group-hover:text-primary-600 dark:group-hover:text-primary-400 truncate">Article Title</p>
+                            <span class="flex-shrink-0 text-[11px] px-1.5 py-0.5 bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-400 rounded">Guide</span>
+                        </div>
+                        <p class="text-xs text-neutral-500 mt-0.5">Section &middot; Saved X days ago</p>
+                    </div>
+                    <button class="bookmark-remove p-1.5 opacity-0 group-hover:opacity-100 text-neutral-400 hover:text-neutral-600 transition-all flex-shrink-0"><i data-lucide="x" class="w-4 h-4"></i></button>
+                </a>
+            -->
+            <div id="bookmark-empty" class="text-center py-12">
+                <i data-lucide="bookmark" class="w-8 h-8 text-neutral-400 mx-auto mb-3"></i>
+                <p class="text-sm text-neutral-500 dark:text-neutral-400">No bookmarks yet.</p>
+                <p class="text-xs text-neutral-400 dark:text-neutral-500 mt-1">Click the bookmark icon on any article to save it here.</p>
+            </div>
+        </div>
+    </div>
+
+    @* ── Watched Tab ───────────────────────────────────── *@
+    <div id="watched-tab" class="tab-content hidden">
+        <p id="watched-count" class="text-sm text-neutral-500 dark:text-neutral-400 mb-5">0 pages &middot; You'll be notified when these are updated</p>
+        <div id="watched-list" class="divide-y divide-neutral-200 dark:divide-neutral-700">
+            <!--
+                Each watched-page item follows this pattern:
+                <a href="/docs/article-id" class="group flex items-center py-3 hover:bg-neutral-50 dark:hover:bg-neutral-800/50 -mx-3 px-3 rounded-lg transition-colors">
+                    <div class="flex-1 min-w-0">
+                        <div class="flex items-center gap-2">
+                            <p class="text-sm font-medium text-neutral-900 dark:text-white group-hover:text-primary-600 dark:group-hover:text-primary-400 truncate">Article Title</p>
+                            <span class="flex-shrink-0 text-[11px] px-1.5 py-0.5 bg-amber-50 dark:bg-amber-900/20 text-amber-600 dark:text-amber-400 rounded font-semibold">Updated Xh ago</span>
+                        </div>
+                        <p class="text-xs text-neutral-500 mt-0.5">Section &middot; Watching since MMM DD</p>
+                    </div>
+                    <button class="watch-unwatch text-xs text-neutral-400 opacity-0 group-hover:opacity-100 hover:text-red-500 transition-all flex-shrink-0">Unwatch</button>
+                </a>
+            -->
+            <div id="watched-empty" class="text-center py-12">
+                <i data-lucide="eye" class="w-8 h-8 text-neutral-400 mx-auto mb-3"></i>
+                <p class="text-sm text-neutral-500 dark:text-neutral-400">No watched pages yet.</p>
+                <p class="text-xs text-neutral-400 dark:text-neutral-500 mt-1">Click the eye icon on any article to watch it for changes.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section AddToFooter {
+    <script>
+        // Tab switching
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', function () {
+                document.querySelectorAll('.tab-btn').forEach(b => {
+                    b.classList.remove('border-primary-600', 'text-primary-600', 'dark:text-primary-400');
+                    b.classList.add('border-transparent', 'text-neutral-500', 'dark:text-neutral-400');
+                });
+                this.classList.remove('border-transparent', 'text-neutral-500', 'dark:text-neutral-400');
+                this.classList.add('border-primary-600', 'text-primary-600', 'dark:text-primary-400');
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.add('hidden'));
+                document.getElementById(this.dataset.tab + '-tab')?.classList.remove('hidden');
+                lucide.createIcons();
+            });
+        });
+        // Hash routing
+        function activateTab() {
+            var hash = window.location.hash.replace('#', '');
+            if (hash) { var btn = document.querySelector('.tab-btn[data-tab="' + hash + '"]'); if (btn) btn.click(); }
+        }
+        activateTab();
+        window.addEventListener('hashchange', activateTab);
+    </script>
+}

@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Discover CX Product Documentation - Token System</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Token Engine - Loads theme.json automatically -->
+  <script src="admin/assets/token-engine.js"></script>
+
+  <script>
+    // Configure Tailwind to use our token system
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+          colors: {
+            // Map Tailwind color utilities to our CSS variable tokens
+            primary: {
+              50:  'rgb(var(--color-brand-primary-50))',
+              100: 'rgb(var(--color-brand-primary-100))',
+              200: 'rgb(var(--color-brand-primary-200))',
+              300: 'rgb(var(--color-brand-primary-300))',
+              400: 'rgb(var(--color-brand-primary-400))',
+              500: 'rgb(var(--color-brand-primary-500))',
+              600: 'rgb(var(--color-brand-primary-600))',
+              700: 'rgb(var(--color-brand-primary-700))',
+              800: 'rgb(var(--color-brand-primary-800))',
+              900: 'rgb(var(--color-brand-primary-900))',
+              950: 'rgb(var(--color-brand-primary-950))',
+            },
+            accent: {
+              50:  'rgb(var(--color-brand-accent-50))',
+              100: 'rgb(var(--color-brand-accent-100))',
+              200: 'rgb(var(--color-brand-accent-200))',
+              300: 'rgb(var(--color-brand-accent-300))',
+              400: 'rgb(var(--color-brand-accent-400))',
+              500: 'rgb(var(--color-brand-accent-500))',
+              600: 'rgb(var(--color-brand-accent-600))',
+              700: 'rgb(var(--color-brand-accent-700))',
+              800: 'rgb(var(--color-brand-accent-800))',
+              900: 'rgb(var(--color-brand-accent-900))',
+              950: 'rgb(var(--color-brand-accent-950))',
+            },
+            neutral: {
+              50:  'rgb(var(--color-brand-neutral-50))',
+              100: 'rgb(var(--color-brand-neutral-100))',
+              200: 'rgb(var(--color-brand-neutral-200))',
+              300: 'rgb(var(--color-brand-neutral-300))',
+              400: 'rgb(var(--color-brand-neutral-400))',
+              500: 'rgb(var(--color-brand-neutral-500))',
+              600: 'rgb(var(--color-brand-neutral-600))',
+              700: 'rgb(var(--color-brand-neutral-700))',
+              800: 'rgb(var(--color-brand-neutral-800))',
+              900: 'rgb(var(--color-brand-neutral-900))',
+              950: 'rgb(var(--color-brand-neutral-950))',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+  </style>
+</head>
+<body class="bg-white dark:bg-neutral-950">
+
+  <!-- HEADER -->
+  <header class="sticky top-0 z-50 bg-white dark:bg-neutral-900 border-b border-neutral-200 dark:border-neutral-800 px-6">
+    <div class="max-w-screen-2xl mx-auto">
+      <div class="flex items-center justify-between h-16">
+
+        <!-- Logo -->
+        <a href="index.html" class="flex items-center gap-3 hover:opacity-90 transition-opacity mr-8">
+          <img src="admin/assets/discover-cx-logo.svg" alt="Discover CX" class="h-7 w-auto dark:hidden">
+          <img src="admin/assets/discover-cx-logo-white.svg" alt="Discover CX" class="h-7 w-auto hidden dark:block">
+          <span class="hidden lg:inline font-normal text-lg text-neutral-600 dark:text-neutral-400">Product Documentation</span>
+        </a>
+
+        <!-- Primary Nav -->
+        <nav class="hidden md:flex items-center gap-6 absolute left-1/2 -translate-x-1/2">
+          <a href="#products" class="text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white font-medium whitespace-nowrap">Products</a>
+          <a href="doc-page.html" class="text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white font-medium whitespace-nowrap">Guides</a>
+          <a href="#" class="text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white font-medium whitespace-nowrap">API Reference</a>
+          <a href="#support" class="text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white font-medium whitespace-nowrap">Support</a>
+        </nav>
+
+        <!-- Right Actions -->
+        <div class="flex items-center gap-3">
+          <!-- Theme Switcher (Quick Test) -->
+          <div class="flex items-center gap-2 border border-neutral-300 dark:border-neutral-700 rounded-lg p-1">
+            <button id="theme-light" class="p-2 rounded hover:bg-neutral-100 dark:hover:bg-neutral-800" title="Light Mode">
+              <i data-lucide="sun" class="w-4 h-4 text-neutral-600 dark:text-neutral-400"></i>
+            </button>
+            <button id="theme-dark" class="p-2 rounded hover:bg-neutral-100 dark:hover:bg-neutral-800" title="Dark Mode">
+              <i data-lucide="moon" class="w-4 h-4 text-neutral-600 dark:text-neutral-400"></i>
+            </button>
+          </div>
+
+          <!-- Preset Selector -->
+          <select id="preset-selector" class="px-3 py-2 border border-neutral-300 dark:border-neutral-700 rounded-lg bg-white dark:bg-neutral-800 text-sm">
+            <option value="">Default (Indigo)</option>
+            <option value="slate">Slate</option>
+            <option value="purple">Purple</option>
+            <option value="teal">Teal</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- HERO -->
+    <section class="relative bg-neutral-900 overflow-hidden py-24">
+      <div class="relative max-w-4xl mx-auto px-6 text-center">
+        <h1 class="text-4xl md:text-6xl font-bold text-white mb-6 tracking-tight">
+          Token-Based Theming
+        </h1>
+        <p class="text-xl md:text-2xl text-neutral-200 mb-10 max-w-3xl mx-auto font-light">
+          This template uses the new JSON token system. Change presets and themes dynamically!
+        </p>
+
+        <!-- Demo Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
+          <div class="bg-primary-600 text-white p-6 rounded-lg">
+            <h3 class="font-bold mb-2">Primary Color</h3>
+            <p class="text-sm opacity-90">Uses --color-brand-primary-600</p>
+          </div>
+          <div class="bg-accent-500 text-white p-6 rounded-lg">
+            <h3 class="font-bold mb-2">Accent Color</h3>
+            <p class="text-sm opacity-90">Uses --color-brand-accent-500</p>
+          </div>
+          <div class="bg-neutral-100 dark:bg-neutral-800 text-neutral-900 dark:text-white p-6 rounded-lg border border-neutral-200 dark:border-neutral-700">
+            <h3 class="font-bold mb-2">Neutral</h3>
+            <p class="text-sm opacity-75">Adapts to light/dark mode</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- GETTING STARTED -->
+    <section class="py-16 px-6 bg-white dark:bg-neutral-900">
+      <div class="max-w-screen-2xl mx-auto">
+        <div class="mb-10">
+          <h2 class="text-3xl font-bold text-neutral-900 dark:text-white mb-2">How It Works</h2>
+          <p class="text-lg text-neutral-600 dark:text-neutral-400">Token system in action</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <!-- Card showing token usage -->
+          <div class="bg-white dark:bg-neutral-800 p-6 rounded-lg border border-neutral-200 dark:border-neutral-700">
+            <div class="flex items-center gap-3 mb-4">
+              <div class="w-12 h-12 bg-primary-100 dark:bg-primary-900/30 rounded-lg flex items-center justify-center">
+                <i data-lucide="palette" class="w-6 h-6 text-primary-600 dark:text-primary-400"></i>
+              </div>
+              <h3 class="text-xl font-bold text-neutral-900 dark:text-white">Design Tokens</h3>
+            </div>
+            <p class="text-sm text-neutral-600 dark:text-neutral-400 mb-4">
+              All colors, spacing, and typography are defined in theme.json and converted to CSS variables
+            </p>
+            <div class="bg-neutral-100 dark:bg-neutral-900 p-3 rounded text-xs font-mono">
+              <code class="text-primary-600 dark:text-primary-400">--color-brand-primary-500</code>
+            </div>
+          </div>
+
+          <!-- Card showing preset switching -->
+          <div class="bg-white dark:bg-neutral-800 p-6 rounded-lg border border-neutral-200 dark:border-neutral-700">
+            <div class="flex items-center gap-3 mb-4">
+              <div class="w-12 h-12 bg-accent-100 dark:bg-accent-900/30 rounded-lg flex items-center justify-center">
+                <i data-lucide="layers" class="w-6 h-6 text-accent-600 dark:text-accent-400"></i>
+              </div>
+              <h3 class="text-xl font-bold text-neutral-900 dark:text-white">Preset Themes</h3>
+            </div>
+            <p class="text-sm text-neutral-600 dark:text-neutral-400 mb-4">
+              Choose from curated presets or create your own custom theme
+            </p>
+            <div class="flex gap-2">
+              <div class="w-8 h-8 rounded bg-indigo-500" title="Indigo"></div>
+              <div class="w-8 h-8 rounded bg-slate-500" title="Slate"></div>
+              <div class="w-8 h-8 rounded bg-purple-500" title="Purple"></div>
+              <div class="w-8 h-8 rounded bg-teal-500" title="Teal"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    // Initialize Lucide icons
+    lucide.createIcons();
+
+    // Wait for TokenEngine to be ready
+    window.addEventListener('themeEngineReady', (e) => {
+      const engine = e.detail.engine;
+      console.log('Theme engine ready!', engine);
+
+      // Theme switcher buttons
+      document.getElementById('theme-light')?.addEventListener('click', () => {
+        engine.setMode('light');
+      });
+
+      document.getElementById('theme-dark')?.addEventListener('click', () => {
+        engine.setMode('dark');
+      });
+
+      // Preset selector
+      document.getElementById('preset-selector')?.addEventListener('change', async (e) => {
+        const preset = e.target.value;
+
+        if (!preset) {
+          // Reload default theme
+          const response = await fetch('theme.json');
+          const defaultTheme = await response.json();
+          engine.loadTheme(defaultTheme);
+        } else {
+          // Load preset
+          const response = await fetch(`presets/${preset}.json`);
+          const presetData = await response.json();
+
+          // Merge with base theme
+          const baseResponse = await fetch('theme.json');
+          const baseTheme = await baseResponse.json();
+
+          // Deep merge preset colors into base
+          baseTheme.tokens.color.brand = presetData.tokens.color.brand;
+
+          engine.loadTheme(baseTheme);
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>

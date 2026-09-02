@@ -1,0 +1,158 @@
+@model CMSPageRequest
+@using Ingeniux.Runtime
+@{
+    Layout = null;
+
+    ICMSElement siteControl = _Functions.GetSiteControl(Model);
+    var logoUrl = siteControl?.Element("DCXHeader")?.Elements()?.FirstOrDefault()?.GetElementValue("Logo");
+    var logoUrlDark = siteControl?.Element("DCXHeader")?.Elements()?.FirstOrDefault()?.GetElementValue("LogoDark");
+
+    var heading = Model.GetElementValue("Heading") ?? "Sign in to your account";
+    var subheading = Model.GetElementValue("Subheading") ?? "Access your documentation portal";
+
+    // SSO provider links from component list
+    ICMSElement ssoProviders = Model.Element("SSOProviders");
+
+    // SAML login URL
+    var samlLoginUrl = Url.Action("Login", "SAML");
+}
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In - Discover CX</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="@Url.Content("~/Content/css/styles.css")">
+    <link rel="icon" href="@Url.Content("~/Content/images/favicon.ico")">
+    <script src="https://unpkg.com/lucide@@latest"></script>
+    <style>
+        @@keyframes aurora-1 {
+            0% { transform: translateX(-50%) translateY(-50%) rotate(0deg); }
+            100% { transform: translateX(-50%) translateY(-50%) rotate(360deg); }
+        }
+        @@keyframes aurora-2 {
+            0% { transform: translateX(-50%) translateY(-50%) rotate(0deg); }
+            100% { transform: translateX(-50%) translateY(-50%) rotate(-360deg); }
+        }
+        .aurora-bg::before {
+            content: "";
+            position: absolute; top: 50%; left: 50%;
+            width: 150%; height: 150%;
+            background: linear-gradient(135deg, transparent 35%, rgb(var(--color-primary-600) / 0.4) 42%, rgb(var(--color-primary-500) / 0.5) 48%, transparent 55%),
+                        linear-gradient(-135deg, transparent 35%, rgb(var(--color-primary-700) / 0.3) 42%, rgb(var(--color-primary-600) / 0.4) 48%, transparent 55%);
+            filter: blur(60px);
+            animation: aurora-1 40s linear infinite;
+            transform-origin: center;
+        }
+        .aurora-bg::after {
+            content: "";
+            position: absolute; top: 50%; left: 50%;
+            width: 140%; height: 140%;
+            background: linear-gradient(120deg, transparent 38%, rgb(var(--color-primary-400) / 0.3) 44%, rgb(var(--color-primary-300) / 0.35) 50%, transparent 58%);
+            filter: blur(50px);
+            animation: aurora-2 50s linear infinite;
+            mix-blend-mode: screen;
+            pointer-events: none;
+            transform-origin: center;
+        }
+    </style>
+</head>
+<body class="h-full bg-neutral-50 dark:bg-neutral-900">
+
+    <div class="min-h-full flex">
+
+        <!-- Left Side - Branding -->
+        <div class="hidden lg:flex lg:w-1/2 p-12 flex-col justify-center items-center relative overflow-hidden" style="background-color: rgb(var(--color-primary-950));">
+            <div class="absolute inset-0 overflow-hidden">
+                <div class="aurora-bg absolute inset-0"></div>
+            </div>
+            <div class="relative z-10">
+                @if (!string.IsNullOrEmpty(logoUrlDark))
+                {
+                    <img src="@logoUrlDark" alt="Discover CX" class="h-12 w-auto">
+                }
+            </div>
+        </div>
+
+        <!-- Right Side - Login Form -->
+        <div class="flex-1 flex items-center justify-center p-8 sm:p-12">
+            <div class="w-full max-w-md">
+
+                <!-- Mobile Logo -->
+                <div class="lg:hidden mb-8 text-center">
+                    @if (!string.IsNullOrEmpty(logoUrl))
+                    {
+                        <img src="@logoUrl" alt="Discover CX" class="h-10 w-auto mx-auto dark:hidden">
+                    }
+                    @if (!string.IsNullOrEmpty(logoUrlDark))
+                    {
+                        <img src="@logoUrlDark" alt="Discover CX" class="h-10 w-auto mx-auto hidden dark:block">
+                    }
+                </div>
+
+                <h2 class="text-3xl font-bold text-neutral-900 dark:text-white mb-2"
+                    @_Helpers.RenderICEAttribute(Model.Element("Heading"))>
+                    @heading
+                </h2>
+                <p class="text-neutral-600 dark:text-neutral-400 mb-8"
+                   @_Helpers.RenderICEAttribute(Model.Element("Subheading"))>
+                    @subheading
+                </p>
+
+                <!-- SSO Providers -->
+                @if (ssoProviders != null)
+                {
+                    <div class="space-y-3 mb-6">
+                        @foreach (ICMSElement provider in ssoProviders.Elements())
+                        {
+                            var providerName = provider.GetElementValue("Name");
+                            var providerIcon = provider.GetElementValue("Icon");
+                            <a href="@samlLoginUrl?provider=@providerName" class="w-full flex items-center justify-center gap-3 px-4 py-3 border-2 border-neutral-300 dark:border-neutral-600 bg-white dark:bg-neutral-800 text-neutral-900 dark:text-white rounded-lg hover:bg-neutral-50 dark:hover:bg-neutral-700 transition-colors font-medium">
+                                @if (!string.IsNullOrEmpty(providerIcon))
+                                {
+                                    <img src="@providerIcon" alt="" class="w-5 h-5">
+                                }
+                                Continue with @providerName
+                            </a>
+                        }
+                    </div>
+                }
+
+                <!-- Divider -->
+                <div class="relative my-6">
+                    <div class="absolute inset-0 flex items-center">
+                        <div class="w-full border-t border-neutral-300 dark:border-neutral-600"></div>
+                    </div>
+                    <div class="relative flex justify-center text-sm">
+                        <span class="px-4 bg-neutral-50 dark:bg-neutral-900 text-neutral-500">or continue with email</span>
+                    </div>
+                </div>
+
+                <!-- Email/Password Form -->
+                <form method="post" action="@Url.Action("Login", "CustomAccount")" class="space-y-4">
+                    @Html.AntiForgeryToken()
+                    <div>
+                        <label class="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1">Email address</label>
+                        <input type="email" name="username" required
+                               class="w-full px-4 py-3 border border-neutral-300 dark:border-neutral-600 rounded-lg bg-white dark:bg-neutral-800 text-neutral-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500"
+                               placeholder="jane.doe@@company.com">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1">Password</label>
+                        <input type="password" name="password" required
+                               class="w-full px-4 py-3 border border-neutral-300 dark:border-neutral-600 rounded-lg bg-white dark:bg-neutral-800 text-neutral-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500"
+                               placeholder="Enter your password">
+                    </div>
+                    <button type="submit" class="w-full py-3 bg-primary-600 text-white font-semibold rounded-lg hover:bg-primary-700 transition-colors">
+                        Sign in
+                    </button>
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+    <script>lucide.createIcons();</script>
+</body>
+</html>

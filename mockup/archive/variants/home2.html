@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Discover CX Product Documentation</title>
+  
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="admin/assets/theme-loader.js"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+          colors: {
+            // Semantic color tokens mapped to CSS variables
+            primary: {
+              50: 'rgb(var(--color-primary-50))',
+              100: 'rgb(var(--color-primary-100))',
+              200: 'rgb(var(--color-primary-200))',
+              300: 'rgb(var(--color-primary-300))',
+              400: 'rgb(var(--color-primary-400))',
+              500: 'rgb(var(--color-primary-500))',
+              600: 'rgb(var(--color-primary-600))',
+              700: 'rgb(var(--color-primary-700))',
+              800: 'rgb(var(--color-primary-800))',
+              900: 'rgb(var(--color-primary-900))',
+              950: 'rgb(var(--color-primary-950))',
+            },
+            neutral: {
+              50: 'rgb(var(--color-neutral-50))',
+              100: 'rgb(var(--color-neutral-100))',
+              200: 'rgb(var(--color-neutral-200))',
+              300: 'rgb(var(--color-neutral-300))',
+              400: 'rgb(var(--color-neutral-400))',
+              500: 'rgb(var(--color-neutral-500))',
+              600: 'rgb(var(--color-neutral-600))',
+              700: 'rgb(var(--color-neutral-700))',
+              800: 'rgb(var(--color-neutral-800))',
+              900: 'rgb(var(--color-neutral-900))',
+              950: 'rgb(var(--color-neutral-950))',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  
+  <style>
+    /* Default theme CSS variables */
+    :root {
+      --color-primary-50: 250 245 255;
+      --color-primary-100: 243 232 255;
+      --color-primary-200: 233 213 255;
+      --color-primary-300: 216 180 254;
+      --color-primary-400: 192 132 252;
+      --color-primary-500: 168 85 247;
+      --color-primary-600: 147 51 234;
+      --color-primary-700: 126 34 206;
+      --color-primary-800: 107 33 168;
+      --color-primary-900: 88 28 135;
+      --color-primary-950: 59 7 100;
+      
+      --color-neutral-50: 249 250 251;
+      --color-neutral-100: 243 244 246;
+      --color-neutral-200: 229 231 235;
+      --color-neutral-300: 209 213 219;
+      --color-neutral-400: 156 163 175;
+      --color-neutral-500: 107 114 128;
+      --color-neutral-600: 75 85 99;
+      --color-neutral-700: 55 65 81;
+      --color-neutral-800: 31 41 55;
+      --color-neutral-900: 17 24 39;
+      --color-neutral-950: 3 7 18;
+    }
+    
+    body { font-family: 'Inter', sans-serif; }
+  </style>
+</head>
+<body class="bg-white dark:bg-neutral-950">
+
+  <!-- HEADER -->
+  <header class="sticky top-0 z-50 bg-white dark:bg-neutral-900 border-b border-neutral-200 dark:border-neutral-800 px-6">
+    <div class="max-w-screen-2xl mx-auto">
+      <div class="flex items-center justify-between h-16">
+        
+        <!-- Logo -->
+        <a href="home2.html" class="flex items-center gap-3 hover:opacity-90 transition-opacity mr-8">
+          <img src="admin/assets/discover-cx-logo.svg" alt="Discover CX" class="h-7 w-auto dark:hidden">
+          <img src="admin/assets/discover-cx-logo-white.svg" alt="Discover CX" class="h-7 w-auto hidden dark:block">
+          <span class="hidden lg:inline font-normal text-lg text-neutral-600 dark:text-neutral-400">Product Documentation</span>
+        </a>
+        
+        <!-- Primary Nav - Absolutely centered -->
+        <nav class="hidden md:flex items-center gap-6 absolute left-1/2 -translate-x-1/2">
+          <a href="#products" class="text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white font-medium whitespace-nowrap">Products</a>
+          <a href="doc-page.html" class="text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white font-medium whitespace-nowrap">Guides</a>
+          <a href="#" class="text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white font-medium whitespace-nowrap">API Reference</a>
+          <a href="#support" class="text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white font-medium whitespace-nowrap">Support</a>
+        </nav>
+        
+        <!-- Right Actions -->
+        <div class="flex items-center gap-3">
+          <!-- Mobile Menu Button -->
+          <div class="relative md:hidden">
+            <button id="mobile-menu-btn" class="p-2 hover:bg-neutral-100 dark:hover:bg-neutral-800 rounded-lg">
+              <i data-lucide="menu" class="w-6 h-6 text-neutral-600 dark:text-neutral-400"></i>
+            </button>
+            
+            <!-- Mobile Menu Dropdown -->
+            <div id="mobile-menu" class="hidden absolute right-0 top-full mt-2 w-64 bg-white dark:bg-neutral-900 rounded-xl shadow-2xl border border-neutral-200 dark:border-neutral-700 z-50 py-2">
+              <nav class="py-2">
+                <a href="#products" class="flex items-center gap-3 px-4 py-3 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors">
+                  <i data-lucide="package" class="w-4 h-4 text-neutral-600 dark:text-neutral-400"></i>
+                  <span class="text-sm font-medium text-neutral-900 dark:text-white">Products</span>
+                </a>
+                <a href="doc-page.html" class="flex items-center gap-3 px-4 py-3 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors">
+                  <i data-lucide="book-open" class="w-4 h-4 text-neutral-600 dark:text-neutral-400"></i>
+                  <span class="text-sm font-medium text-neutral-900 dark:text-white">Guides</span>
+                </a>
+                <a href="#" class="flex items-center gap-3 px-4 py-3 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors">
+                  <i data-lucide="code" class="w-4 h-4 text-neutral-600 dark:text-neutral-400"></i>
+                  <span class="text-sm font-medium text-neutral-900 dark:text-white">API Reference</span>
+                </a>
+                <a href="#support" class="flex items-center gap-3 px-4 py-3 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors">
+                  <i data-lucide="life-buoy" class="w-4 h-4 text-neutral-600 dark:text-neutral-400"></i>
+                  <span class="text-sm font-medium text-neutral-900 dark:text-white">Support</span>
+                </a>
+              </nav>
+            </div>
+          </div>
+          
+          <!-- User Avatar -->
+          <div class="relative">
+            <button id="user-menu-btn" class="flex items-center gap-2 p-1.5 hover:bg-neutral-100 dark:hover:bg-neutral-800 rounded-lg transition-colors">
+              <div class="w-8 h-8 rounded-full bg-gradient-to-br from-neutral-600 to-neutral-700 flex items-center justify-center text-white font-semibold text-sm">
+                JD
+              </div>
+              <i data-lucide="chevron-down" class="w-4 h-4 text-neutral-600 dark:text-neutral-400 hidden sm:block"></i>
+            </button>
+            
+            <!-- Dropdown Menu -->
+            <div id="user-dropdown" class="hidden absolute right-0 mt-2 w-56 bg-white dark:bg-neutral-800 rounded-xl shadow-2xl border border-neutral-200 dark:border-neutral-700 py-2 z-50">
+              <!-- User Info -->
+              <div class="px-4 py-3 border-b border-neutral-200 dark:border-neutral-700">
+                <p class="text-sm font-semibold text-neutral-900 dark:text-white">Jane Doe</p>
+                <p class="text-xs text-neutral-600 dark:text-neutral-400">jane.doe@company.com</p>
+              </div>
+              
+              <!-- Theme Selector -->
+              <div class="px-4 py-3 border-b border-neutral-200 dark:border-neutral-700">
+                <div class="flex items-center justify-between gap-2">
+                  <button id="theme-auto" class="flex-1 p-2 rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors" title="Auto">
+                    <i data-lucide="monitor" class="w-4 h-4 mx-auto text-neutral-600 dark:text-neutral-400"></i>
+                  </button>
+                  <button id="theme-light" class="flex-1 p-2 rounded-lg bg-yellow-100 dark:bg-yellow-900/30 transition-colors" title="Light">
+                    <i data-lucide="sun" class="w-4 h-4 mx-auto text-yellow-600 dark:text-yellow-400"></i>
+                  </button>
+                  <button id="theme-dark" class="flex-1 p-2 rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors" title="Dark">
+                    <i data-lucide="moon" class="w-4 h-4 mx-auto text-neutral-600 dark:text-neutral-400"></i>
+                  </button>
+                </div>
+              </div>
+              
+              <!-- Menu Items -->
+              <div class="py-2">
+                <a href="user-profile.html" class="flex items-center gap-3 px-4 py-2 hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors">
+                  <i data-lucide="user" class="w-4 h-4 text-neutral-600 dark:text-neutral-400"></i>
+                  <span class="text-sm text-neutral-900 dark:text-white">My Profile</span>
+                </a>
+                <a href="#" class="flex items-center gap-3 px-4 py-2 hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors">
+                  <i data-lucide="bookmark" class="w-4 h-4 text-neutral-600 dark:text-neutral-400"></i>
+                  <span class="text-sm text-neutral-900 dark:text-white">Bookmarks</span>
+                </a>
+                <a href="#" class="flex items-center gap-3 px-4 py-2 hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors">
+                  <i data-lucide="clock" class="w-4 h-4 text-neutral-600 dark:text-neutral-400"></i>
+                  <span class="text-sm text-neutral-900 dark:text-white">Reading History</span>
+                </a>
+                <a href="#" class="flex items-center gap-3 px-4 py-2 hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors">
+                  <i data-lucide="settings" class="w-4 h-4 text-neutral-600 dark:text-neutral-400"></i>
+                  <span class="text-sm text-neutral-900 dark:text-white">Settings</span>
+                </a>
+              </div>
+              
+              <!-- Divider -->
+              <div class="border-t border-neutral-200 dark:border-neutral-700 my-2"></div>
+              
+              <!-- Logout -->
+              <div class="py-2">
+                <a href="#" class="flex items-center gap-3 px-4 py-2 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors">
+                  <i data-lucide="log-out" class="w-4 h-4 text-red-600 dark:text-red-400"></i>
+                  <span class="text-sm text-red-600 dark:text-red-400 font-semibold">Log Out</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- HERO - Image Background with Overlay -->
+    <section class="relative bg-neutral-900 overflow-hidden">
+      <!-- Background Video -->
+      <div class="absolute inset-0">
+        <video 
+          autoplay 
+          loop 
+          muted 
+          playsinline
+          class="w-full h-full object-cover opacity-60"
+        >
+          <source src="assets/images/hero,mp4.mp4" type="video/mp4">
+        </video>
+        <div class="absolute inset-0 bg-gradient-to-r from-neutral-900/60 via-neutral-900/50 to-neutral-900/60"></div>
+      </div>
+      
+      <!-- Content -->
+      <div class="relative max-w-4xl mx-auto px-6 py-24 md:py-32 text-center">
+        <h1 class="text-4xl md:text-6xl font-bold text-white mb-6 tracking-tight">
+          Find answers
+        </h1>
+        <p class="text-xl md:text-2xl text-neutral-200 mb-10 max-w-3xl mx-auto font-light">
+          Search for anything from step-by-step instructions and troubleshooting help to the latest product release news.
+        </p>
+        
+        <!-- Search Bar -->
+        <div class="max-w-2xl mx-auto">
+          <div class="relative">
+            <input 
+              type="text" 
+              placeholder="Search documentation..." 
+              class="w-full px-6 py-4 pl-14 pr-14 text-lg border-2 border-neutral-300 dark:border-neutral-700 rounded-xl bg-white dark:bg-neutral-800 text-neutral-900 dark:text-white placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+            />
+            <i data-lucide="search" class="absolute left-5 top-1/2 -translate-y-1/2 w-6 h-6 text-neutral-400"></i>
+            <kbd class="hidden sm:inline-flex absolute right-5 top-1/2 -translate-y-1/2 items-center gap-1 px-3 py-1.5 text-sm font-semibold text-neutral-600 dark:text-neutral-400 bg-neutral-100 dark:bg-neutral-700 border border-neutral-300 dark:border-neutral-600 rounded">
+              <span class="text-sm">⌘</span>K
+            </kbd>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- GETTING STARTED - Priority section -->
+    <section class="py-16 px-6 bg-white dark:bg-neutral-900 border-b border-neutral-200 dark:border-neutral-800">
+      <div class="max-w-screen-2xl mx-auto">
+        <div class="mb-10">
+          <h2 class="text-3xl font-bold text-neutral-900 dark:text-white mb-2">Getting Started</h2>
+          <p class="text-lg text-neutral-600 dark:text-neutral-400">New to Discover CX? Start with these essential guides</p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+          
+          <!-- Left Content - Cards -->
+          <div class="lg:col-span-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+            
+            <!-- Getting Started Card 1 -->
+            <a href="doc-page.html" class="bg-white dark:bg-neutral-800 p-6 rounded-lg border border-neutral-200 dark:border-neutral-700 hover:shadow-lg hover:border-primary-300 dark:hover:border-primary-700 transition-all group">
+              <div class="flex items-center gap-3 mb-4">
+                <div class="w-12 h-12 bg-primary-100 dark:bg-primary-900/30 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <i data-lucide="rocket" class="w-6 h-6 text-primary-600 dark:text-primary-400"></i>
+                </div>
+                <h3 class="text-xl font-bold text-neutral-900 dark:text-white group-hover:text-primary-600 dark:group-hover:text-primary-400">Quick Start</h3>
+              </div>
+              <p class="text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed">
+                Get up and running in 5 minutes. Install, configure, and publish your first content.
+              </p>
+            </a>
+
+            <!-- Getting Started Card 2 -->
+            <a href="#" class="bg-white dark:bg-neutral-800 p-6 rounded-lg border border-neutral-200 dark:border-neutral-700 hover:shadow-lg hover:border-blue-300 dark:hover:border-blue-700 transition-all group">
+              <div class="flex items-center gap-3 mb-4">
+                <div class="w-12 h-12 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <i data-lucide="book-open" class="w-6 h-6 text-blue-600 dark:text-blue-400"></i>
+                </div>
+                <h3 class="text-xl font-bold text-neutral-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400">Core Concepts</h3>
+              </div>
+              <p class="text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed">
+                Learn fundamental concepts: schemas, workflows, publishing, and content models.
+              </p>
+            </a>
+
+            <!-- Getting Started Card 3 -->
+            <a href="#" class="bg-white dark:bg-neutral-800 p-6 rounded-lg border border-neutral-200 dark:border-neutral-700 hover:shadow-lg hover:border-green-300 dark:hover:border-green-700 transition-all group">
+              <div class="flex items-center gap-3 mb-4">
+                <div class="w-12 h-12 bg-green-100 dark:bg-green-900/30 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <i data-lucide="code-2" class="w-6 h-6 text-green-600 dark:text-green-400"></i>
+                </div>
+                <h3 class="text-xl font-bold text-neutral-900 dark:text-white group-hover:text-green-600 dark:group-hover:text-green-400">API Basics</h3>
+              </div>
+              <p class="text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed">
+                Authentication, endpoints, and your first API call. Includes code examples.
+              </p>
+            </a>
+
+            <!-- Getting Started Card 4 -->
+            <a href="#" class="bg-white dark:bg-neutral-800 p-6 rounded-lg border border-neutral-200 dark:border-neutral-700 hover:shadow-lg hover:border-purple-300 dark:hover:border-purple-700 transition-all group">
+              <div class="flex items-center gap-3 mb-4">
+                <div class="w-12 h-12 bg-purple-100 dark:bg-purple-900/30 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <i data-lucide="graduation-cap" class="w-6 h-6 text-purple-600 dark:text-purple-400"></i>
+                </div>
+                <h3 class="text-xl font-bold text-neutral-900 dark:text-white group-hover:text-purple-600 dark:group-hover:text-purple-400">Tutorials</h3>
+              </div>
+              <p class="text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed">
+                Step-by-step tutorials for common workflows and advanced features.
+              </p>
+            </a>
+
+          </div>
+
+          <!-- Right Image -->
+          <div class="lg:col-span-4">
+            <img 
+              src="assets/images/Reader.png" 
+              alt="Getting Started with Discover CX" 
+              class="w-full h-auto rounded-lg shadow-lg"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRODUCTS - 3 Column Grid -->
+    <section id="products" class="py-16 px-6 bg-neutral-50 dark:bg-neutral-900">
+      <div class="max-w-screen-2xl mx-auto">
+        <div class="mb-10">
+          <h2 class="text-3xl font-bold text-neutral-900 dark:text-white mb-2">Products</h2>
+          <p class="text-lg text-neutral-600 dark:text-neutral-400">Select a product to view documentation</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          
+          <!-- Product Card: Discover CX CMS -->
+          <div class="bg-white dark:bg-neutral-900 rounded-lg border border-neutral-200 dark:border-neutral-800 hover:shadow-lg hover:border-neutral-300 dark:hover:border-neutral-700 transition-all overflow-hidden group">
+            <!-- Icon Header -->
+            <div class="p-6 border-b border-neutral-200 dark:border-neutral-800">
+              <div class="flex items-center gap-3 mb-2">
+                <div class="w-10 h-10 bg-primary-100 dark:bg-primary-900/30 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <i data-lucide="layout-dashboard" class="w-6 h-6 text-primary-600 dark:text-primary-400"></i>
+                </div>
+                <h3 class="text-xl font-bold text-neutral-900 dark:text-white">Discover CX CMS</h3>
+              </div>
+              <p class="text-sm text-neutral-600 dark:text-neutral-400">Enterprise Content Management</p>
+            </div>
+            
+            <!-- Links -->
+            <div class="p-6">
+              <div class="space-y-3">
+                <a href="doc-page.html" class="flex items-center justify-between group/link text-sm text-neutral-700 dark:text-neutral-300 hover:text-primary-600 dark:hover:text-primary-400">
+                  <span>Creating Pages</span>
+                  <i data-lucide="chevron-right" class="w-4 h-4 group-hover/link:translate-x-1 transition-transform"></i>
+                </a>
+                <a href="#" class="flex items-center justify-between group/link text-sm text-neutral-700 dark:text-neutral-300 hover:text-primary-600 dark:hover:text-primary-400">
+                  <span>Schema Designer</span>
+                  <i data-lucide="chevron-right" class="w-4 h-4 group-hover/link:translate-x-1 transition-transform"></i>
+                </a>
+                <a href="#" class="flex items-center justify-between group/link text-sm text-neutral-700 dark:text-neutral-300 hover:text-primary-600 dark:hover:text-primary-400">
+                  <span>Publishing System</span>
+                  <i data-lucide="chevron-right" class="w-4 h-4 group-hover/link:translate-x-1 transition-transform"></i>
+                </a>
+                <a href="#" class="flex items-center justify-between group/link text-sm text-neutral-700 dark:text-neutral-300 hover:text-primary-600 dark:hover:text-primary-400">
+                  <span>Assets Manager</span>
+                  <i data-lucide="chevron-right" class="w-4 h-4 group-hover/link:translate-x-1 transition-transform"></i>
+                </a>
+                <a href="#" class="flex items-center justify-between group/link text-sm text-neutral-700 dark:text-neutral-300 hover:text-primary-600 dark:hover:text-primary-400">
+                  <span>Workflows Designer</span>
+                  <i data-lucide="chevron-right" class="w-4 h-4 group-hover/link:translate-x-1 transition-transform"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Product Card: Discover CX -->
+          <div class="bg-white dark:bg-neutral-900 rounded-lg border border-neutral-200 dark:border-neutral-800 hover:shadow-lg hover:border-neutral-300 dark:hover:border-neutral-700 transition-all overflow-hidden group">
+            <div class="p-6 border-b border-neutral-200 dark:border-neutral-800">
+              <div class="flex items-center gap-3 mb-2">
+                <div class="w-10 h-10 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <i data-lucide="sparkles" class="w-6 h-6 text-blue-600 dark:text-blue-400"></i>
+                </div>
+                <h3 class="text-xl font-bold text-neutral-900 dark:text-white">Discover CX</h3>
+              </div>
+              <p class="text-sm text-neutral-600 dark:text-neutral-400">AI-Powered Documentation Intelligence</p>
+            </div>
+            
+            <div class="p-6">
+              <div class="space-y-3">
+                <a href="#" class="flex items-center justify-between group/link text-sm text-neutral-700 dark:text-neutral-300 hover:text-primary-600 dark:hover:text-primary-400">
+                  <span>AI Search Setup</span>
+                  <i data-lucide="chevron-right" class="w-4 h-4 group-hover/link:translate-x-1 transition-transform"></i>
+                </a>
+                <a href="#" class="flex items-center justify-between group/link text-sm text-neutral-700 dark:text-neutral-300 hover:text-primary-600 dark:hover:text-primary-400">
+                  <span>Analytics & Insights</span>
+                  <i data-lucide="chevron-right" class="w-4 h-4 group-hover/link:translate-x-1 transition-transform"></i>
+                </a>
+                <a href="#" class="flex items-center justify-between group/link text-sm text-neutral-700 dark:text-neutral-300 hover:text-primary-600 dark:hover:text-primary-400">
+                  <span>Knowledge Management</span>
+                  <i data-lucide="chevron-right" class="w-4 h-4 group-hover/link:translate-x-1 transition-transform"></i>
+                </a>
+                <a href="#" class="flex items-center justify-between group/link text-sm text-neutral-700 dark:text-neutral-300 hover:text-primary-600 dark:hover:text-primary-400">
+                  <span>Integration Guide</span>
+                  <i data-lucide="chevron-right" class="w-4 h-4 group-hover/link:translate-x-1 transition-transform"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Product Card: AI Assists -->
+          <div class="bg-white dark:bg-neutral-900 rounded-lg border border-neutral-200 dark:border-neutral-800 hover:shadow-lg hover:border-neutral-300 dark:hover:border-neutral-700 transition-all overflow-hidden group">
+            <div class="p-6 border-b border-neutral-200 dark:border-neutral-800">
+              <div class="flex items-center gap-3 mb-2">
+                <div class="w-10 h-10 bg-purple-100 dark:bg-purple-900/30 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <i data-lucide="brain" class="w-6 h-6 text-purple-600 dark:text-purple-400"></i>
+                </div>
+                <h3 class="text-xl font-bold text-neutral-900 dark:text-white">AI Assists</h3>
+              </div>
+              <p class="text-sm text-neutral-600 dark:text-neutral-400">AI Features That Help You Win</p>
+            </div>
+            
+            <div class="p-6">
+              <div class="space-y-3">
+                <a href="#" class="flex items-center justify-between group/link text-sm text-neutral-700 dark:text-neutral-300 hover:text-primary-600 dark:hover:text-primary-400">
+                  <span>Search Answers</span>
+                  <i data-lucide="chevron-right" class="w-4 h-4 group-hover/link:translate-x-1 transition-transform"></i>
+                </a>
+                <a href="#" class="flex items-center justify-between group/link text-sm text-neutral-700 dark:text-neutral-300 hover:text-primary-600 dark:hover:text-primary-400">
+                  <span>TL;DR Summaries</span>
+                  <i data-lucide="chevron-right" class="w-4 h-4 group-hover/link:translate-x-1 transition-transform"></i>
+                </a>
+                <a href="#" class="flex items-center justify-between group/link text-sm text-neutral-700 dark:text-neutral-300 hover:text-primary-600 dark:hover:text-primary-400">
+                  <span>Explain This Code</span>
+                  <i data-lucide="chevron-right" class="w-4 h-4 group-hover/link:translate-x-1 transition-transform"></i>
+                </a>
+                <a href="#" class="flex items-center justify-between group/link text-sm text-neutral-700 dark:text-neutral-300 hover:text-primary-600 dark:hover:text-primary-400">
+                  <span>Contextual Chat</span>
+                  <i data-lucide="chevron-right" class="w-4 h-4 group-hover/link:translate-x-1 transition-transform"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Product Card: InSite Search -->
+          <div class="bg-white dark:bg-neutral-900 rounded-lg border border-neutral-200 dark:border-neutral-800 hover:shadow-lg hover:border-neutral-300 dark:hover:border-neutral-700 transition-all overflow-hidden group">
+            <div class="p-6 border-b border-neutral-200 dark:border-neutral-800">
+              <div class="flex items-center gap-3 mb-2">
+                <div class="w-10 h-10 bg-orange-100 dark:bg-orange-900/30 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <i data-lucide="search" class="w-6 h-6 text-orange-600 dark:text-orange-400"></i>
+                </div>
+                <h3 class="text-xl font-bold text-neutral-900 dark:text-white">InSite Search</h3>
+              </div>
+              <p class="text-sm text-neutral-600 dark:text-neutral-400">Enterprise Search Platform</p>
+            </div>
+            
+            <div class="p-6">
+              <div class="space-y-3">
+                <a href="#" class="flex items-center justify-between group/link text-sm text-neutral-700 dark:text-neutral-300 hover:text-primary-600 dark:hover:text-primary-400">
+                  <span>Configuration</span>
+                  <i data-lucide="chevron-right" class="w-4 h-4 group-hover/link:translate-x-1 transition-transform"></i>
+                </a>
+                <a href="#" class="flex items-center justify-between group/link text-sm text-neutral-700 dark:text-neutral-300 hover:text-primary-600 dark:hover:text-primary-400">
+                  <span>Search Analytics</span>
+                  <i data-lucide="chevron-right" class="w-4 h-4 group-hover/link:translate-x-1 transition-transform"></i>
+                </a>
+                <a href="#" class="flex items-center justify-between group/link text-sm text-neutral-700 dark:text-neutral-300 hover:text-primary-600 dark:hover:text-primary-400">
+                  <span>Best Practices</span>
+                  <i data-lucide="chevron-right" class="w-4 h-4 group-hover/link:translate-x-1 transition-transform"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Product Card: Analytics -->
+          <div class="bg-white dark:bg-neutral-900 rounded-lg border border-neutral-200 dark:border-neutral-800 hover:shadow-lg hover:border-neutral-300 dark:hover:border-neutral-700 transition-all overflow-hidden group">
+            <div class="p-6 border-b border-neutral-200 dark:border-neutral-800">
+              <div class="flex items-center gap-3 mb-2">
+                <div class="w-10 h-10 bg-teal-100 dark:bg-teal-900/30 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <i data-lucide="bar-chart-3" class="w-6 h-6 text-teal-600 dark:text-teal-400"></i>
+                </div>
+                <h3 class="text-xl font-bold text-neutral-900 dark:text-white">Analytics</h3>
+              </div>
+              <p class="text-sm text-neutral-600 dark:text-neutral-400">Content Performance & Insights</p>
+            </div>
+            
+            <div class="p-6">
+              <div class="space-y-3">
+                <a href="#" class="flex items-center justify-between group/link text-sm text-neutral-700 dark:text-neutral-300 hover:text-primary-600 dark:hover:text-primary-400">
+                  <span>Dashboard Overview</span>
+                  <i data-lucide="chevron-right" class="w-4 h-4 group-hover/link:translate-x-1 transition-transform"></i>
+                </a>
+                <a href="#" class="flex items-center justify-between group/link text-sm text-neutral-700 dark:text-neutral-300 hover:text-primary-600 dark:hover:text-primary-400">
+                  <span>Reports & Metrics</span>
+                  <i data-lucide="chevron-right" class="w-4 h-4 group-hover/link:translate-x-1 transition-transform"></i>
+                </a>
+                <a href="#" class="flex items-center justify-between group/link text-sm text-neutral-700 dark:text-neutral-300 hover:text-primary-600 dark:hover:text-primary-400">
+                  <span>Custom Dashboards</span>
+                  <i data-lucide="chevron-right" class="w-4 h-4 group-hover/link:translate-x-1 transition-transform"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Product Card: Integrations -->
+          <div class="bg-white dark:bg-neutral-900 rounded-lg border border-neutral-200 dark:border-neutral-800 hover:shadow-lg hover:border-neutral-300 dark:hover:border-neutral-700 transition-all overflow-hidden group">
+            <div class="p-6 border-b border-neutral-200 dark:border-neutral-800">
+              <div class="flex items-center gap-3 mb-2">
+                <div class="w-10 h-10 bg-indigo-100 dark:bg-indigo-900/30 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <i data-lucide="plug" class="w-6 h-6 text-indigo-600 dark:text-indigo-400"></i>
+                </div>
+                <h3 class="text-xl font-bold text-neutral-900 dark:text-white">Integrations</h3>
+              </div>
+              <p class="text-sm text-neutral-600 dark:text-neutral-400">Connect Third-Party Tools</p>
+            </div>
+            
+            <div class="p-6">
+              <div class="space-y-3">
+                <a href="#" class="flex items-center justify-between group/link text-sm text-neutral-700 dark:text-neutral-300 hover:text-primary-600 dark:hover:text-primary-400">
+                  <span>Webhooks</span>
+                  <i data-lucide="chevron-right" class="w-4 h-4 group-hover/link:translate-x-1 transition-transform"></i>
+                </a>
+                <a href="#" class="flex items-center justify-between group/link text-sm text-neutral-700 dark:text-neutral-300 hover:text-primary-600 dark:hover:text-primary-400">
+                  <span>API Integration</span>
+                  <i data-lucide="chevron-right" class="w-4 h-4 group-hover/link:translate-x-1 transition-transform"></i>
+                </a>
+                <a href="#" class="flex items-center justify-between group/link text-sm text-neutral-700 dark:text-neutral-300 hover:text-primary-600 dark:hover:text-primary-400">
+                  <span>Zapier & Make</span>
+                  <i data-lucide="chevron-right" class="w-4 h-4 group-hover/link:translate-x-1 transition-transform"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Product Card: Developer Tools -->
+          <div class="bg-white dark:bg-neutral-900 rounded-lg border border-neutral-200 dark:border-neutral-800 hover:shadow-lg hover:border-neutral-300 dark:hover:border-neutral-700 transition-all overflow-hidden group">
+            <div class="p-6 border-b border-neutral-200 dark:border-neutral-800">
+              <div class="flex items-center gap-3 mb-2">
+                <div class="w-10 h-10 bg-green-100 dark:bg-green-900/30 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <i data-lucide="terminal" class="w-6 h-6 text-green-600 dark:text-green-400"></i>
+                </div>
+                <h3 class="text-xl font-bold text-neutral-900 dark:text-white">Developer Tools</h3>
+              </div>
+              <p class="text-sm text-neutral-600 dark:text-neutral-400">SDKs, CLI & Extensions</p>
+            </div>
+            
+            <div class="p-6">
+              <div class="space-y-3">
+                <a href="#" class="flex items-center justify-between group/link text-sm text-neutral-700 dark:text-neutral-300 hover:text-primary-600 dark:hover:text-primary-400">
+                  <span>CLI Tool</span>
+                  <i data-lucide="chevron-right" class="w-4 h-4 group-hover/link:translate-x-1 transition-transform"></i>
+                </a>
+                <a href="#" class="flex items-center justify-between group/link text-sm text-neutral-700 dark:text-neutral-300 hover:text-primary-600 dark:hover:text-primary-400">
+                  <span>JavaScript SDK</span>
+                  <i data-lucide="chevron-right" class="w-4 h-4 group-hover/link:translate-x-1 transition-transform"></i>
+                </a>
+                <a href="#" class="flex items-center justify-between group/link text-sm text-neutral-700 dark:text-neutral-300 hover:text-primary-600 dark:hover:text-primary-400">
+                  <span>VS Code Extension</span>
+                  <i data-lucide="chevron-right" class="w-4 h-4 group-hover/link:translate-x-1 transition-transform"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- SUPPORT -->
+    <section id="support" class="py-16 px-6 bg-white dark:bg-neutral-900 border-t border-neutral-200 dark:border-neutral-800">
+      <div class="max-w-screen-2xl mx-auto">
+        <div class="mb-10">
+          <h2 class="text-3xl font-bold text-neutral-900 dark:text-white mb-2">How else can we help?</h2>
+          <p class="text-lg text-neutral-600 dark:text-neutral-400">Additional resources and support options</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          
+          <!-- Contact Support Card -->
+          <a href="#" class="group relative overflow-hidden rounded-xl border border-neutral-200 dark:border-neutral-700 hover:shadow-2xl transition-all">
+            <div class="aspect-[4/3] overflow-hidden">
+              <img 
+                src="https://images.unsplash.com/photo-1423666639041-f56000c27a9a?w=800&auto=format&fit=crop" 
+                alt="Contact Support" 
+                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+              />
+            </div>
+            <div class="p-6 bg-white dark:bg-neutral-800">
+              <h3 class="font-bold text-neutral-900 dark:text-white mb-2">Contact Support</h3>
+              <p class="text-sm text-neutral-600 dark:text-neutral-400">Get personalized help from our team</p>
+            </div>
+          </a>
+
+          <!-- Community Forum Card -->
+          <a href="#" class="group relative overflow-hidden rounded-xl border border-neutral-200 dark:border-neutral-700 hover:shadow-2xl transition-all">
+            <div class="aspect-[4/3] overflow-hidden">
+              <img 
+                src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&auto=format&fit=crop" 
+                alt="Community Forum" 
+                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+              />
+            </div>
+            <div class="p-6 bg-white dark:bg-neutral-800">
+              <h3 class="font-bold text-neutral-900 dark:text-white mb-2">Community Forum</h3>
+              <p class="text-sm text-neutral-600 dark:text-neutral-400">Connect with other users and experts</p>
+            </div>
+          </a>
+
+          <!-- FAQs Card -->
+          <a href="#" class="group relative overflow-hidden rounded-xl border border-neutral-200 dark:border-neutral-700 hover:shadow-2xl transition-all">
+            <div class="aspect-[4/3] overflow-hidden">
+              <img 
+                src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=800&auto=format&fit=crop" 
+                alt="FAQs" 
+                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+              />
+            </div>
+            <div class="p-6 bg-white dark:bg-neutral-800">
+              <h3 class="font-bold text-neutral-900 dark:text-white mb-2">FAQs</h3>
+              <p class="text-sm text-neutral-600 dark:text-neutral-400">Find answers to common questions</p>
+            </div>
+          </a>
+
+          <!-- Video Tutorials Card -->
+          <a href="#" class="group relative overflow-hidden rounded-xl border border-neutral-200 dark:border-neutral-700 hover:shadow-2xl transition-all">
+            <div class="aspect-[4/3] overflow-hidden">
+              <img 
+                src="https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=800&auto=format&fit=crop" 
+                alt="Video Tutorials" 
+                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+              />
+            </div>
+            <div class="p-6 bg-white dark:bg-neutral-800">
+              <h3 class="font-bold text-neutral-900 dark:text-white mb-2">Video Tutorials</h3>
+              <p class="text-sm text-neutral-600 dark:text-neutral-400">Learn visually with guided videos</p>
+            </div>
+          </a>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="w-full bg-neutral-900 dark:bg-neutral-950 text-white py-12 border-t border-neutral-800">
+    <div class="max-w-screen-2xl mx-auto px-6">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+        
+        <div>
+          <a href="home2.html" class="flex items-center gap-2 mb-4">
+            <img src="admin/assets/discover-cx-logo-white.svg" alt="Discover CX" class="h-6 w-auto">
+          </a>
+          <p class="text-sm text-neutral-400 leading-relaxed">
+            Enterprise content management and customer experience platform.
+          </p>
+        </div>
+
+        <div>
+          <h3 class="font-bold mb-4">Products</h3>
+          <div class="space-y-2 text-sm text-neutral-400">
+            <a href="#products" class="block hover:text-white">Discover CX CMS</a>
+            <a href="#" class="block hover:text-white">Discover CX</a>
+            <a href="#" class="block hover:text-white">AI Assists</a>
+            <a href="#" class="block hover:text-white">InSite Search</a>
+          </div>
+        </div>
+
+        <div>
+          <h3 class="font-bold mb-4">Resources</h3>
+          <div class="space-y-2 text-sm text-neutral-400">
+            <a href="doc-page.html" class="block hover:text-white">Getting Started</a>
+            <a href="#" class="block hover:text-white">API Reference</a>
+            <a href="#" class="block hover:text-white">Guides</a>
+            <a href="#" class="block hover:text-white">Best Practices</a>
+          </div>
+        </div>
+
+        <div>
+          <h3 class="font-bold mb-4">Support</h3>
+          <div class="space-y-2 text-sm text-neutral-400">
+            <a href="#support" class="block hover:text-white">Contact Support</a>
+            <a href="#" class="block hover:text-white">Community Forum</a>
+            <a href="#" class="block hover:text-white">FAQs</a>
+            <a href="#" class="block hover:text-white">Privacy Policy</a>
+          </div>
+        </div>
+        
+      </div>
+
+      <div class="border-t border-neutral-800 pt-8 text-center text-sm text-neutral-400">
+        © 2025 Discover CX by Ingeniux. All rights reserved.
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Initialize Lucide icons
+    lucide.createIcons();
+    
+    // Theme management
+    const html = document.documentElement;
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    
+    // Apply saved theme
+    if (savedTheme === 'dark') {
+      html.classList.add('dark');
+    } else if (savedTheme === 'auto') {
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      html.classList.toggle('dark', prefersDark);
+    }
+    
+    // Mobile menu dropdown toggle
+    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    
+    if (mobileMenuBtn && mobileMenu) {
+      mobileMenuBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        mobileMenu.classList.toggle('hidden');
+        // Close user menu if open
+        if (userDropdown) {
+          userDropdown.classList.add('hidden');
+        }
+      });
+      
+      // Close mobile menu when clicking a link
+      mobileMenu.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+          mobileMenu.classList.add('hidden');
+        });
+      });
+    }
+    
+    // User menu dropdown toggle
+    const userMenuBtn = document.getElementById('user-menu-btn');
+    const userDropdown = document.getElementById('user-dropdown');
+    
+    if (userMenuBtn && userDropdown) {
+      userMenuBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        userDropdown.classList.toggle('hidden');
+        // Close mobile menu if open
+        if (mobileMenu) {
+          mobileMenu.classList.add('hidden');
+        }
+      });
+      
+      // Close dropdown when clicking outside
+      document.addEventListener('click', (e) => {
+        if (!userDropdown.contains(e.target) && !userMenuBtn.contains(e.target)) {
+          userDropdown.classList.add('hidden');
+        }
+        if (mobileMenu && !mobileMenu.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
+          mobileMenu.classList.add('hidden');
+        }
+      });
+      
+      // Prevent dropdown from closing when clicking inside
+      userDropdown.addEventListener('click', (e) => {
+        e.stopPropagation();
+      });
+    }
+    
+    // Theme switching buttons
+    document.getElementById('theme-light')?.addEventListener('click', (e) => {
+      e.stopPropagation();
+      html.classList.remove('dark');
+      localStorage.setItem('theme', 'light');
+      updateThemeButtons('light');
+    });
+    
+    document.getElementById('theme-dark')?.addEventListener('click', (e) => {
+      e.stopPropagation();
+      html.classList.add('dark');
+      localStorage.setItem('theme', 'dark');
+      updateThemeButtons('dark');
+    });
+    
+    document.getElementById('theme-auto')?.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      html.classList.toggle('dark', prefersDark);
+      localStorage.setItem('theme', 'auto');
+      updateThemeButtons('auto');
+    });
+    
+    function updateThemeButtons(theme) {
+      // Remove all active states
+      document.querySelectorAll('[id^="theme-"]').forEach(btn => {
+        btn.classList.remove('bg-yellow-100', 'dark:bg-yellow-900/30', 'bg-neutral-700', 'bg-neutral-100');
+        btn.classList.add('hover:bg-neutral-100', 'dark:hover:bg-neutral-700');
+      });
+      
+      // Add active state to selected theme
+      const activeBtn = document.getElementById(`theme-${theme}`);
+      if (activeBtn) {
+        activeBtn.classList.remove('hover:bg-neutral-100', 'dark:hover:bg-neutral-700');
+        if (theme === 'light') {
+          activeBtn.classList.add('bg-yellow-100', 'dark:bg-yellow-900/30');
+        } else {
+          activeBtn.classList.add('bg-neutral-700');
+        }
+      }
+    }
+    
+    // Initialize theme buttons state
+    updateThemeButtons(savedTheme);
+  </script>
+
+</body>
+</html>
+

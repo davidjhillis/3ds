@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Discover CX Product Documentation</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- DCX Customer Theme Loader (loads customer-specific theme) -->
+  <script src="admin/assets/customer-theme-loader.js"></script>
+
+  <script>
+    // Configure Tailwind to use CSS variables from customer theme
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: 'var(--font-body, Inter), sans-serif',
+            heading: 'var(--font-heading, Inter), sans-serif',
+            mono: 'var(--font-mono, "JetBrains Mono"), monospace',
+          },
+          colors: {
+            // Map to CSS variables set by theme loader
+            primary: {
+              50:  'rgb(var(--color-primary-50))',
+              100: 'rgb(var(--color-primary-100))',
+              200: 'rgb(var(--color-primary-200))',
+              300: 'rgb(var(--color-primary-300))',
+              400: 'rgb(var(--color-primary-400))',
+              500: 'rgb(var(--color-primary-500))',
+              600: 'rgb(var(--color-primary-600))',
+              700: 'rgb(var(--color-primary-700))',
+              800: 'rgb(var(--color-primary-800))',
+              900: 'rgb(var(--color-primary-900))',
+              950: 'rgb(var(--color-primary-950))',
+            },
+            accent: {
+              50:  'rgb(var(--color-accent-50))',
+              100: 'rgb(var(--color-accent-100))',
+              200: 'rgb(var(--color-accent-200))',
+              300: 'rgb(var(--color-accent-300))',
+              400: 'rgb(var(--color-accent-400))',
+              500: 'rgb(var(--color-accent-500))',
+              600: 'rgb(var(--color-accent-600))',
+              700: 'rgb(var(--color-accent-700))',
+              800: 'rgb(var(--color-accent-800))',
+              900: 'rgb(var(--color-accent-900))',
+              950: 'rgb(var(--color-accent-950))',
+            },
+            neutral: {
+              50:  'rgb(var(--color-neutral-50))',
+              100: 'rgb(var(--color-neutral-100))',
+              200: 'rgb(var(--color-neutral-200))',
+              300: 'rgb(var(--color-neutral-300))',
+              400: 'rgb(var(--color-neutral-400))',
+              500: 'rgb(var(--color-neutral-500))',
+              600: 'rgb(var(--color-neutral-600))',
+              700: 'rgb(var(--color-neutral-700))',
+              800: 'rgb(var(--color-neutral-800))',
+              900: 'rgb(var(--color-neutral-900))',
+              950: 'rgb(var(--color-neutral-950))',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body { font-family: var(--font-body, 'Inter'), sans-serif; }
+  </style>
+</head>
+<body class="bg-white dark:bg-neutral-950">
+
+  <!-- HEADER -->
+  <header class="sticky top-0 z-50 bg-white dark:bg-neutral-900 border-b border-neutral-200 dark:border-neutral-800 px-6">
+    <div class="max-w-screen-2xl mx-auto">
+      <div class="flex items-center justify-between h-16">
+
+        <!-- Logo (auto-updates from theme) -->
+        <a href="index.html" class="flex items-center gap-3 hover:opacity-90 transition-opacity mr-8">
+          <img data-dcx-logo src="admin/assets/discover-cx-logo.svg" alt="Logo" class="h-7 w-auto dark:hidden">
+          <img data-dcx-logo src="admin/assets/discover-cx-logo-white.svg" alt="Logo" class="h-7 w-auto hidden dark:block">
+          <span class="hidden lg:inline font-normal text-lg text-neutral-600 dark:text-neutral-400">Product Documentation</span>
+        </a>
+
+        <!-- Primary Nav -->
+        <nav class="hidden md:flex items-center gap-6 absolute left-1/2 -translate-x-1/2">
+          <a href="#products" class="text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white font-medium">Products</a>
+          <a href="doc-page.html" class="text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white font-medium">Guides</a>
+          <a href="#" class="text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white font-medium">API Reference</a>
+          <a href="#support" class="text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white font-medium">Support</a>
+        </nav>
+
+        <!-- Right Actions -->
+        <div class="flex items-center gap-3">
+          <!-- Customer Theme Indicator -->
+          <div id="customer-indicator" class="hidden px-3 py-1 bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300 rounded-lg text-sm font-medium">
+            <!-- Filled by JS -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- HERO -->
+    <section class="relative bg-neutral-900 overflow-hidden py-24">
+      <div class="relative max-w-4xl mx-auto px-6 text-center">
+        <h1 class="text-4xl md:text-6xl font-bold text-white mb-6 tracking-tight">
+          Multi-Customer Theme System
+        </h1>
+        <p class="text-xl md:text-2xl text-neutral-200 mb-10 max-w-3xl mx-auto font-light">
+          This template automatically loads customer-specific themes. Try: ?customer=default
+        </p>
+
+        <!-- Demo Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
+          <div class="bg-primary-600 text-white p-6 rounded-lg">
+            <h3 class="font-bold mb-2">Primary Color</h3>
+            <p class="text-sm opacity-90" id="primary-color-name">Loading...</p>
+          </div>
+          <div class="bg-accent-500 text-white p-6 rounded-lg">
+            <h3 class="font-bold mb-2">Accent Color</h3>
+            <p class="text-sm opacity-90" id="accent-color-name">Loading...</p>
+          </div>
+          <div class="bg-neutral-100 dark:bg-neutral-800 text-neutral-900 dark:text-white p-6 rounded-lg border border-neutral-200 dark:border-neutral-700">
+            <h3 class="font-bold mb-2">Neutral</h3>
+            <p class="text-sm opacity-75" id="neutral-color-name">Loading...</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- GETTING STARTED -->
+    <section class="py-16 px-6 bg-white dark:bg-neutral-900">
+      <div class="max-w-screen-2xl mx-auto">
+        <div class="mb-10">
+          <h2 class="text-3xl font-bold text-neutral-900 dark:text-white mb-2">How It Works</h2>
+          <p class="text-lg text-neutral-600 dark:text-neutral-400">Customer-specific theming system</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="bg-white dark:bg-neutral-800 p-6 rounded-lg border border-neutral-200 dark:border-neutral-700">
+            <div class="flex items-center gap-3 mb-4">
+              <div class="w-12 h-12 bg-primary-100 dark:bg-primary-900/30 rounded-lg flex items-center justify-center">
+                <i data-lucide="palette" class="w-6 h-6 text-primary-600 dark:text-primary-400"></i>
+              </div>
+              <h3 class="text-xl font-bold text-neutral-900 dark:text-white">Auto-Detection</h3>
+            </div>
+            <p class="text-sm text-neutral-600 dark:text-neutral-400 mb-4">
+              Theme loads automatically from subdomain, path, or query parameter
+            </p>
+            <div class="bg-neutral-100 dark:bg-neutral-900 p-3 rounded text-xs font-mono">
+              <div>acme-corp.docs.com</div>
+              <div>docs.com/acme-corp/</div>
+              <div>docs.com?customer=acme-corp</div>
+            </div>
+          </div>
+
+          <div class="bg-white dark:bg-neutral-800 p-6 rounded-lg border border-neutral-200 dark:border-neutral-700">
+            <div class="flex items-center gap-3 mb-4">
+              <div class="w-12 h-12 bg-accent-100 dark:bg-accent-900/30 rounded-lg flex items-center justify-center">
+                <i data-lucide="file-json" class="w-6 h-6 text-accent-600 dark:text-accent-400"></i>
+              </div>
+              <h3 class="text-xl font-bold text-neutral-900 dark:text-white">Current Theme</h3>
+            </div>
+            <div id="theme-details" class="text-sm text-neutral-600 dark:text-neutral-400 space-y-2">
+              <p>Loading theme information...</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Test Different Customers -->
+        <div class="mt-8 p-6 bg-primary-50 dark:bg-primary-900/10 rounded-lg border border-primary-200 dark:border-primary-800">
+          <h3 class="text-lg font-bold text-neutral-900 dark:text-white mb-4">Test Different Customers</h3>
+          <div class="flex flex-wrap gap-3">
+            <a href="?customer=default" class="px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white rounded-lg transition-colors">Default Theme</a>
+            <a href="?customer=acme-corp" class="px-4 py-2 bg-neutral-200 dark:bg-neutral-700 hover:bg-neutral-300 dark:hover:bg-neutral-600 text-neutral-900 dark:text-white rounded-lg transition-colors">Acme Corp</a>
+            <a href="?customer=global-inc" class="px-4 py-2 bg-neutral-200 dark:bg-neutral-700 hover:bg-neutral-300 dark:hover:bg-neutral-600 text-neutral-900 dark:text-white rounded-lg transition-colors">Global Inc</a>
+          </div>
+          <p class="text-sm text-neutral-600 dark:text-neutral-400 mt-4">
+            Note: Create matching JSON files in <code class="px-2 py-1 bg-white dark:bg-neutral-800 rounded">themes/</code> folder
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    // Initialize Lucide icons
+    lucide.createIcons();
+
+    // Listen for theme loaded event
+    window.addEventListener('dcx-theme-loaded', (e) => {
+      const { theme, customerId } = e.detail;
+
+      // Update customer indicator
+      const indicator = document.getElementById('customer-indicator');
+      indicator.textContent = `Customer: ${customerId}`;
+      indicator.classList.remove('hidden');
+
+      // Update color names
+      document.getElementById('primary-color-name').textContent = theme.colors.primary;
+      document.getElementById('accent-color-name').textContent = theme.colors.accent;
+      document.getElementById('neutral-color-name').textContent = theme.colors.neutral;
+
+      // Update theme details
+      const details = document.getElementById('theme-details');
+      details.innerHTML = `
+        <p><strong>Name:</strong> ${theme.name}</p>
+        <p><strong>Customer:</strong> ${theme.customer}</p>
+        <p><strong>Version:</strong> ${theme.version}</p>
+        <p><strong>Primary:</strong> ${theme.colors.primary}</p>
+        <p><strong>Accent:</strong> ${theme.colors.accent}</p>
+        <p><strong>Neutral:</strong> ${theme.colors.neutral}</p>
+        <p><strong>Dark Mode:</strong> ${theme.settings?.darkMode ? 'Yes' : 'No'}</p>
+      `;
+    });
+  </script>
+
+</body>
+</html>

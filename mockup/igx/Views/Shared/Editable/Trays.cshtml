@@ -1,0 +1,12 @@
+@model ICMSElement
+@using Ingeniux.Runtime
+
+@if (Model != null)
+{
+    <div @_Helpers.RenderICEAttribute(Model, true)>
+        @foreach (ICMSElement comp in Model.Elements())
+        {
+            Html.RenderPartial("Editable/Tray", comp);
+        }
+    </div>
+}

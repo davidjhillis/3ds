@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Search Results - Discover CX Docs</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="../assets/theme-loader.js"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            // Semantic color tokens mapped to CSS variables
+            primary: {
+              50: 'rgb(var(--color-primary-50))',
+              100: 'rgb(var(--color-primary-100))',
+              200: 'rgb(var(--color-primary-200))',
+              300: 'rgb(var(--color-primary-300))',
+              400: 'rgb(var(--color-primary-400))',
+              500: 'rgb(var(--color-primary-500))',
+              600: 'rgb(var(--color-primary-600))',
+              700: 'rgb(var(--color-primary-700))',
+              800: 'rgb(var(--color-primary-800))',
+              900: 'rgb(var(--color-primary-900))',
+              950: 'rgb(var(--color-primary-950))',
+            },
+            accent: {
+              50: 'rgb(var(--color-accent-50))',
+              100: 'rgb(var(--color-accent-100))',
+              200: 'rgb(var(--color-accent-200))',
+              300: 'rgb(var(--color-accent-300))',
+              400: 'rgb(var(--color-accent-400))',
+              500: 'rgb(var(--color-accent-500))',
+              600: 'rgb(var(--color-accent-600))',
+              700: 'rgb(var(--color-accent-700))',
+              800: 'rgb(var(--color-accent-800))',
+              900: 'rgb(var(--color-accent-900))',
+              950: 'rgb(var(--color-accent-950))',
+            },
+            neutral: {
+              50: 'rgb(var(--color-neutral-50))',
+              100: 'rgb(var(--color-neutral-100))',
+              200: 'rgb(var(--color-neutral-200))',
+              300: 'rgb(var(--color-neutral-300))',
+              400: 'rgb(var(--color-neutral-400))',
+              500: 'rgb(var(--color-neutral-500))',
+              600: 'rgb(var(--color-neutral-600))',
+              700: 'rgb(var(--color-neutral-700))',
+              800: 'rgb(var(--color-neutral-800))',
+              900: 'rgb(var(--color-neutral-900))',
+              950: 'rgb(var(--color-neutral-950))',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    /* Default theme CSS variables (Indigo) */
+    :root {
+      --color-primary-50: 238 242 255;
+      --color-primary-100: 224 231 255;
+      --color-primary-200: 199 210 254;
+      --color-primary-300: 165 180 252;
+      --color-primary-400: 129 140 248;
+      --color-primary-500: 99 102 241;
+      --color-primary-600: 79 70 229;
+      --color-primary-700: 67 56 202;
+      --color-primary-800: 55 48 163;
+      --color-primary-900: 49 46 129;
+      --color-primary-950: 30 27 75;
+      
+      --color-accent-50: 238 242 255;
+      --color-accent-100: 224 231 255;
+      --color-accent-200: 199 210 254;
+      --color-accent-300: 165 180 252;
+      --color-accent-400: 129 140 248;
+      --color-accent-500: 99 102 241;
+      --color-accent-600: 79 70 229;
+      --color-accent-700: 67 56 202;
+      --color-accent-800: 55 48 163;
+      --color-accent-900: 49 46 129;
+      --color-accent-950: 30 27 75;
+      
+      --color-neutral-50: 249 250 251;
+      --color-neutral-100: 243 244 246;
+      --color-neutral-200: 229 231 235;
+      --color-neutral-300: 209 213 219;
+      --color-neutral-400: 156 163 175;
+      --color-neutral-500: 107 114 128;
+      --color-neutral-600: 75 85 99;
+      --color-neutral-700: 65 65 65;
+      --color-neutral-800: 50 50 50;
+      --color-neutral-900: 37 37 37;
+      --color-neutral-950: 20 20 20;
+    }
+    
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+  </style>
+</head>
+<body class="bg-neutral-50 dark:bg-neutral-950 text-neutral-900 dark:text-white">
+
+  <!-- Header -->
+  <header class="sticky top-0 z-50 bg-neutral-50 dark:bg-neutral-900 border-b border-neutral-200 dark:border-neutral-700">
+    <div class="max-w-screen-2xl mx-auto px-6">
+      <div class="flex items-center justify-between h-16 gap-4">
+        
+        <!-- Logo -->
+        <a href="index.html" class="flex items-center gap-3 hover:opacity-90 transition-opacity flex-shrink-0">
+        <img src="../assets/discover-cx-logo.svg" alt="Discover CX" class="h-7 dark:hidden">
+        <img src="../assets/discover-cx-logo-white.svg" alt="Discover CX" class="h-7 hidden dark:block">
+          <span class="hidden sm:inline font-normal text-lg text-neutral-600 dark:text-neutral-400">Product Documentation</span>
+        </a>
+        
+        <!-- Search Bar -->
+        <div class="flex-1 max-w-2xl mx-auto">
+          <div class="relative">
+            <input 
+              type="text" 
+              value="component schemas"
+              class="w-full px-4 py-2 pl-11 pr-10 border border-neutral-300 dark:border-neutral-600 rounded-lg bg-white dark:bg-neutral-800 text-neutral-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 dark:focus:ring-purple-400"
+              placeholder="Search documentation..."
+            />
+            <i data-lucide="search" class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-neutral-400"></i>
+            <button class="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-400 hover:text-neutral-600 dark:hover:text-neutral-300">
+              <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+          </div>
+        </div>
+        
+        <!-- Right Actions -->
+        <div class="flex items-center gap-3">
+          <!-- Menu Button with Dropdown -->
+          <div class="relative">
+            <button id="mobile-menu-btn" class="p-2 hover:bg-neutral-100 dark:hover:bg-neutral-700 rounded-lg flex-shrink-0">
+              <i data-lucide="menu" class="w-6 h-6 text-neutral-600 dark:text-neutral-400"></i>
+            </button>
+            
+            <!-- Mobile Menu Dropdown -->
+            <div id="mobile-menu" class="hidden absolute right-0 top-full mt-2 w-64 bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-lg shadow-lg py-2 z-50">
+              <a href="index.html" class="flex items-center gap-3 px-4 py-3 text-sm font-medium text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-700">
+                <i data-lucide="home" class="w-4 h-4"></i>
+                <span>Home</span>
+              </a>
+              <a href="doc-page.html" class="flex items-center gap-3 px-4 py-3 text-sm font-medium text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-700">
+                <i data-lucide="book-open" class="w-4 h-4"></i>
+                <span>Documentation</span>
+              </a>
+              <a href="#" class="flex items-center gap-3 px-4 py-3 text-sm font-medium text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-700">
+                <i data-lucide="code" class="w-4 h-4"></i>
+                <span>API Reference</span>
+              </a>
+              <a href="#" class="flex items-center gap-3 px-4 py-3 text-sm font-medium text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-700">
+                <i data-lucide="life-buoy" class="w-4 h-4"></i>
+                <span>Support</span>
+              </a>
+            </div>
+          </div>
+          
+          <!-- User Avatar Dropdown -->
+          <div class="relative">
+            <button id="user-menu-btn" class="flex items-center gap-2 p-1.5 hover:bg-neutral-100 dark:hover:bg-neutral-700 rounded-lg transition-colors">
+              <div class="w-8 h-8 rounded-full bg-gradient-to-br from-neutral-600 to-neutral-700 flex items-center justify-center text-white font-semibold text-sm">
+                JD
+              </div>
+              <i data-lucide="chevron-down" class="w-4 h-4 text-neutral-600 dark:text-neutral-400 hidden sm:block"></i>
+            </button>
+            
+            <!-- Dropdown Menu -->
+            <div id="user-dropdown" class="hidden absolute right-0 mt-2 w-56 bg-white dark:bg-neutral-800 rounded-xl shadow-2xl border border-neutral-200 dark:border-neutral-700 py-2 z-50">
+              <!-- User Info -->
+              <div class="px-4 py-3 border-b border-neutral-200 dark:border-neutral-700">
+                <p class="text-sm font-semibold text-neutral-900 dark:text-white">Jane Doe</p>
+                <p class="text-xs text-neutral-600 dark:text-neutral-400">jane.doe@company.com</p>
+              </div>
+              
+              <!-- Theme Selector -->
+              <div class="px-4 py-3 border-b border-neutral-200 dark:border-neutral-700">
+                <div class="flex items-center justify-between gap-2">
+                  <button id="theme-auto" class="flex-1 p-2 rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors" title="Auto">
+                    <i data-lucide="monitor" class="w-4 h-4 mx-auto text-neutral-600 dark:text-neutral-400"></i>
+                  </button>
+                  <button id="theme-light" class="flex-1 p-2 rounded-lg bg-yellow-100 dark:bg-yellow-900/30 transition-colors" title="Light">
+                    <i data-lucide="sun" class="w-4 h-4 mx-auto text-yellow-600 dark:text-yellow-400"></i>
+                  </button>
+                  <button id="theme-dark" class="flex-1 p-2 rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors" title="Dark">
+                    <i data-lucide="moon" class="w-4 h-4 mx-auto text-neutral-600 dark:text-neutral-400"></i>
+                  </button>
+                </div>
+              </div>
+              
+              <!-- Menu Items -->
+              <a href="user-profile.html" class="flex items-center gap-3 px-4 py-2.5 text-sm text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors">
+                <i data-lucide="user" class="w-4 h-4"></i>
+                <span>Profile</span>
+              </a>
+              <a href="#" class="flex items-center gap-3 px-4 py-2.5 text-sm text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors">
+                <i data-lucide="bell" class="w-4 h-4"></i>
+                <span>Notifications</span>
+              </a>
+              <a href="#" class="flex items-center gap-3 px-4 py-2.5 text-sm text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors">
+                <i data-lucide="settings" class="w-4 h-4"></i>
+                <span>Settings</span>
+              </a>
+              
+              <div class="border-t border-neutral-200 dark:border-neutral-700 my-2"></div>
+              
+              <a href="login.html" class="flex items-center gap-3 px-4 py-2.5 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors">
+                <i data-lucide="log-out" class="w-4 h-4"></i>
+                <span>Logout</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Breadcrumbs -->
+  <div class="bg-neutral-50 dark:bg-neutral-900 border-b border-neutral-200 dark:border-neutral-700">
+    <div class="max-w-screen-2xl mx-auto px-6 py-3">
+      <nav class="flex items-center gap-2 text-sm text-neutral-600 dark:text-neutral-400">
+        <a href="index.html" class="hover:text-primary-600 dark:hover:text-primary-400">Home</a>
+        <i data-lucide="chevron-right" class="w-4 h-4"></i>
+        <span class="text-neutral-900 dark:text-white">Search results</span>
+      </nav>
+    </div>
+  </div>
+
+  <!-- Main Content - 2 Column Layout -->
+  <div class="max-w-screen-2xl mx-auto px-6 py-8">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+      
+      <!-- Left Sidebar - Filters -->
+      <aside class="lg:col-span-3">
+        <div class="sticky top-24 bg-neutral-50 dark:bg-neutral-900 rounded-lg border border-neutral-200 dark:border-neutral-700 p-6">
+          <h2 class="text-lg font-bold text-neutral-900 dark:text-white mb-4">Refine results</h2>
+          
+          <!-- Filter Search -->
+          <div class="relative mb-3">
+            <input 
+              type="text" 
+              class="w-full px-3 py-2 pr-20 border border-neutral-300 dark:border-neutral-600 rounded-lg bg-white dark:bg-neutral-800 text-sm"
+              placeholder="Filter all..."
+            />
+            <div class="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-1">
+              <button class="p-1 text-neutral-400 hover:text-neutral-600 dark:hover:text-neutral-300">
+                <i data-lucide="x" class="w-4 h-4"></i>
+              </button>
+              <button class="p-1 text-neutral-400 hover:text-neutral-600 dark:hover:text-neutral-300">
+                <i data-lucide="search" class="w-4 h-4"></i>
+              </button>
+            </div>
+          </div>
+          
+          <!-- Action Buttons -->
+          <div class="flex items-center gap-3 mb-4 pb-4 border-b border-neutral-200 dark:border-neutral-700">
+            <button id="expand-all-btn" class="p-1 text-neutral-400 hover:text-neutral-600 dark:hover:text-neutral-300" title="Expand all">
+              <i data-lucide="chevron-down" class="w-4 h-4"></i>
+            </button>
+            <div class="w-px h-4 bg-neutral-300 dark:bg-neutral-600"></div>
+            <button id="collapse-all-btn" class="p-1 text-neutral-400 hover:text-neutral-600 dark:hover:text-neutral-300" title="Collapse all">
+              <i data-lucide="chevron-up" class="w-4 h-4"></i>
+            </button>
+            <div class="w-px h-4 bg-neutral-300 dark:bg-neutral-600"></div>
+            <button id="clear-filters-btn" class="flex items-center gap-2 text-sm text-neutral-600 dark:text-neutral-400 hover:text-primary-600 dark:hover:text-primary-400 font-medium">
+              <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
+              <span>Clear all filters</span>
+            </button>
+          </div>
+          
+          <!-- Content Type Filter -->
+          <div class="mb-4 pb-4 border-b border-neutral-200 dark:border-neutral-700">
+            <button class="filter-toggle flex items-center justify-between w-full text-sm font-bold text-neutral-900 dark:text-white mb-3 hover:text-primary-600 dark:hover:text-primary-400 transition-colors" data-chevron-state="up">
+              <span>Content type</span>
+              <i data-lucide="chevron-up" class="w-4 h-4"></i>
+            </button>
+            <div class="filter-content space-y-2.5">
+              <label class="flex items-center gap-2 text-sm text-neutral-600 dark:text-neutral-400 cursor-pointer hover:text-neutral-900 dark:hover:text-white">
+                <input type="checkbox" class="w-4 h-4 rounded border-neutral-300 dark:border-neutral-600 text-primary-600 focus:ring-purple-500 focus:ring-2" checked />
+                <span>Documentation</span>
+                <span class="ml-auto text-xs text-neutral-500 dark:text-neutral-500">(8)</span>
+              </label>
+              <label class="flex items-center gap-2 text-sm text-neutral-600 dark:text-neutral-400 cursor-pointer hover:text-neutral-900 dark:hover:text-white">
+                <input type="checkbox" class="w-4 h-4 rounded border-neutral-300 dark:border-neutral-600 text-primary-600 focus:ring-purple-500 focus:ring-2" />
+                <span>Tutorials</span>
+                <span class="ml-auto text-xs text-neutral-500 dark:text-neutral-500">(3)</span>
+              </label>
+              <label class="flex items-center gap-2 text-sm text-neutral-600 dark:text-neutral-400 cursor-pointer hover:text-neutral-900 dark:hover:text-white">
+                <input type="checkbox" class="w-4 h-4 rounded border-neutral-300 dark:border-neutral-600 text-primary-600 focus:ring-purple-500 focus:ring-2" />
+                <span>API Reference</span>
+                <span class="ml-auto text-xs text-neutral-500 dark:text-neutral-500">(2)</span>
+              </label>
+            </div>
+          </div>
+          
+          <!-- Product Filter -->
+          <div class="mb-4 pb-4 border-b border-neutral-200 dark:border-neutral-700">
+            <button class="filter-toggle flex items-center justify-between w-full text-sm font-bold text-neutral-900 dark:text-white mb-3 hover:text-primary-600 dark:hover:text-primary-400 transition-colors" data-chevron-state="up">
+              <span>Product</span>
+              <i data-lucide="chevron-up" class="w-4 h-4"></i>
+            </button>
+            <div class="filter-content space-y-2.5">
+              <label class="flex items-center gap-2 text-sm text-neutral-600 dark:text-neutral-400 cursor-pointer hover:text-neutral-900 dark:hover:text-white">
+                <input type="checkbox" class="w-4 h-4 rounded border-neutral-300 dark:border-neutral-600 text-primary-600 focus:ring-purple-500 focus:ring-2" checked />
+                <span>Discover CX Platform</span>
+                <span class="ml-auto text-xs text-neutral-500 dark:text-neutral-500">(12)</span>
+              </label>
+              <label class="flex items-center gap-2 text-sm text-neutral-600 dark:text-neutral-400 cursor-pointer hover:text-neutral-900 dark:hover:text-white">
+                <input type="checkbox" class="w-4 h-4 rounded border-neutral-300 dark:border-neutral-600 text-primary-600 focus:ring-purple-500 focus:ring-2" />
+                <span>AI Assists</span>
+                <span class="ml-auto text-xs text-neutral-500 dark:text-neutral-500">(5)</span>
+              </label>
+            </div>
+          </div>
+          
+          <!-- Last Updated Filter -->
+          <div>
+            <button class="filter-toggle flex items-center justify-between w-full text-sm font-bold text-neutral-900 dark:text-white mb-3 hover:text-primary-600 dark:hover:text-primary-400 transition-colors" data-chevron-state="up">
+              <span>Last updated</span>
+              <i data-lucide="chevron-up" class="w-4 h-4"></i>
+            </button>
+            <div class="filter-content space-y-3">
+              <!-- Quick Date Ranges -->
+              <div class="space-y-2">
+                <label class="flex items-center gap-2 text-sm text-neutral-600 dark:text-neutral-400 cursor-pointer hover:text-neutral-900 dark:hover:text-white">
+                  <input type="radio" name="date-range" class="w-4 h-4 text-primary-600 focus:ring-purple-500 focus:ring-2" />
+                  <span>Last 7 days</span>
+                </label>
+                <label class="flex items-center gap-2 text-sm text-neutral-600 dark:text-neutral-400 cursor-pointer hover:text-neutral-900 dark:hover:text-white">
+                  <input type="radio" name="date-range" class="w-4 h-4 text-primary-600 focus:ring-purple-500 focus:ring-2" />
+                  <span>Last 30 days</span>
+                </label>
+                <label class="flex items-center gap-2 text-sm text-neutral-600 dark:text-neutral-400 cursor-pointer hover:text-neutral-900 dark:hover:text-white">
+                  <input type="radio" name="date-range" class="w-4 h-4 text-primary-600 focus:ring-purple-500 focus:ring-2" />
+                  <span>Last 90 days</span>
+                </label>
+                <label class="flex items-center gap-2 text-sm text-neutral-600 dark:text-neutral-400 cursor-pointer hover:text-neutral-900 dark:hover:text-white">
+                  <input type="radio" name="date-range" class="w-4 h-4 text-primary-600 focus:ring-purple-500 focus:ring-2" checked />
+                  <span>Custom range</span>
+                </label>
+              </div>
+              
+              <!-- Custom Date Range Inputs -->
+              <div class="pt-2 border-t border-neutral-200 dark:border-neutral-700 space-y-2">
+                <div>
+                  <label class="block text-xs font-medium text-neutral-700 dark:text-neutral-300 mb-1">From</label>
+                  <input type="date" class="w-full px-2 py-1.5 border border-neutral-300 dark:border-neutral-600 rounded bg-white dark:bg-neutral-800 text-sm text-neutral-900 dark:text-white" />
+                </div>
+                <div>
+                  <label class="block text-xs font-medium text-neutral-700 dark:text-neutral-300 mb-1">To</label>
+                  <input type="date" class="w-full px-2 py-1.5 border border-neutral-300 dark:border-neutral-600 rounded bg-white dark:bg-neutral-800 text-sm text-neutral-900 dark:text-white" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </aside>
+      
+      <!-- Right Content - AI Answer + Search Results -->
+      <main class="lg:col-span-9">
+        
+        <!-- Header -->
+        <div class="mb-6">
+          <h1 class="text-2xl font-bold text-neutral-900 dark:text-white mb-2">Results for "component schemas"</h1>
+          <p class="text-sm text-neutral-600 dark:text-neutral-400">1 - 8 of 8 results found</p>
+        </div>
+        
+        <!-- AI Answer Section -->
+        <div class="mb-8 bg-gradient-to-br from-primary-50 to-blue-50 dark:from-primary-900/20 dark:to-blue-900/20 rounded-lg border border-primary-200 dark:border-primary-700 p-6">
+          
+          <!-- Feedback -->
+          <div class="flex items-center justify-between mb-4 pb-4 border-b border-primary-200 dark:border-primary-700">
+            <span class="text-xs font-semibold text-neutral-600 dark:text-neutral-400">How was this response?</span>
+            <div class="flex items-center gap-2">
+              <button class="w-7 h-7 flex items-center justify-center hover:bg-neutral-50 dark:hover:bg-neutral-800 rounded transition-colors text-neutral-600 dark:text-neutral-400 hover:text-green-600 dark:hover:text-green-400" title="Good">
+                <i data-lucide="thumbs-up" class="w-4 h-4"></i>
+              </button>
+              <button class="w-7 h-7 flex items-center justify-center hover:bg-neutral-50 dark:hover:bg-neutral-800 rounded transition-colors text-neutral-600 dark:text-neutral-400 hover:text-yellow-600 dark:hover:text-yellow-400" title="Okay">
+                <i data-lucide="minus-circle" class="w-4 h-4"></i>
+              </button>
+              <button class="w-7 h-7 flex items-center justify-center hover:bg-neutral-50 dark:hover:bg-neutral-800 rounded transition-colors text-neutral-600 dark:text-neutral-400 hover:text-red-600 dark:hover:text-red-400" title="Bad">
+                <i data-lucide="thumbs-down" class="w-4 h-4"></i>
+              </button>
+            </div>
+          </div>
+          
+          <h3 class="text-sm font-bold text-neutral-900 dark:text-white mb-3 flex items-center gap-2">
+            <i data-lucide="sparkles" class="w-4 h-4 text-primary-600 dark:text-primary-400"></i>
+            AI-powered response to "component schemas"
+          </h3>
+          
+          <div class="text-sm text-neutral-700 dark:text-neutral-300 space-y-4 mb-6">
+            <p>Component schemas are reusable content structure definitions in Discover CX. Here's how to work with them:</p>
+            
+            <ol class="list-decimal list-inside space-y-2 ml-2">
+              <li><strong>Navigate</strong> to the Content Models section in your dashboard</li>
+              <li><strong>Click</strong> the "New Schema" button in the top right</li>
+              <li><strong>Define</strong> your schema name and description</li>
+              <li><strong>Add fields</strong> by selecting field types (text, rich text, media, etc.)</li>
+              <li><strong>Configure</strong> validation rules for each field</li>
+              <li><strong>Save</strong> and publish your schema</li>
+            </ol>
+            
+            <p>Schemas can include custom fields, relationships between content types, and validation rules to ensure data quality.</p>
+          </div>
+          
+          <div class="space-y-2 mb-4">
+            <p class="text-xs font-semibold text-neutral-700 dark:text-neutral-300 mb-2">Learn more:</p>
+            <a href="doc-page.html" class="block text-sm text-primary-600 dark:text-primary-400 hover:underline">→ Component Schemas Overview</a>
+            <a href="#" class="block text-sm text-primary-600 dark:text-primary-400 hover:underline">→ Schema API Reference</a>
+            <a href="#" class="block text-sm text-primary-600 dark:text-primary-400 hover:underline">→ Building Your First Schema</a>
+          </div>
+          
+          <a href="#" class="inline-flex items-center gap-1 text-xs text-neutral-600 dark:text-neutral-400 hover:text-primary-600 dark:hover:text-primary-400">
+            <i data-lucide="info" class="w-3 h-3"></i>
+            About AI-based search results
+          </a>
+        </div>
+        
+        <!-- Sort Controls -->
+        <div class="flex items-center gap-4 mb-6 pb-4 border-b border-neutral-200 dark:border-neutral-700">
+          <div class="flex items-center gap-2">
+            <label class="text-sm font-medium text-neutral-700 dark:text-neutral-300">Sort:</label>
+            <select class="px-3 py-1.5 border border-neutral-300 dark:border-neutral-600 rounded-lg bg-white dark:bg-neutral-800 text-sm">
+              <option>Relevance</option>
+              <option>Most recent</option>
+              <option>Title A-Z</option>
+            </select>
+          </div>
+          <div class="flex items-center gap-2">
+            <label class="text-sm font-medium text-neutral-700 dark:text-neutral-300">Per Page:</label>
+            <select class="px-3 py-1.5 border border-neutral-300 dark:border-neutral-600 rounded-lg bg-white dark:bg-neutral-800 text-sm">
+              <option>10</option>
+              <option>25</option>
+              <option>50</option>
+            </select>
+          </div>
+        </div>
+        
+        <!-- Search Results -->
+        <div class="space-y-6">
+          
+          <!-- Result 1 -->
+          <article class="bg-neutral-50 dark:bg-neutral-900 rounded-lg border border-neutral-200 dark:border-neutral-700 p-6 hover:border-primary-300 dark:hover:border-primary-600 transition-colors">
+            <a href="doc-page.html" class="block group">
+              <h3 class="text-lg font-bold text-neutral-900 dark:text-white group-hover:text-primary-600 dark:group-hover:text-primary-400 mb-2">
+                Component Schemas Overview
+              </h3>
+              <p class="text-sm text-neutral-700 dark:text-neutral-300 mb-4 leading-relaxed">
+                Learn how to define reusable content structures with custom fields, validation rules, and relationships between content types. Component schemas act as templates for your content, ensuring consistency across your system.
+              </p>
+            </a>
+            
+            <!-- Metadata -->
+            <div class="flex flex-wrap items-center gap-4 text-xs text-neutral-600 dark:text-neutral-400 mb-4">
+              <span class="flex items-center gap-1">
+                <i data-lucide="calendar" class="w-3 h-3"></i>
+                Last updated Feb 1, 2025
+              </span>
+              <span class="flex items-center gap-1">
+                <i data-lucide="book-open" class="w-3 h-3"></i>
+                Publication: Discover CX Platform
+              </span>
+              <span>5 min read</span>
+            </div>
+            
+            <!-- Tags -->
+            <div class="flex flex-wrap gap-2">
+              <span class="px-2 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 rounded text-xs font-medium">Core Concepts</span>
+              <span class="px-2 py-1 bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300 rounded text-xs font-medium">Schemas</span>
+              <span class="px-2 py-1 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 rounded text-xs font-medium">Content Types</span>
+            </div>
+          </article>
+          
+          <!-- Result 2 -->
+          <article class="bg-neutral-50 dark:bg-neutral-900 rounded-lg border border-neutral-200 dark:border-neutral-700 p-6 hover:border-primary-300 dark:hover:border-primary-600 transition-colors">
+            <a href="#" class="block group">
+              <h3 class="text-lg font-bold text-neutral-900 dark:text-white group-hover:text-primary-600 dark:group-hover:text-primary-400 mb-2">
+                Schema API Reference
+              </h3>
+              <p class="text-sm text-neutral-700 dark:text-neutral-300 mb-4 leading-relaxed">
+                Complete API documentation for creating, updating, and managing component schemas programmatically. Includes code examples, request/response formats, and error handling.
+              </p>
+            </a>
+            
+            <div class="flex flex-wrap items-center gap-4 text-xs text-neutral-600 dark:text-neutral-400 mb-4">
+              <button class="flex items-center gap-1 hover:text-primary-600 dark:hover:text-primary-400">
+                <i data-lucide="download" class="w-3 h-3"></i>
+                <span>Download PDF</span>
+              </button>
+              <span class="flex items-center gap-1">
+                <i data-lucide="calendar" class="w-3 h-3"></i>
+                Last updated Jan 28, 2025
+              </span>
+              <span class="flex items-center gap-1">
+                <i data-lucide="book-open" class="w-3 h-3"></i>
+                Publication: Discover CX Platform
+              </span>
+              <span>Reference</span>
+            </div>
+            
+            <div class="flex flex-wrap gap-2">
+              <span class="px-2 py-1 bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300 rounded text-xs font-medium">API Reference</span>
+              <span class="px-2 py-1 bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-300 rounded text-xs font-medium">REST API</span>
+              <span class="px-2 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 rounded text-xs font-medium">Schemas</span>
+            </div>
+          </article>
+          
+          <!-- Result 3 -->
+          <article class="bg-neutral-50 dark:bg-neutral-900 rounded-lg border border-neutral-200 dark:border-neutral-700 p-6 hover:border-primary-300 dark:hover:border-primary-600 transition-colors">
+            <a href="#" class="block group">
+              <h3 class="text-lg font-bold text-neutral-900 dark:text-white group-hover:text-primary-600 dark:group-hover:text-primary-400 mb-2">
+                Building Your First Schema
+              </h3>
+              <p class="text-sm text-neutral-700 dark:text-neutral-300 mb-4 leading-relaxed">
+                Step-by-step tutorial with code examples showing how to create a blog post schema with title, content, and author fields. Perfect for beginners getting started with content modeling.
+              </p>
+            </a>
+            
+            <div class="flex flex-wrap items-center gap-4 text-xs text-neutral-600 dark:text-neutral-400 mb-4">
+              <button class="flex items-center gap-1 hover:text-primary-600 dark:hover:text-primary-400">
+                <i data-lucide="download" class="w-3 h-3"></i>
+                <span>Download PDF</span>
+              </button>
+              <span class="flex items-center gap-1">
+                <i data-lucide="calendar" class="w-3 h-3"></i>
+                Last updated Jan 15, 2025
+              </span>
+              <span class="flex items-center gap-1">
+                <i data-lucide="book-open" class="w-3 h-3"></i>
+                Publication: Discover CX Platform
+              </span>
+              <span>12 min</span>
+            </div>
+            
+            <div class="flex flex-wrap gap-2">
+              <span class="px-2 py-1 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 rounded text-xs font-medium">Tutorial</span>
+              <span class="px-2 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 rounded text-xs font-medium">Getting Started</span>
+              <span class="px-2 py-1 bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300 rounded text-xs font-medium">Schemas</span>
+            </div>
+          </article>
+          
+          <!-- Result 4 -->
+          <article class="bg-neutral-50 dark:bg-neutral-900 rounded-lg border border-neutral-200 dark:border-neutral-700 p-6 hover:border-primary-300 dark:hover:border-primary-600 transition-colors">
+            <a href="#" class="block group">
+              <h3 class="text-lg font-bold text-neutral-900 dark:text-white group-hover:text-primary-600 dark:group-hover:text-primary-400 mb-2">
+                Schema Field Types
+              </h3>
+              <p class="text-sm text-neutral-700 dark:text-neutral-300 mb-4 leading-relaxed">
+                Reference for all available field types including text, rich text, media, relationships, and custom validators. Understand which field type to use for different content needs.
+              </p>
+            </a>
+            
+            <div class="flex flex-wrap items-center gap-4 text-xs text-neutral-600 dark:text-neutral-400 mb-4">
+              <button class="flex items-center gap-1 hover:text-primary-600 dark:hover:text-primary-400">
+                <i data-lucide="download" class="w-3 h-3"></i>
+                <span>Download PDF</span>
+              </button>
+              <span class="flex items-center gap-1">
+                <i data-lucide="calendar" class="w-3 h-3"></i>
+                Last updated Dec 20, 2024
+              </span>
+              <span class="flex items-center gap-1">
+                <i data-lucide="book-open" class="w-3 h-3"></i>
+                Publication: Discover CX Platform
+              </span>
+              <span>Reference</span>
+            </div>
+            
+            <div class="flex flex-wrap gap-2">
+              <span class="px-2 py-1 bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-300 rounded text-xs font-medium">Reference</span>
+              <span class="px-2 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 rounded text-xs font-medium">Field Types</span>
+              <span class="px-2 py-1 bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300 rounded text-xs font-medium">Schemas</span>
+            </div>
+          </article>
+          
+        </div>
+        
+        <!-- Pagination -->
+        <div class="flex items-center justify-between mt-8 pt-6 border-t border-neutral-200 dark:border-neutral-700">
+          <button class="px-4 py-2 border border-neutral-300 dark:border-neutral-600 rounded-lg text-sm font-medium text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-700 disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+            <i data-lucide="chevron-left" class="w-4 h-4 inline mr-1"></i>
+            Previous
+          </button>
+          <div class="flex items-center gap-2">
+            <button class="w-8 h-8 flex items-center justify-center rounded-lg bg-primary-600 text-white font-medium text-sm">1</button>
+            <span class="text-neutral-500 dark:text-neutral-400">of 1</span>
+          </div>
+          <button class="px-4 py-2 border border-neutral-300 dark:border-neutral-600 rounded-lg text-sm font-medium text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-700 disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+            Next
+            <i data-lucide="chevron-right" class="w-4 h-4 inline ml-1"></i>
+          </button>
+        </div>
+      </main>
+      
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="bg-neutral-900 dark:bg-neutral-950 text-white py-12 mt-16" style="width: 100vw; position: relative; left: 0; right: 0;">
+    <div class="max-w-screen-2xl mx-auto px-6">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div class="col-span-1">
+          <div class="flex items-center space-x-2 mb-4">
+            <svg class="w-8 h-8 text-primary-400" viewBox="0 0 32 32" fill="currentColor">
+              <path d="M16 2L3 9v14l13 7 13-7V9L16 2zm0 3.24L25.08 9 16 13.76 6.92 9 16 5.24zM5 10.92l10 5.38v10.46l-10-5.38V10.92zm12 15.84V16.3l10-5.38v10.46l-10 5.38z"/>
+            </svg>
+            <span class="font-bold text-lg">Discover CX</span>
+          </div>
+        </div>
+        <div>
+          <h3 class="font-semibold mb-4">Products</h3>
+          <div class="space-y-2">
+            <a href="#" class="block text-neutral-400 hover:text-white text-sm">Discover CX Platform</a>
+            <a href="#" class="block text-neutral-400 hover:text-white text-sm">Discover CX</a>
+            <a href="#" class="block text-neutral-400 hover:text-white text-sm">AI Assists</a>
+            <a href="#" class="block text-neutral-400 hover:text-white text-sm">InSite Search</a>
+          </div>
+        </div>
+        <div>
+          <h3 class="font-semibold mb-4">Resources</h3>
+          <div class="space-y-2">
+            <a href="#" class="block text-neutral-400 hover:text-white text-sm">Documentation</a>
+            <a href="#" class="block text-neutral-400 hover:text-white text-sm">API Reference</a>
+            <a href="#" class="block text-neutral-400 hover:text-white text-sm">Knowledge Base</a>
+            <a href="#" class="block text-neutral-400 hover:text-white text-sm">Blog</a>
+          </div>
+        </div>
+        <div>
+          <h3 class="font-semibold mb-4">Company</h3>
+          <div class="space-y-2">
+            <a href="#" class="block text-neutral-400 hover:text-white text-sm">About Us</a>
+            <a href="#" class="block text-neutral-400 hover:text-white text-sm">Careers</a>
+            <a href="#" class="block text-neutral-400 hover:text-white text-sm">Contact Sales</a>
+            <a href="#" class="block text-neutral-400 hover:text-white text-sm">Support</a>
+          </div>
+        </div>
+      </div>
+      <div class="border-t border-neutral-800 mt-8 pt-8 text-sm text-neutral-400">
+        © 2025 Discover CX by Ingeniux. All rights reserved.
+      </div>
+    </div>
+  </footer>
+
+  <!-- Initialize Lucide Icons -->
+  <script>
+    lucide.createIcons();
+  </script>
+
+  <script src="js/main.js"></script>
+  
+  <script>
+    // Filter section toggle functionality
+    document.addEventListener('DOMContentLoaded', function() {
+      // Setup filter section toggles
+      const filterButtons = document.querySelectorAll('.filter-toggle');
+      filterButtons.forEach(button => {
+        button.addEventListener('click', function() {
+          const content = this.nextElementSibling;
+          const chevronContainer = this.querySelector('i, svg');
+          
+          if (content) {
+            content.classList.toggle('hidden');
+            
+            // Toggle chevron state
+            const currentState = this.getAttribute('data-chevron-state');
+            const newState = currentState === 'up' ? 'down' : 'up';
+            this.setAttribute('data-chevron-state', newState);
+            
+            // Replace icon completely
+            if (chevronContainer) {
+              const newIcon = document.createElement('i');
+              newIcon.setAttribute('data-lucide', `chevron-${newState}`);
+              newIcon.className = 'w-4 h-4';
+              chevronContainer.replaceWith(newIcon);
+              lucide.createIcons();
+            }
+          }
+        });
+      });
+      
+      // User menu toggle
+      const userMenuBtn = document.getElementById('user-menu-btn');
+      const userDropdown = document.getElementById('user-dropdown');
+      if (userMenuBtn && userDropdown) {
+        userMenuBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          userDropdown.classList.toggle('hidden');
+          setTimeout(() => lucide.createIcons(), 10);
+        });
+        
+        // Close when clicking outside
+        document.addEventListener('click', (e) => {
+          if (!userMenuBtn.contains(e.target) && !userDropdown.contains(e.target)) {
+            userDropdown.classList.add('hidden');
+          }
+        });
+      }
+      
+      // Mobile menu toggle  
+      const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+      const mobileMenu = document.getElementById('mobile-menu');
+      if (mobileMenuBtn && mobileMenu) {
+        mobileMenuBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          mobileMenu.classList.toggle('hidden');
+          setTimeout(() => lucide.createIcons(), 10);
+        });
+        
+        // Close when clicking outside
+        document.addEventListener('click', (e) => {
+          if (!mobileMenuBtn.contains(e.target) && !mobileMenu.contains(e.target)) {
+            mobileMenu.classList.add('hidden');
+          }
+        });
+      }
+      
+      // Theme switcher
+      const themeButtons = {
+        auto: document.getElementById('theme-auto'),
+        light: document.getElementById('theme-light'),
+        dark: document.getElementById('theme-dark')
+      };
+      
+      function setTheme(theme) {
+        if (theme === 'dark') {
+          document.documentElement.classList.add('dark');
+          localStorage.setItem('theme', 'dark');
+        } else if (theme === 'light') {
+          document.documentElement.classList.remove('dark');
+          localStorage.setItem('theme', 'light');
+        } else {
+          // Auto - use system preference
+          const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+          document.documentElement.classList.toggle('dark', prefersDark);
+          localStorage.removeItem('theme');
+        }
+        updateThemeButtons(theme);
+      }
+      
+      function updateThemeButtons(activeTheme) {
+        Object.entries(themeButtons).forEach(([theme, button]) => {
+          if (button) {
+            if (theme === activeTheme) {
+              button.classList.add('bg-primary-100', 'dark:bg-primary-900', 'text-primary-700', 'dark:text-primary-300', 'border-primary-500');
+              button.classList.remove('border-neutral-300', 'dark:border-neutral-600');
+            } else {
+              button.classList.remove('bg-primary-100', 'dark:bg-primary-900', 'text-primary-700', 'dark:text-primary-300', 'border-primary-500');
+              button.classList.add('border-neutral-300', 'dark:border-neutral-600');
+            }
+          }
+        });
+      }
+      
+      // Initialize theme
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme) {
+        setTheme(savedTheme);
+      } else {
+        setTheme('auto');
+      }
+      
+      // Theme button listeners
+      if (themeButtons.auto) themeButtons.auto.addEventListener('click', () => setTheme('auto'));
+      if (themeButtons.light) themeButtons.light.addEventListener('click', () => setTheme('light'));
+      if (themeButtons.dark) themeButtons.dark.addEventListener('click', () => setTheme('dark'));
+      
+      // Expand All button
+      const expandAllBtn = document.getElementById('expand-all-btn');
+      if (expandAllBtn) {
+        expandAllBtn.addEventListener('click', function() {
+          const filterToggles = document.querySelectorAll('.filter-toggle');
+          filterToggles.forEach(button => {
+            const content = button.nextElementSibling;
+            const chevronContainer = button.querySelector('i, svg');
+            
+            if (content && content.classList.contains('hidden')) {
+              content.classList.remove('hidden');
+              button.setAttribute('data-chevron-state', 'up');
+              
+              if (chevronContainer) {
+                const newIcon = document.createElement('i');
+                newIcon.setAttribute('data-lucide', 'chevron-up');
+                newIcon.className = 'w-4 h-4';
+                chevronContainer.replaceWith(newIcon);
+              }
+            }
+          });
+          lucide.createIcons();
+        });
+      }
+      
+      // Collapse All button
+      const collapseAllBtn = document.getElementById('collapse-all-btn');
+      if (collapseAllBtn) {
+        collapseAllBtn.addEventListener('click', function() {
+          const filterToggles = document.querySelectorAll('.filter-toggle');
+          filterToggles.forEach(button => {
+            const content = button.nextElementSibling;
+            const chevronContainer = button.querySelector('i, svg');
+            
+            if (content && !content.classList.contains('hidden')) {
+              content.classList.add('hidden');
+              button.setAttribute('data-chevron-state', 'down');
+              
+              if (chevronContainer) {
+                const newIcon = document.createElement('i');
+                newIcon.setAttribute('data-lucide', 'chevron-down');
+                newIcon.className = 'w-4 h-4';
+                chevronContainer.replaceWith(newIcon);
+              }
+            }
+          });
+          lucide.createIcons();
+        });
+      }
+      
+      // Clear All Filters button
+      const clearFiltersBtn = document.getElementById('clear-filters-btn');
+      if (clearFiltersBtn) {
+        clearFiltersBtn.addEventListener('click', function() {
+          // Uncheck all checkboxes
+          const checkboxes = document.querySelectorAll('.filter-content input[type="checkbox"]');
+          checkboxes.forEach(checkbox => {
+            checkbox.checked = false;
+          });
+        });
+      }
+    });
+  </script>
+
+  <!-- Support Chatbot Widget -->
+  <script src="../../assets/js/chatbot-widget.js"></script>
+
+</body>
+</html>
+

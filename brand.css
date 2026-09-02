@@ -1,0 +1,854 @@
+/* Medidata Design & Brand Guidelines tokens
+   https://assetlibrary.medidata.com/guidelines/guide/c8c4f3d2-2901-42e3-afcb-1b0a1bc970c2 */
+
+/* Core palette and radii read straight off medidata.com's :root tokens. */
+:root {
+  --mds-navy: #002855;
+  --mds-white: #ffffff;
+  --mds-green: #cbd300;
+  --mds-cyan: #009cde;          /* Light Blue */
+  --mds-tertiary: #005686;      /* Steel Blue */
+  --mds-transparent-blue: #ccd4dd;
+  --mds-card-gray: #e0e0e0;
+  --mds-light-grey: #f2f4f6;
+  --mds-mid-grey: #e6eaee;
+  --mds-divider-grey: #cccccc;
+
+  /* Experiences: Study green, Patient light blue, Data navy.
+     Navy disappears on this app's navy chrome, so dark surfaces get the
+     Steel Blue / Transparent Blue end of the same family instead. */
+  --mds-study: var(--mds-green);
+  --mds-patient: var(--mds-cyan);
+  --mds-data: var(--mds-navy);
+  --mds-study-on-dark: var(--mds-green);
+  --mds-patient-on-dark: var(--mds-cyan);
+  --mds-data-on-dark: var(--mds-transparent-blue);
+
+  --mds-dot: linear-gradient(20deg, #00bdff 0%, #4f40ff 50%, #a700ff 100%);
+  --mds-radius-btn: 30px;
+  --mds-radius-card: 16px;
+  --mds-radius-outer: 25px;
+  --mds-logo-clear: 10px;
+}
+
+/* 3DS_V2 — the Dassault Systemes corporate face medidata.com sets its
+   headings in. The variable roman covers 200–700, so the light section
+   headings (300) and the heavy hero (600) both come from one file. */
+@font-face {
+  font-family: "3DS_V2";
+  src: url("fonts/3DSV2-Roman-Variable.woff2") format("woff2-variations"),
+       url("fonts/3DSV2-Roman-Variable.woff2") format("woff2");
+  font-weight: 200 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "3DS_V2";
+  src: url("fonts/3DSV2-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "3DS_V2";
+  src: url("fonts/3DSV2-SemiBold.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Body stays Arial, as it does on the site; only display type is 3DS_V2. */
+html { font-family: Arial, Helvetica, sans-serif; }
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4,
+.mds-display,
+.mds-section-title,
+.mds-section-title--sm,
+.mds-subhead,
+.exp-card__title,
+.hub-card__title {
+  font-family: "3DS_V2", Arial, Helvetica, sans-serif;
+}
+
+/* Logo lockup: min 30px; clear space ≈ height of D */
+.mds-logo {
+  display: inline-flex;
+  align-items: center;
+  height: 30px;
+  min-height: 30px;
+  padding: var(--mds-logo-clear);
+  color: var(--mds-navy);
+  box-sizing: content-box;
+}
+.mds-logo svg {
+  height: 100%;
+  width: auto;
+  display: block;
+  overflow: unset;
+  shape-rendering: geometricPrecision;
+}
+.mds-logo.is-on-dark { color: var(--mds-white); }
+
+.navlink::after { background: var(--mds-cyan) !important; }
+
+.btn {
+  border-radius: var(--mds-radius-btn) !important;
+}
+
+.mob-link { color: var(--mds-navy); }
+.mob-link:hover { color: var(--mds-cyan); background: #e6f6fc; }
+
+/* ── Heading scale ────────────────────────────────────────────────────────
+   Mirrors medidata.com: the hero carries the weight at 600 and section
+   headings sit light at 300, both at display size. Everything below display
+   scale runs 400. Tracking stays normal — the site never tightens headings. */
+.mds-display {
+  font-weight: 600;
+  font-size: clamp(2.25rem, 5vw, 3.75rem);
+  line-height: 1.1;
+  letter-spacing: normal;
+}
+/* Interior pages lead with the same weight at a smaller size. */
+.mds-display--page {
+  font-size: clamp(1.875rem, 3.4vw, 2.5rem);
+  line-height: 1.15;
+}
+.mds-section-title {
+  font-weight: 300;
+  font-size: clamp(1.75rem, 3.6vw, 2.75rem);
+  line-height: 1.2;
+  letter-spacing: normal;
+}
+.mds-section-title--sm {
+  font-weight: 300;
+  font-size: clamp(1.375rem, 2.2vw, 1.75rem);
+  line-height: 1.25;
+  letter-spacing: normal;
+}
+.mds-subhead {
+  font-weight: 400;
+  letter-spacing: normal;
+}
+
+/* ── Link motif — PARKED, do not apply ────────────────────────────────────
+   The Link mark and Link Pattern are deliberately absent from every page for
+   now; they get re-applied strategically rather than as default decoration.
+   Geometry and assets (media/link-mark.svg, media/link-pattern*.svg) are kept
+   so this can be switched back on. Uncomment to restore.
+
+.mds-link {
+  display: inline-block;
+  width: 36px;
+  height: 34px;
+  flex-shrink: 0;
+  color: var(--mds-green);
+}
+.mds-link--navy { color: var(--mds-navy); }
+.mds-link--white { color: #fff; }
+.mds-link svg { width: 100%; height: 100%; display: block; }
+
+.pattern-links {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  opacity: 0.18;
+  background-image: url("media/link-pattern.svg");
+  background-size: 720px auto;
+  background-repeat: repeat;
+}
+*/
+
+/* Photo treatment (medidata.com): sharp subject, blur + navy wash behind type */
+.mds-photo { isolation: isolate; }
+.mds-photo__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 72% 42%;
+  pointer-events: none;
+  user-select: none;
+}
+/* Home hero — medidata.com treatment:
+   1. The photo is a full Gaussian-blurred plate.
+   2. A sharp copy of the same photo is masked onto the right so the
+      subject stays crystal clear.
+   3. Bottom corners of the band are heavily rounded, sitting on the
+      page field the way the .com hero does. */
+.mds-photo--hero {
+  min-height: 44rem;
+  height: 48vw;
+  max-height: 56rem;
+  border-radius: 0 0 4.5rem 4.5rem;
+  overflow: hidden;
+}
+.mds-photo--hero .mds-photo__img { object-position: 94% 42%; z-index: 1; }
+.mds-photo--hero .mds-photo__img:not(.mds-photo__img--blur) {
+  /* Fully sharp from ~50% over — her face must not sit in the fade. */
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, transparent 28%, rgba(0,0,0,.55) 42%, #000 52%);
+  mask-image: linear-gradient(90deg, transparent 0%, transparent 28%, rgba(0,0,0,.55) 42%, #000 52%);
+  filter: none;
+  transform: none;
+}
+.mds-photo--hero .mds-photo__img--blur {
+  z-index: 0;
+  filter: blur(80px) saturate(1.2);
+  transform: scale(1.3);
+  transform-origin: left center;
+  -webkit-mask-image: none;
+  mask-image: none;
+}
+.mds-photo--hero .mds-photo__wash {
+  z-index: 2;
+  /* Wash clears before her face so the overlay doesn't soften her. */
+  background:
+    linear-gradient(108deg,
+      rgba(0,86,134,.82) 0%,
+      rgba(0,40,85,.58) 28%,
+      rgba(0,40,85,.14) 46%,
+      rgba(0,40,85,0) 58%);
+}
+@media (min-width: 1280px) {
+  .mds-photo--hero .mds-photo__img { object-position: 96% 40%; }
+}
+.mds-photo--hero > .relative { z-index: 3; }
+/* The thin accent bar under the hero fights the curve — hide it. */
+.mds-photo--hero > .h-1 { display: none; }
+
+/* Experience section headers — interior banner, not a home-hero. Crop
+   torso and furniture, never skulls. Home hero (.mds-photo--hero) is separate. */
+.mds-photo--section {
+  min-height: 15rem;
+  height: 20vw;
+  max-height: 18rem;
+}
+
+.mds-photo__img--blur {
+  filter: blur(36px) saturate(1.08);
+  transform: scale(1.14);
+  transform-origin: center;
+  -webkit-mask-image: linear-gradient(92deg, #000 0%, #000 36%, rgba(0,0,0,.4) 54%, transparent 76%);
+  mask-image: linear-gradient(92deg, #000 0%, #000 36%, rgba(0,0,0,.4) 54%, transparent 76%);
+}
+.mds-photo__wash {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(100deg,
+      rgba(0,40,85,.90) 0%,
+      rgba(0,40,85,.58) 34%,
+      rgba(0,40,85,.18) 58%,
+      rgba(0,40,85,0) 78%),
+    linear-gradient(225deg,
+      transparent 44%,
+      rgba(203,211,0,.12) 72%,
+      rgba(0,156,222,.24) 100%);
+}
+/* Type sits at the bottom of the photo (experience cards) */
+.mds-photo--from-bottom .mds-photo__img { object-position: center 32%; }
+.mds-photo--from-bottom .mds-photo__img--blur {
+  -webkit-mask-image: linear-gradient(to top, #000 0%, #000 40%, transparent 80%);
+  mask-image: linear-gradient(to top, #000 0%, #000 40%, transparent 80%);
+}
+.mds-photo--from-bottom .mds-photo__wash {
+  background:
+    linear-gradient(to top,
+      rgba(0,40,85,.94) 0%,
+      rgba(0,40,85,.50) 42%,
+      rgba(0,40,85,0) 78%),
+    linear-gradient(150deg,
+      var(--exp-ramp-0, transparent) 0%,
+      var(--exp-ramp-1, transparent) 52%,
+      var(--exp-ramp-2, transparent) 100%);
+}
+
+/* Navy well so White Lined icons meet WCAG on light chrome */
+.mds-icon-well {
+  background: var(--mds-navy);
+  color: #fff;
+}
+.mds-icon-well .mds-icon {
+  width: 1.35rem;
+  height: 1.35rem;
+}
+
+/* AI Dot — AI search/ask only */
+.ai-dot {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--mds-dot);
+  flex-shrink: 0;
+  display: inline-block;
+}
+/* Wrapper: Dot gradient ring. Inner child should be white. */
+.ai-dot-ring {
+  padding: 2px;
+  background: var(--mds-dot);
+  border-radius: 0.75rem;
+}
+.ai-dot-ring > * {
+  border-radius: calc(0.75rem - 2px);
+}
+
+.prose h2, .prose h3 { color: var(--mds-navy); }
+.prose ul li::before { background: var(--mds-cyan) !important; }
+.prose a { color: var(--mds-cyan); }
+.callout.info { background: #e6f6fc; border-color: var(--mds-cyan); }
+.callout.tip { background: #f8fad6; border-color: var(--mds-green); }
+pre, table.doc th { background: var(--mds-navy); }
+.filterpill:hover { box-shadow: inset 0 0 0 1px var(--mds-cyan); color: var(--mds-cyan); }
+.filterpill[aria-pressed="true"] { background: var(--mds-navy); color: #fff; box-shadow: none; }
+.filterpill:focus-visible { outline: none; box-shadow: 0 0 0 2px var(--mds-cyan); }
+.pd-side:hover { color: var(--mds-navy); }
+.pd-side.pd-on { background: #e6f6fc; color: var(--mds-cyan); }
+
+/* Experience identity: Study green, Patient cyan, Data navy */
+.exp-bar-study,
+.exp-bar-patient,
+.exp-bar-data {
+  height: 6px !important;
+}
+.exp-bar-study { background: var(--mds-study-on-dark); }
+.exp-bar-patient { background: var(--mds-patient-on-dark); }
+.exp-bar-data { background: var(--mds-data-on-dark); }
+
+.exp-label-study { color: var(--mds-study-on-dark); }
+.exp-label-patient { color: var(--mds-patient-on-dark); }
+.exp-label-data { color: var(--mds-data-on-dark); }
+
+/* ── Experience accordion ─────────────────────────────────────────────────
+   Ported from the "Three Connected Experiences" cards on medidata.com:
+   light colour field, navy type, monogram top-right, and a flex-basis
+   expansion that reveals the photo and the CTA. Tokens below (25px radius,
+   25px padding, the 150deg ramps, the .58s expo easing) are the site's. */
+.exp-deck {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+.exp-card {
+  --exp-fg: var(--mds-navy);
+  --exp-btn-bg: var(--mds-navy);
+  --exp-btn-fg: var(--mds-white);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 0;
+  min-width: 0;
+  height: 253px;
+  padding: 25px;
+  border-radius: var(--mds-radius-outer);
+  overflow: hidden;
+  color: var(--exp-fg);
+  text-decoration: none;
+  background-color: var(--exp-base);
+  background-image: linear-gradient(150deg,
+    var(--exp-ramp-0) 0%, var(--exp-ramp-1) 40%,
+    var(--exp-ramp-2) 61%, var(--exp-ramp-3) 87%, var(--exp-ramp-4) 100%);
+  transition:
+    flex .58s cubic-bezier(.19, 1, .22, 1),
+    height .58s cubic-bezier(.19, 1, .22, 1);
+}
+/* The deck rests with the first card open. Pointing at any card hands the
+   open state over to it; :has() keeps the hand-off scoped to real card
+   hovers, so crossing the gaps never leaves the deck with nothing open. */
+.exp-card.is-open,
+.exp-card:hover,
+.exp-card:focus-visible { flex: 2 1 0; height: 460px; }
+
+.exp-deck:has(> .exp-card:hover) > .exp-card.is-open:not(:hover),
+.exp-deck:has(> .exp-card:focus-visible) > .exp-card.is-open:not(:focus-visible) {
+  flex: 1 1 0;
+  height: 253px;
+}
+
+.exp-card > .exp-card__mark {
+  position: absolute;
+  top: 25px;
+  right: 25px;
+  width: 30px;
+  height: 30px;
+  color: var(--exp-fg);
+}
+.exp-card__body {
+  display: flex;
+  gap: 24px;
+  align-items: stretch;
+  height: 100%;
+}
+/* The photo has no width until the card opens, so it slides out of the edge. */
+.exp-card__media {
+  flex: 0 0 auto;
+  width: 0;
+  align-self: stretch;
+  overflow: hidden;
+  border-radius: 16px;
+  opacity: 0;
+  transition: width .58s cubic-bezier(.19, 1, .22, 1), opacity .38s ease .12s;
+}
+.exp-card__media img {
+  width: 266px;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 18%;
+  border-radius: 16px;
+  transform: scale(1.06);
+  transition: transform .8s cubic-bezier(.19, 1, .22, 1);
+}
+.exp-card--study .exp-card__media img { object-position: 50% 12%; }
+.exp-card--patient .exp-card__media img { object-position: 50% 12%; }
+.exp-card--data .exp-card__media img { object-position: 50% 12%; }
+.exp-card:hover .exp-card__media,
+.exp-card:focus-visible .exp-card__media,
+.exp-card.is-open .exp-card__media { width: 266px; opacity: 1; }
+.exp-card:hover .exp-card__media img,
+.exp-card:focus-visible .exp-card__media img,
+.exp-card.is-open .exp-card__media img { transform: scale(1); }
+
+.exp-deck:has(> .exp-card:hover) > .exp-card.is-open:not(:hover) .exp-card__media,
+.exp-deck:has(> .exp-card:focus-visible) > .exp-card.is-open:not(:focus-visible) .exp-card__media {
+  width: 0;
+  opacity: 0;
+}
+
+.exp-card__text {
+  flex: 1 1 auto;
+  min-width: 0;
+  align-self: flex-end;
+  padding-right: 8px;
+}
+.exp-card__title {
+  margin: 0;
+  font-size: clamp(22px, 2vw, 30px);
+  font-weight: 400;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  color: var(--exp-fg);
+}
+/* Copy and CTA only exist once there is room for them. */
+.exp-card__desc,
+.exp-card__cta {
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity .3s ease, transform .3s ease;
+}
+.exp-card__desc {
+  margin: 14px 0 0;
+  max-width: 34ch;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--exp-fg);
+}
+.exp-card__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 20px;
+  padding: 11px 23px;
+  border-radius: var(--mds-radius-btn);
+  background: var(--exp-btn-bg);
+  color: var(--exp-btn-fg);
+  font-size: 14px;
+  font-weight: 700;
+}
+.exp-card:hover .exp-card__desc,
+.exp-card:focus-visible .exp-card__desc,
+.exp-card.is-open .exp-card__desc,
+.exp-card:hover .exp-card__cta,
+.exp-card:focus-visible .exp-card__cta,
+.exp-card.is-open .exp-card__cta {
+  opacity: 1;
+  transform: none;
+  transition-delay: .18s;
+}
+
+.exp-deck:has(> .exp-card:hover) > .exp-card.is-open:not(:hover) .exp-card__desc,
+.exp-deck:has(> .exp-card:hover) > .exp-card.is-open:not(:hover) .exp-card__cta,
+.exp-deck:has(> .exp-card:focus-visible) > .exp-card.is-open:not(:focus-visible) .exp-card__desc,
+.exp-deck:has(> .exp-card:focus-visible) > .exp-card.is-open:not(:focus-visible) .exp-card__cta {
+  opacity: 0;
+  transform: translateY(6px);
+  transition-delay: 0s;
+}
+
+/* Base tint + ramp per experience, sampled off medidata.com. */
+.exp-card--study {
+  --exp-base: #eff2b3;
+  --exp-ramp-0: rgba(196,214,0,0); --exp-ramp-1: rgba(196,214,0,.22);
+  --exp-ramp-2: rgba(196,214,0,.55); --exp-ramp-3: rgba(196,214,0,.91);
+  --exp-ramp-4: rgb(196,214,0);
+}
+.exp-card--patient {
+  --exp-base: #b3e1f5;
+  --exp-ramp-0: rgba(0,156,222,0); --exp-ramp-1: rgba(0,156,222,.22);
+  --exp-ramp-2: rgba(0,156,222,.55); --exp-ramp-3: rgba(0,156,222,.91);
+  --exp-ramp-4: rgb(0,156,222);
+}
+/* Data ramps into full navy, so its type and button invert. The site starts
+   this ramp at #b3bfcc, which leaves white type at 2.8:1 in the light corner;
+   starting from mid-slate instead holds every point of the card above 4.5:1. */
+.exp-card--data {
+  --exp-base: #4f6880;
+  --exp-ramp-0: rgba(0,40,85,0); --exp-ramp-1: rgba(0,40,85,.22);
+  --exp-ramp-2: rgba(0,40,85,.55); --exp-ramp-3: rgba(0,40,85,.95);
+  --exp-ramp-4: rgb(0,40,85);
+  --exp-fg: var(--mds-white);
+  --exp-btn-bg: var(--mds-white);
+  --exp-btn-fg: var(--mds-navy);
+}
+
+@media (max-width: 900px) {
+  .exp-deck { flex-direction: column; align-items: stretch; }
+  .exp-card,
+  .exp-card:hover,
+  .exp-card.is-open { flex: 1 1 auto; height: auto; min-height: 230px; }
+  .exp-card__media,
+  .exp-card:hover .exp-card__media,
+  .exp-card.is-open .exp-card__media { width: 132px; opacity: 1; }
+  .exp-card__media img { width: 132px; transform: none; }
+  .exp-card__desc,
+  .exp-card__cta { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .exp-card,
+  .exp-card__media,
+  .exp-card__media img,
+  .exp-card__desc,
+  .exp-card__cta { transition-duration: .01ms; }
+}
+
+/* Each experience carries its colour as a 150deg ramp, the way the cards on
+   medidata.com do. Set the stops once, consume them from any wash. */
+.exp-study,
+.exp-wash-study {
+  --exp-ramp-0: rgba(203,211,0,0);
+  --exp-ramp-1: rgba(203,211,0,.20);
+  --exp-ramp-2: rgba(203,211,0,.62);
+}
+.exp-patient,
+.exp-wash-patient {
+  --exp-ramp-0: rgba(0,156,222,0);
+  --exp-ramp-1: rgba(0,156,222,.22);
+  --exp-ramp-2: rgba(0,156,222,.66);
+}
+.exp-data,
+.exp-wash-data {
+  --exp-ramp-0: rgba(0,86,134,0);
+  --exp-ramp-1: rgba(0,86,134,.34);
+  --exp-ramp-2: rgba(0,86,134,.86);
+}
+
+/* Over a photo the ramp needs a navy scrim beneath it to hold white type. */
+.exp-wash-study,
+.exp-wash-patient,
+.exp-wash-data {
+  background:
+    linear-gradient(180deg, rgba(0,40,85,.30) 0%, rgba(0,40,85,.60) 44%, rgba(0,40,85,.93) 100%),
+    linear-gradient(150deg, var(--exp-ramp-0) 0%, var(--exp-ramp-1) 52%, var(--exp-ramp-2) 100%);
+}
+
+/* Navy-first overlay keeps white type ≥4.5:1; the experience colour rides on
+   top as a 150deg ramp so each hero still reads as its own experience. */
+.exp-hero-study,
+.exp-hero-patient,
+.exp-hero-data {
+  background:
+    linear-gradient(100deg, rgba(0,40,85,.93) 0%, rgba(0,40,85,.79) 48%, rgba(0,40,85,.36) 100%),
+    linear-gradient(150deg, var(--exp-ramp-0) 0%, var(--exp-ramp-1) 52%, var(--exp-ramp-2) 100%);
+}
+.exp-hero-study { box-shadow: inset 0 -6px 0 var(--mds-study-on-dark); }
+.exp-hero-patient { box-shadow: inset 0 -6px 0 var(--mds-patient-on-dark); }
+.exp-hero-data { box-shadow: inset 0 -6px 0 var(--mds-data-on-dark); }
+[data-view="study"] .mds-photo__img { object-position: 72% 8%; }
+[data-view="patient"] .mds-photo__img { object-position: 88% 28%; }
+[data-view="data"] .mds-photo__img { object-position: 84% 6%; }
+
+/* ── Hub card chassis (Family B) ─────────────────────────────────────────
+   Experience cards (.exp-card) stay locked. Everything else — product docs,
+   featured articles, the updates feed, Explore the Hub directories — shares
+   this white shell: 16px radius, 25px padding, 1px card-gray edge, no drop
+   shadow, 3DS_V2 title, Arial body, 24px lined mark top-right, navy pill CTA.
+   Experience colour lives on the mark, not a card-edge bar. */
+.hub-card {
+  --hub-mark: var(--mds-navy);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding: 25px;
+  border-radius: var(--mds-radius-card);
+  background: var(--mds-white);
+  color: var(--mds-navy);
+  text-decoration: none;
+  overflow: hidden;
+  box-shadow: inset 0 0 0 1px var(--mds-card-gray);
+  transition: box-shadow .18s ease;
+}
+.hub-card:hover {
+  box-shadow: inset 0 0 0 1px var(--mds-navy);
+}
+.hub-card:focus-visible {
+  outline: none;
+  box-shadow: inset 0 0 0 1px var(--mds-navy), 0 0 0 2px var(--mds-cyan);
+}
+.hub-card--study { --hub-mark: var(--mds-study); }
+.hub-card--patient { --hub-mark: var(--mds-patient); }
+.hub-card--data { --hub-mark: var(--mds-tertiary); }
+.hub-card--plain { --hub-mark: var(--mds-navy); }
+
+.hub-card__mark {
+  position: absolute;
+  top: 25px;
+  right: 25px;
+  color: var(--hub-mark);
+  pointer-events: none;
+}
+.hub-card__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin: 0 36px 12px 0;
+  min-height: 22px;
+}
+.hub-card__title {
+  margin: 0 36px 0 0;
+  font-size: 1.25rem;
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: normal;
+  color: var(--mds-navy);
+}
+.hub-card__desc {
+  margin: 10px 0 0;
+  flex: 1 1 auto;
+  font-size: 15px;
+  line-height: 1.5;
+  color: #5a6a7a;
+}
+.hub-card__count {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin: 12px 0 0;
+  font-size: 13px;
+  color: var(--mds-tertiary);
+}
+.hub-card__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 20px;
+  padding: 11px 23px;
+  width: fit-content;
+  border-radius: var(--mds-radius-btn);
+  background: var(--mds-navy);
+  color: var(--mds-white);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1;
+}
+.hub-card:hover .hub-card__cta,
+.hub-card__cta:hover { background: var(--mds-tertiary); }
+.hub-card .hub-card__cta .mds-icon { color: var(--mds-white); }
+
+.hub-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 9px;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  line-height: 1.4;
+  white-space: nowrap;
+}
+.hub-chip--new { background: var(--mds-cyan); color: var(--mds-white); }
+.hub-chip--guide,
+.hub-chip--newsletter { background: var(--mds-navy); color: var(--mds-white); }
+.hub-chip--issue { background: var(--mds-tertiary); color: var(--mds-white); }
+.hub-chip--product {
+  background: var(--mds-light-grey);
+  color: var(--mds-navy);
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: 12px;
+  font-weight: 600;
+}
+.hub-chip--lock {
+  background: transparent;
+  color: var(--mds-navy);
+  box-shadow: inset 0 0 0 1px var(--mds-card-gray);
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: 11px;
+  font-weight: 600;
+}
+.hub-chip--lock .mds-icon { color: inherit; }
+.hub-card__date {
+  font-size: 12px;
+  color: #7a8794;
+}
+
+/* Directory layout — same chassis, a list of destinations instead of one.
+   Wash lives on the card (not a clipped header band) so it fades in the
+   corner behind the mark and never cuts across the title. */
+.hub-card--dir {
+  padding: 0;
+  background: var(--mds-white);
+}
+.hub-card--dir .hub-card__head {
+  position: relative;
+  padding: 25px 25px 14px;
+}
+.hub-card--dir .hub-card__meta {
+  margin: 0 0 10px;
+  min-height: 0;
+}
+.hub-card--dir .hub-card__intro {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+.hub-card--dir .hub-card__copy {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.hub-card--dir .hub-card__mark {
+  position: static;
+  flex-shrink: 0;
+  margin-top: 0;
+  padding: 8px;
+  border-radius: 10px;
+  background: rgba(0, 156, 222, 0.08);
+}
+.hub-card--dir .hub-card__title {
+  margin: 0;
+  font-size: 1.375rem;
+}
+.hub-card--dir .hub-card__desc {
+  margin-top: 4px;
+  flex: 0 0 auto;
+}
+.hub-card__list {
+  margin: 0;
+  padding: 8px 13px;
+  list-style: none;
+  flex: 1 1 auto;
+}
+.hub-card__list a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 9px 12px;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 500;
+  color: #334155;
+  text-decoration: none;
+}
+.hub-card__list a:hover { background: var(--mds-light-grey); color: var(--mds-navy); }
+.hub-card__foot {
+  padding: 4px 25px 22px;
+}
+.hub-card--dir .hub-card__cta {
+  margin-top: 0;
+  padding: 0;
+  background: none;
+  color: var(--mds-navy);
+}
+.hub-card--dir .hub-card__cta .mds-icon { color: var(--mds-navy); }
+.hub-card--dir:hover .hub-card__cta,
+.hub-card--dir .hub-card__cta:hover {
+  background: none;
+  color: var(--mds-cyan);
+}
+.hub-card--dir:hover .hub-card__cta .mds-icon,
+.hub-card--dir .hub-card__cta:hover .mds-icon { color: var(--mds-cyan); }
+
+/* Directory list chevrons share one Steel Blue. Light Blue fails AA at 15px. */
+.hub-link { color: var(--mds-tertiary); }
+.hub-link .mds-icon { color: inherit; }
+.hub-link:hover { color: var(--mds-navy); }
+
+.exp-crumb.is-study { box-shadow: inset 0 -2px 0 var(--mds-study); }
+.exp-crumb.is-patient { color: var(--mds-patient); box-shadow: inset 0 -2px 0 var(--mds-patient); }
+.exp-crumb.is-data { box-shadow: inset 0 -2px 0 var(--mds-data); }
+
+.scopepill.scope-on[data-exp="study"] { background: var(--mds-study); color: var(--mds-navy); border-color: var(--mds-study); }
+.scopepill.scope-on[data-exp="patient"] { background: var(--mds-patient); color: #fff; border-color: var(--mds-patient); }
+.scopepill.scope-on[data-exp="data"] { background: var(--mds-tertiary); color: #fff; border-color: #fff; }
+
+/* Iconography — Medidata Design & Brand Guidelines
+   Navy Lined on light backgrounds, White Lined on dark backgrounds.
+   UI glyphs are vector so stroke weight survives at 12–16px; the raster
+   set lost almost all of its alpha at those sizes. */
+/* Brand paint, measured off medidata.com: glyphs are filled wherever the shape
+   allows, and stroked art runs 1.5 with butt caps and mitre joins. The 2px
+   round-cap/round-join default is Lucide's signature, not Medidata's. */
+.mds-icon {
+  display: inline-block;
+  vertical-align: middle;
+  flex-shrink: 0;
+  width: 1em;
+  height: 1em;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  stroke-linecap: butt;
+  stroke-linejoin: miter;
+  transition: color .18s ease;
+}
+.mds-icon.hub-card__mark {
+  font-size: 24px;
+  width: 24px;
+  height: 24px;
+  color: var(--hub-mark);
+}
+.mds-i-navy { color: var(--mds-navy); }
+.mds-i-white { color: var(--mds-white); }
+
+/* Experience monograms are solid letterforms inside the Medidata star, not
+   line glyphs, so they fill rather than stroke. */
+.mds-mark {
+  display: inline-block;
+  vertical-align: middle;
+  flex-shrink: 0;
+  width: 1em;
+  height: 1em;
+  fill: currentColor;
+  stroke: none;
+}
+
+/* Optical compensation only: below ~16px a 1.5 stroke loses a pixel to
+   rounding, so nudge it rather than restyling the whole set heavier. */
+.mds-icon.w-3,
+.mds-icon.w-3\.5 { stroke-width: 1.75; }
+
+/* Interactive icons resolve to Green on hover, matching the site. Only on
+   navy/dark chrome — Green on white is 1.7:1 and would vanish. */
+a:hover > .mds-icon.mds-i-white,
+button:hover > .mds-icon.mds-i-white,
+a:hover .mds-icon-well .mds-icon,
+.group:hover .mds-icon.mds-i-white { color: var(--mds-green); }
+
+/* Medidata Icon Library 2026 — line art with AI-Dot accents.
+   Rendered at 2x and never below 40px; the strokes are ~3% of the icon box
+   and disappear at UI-glyph sizes. White Lined on dark, Navy Lined on light. */
+.mds-brand-icon {
+  object-fit: contain;
+  pointer-events: none;
+  user-select: none;
+  opacity: 0.85;
+}

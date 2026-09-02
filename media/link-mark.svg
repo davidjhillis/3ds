@@ -1,0 +1,5 @@
+<!-- Medidata Link — "Single". Measured from the official Links_1 asset:
+     stroke = 25.2% of the box, centerline corner radius = 44%. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none" aria-hidden="true">
+  <path d="M12.6 100V56.6a44 44 0 0 1 44-44H100" stroke="currentColor" stroke-width="25.2"/>
+</svg>

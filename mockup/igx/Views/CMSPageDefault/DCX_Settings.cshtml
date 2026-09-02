@@ -1,0 +1,243 @@
+@model CMSPageRequest
+@using Ingeniux.Runtime
+@using Cartella.Interfaces
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    // ── Admin guard ─────────────────────────────────────────
+    IUser user = Utilities.CurrentUser();
+    bool isAdmin = user?.IsAdmin ?? false;
+    if (!isAdmin)
+    {
+        Response.Redirect("/");
+        return;
+    }
+
+    // ── SiteControl feature flags (current state) ───────────
+    ICMSElement siteControl = _Functions.GetSiteControl(Model);
+
+    var activeTheme      = (siteControl?.GetElementValue("ActiveTheme") ?? "Broadway");
+    bool aiSummarization = siteControl?.GetElementValue("AISummarization") != "false";
+    bool aiCodeExplainer = siteControl?.GetElementValue("AICodeExplainer") != "false";
+    bool aiSearchAnswers = siteControl?.GetElementValue("AISearchAnswers") != "false";
+    bool aiChatDocs      = siteControl?.GetElementValue("AIChatDocs")      != "false";
+    bool aiGlossary      = siteControl?.GetElementValue("AIGlossary")      == "true";
+
+    bool featureDarkMode  = siteControl?.GetElementValue("FeatureDarkMode")  != "false";
+    bool featureBookmarks = siteControl?.GetElementValue("FeatureBookmarks") != "false";
+    bool featureWatched   = siteControl?.GetElementValue("FeatureWatched")   != "false";
+    bool featureLanguage  = siteControl?.GetElementValue("FeatureLanguage")  != "false";
+    bool featureFeedback  = siteControl?.GetElementValue("FeatureFeedback")  != "false";
+    bool featureShare     = siteControl?.GetElementValue("FeatureShare")     != "false";
+    bool featurePDF       = siteControl?.GetElementValue("FeaturePDF")       == "true";
+
+    // ── Theme cards ─────────────────────────────────────────
+    var themes = new[] {
+        new { Id = "broadway", Label = "Broadway", CssFile = "styles.css",         Kind = "Bold",   Colors = "Indigo / Gray",   Dot1 = "bg-indigo-500", Dot2 = "bg-gray-400"   },
+        new { Id = "metro",    Label = "Metro",    CssFile = "styles-metro.css",   Kind = "Modern", Colors = "Blue / Slate",    Dot1 = "bg-blue-500",   Dot2 = "bg-slate-400"  },
+        new { Id = "terrace",  Label = "Terrace",  CssFile = "styles-terrace.css", Kind = "Warm",   Colors = "Teal / Zinc",     Dot1 = "bg-teal-500",   Dot2 = "bg-zinc-400"   }
+    };
+}
+
+@*
+    Site Settings — admin-only page. Admins can configure theme, AI feature
+    toggles, portal feature flags, and impersonate a customer account.
+
+    Saving: the form posts to Portal/SaveSiteSettings which updates the
+    SiteControl page's fields. That action is a stub — implement it in
+    Controllers/PortalController.cs (action name and route are noted below).
+
+    Impersonation: the account picker is a UI shell. Wiring it to the
+    Ingeniux portal user system requires a controller action that sets an
+    impersonation cookie; see the TODO note in the Impersonation tab.
+*@
+
+<div class="max-w-screen-xl mx-auto px-6 py-8">
+
+    <div class="mb-8">
+        <h1 class="text-lg font-bold text-neutral-900 dark:text-white">Site Settings</h1>
+        <p class="text-sm text-neutral-500 dark:text-neutral-400">Manage portal configuration, features, and theming</p>
+    </div>
+
+    @* ── Tabs ───────────────────────────────────────────── *@
+    <nav class="flex overflow-x-auto scrollbar-hide border-b border-neutral-200 dark:border-neutral-700 mb-8 -mx-6 px-6">
+        <button data-tab="theme" class="tab-btn flex-shrink-0 px-4 py-2.5 border-b-2 border-primary-600 text-primary-600 dark:text-primary-400 font-semibold text-sm whitespace-nowrap">Theme</button>
+        <button data-tab="ai-assists" class="tab-btn flex-shrink-0 px-4 py-2.5 border-b-2 border-transparent text-neutral-500 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white font-semibold text-sm whitespace-nowrap">AI Assists</button>
+        <button data-tab="features" class="tab-btn flex-shrink-0 px-4 py-2.5 border-b-2 border-transparent text-neutral-500 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white font-semibold text-sm whitespace-nowrap">Features</button>
+        <button data-tab="impersonation" class="tab-btn flex-shrink-0 px-4 py-2.5 border-b-2 border-transparent text-neutral-500 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white font-semibold text-sm whitespace-nowrap">Impersonation</button>
+    </nav>
+
+    <form method="post" action="@Url.Action("SaveSiteSettings", "Portal")" id="site-settings-form">
+        @Html.AntiForgeryToken()
+
+        @* ── Theme Tab ─────────────────────────────────── *@
+        <div id="theme-tab" class="tab-content max-w-2xl">
+            <p class="text-sm text-neutral-500 dark:text-neutral-400 mb-6">
+                Select the active color theme. Changes take effect on the next page load — _Layout.cshtml reads this value from SiteControl.
+            </p>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                @foreach (var t in themes)
+                {
+                    var isActive = activeTheme.Equals(t.Label, StringComparison.OrdinalIgnoreCase);
+                    <label class="theme-card block p-4 rounded-xl @(isActive ? "border-2 border-primary-500 bg-primary-50 dark:bg-primary-900/20" : "border border-neutral-200 dark:border-neutral-700 hover:border-neutral-300 dark:hover:border-neutral-600") text-left cursor-pointer transition-colors">
+                        <input type="radio" name="ActiveTheme" value="@t.Label" @(isActive ? "checked" : "") class="sr-only" />
+                        <div class="flex gap-1.5 mb-3">
+                            <div class="w-5 h-5 rounded-full @t.Dot1"></div>
+                            <div class="w-5 h-5 rounded-full @t.Dot2"></div>
+                        </div>
+                        <p class="text-sm font-semibold text-neutral-900 dark:text-white">@t.Label</p>
+                        <p class="text-xs text-neutral-500 mt-0.5">@t.Kind &middot; @t.Colors</p>
+                        @if (isActive)
+                        {
+                            <span class="inline-block mt-2 text-xs font-semibold text-primary-600 dark:text-primary-400">Active</span>
+                        }
+                    </label>
+                }
+            </div>
+        </div>
+
+        @* ── AI Assists Tab ────────────────────────────── *@
+        <div id="ai-assists-tab" class="tab-content hidden max-w-2xl">
+            <p class="text-sm text-neutral-500 dark:text-neutral-400 mb-6">Enable or disable AI-powered features</p>
+            <div class="divide-y divide-neutral-100 dark:divide-neutral-800">
+                @{
+                    var aiToggles = new[] {
+                        new { Name = "AISummarization", Label = "Summarization",       Desc = "AI-generated summary at the top of articles",   Checked = aiSummarization },
+                        new { Name = "AICodeExplainer", Label = "Code Explainer",      Desc = "AI explains code blocks with line-by-line breakdown", Checked = aiCodeExplainer },
+                        new { Name = "AISearchAnswers", Label = "AI Search Answers",   Desc = "AI-generated answers above search results",     Checked = aiSearchAnswers },
+                        new { Name = "AIChatDocs",      Label = "Chat with Docs",      Desc = "Floating chat widget for page Q&A",              Checked = aiChatDocs },
+                        new { Name = "AIGlossary",      Label = "Glossary Tooltips",   Desc = "Highlight and define technical terms",           Checked = aiGlossary }
+                    };
+                }
+                @foreach (var toggle in aiToggles)
+                {
+                    <label class="flex items-center justify-between py-3 cursor-pointer">
+                        <div>
+                            <p class="text-sm text-neutral-900 dark:text-white">@toggle.Label</p>
+                            <p class="text-xs text-neutral-500 mt-0.5">@toggle.Desc</p>
+                        </div>
+                        <div class="relative inline-flex items-center">
+                            <input type="checkbox" name="@toggle.Name" value="true" @(toggle.Checked ? "checked" : "") class="sr-only peer">
+                            <div class="w-9 h-5 bg-neutral-300 dark:bg-neutral-600 rounded-full peer peer-checked:bg-green-500 after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-full"></div>
+                        </div>
+                    </label>
+                }
+            </div>
+        </div>
+
+        @* ── Features Tab ──────────────────────────────── *@
+        <div id="features-tab" class="tab-content hidden max-w-2xl">
+            <p class="text-sm text-neutral-500 dark:text-neutral-400 mb-6">Toggle user-facing portal capabilities</p>
+            <div class="divide-y divide-neutral-100 dark:divide-neutral-800">
+                @{
+                    var featureToggles = new[] {
+                        new { Name = "FeatureDarkMode",  Label = "Dark Mode",         Desc = "Allow users to switch between light and dark themes", Checked = featureDarkMode  },
+                        new { Name = "FeatureBookmarks", Label = "Bookmarks",         Desc = "Users can save articles to their profile",            Checked = featureBookmarks },
+                        new { Name = "FeatureWatched",   Label = "Watched Pages",     Desc = "Subscribe to page change notifications",              Checked = featureWatched   },
+                        new { Name = "FeatureLanguage",  Label = "Language Selector", Desc = "Show language switcher in the header",                Checked = featureLanguage  },
+                        new { Name = "FeatureFeedback",  Label = "Feedback",          Desc = "Thumbs up/down on articles and AI responses",         Checked = featureFeedback  },
+                        new { Name = "FeatureShare",     Label = "Share",             Desc = "Share articles via link, email, or social media",     Checked = featureShare     },
+                        new { Name = "FeaturePDF",       Label = "PDF Download",      Desc = "Allow users to download articles as PDF",             Checked = featurePDF       }
+                    };
+                }
+                @foreach (var toggle in featureToggles)
+                {
+                    <label class="flex items-center justify-between py-3 cursor-pointer">
+                        <div>
+                            <p class="text-sm text-neutral-900 dark:text-white">@toggle.Label</p>
+                            <p class="text-xs text-neutral-500 mt-0.5">@toggle.Desc</p>
+                        </div>
+                        <div class="relative inline-flex items-center">
+                            <input type="checkbox" name="@toggle.Name" value="true" @(toggle.Checked ? "checked" : "") class="sr-only peer">
+                            <div class="w-9 h-5 bg-neutral-300 dark:bg-neutral-600 rounded-full peer peer-checked:bg-green-500 after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-full"></div>
+                        </div>
+                    </label>
+                }
+            </div>
+        </div>
+
+        @* ── Impersonation Tab ─────────────────────────── *@
+        <div id="impersonation-tab" class="tab-content hidden max-w-2xl">
+            <p class="text-sm text-neutral-500 dark:text-neutral-400 mb-6">
+                View the portal as a specific customer to see their personalization and entitlements.
+            </p>
+
+            @*
+                TODO (out-of-the-box stub): account list and impersonation action
+                require a controller that interacts with the Ingeniux portal user
+                system. See PortalController.ImpersonateUser(userId). Until then,
+                the UI shell is rendered for design parity with settings.html.
+            *@
+
+            <div class="relative mb-6">
+                <label class="block text-sm text-neutral-500 dark:text-neutral-400 mb-1">Select account</label>
+                <div class="relative">
+                    <i data-lucide="search" class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-400"></i>
+                    <input id="account-search" type="text" placeholder="Search by company name..." class="w-full pl-9 pr-3 py-2 text-sm border border-neutral-200 dark:border-neutral-700 rounded-lg bg-white dark:bg-neutral-800 text-neutral-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent" />
+                </div>
+                <div id="account-results" class="hidden absolute top-full left-0 right-0 mt-1 bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-lg shadow-xl z-10 max-h-64 overflow-y-auto">
+                    @* Populated by /api/portal/search-accounts at runtime *@
+                </div>
+            </div>
+
+            <div id="selected-account" class="hidden mb-6 p-4 bg-neutral-100 dark:bg-neutral-800 rounded-lg">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm font-semibold text-neutral-900 dark:text-white" id="selected-name"></p>
+                        <p class="text-xs text-neutral-500" id="selected-detail"></p>
+                    </div>
+                    <button type="button" id="impersonate-btn" class="px-4 py-2 text-sm font-semibold bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors">
+                        View as this account
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        @* ── Save bar (visible on Theme / AI / Features tabs) ── *@
+        <div class="flex items-center justify-end gap-3 mt-10 pt-6 border-t border-neutral-200 dark:border-neutral-700">
+            <button type="button" onclick="window.location.reload()" class="px-4 py-2 text-sm text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white transition-colors">Cancel</button>
+            <button type="submit" class="px-5 py-2 text-sm font-semibold bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors">Save Changes</button>
+        </div>
+    </form>
+</div>
+
+@section AddToFooter {
+    <script>
+        // Tab switching + hash routing
+        document.querySelectorAll('.tab-btn').forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                document.querySelectorAll('.tab-btn').forEach(function (b) {
+                    b.classList.remove('border-primary-600', 'text-primary-600', 'dark:text-primary-400');
+                    b.classList.add('border-transparent', 'text-neutral-500', 'dark:text-neutral-400');
+                });
+                this.classList.remove('border-transparent', 'text-neutral-500', 'dark:text-neutral-400');
+                this.classList.add('border-primary-600', 'text-primary-600', 'dark:text-primary-400');
+                document.querySelectorAll('.tab-content').forEach(function (c) { c.classList.add('hidden'); });
+                var panel = document.getElementById(this.dataset.tab + '-tab');
+                if (panel) panel.classList.remove('hidden');
+                if (typeof lucide !== 'undefined') lucide.createIcons();
+            });
+        });
+
+        function activateTabFromHash() {
+            var hash = window.location.hash.replace('#', '');
+            if (!hash) return;
+            var btn = document.querySelector('.tab-btn[data-tab="' + hash + '"]');
+            if (btn) btn.click();
+        }
+        activateTabFromHash();
+        window.addEventListener('hashchange', activateTabFromHash);
+
+        // Theme card radio visual feedback
+        document.querySelectorAll('.theme-card').forEach(function (card) {
+            card.addEventListener('click', function () {
+                document.querySelectorAll('.theme-card').forEach(function (c) {
+                    c.classList.remove('border-2', 'border-primary-500', 'bg-primary-50', 'dark:bg-primary-900/20');
+                    c.classList.add('border', 'border-neutral-200', 'dark:border-neutral-700');
+                });
+                card.classList.remove('border', 'border-neutral-200', 'dark:border-neutral-700');
+                card.classList.add('border-2', 'border-primary-500', 'bg-primary-50', 'dark:bg-primary-900/20');
+            });
+        });
+    </script>
+}

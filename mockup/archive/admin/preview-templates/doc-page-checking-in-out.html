@@ -1,0 +1,2250 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Getting Started - Discover CX Docs</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    // Configure Tailwind for dark mode
+    tailwind.config = {
+      darkMode: 'class'
+    }
+  </script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    /* Remove default margins */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    /* Prevent horizontal overflow on mobile */
+    html, body {
+      overflow-x: hidden;
+      max-width: 100vw;
+    }
+    
+    /* Ensure all elements wrap */
+    article *, pre, code {
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      max-width: 100%;
+    }
+    
+    /* Article styling - Syntax-inspired */
+    article h1 { 
+      font-size: 2.25rem; 
+      font-weight: 800; 
+      color: #111827; 
+      margin-bottom: 0.75rem;
+      line-height: 1.2;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+    }
+    @media (max-width: 640px) {
+      article h1 {
+        font-size: 1.75rem;
+      }
+    }
+    article h2 { 
+      font-size: 1.5rem; 
+      font-weight: 700; 
+      color: #111827; 
+      margin-top: 3rem; 
+      margin-bottom: 1rem; 
+      padding-top: 3rem;
+      border-top: 1px solid #e5e7eb;
+    }
+    article h3 { 
+      font-size: 1.25rem; 
+      font-weight: 600; 
+      color: #111827; 
+      margin-top: 2rem; 
+      margin-bottom: 0.75rem; 
+    }
+    article p { 
+      color: #6b7280; 
+      line-height: 1.75; 
+      margin-bottom: 1.25rem;
+      font-size: 1rem;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+    }
+    article hr {
+      border: none;
+      border-top: 1px solid #e5e7eb;
+      margin: 3rem 0;
+    }
+    
+    /* Dark mode */
+    .dark article h1, .dark article h2, .dark article h3 { color: #f9fafb; }
+    .dark article h2 { border-top-color: #374151; }
+    .dark article p { color: #9ca3af; }
+    .dark article hr { border-top-color: #374151; }
+    
+    /* Glossary terms */
+    .glossary-term {
+      cursor: help;
+      transition: all 0.2s;
+    }
+    .glossary-active .glossary-term {
+      border-bottom: 2px dashed rgb(var(--color-primary-600));
+      border-bottom-color: rgb(var(--color-primary-600));
+    }
+    .dark .glossary-active .glossary-term {
+      border-bottom-color: rgb(var(--color-primary-500));
+    }
+    .glossary-term:hover {
+      color: rgb(var(--color-primary-600));
+    }
+    .dark .glossary-term:hover {
+      color: rgb(var(--color-primary-500));
+    }
+  </style>
+</head>
+<body class="bg-white dark:bg-gray-950 text-gray-900 dark:text-white">
+
+  <!-- Header -->
+  <header class="sticky top-0 z-50 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700">
+    <div class="max-w-screen-2xl mx-auto px-6">
+      <div class="flex items-center justify-between h-16 gap-4">
+        
+        <!-- Logo (Always visible) -->
+        <a href="index.html" class="flex items-center gap-3 hover:opacity-90 transition-opacity flex-shrink-0">
+          <img src="../assets/discover-cx-logo.svg" alt="Discover CX" class="h-7 dark:hidden">
+          <img src="../assets/discover-cx-logo-white.svg" alt="Discover CX" class="h-7 hidden dark:block">
+            <span class="hidden sm:inline font-normal text-lg text-gray-600 dark:text-gray-400">Product Documentation</span>
+        </a>
+        
+        <!-- Command K Search Trigger (Big search bar - desktop only) -->
+        <button id="cmd-k-trigger" class="flex-1 max-w-2xl mx-auto hidden lg:flex items-center gap-3 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 text-left hover:border-primary-500 dark:hover:border-primary-400 transition-colors group">
+          <i data-lucide="search" class="w-5 h-5 text-gray-400 group-hover:text-primary-600 dark:group-hover:text-primary-400"></i>
+          <span class="flex-1 text-sm text-gray-500 dark:text-gray-400">Search documentation...</span>
+          <kbd class="hidden lg:inline-flex items-center gap-1 px-2 py-1 text-xs font-semibold text-gray-600 dark:text-gray-400 bg-gray-100 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded">
+            <span class="text-xs">⌘</span>K
+          </kbd>
+        </button>
+        
+        <!-- Right Actions -->
+        <div class="flex items-center gap-3">
+          <!-- Mobile/Tablet Search Icon Button -->
+          <button id="mobile-search-btn" class="lg:hidden p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg">
+            <i data-lucide="search" class="w-6 h-6 text-gray-600 dark:text-gray-400"></i>
+          </button>
+          <!-- Menu Button with Dropdown -->
+          <div class="relative">
+            <button id="mobile-menu-btn" class="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg flex-shrink-0">
+              <i data-lucide="menu" class="w-6 h-6 text-gray-600 dark:text-gray-400"></i>
+            </button>
+            
+            <!-- Mobile Menu Dropdown -->
+            <div id="mobile-menu" class="hidden absolute right-0 top-full mt-2 w-64 bg-white dark:bg-gray-900 rounded-xl shadow-2xl border border-gray-200 dark:border-gray-700 z-50 py-2">
+              <nav class="py-2">
+                <a href="index.html#products" class="flex items-center gap-3 px-4 py-3 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+                  <i data-lucide="package" class="w-4 h-4 text-gray-600 dark:text-gray-400"></i>
+                  <span class="text-sm font-medium text-gray-900 dark:text-white">Products</span>
+                </a>
+                <a href="doc-page.html" class="flex items-center gap-3 px-4 py-3 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+                  <i data-lucide="book-open" class="w-4 h-4 text-gray-600 dark:text-gray-400"></i>
+                  <span class="text-sm font-medium text-gray-900 dark:text-white">Documentation</span>
+                </a>
+                <a href="#" class="flex items-center gap-3 px-4 py-3 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+                  <i data-lucide="life-buoy" class="w-4 h-4 text-gray-600 dark:text-gray-400"></i>
+                  <span class="text-sm font-medium text-gray-900 dark:text-white">Support</span>
+                </a>
+              </nav>
+            </div>
+          </div>
+          
+          <!-- User Avatar Dropdown -->
+        <div class="relative">
+          <button id="user-menu-btn" class="flex items-center gap-2 p-1.5 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors">
+            <div class="w-8 h-8 rounded-full bg-gradient-to-br from-primary-600 to-pink-600 flex items-center justify-center text-white font-semibold text-sm">
+              JD
+            </div>
+            <i data-lucide="chevron-down" class="w-4 h-4 text-gray-600 dark:text-gray-400 hidden sm:block"></i>
+          </button>
+          
+          <!-- Dropdown Menu -->
+          <div id="user-dropdown" class="hidden absolute right-0 mt-2 w-56 bg-white dark:bg-gray-800 rounded-xl shadow-2xl border border-gray-200 dark:border-gray-700 py-2 z-50">
+            <!-- User Info -->
+            <div class="px-4 py-3 border-b border-gray-200 dark:border-gray-700">
+              <p class="text-sm font-semibold text-gray-900 dark:text-white">Jane Doe</p>
+              <p class="text-xs text-gray-600 dark:text-gray-400">jane.doe@company.com</p>
+            </div>
+            
+            <!-- Theme Selector -->
+            <div class="px-4 py-3 border-b border-gray-200 dark:border-gray-700">
+              <div class="flex items-center justify-between gap-2">
+                <button id="theme-auto" class="flex-1 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors" title="Auto">
+                  <i data-lucide="monitor" class="w-4 h-4 mx-auto text-gray-600 dark:text-gray-400"></i>
+                </button>
+                <button id="theme-light" class="flex-1 p-2 rounded-lg bg-yellow-100 dark:bg-yellow-900/30 transition-colors" title="Light">
+                  <i data-lucide="sun" class="w-4 h-4 mx-auto text-yellow-600 dark:text-yellow-400"></i>
+                </button>
+                <button id="theme-dark" class="flex-1 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors" title="Dark">
+                  <i data-lucide="moon" class="w-4 h-4 mx-auto text-gray-600 dark:text-gray-400"></i>
+                </button>
+              </div>
+            </div>
+            
+            <!-- Menu Items -->
+            <div class="py-2">
+              <a href="user-profile.html" class="flex items-center gap-3 px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                <i data-lucide="user" class="w-4 h-4 text-gray-600 dark:text-gray-400"></i>
+                <span class="text-sm text-gray-900 dark:text-white">My Profile</span>
+              </a>
+              <a href="#" class="flex items-center gap-3 px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                <i data-lucide="bookmark" class="w-4 h-4 text-gray-600 dark:text-gray-400"></i>
+                <span class="text-sm text-gray-900 dark:text-white">Bookmarks</span>
+              </a>
+              <a href="#" class="flex items-center gap-3 px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                <i data-lucide="clock" class="w-4 h-4 text-gray-600 dark:text-gray-400"></i>
+                <span class="text-sm text-gray-900 dark:text-white">Reading History</span>
+              </a>
+              <a href="#" class="flex items-center gap-3 px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                <i data-lucide="settings" class="w-4 h-4 text-gray-600 dark:text-gray-400"></i>
+                <span class="text-sm text-gray-900 dark:text-white">Settings</span>
+              </a>
+            </div>
+            
+            <!-- Divider -->
+            <div class="border-t border-gray-200 dark:border-gray-700 my-2"></div>
+            
+            <!-- Logout -->
+            <div class="py-2">
+              <a href="#" class="flex items-center gap-3 px-4 py-2 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors">
+                <i data-lucide="log-out" class="w-4 h-4 text-red-600 dark:text-red-400"></i>
+                <span class="text-sm text-red-600 dark:text-red-400 font-semibold">Log Out</span>
+              </a>
+            </div>
+          </div>
+        </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- 3-Column Layout Container -->
+  <div class="max-w-screen-2xl mx-auto relative">
+    <div class="flex">
+      
+      <!-- Left Sidebar - Syntax-style Navigation (Desktop) -->
+      <aside id="desktop-toc" class="hidden lg:block fixed left-0 top-16 bottom-0 w-64 bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-700 overflow-y-auto" style="left: max(0px, calc(50% - 768px))">
+      <nav class="p-6">
+        
+        <!-- Table of Contents Header -->
+        <div class="mb-4 pb-4 border-b border-gray-200 dark:border-gray-700">
+          <div class="flex items-center justify-between">
+            <h2 class="text-sm font-bold text-gray-900 dark:text-white">Table of Contents</h2>
+            
+            <!-- Hide TOC Icon Button -->
+            <button id="hide-toc-btn" class="group p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors" title="Hide table of contents">
+              <i data-lucide="panel-left-close" class="w-4 h-4 text-gray-600 dark:text-gray-400 group-hover:text-primary-600 dark:group-hover:text-primary-400"></i>
+            </button>
+          </div>
+          
+          <!-- Expand/Collapse All -->
+          <div class="flex items-center gap-3 mt-3">
+            <button id="expand-all-btn" class="flex items-center gap-1 text-xs text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400">
+              <i data-lucide="chevron-down" class="w-3 h-3"></i>
+              <span>Expand</span>
+            </button>
+            <button id="collapse-all-btn" class="flex items-center gap-1 text-xs text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400">
+              <i data-lucide="chevron-up" class="w-3 h-3"></i>
+              <span>Collapse</span>
+            </button>
+          </div>
+        </div>
+        
+        <!-- Section: Getting Started -->
+        <div class="mb-6">
+          <button class="nav-section-toggle flex items-center justify-between w-full text-xs font-semibold text-gray-900 dark:text-white uppercase tracking-wide mb-3 hover:text-primary-600 dark:hover:text-primary-400" data-chevron-state="down">
+            <span>Getting Started</span>
+            <i data-lucide="chevron-down" class="w-4 h-4"></i>
+          </button>
+          <ul class="space-y-2 text-sm nav-section-content hidden">
+            <li><a href="#" class="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">Logging In</a></li>
+            <li><a href="#" class="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">Navigation Bar</a></li>
+            <li><a href="#" class="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">Dashboard</a></li>
+          </ul>
+        </div>
+        
+        <!-- Section: Authoring Basics -->
+        <div class="mb-6">
+          <button class="nav-section-toggle flex items-center justify-between w-full text-xs font-semibold text-gray-900 dark:text-white uppercase tracking-wide mb-3 hover:text-primary-600 dark:hover:text-primary-400" data-chevron-state="up">
+            <span>Authoring Basics</span>
+            <i data-lucide="chevron-up" class="w-4 h-4"></i>
+          </button>
+          <ul class="space-y-2 text-sm nav-section-content">
+            <li><a href="doc-page.html" class="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">Creating Pages</a></li>
+            <li><a href="#" class="text-primary-600 dark:text-primary-400 font-semibold">Checking Pages In/Out</a></li>
+            <li><a href="#" class="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">Saving Pages</a></li>
+            <li><a href="#" class="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">Deleting & Restoring</a></li>
+            <li><a href="#" class="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">Publishing Content</a></li>
+          </ul>
+        </div>
+        
+        <!-- Section: Editing Basics -->
+        <div class="mb-6">
+          <button class="nav-section-toggle flex items-center justify-between w-full text-xs font-semibold text-gray-900 dark:text-white uppercase tracking-wide mb-3 hover:text-primary-600 dark:hover:text-primary-400" data-chevron-state="down">
+            <span>Editing Basics</span>
+            <i data-lucide="chevron-down" class="w-4 h-4"></i>
+          </button>
+          <ul class="space-y-2 text-sm nav-section-content hidden">
+            <li><a href="#" class="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">In-Context Editing</a></li>
+            <li><a href="#" class="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">Page Builder</a></li>
+            <li><a href="#" class="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">Using History</a></li>
+            <li><a href="#" class="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">Managing Pages</a></li>
+            <li><a href="#" class="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">XHTML Editor</a></li>
+          </ul>
+        </div>
+        
+        <!-- Section: Assets Manager -->
+        <div class="mb-6">
+          <button class="nav-section-toggle flex items-center justify-between w-full text-xs font-semibold text-gray-900 dark:text-white uppercase tracking-wide mb-3 hover:text-primary-600 dark:hover:text-primary-400" data-chevron-state="down">
+            <span>Assets Manager</span>
+            <i data-lucide="chevron-down" class="w-4 h-4"></i>
+          </button>
+          <ul class="space-y-2 text-sm nav-section-content hidden">
+            <li><a href="#" class="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">Uploading Assets</a></li>
+            <li><a href="#" class="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">Managing Assets</a></li>
+            <li><a href="#" class="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">Asset Metadata</a></li>
+            <li><a href="#" class="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">Asset History</a></li>
+          </ul>
+        </div>
+        
+        <!-- Section: Administration -->
+        <div class="mb-6">
+          <button class="nav-section-toggle flex items-center justify-between w-full text-xs font-semibold text-gray-900 dark:text-white uppercase tracking-wide mb-3 hover:text-primary-600 dark:hover:text-primary-400" data-chevron-state="down">
+            <span>Administration</span>
+            <i data-lucide="chevron-down" class="w-4 h-4"></i>
+          </button>
+          <ul class="space-y-2 text-sm nav-section-content hidden">
+            <li><a href="#" class="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">Schema Designer</a></li>
+            <li><a href="#" class="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">Publishing System</a></li>
+            <li><a href="#" class="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">Users & Groups</a></li>
+            <li><a href="#" class="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">Workflows</a></li>
+          </ul>
+        </div>
+        
+      </nav>
+    </aside>
+
+      <!-- Show TOC Button (appears where TOC normally is) -->
+      <button id="show-toc-btn" class="hidden fixed top-24 z-40 p-2 bg-white dark:bg-gray-900 border-2 border-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded shadow-md transition-colors" style="left: max(24px, calc(50% - 768px))" title="Show table of contents">
+        <i data-lucide="chevron-right" class="w-4 h-4 text-blue-600 dark:text-blue-400"></i>
+      </button>
+
+      <!-- Main Content -->
+      <main class="flex-1 w-full lg:ml-64 lg:mr-64 overflow-x-hidden">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
+          
+          <!-- Breadcrumb Navigation (Hidden on mobile) -->
+          <nav class="hidden sm:block mb-6" aria-label="Breadcrumb">
+            <ol class="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
+              <li>
+                <a href="index.html" class="hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Home</a>
+              </li>
+              <li>
+                <i data-lucide="chevron-right" class="w-4 h-4 text-gray-400"></i>
+              </li>
+              <li>
+                <a href="index.html#products" class="hover:text-primary-600 dark:hover:text-primary-400 transition-colors">CMS 10</a>
+              </li>
+              <li>
+                <i data-lucide="chevron-right" class="w-4 h-4 text-gray-400"></i>
+              </li>
+              <li>
+                <a href="#" class="hover:text-primary-600 dark:hover:text-primary-400 transition-colors">Authoring Basics</a>
+              </li>
+              <li>
+                <i data-lucide="chevron-right" class="w-4 h-4 text-gray-400"></i>
+              </li>
+              <li class="text-gray-900 dark:text-gray-100 font-medium" aria-current="page">Checking Pages In or Out</li>
+            </ol>
+          </nav>
+          
+          <!-- Article Toolbar -->
+          <div class="flex items-center justify-between mb-6 pb-4 border-b border-gray-200 dark:border-gray-700">
+            <div class="flex items-center gap-2">
+              <a href="doc-page.html" class="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors" title="Previous article">
+                <i data-lucide="chevron-left" class="w-5 h-5 text-gray-600 dark:text-gray-400"></i>
+              </a>
+              <a href="#" class="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors" title="Next article">
+                <i data-lucide="chevron-right" class="w-5 h-5 text-gray-600 dark:text-gray-400"></i>
+              </a>
+            </div>
+            
+            <div class="flex items-center gap-2">
+              <button class="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors" title="Download PDF">
+                <i data-lucide="download" class="w-5 h-5 text-gray-600 dark:text-gray-400"></i>
+              </button>
+              <button class="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors" title="Share">
+                <i data-lucide="share-2" class="w-5 h-5 text-gray-600 dark:text-gray-400"></i>
+              </button>
+              <button class="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors" title="Feedback">
+                <i data-lucide="message-square" class="w-5 h-5 text-gray-600 dark:text-gray-400"></i>
+              </button>
+            </div>
+          </div>
+          
+          <!-- Version & Tags -->
+          <div class="flex flex-wrap items-center gap-3 mb-6 pb-4 border-b border-gray-200 dark:border-gray-700">
+            <div class="flex items-center gap-2 relative">
+              <span class="text-sm text-gray-600 dark:text-gray-400">Version:</span>
+              <button id="version-dropdown-btn" class="group inline-flex items-center gap-2 border-b-2 border-primary-600 dark:border-primary-400 pb-1 hover:border-primary-700 dark:hover:border-primary-300 transition-colors">
+                <span class="text-primary-600 dark:text-primary-400 font-medium group-hover:text-primary-700 dark:group-hover:text-primary-300">CMS 10.6</span>
+                <i data-lucide="chevron-down" class="w-4 h-4 text-gray-600 dark:text-gray-400"></i>
+              </button>
+              
+              <!-- Version Dropdown Menu -->
+              <div id="version-dropdown" class="hidden absolute top-full left-0 mt-2 w-48 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg z-50">
+                <div class="py-2">
+                  <a href="#" class="block px-4 py-2 text-sm text-primary-600 dark:text-primary-400 font-medium bg-primary-50 dark:bg-primary-900/20">CMS 10.6 (Latest)</a>
+                  <a href="#" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">CMS 10.5</a>
+                  <a href="#" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">CMS 10.3</a>
+                  <a href="#" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">CMS 10.2</a>
+                  <a href="#" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">CMS 10.1</a>
+                  <a href="#" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">CMS 10.0</a>
+                  <div class="border-t border-gray-200 dark:border-gray-700 my-2"></div>
+                  <a href="#" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">CMS 9</a>
+                </div>
+              </div>
+            </div>
+            <span class="text-gray-400">|</span>
+            <span class="text-sm text-gray-600 dark:text-gray-400">Last updated Feb 1, 2025</span>
+            <span class="text-gray-400">|</span>
+            <span class="text-sm text-gray-600 dark:text-gray-400">Documentation</span>
+            <div class="flex items-center gap-2 ml-auto">
+              <span class="px-3 py-1 bg-primary-100 dark:bg-primary-900/20 text-primary-700 dark:text-primary-300 text-xs font-semibold rounded-full">Ingeniux CMS</span>
+              <span class="px-3 py-1 bg-blue-100 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300 text-xs font-semibold rounded-full">Authoring</span>
+              <span class="px-3 py-1 bg-green-100 dark:bg-green-900/20 text-green-700 dark:text-green-300 text-xs font-semibold rounded-full">Getting Started</span>
+            </div>
+          </div>
+          
+          <!-- Section Label -->
+          <p class="text-sm font-semibold text-primary-600 dark:text-primary-400 mb-4">Authoring Basics</p>
+          
+          <!-- Mobile TOC Button (At top of article on mobile) -->
+          <button id="mobile-toc-btn" class="lg:hidden w-full flex items-center justify-between gap-3 px-4 py-3 mb-6 border-2 border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 rounded-lg hover:border-primary-500 dark:hover:border-primary-400 transition-colors">
+            <div class="flex items-center gap-2">
+              <i data-lucide="list" class="w-5 h-5 text-gray-600 dark:text-gray-400"></i>
+              <span class="font-medium text-gray-900 dark:text-white">Table of Contents</span>
+            </div>
+            <i data-lucide="chevron-right" class="w-5 h-5 text-gray-400"></i>
+          </button>
+        
+        <!-- Article -->
+        <article>
+          
+          <!-- Title -->
+          <h1>Checking Pages In or Out</h1>
+          <p style="font-size: 1.25rem; color: #6b7280; margin-bottom: 2rem; margin-top: 0.5rem;">
+            Understand the check-in/check-out system in Ingeniux CMS that prevents editing conflicts and manages content versions. Learn how to check out pages for editing, check them back in to save changes, and undo checkouts when needed.
+          </p>
+
+          <!-- AI Tools (Inline at top) -->
+          <div class="flex flex-wrap gap-3" style="margin-bottom: 2rem;">
+            <button class="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-primary-600 to-blue-600 text-white rounded-lg text-sm font-semibold hover:from-primary-700 hover:to-blue-700 transition-all">
+              <i data-lucide="sparkles" class="w-4 h-4"></i>
+              Summarize
+            </button>
+            <button class="inline-flex items-center gap-2 px-4 py-2 bg-white dark:bg-gray-800 border-2 border-primary-600 text-primary-600 dark:text-primary-400 rounded-lg text-sm font-semibold hover:bg-primary-50 dark:hover:bg-primary-900/20 transition-all">
+              <i data-lucide="headphones" class="w-4 h-4"></i>
+              Listen
+            </button>
+            <button class="inline-flex items-center gap-2 px-4 py-2 bg-white dark:bg-gray-800 border-2 border-primary-600 text-primary-600 dark:text-primary-400 rounded-lg text-sm font-semibold hover:bg-primary-50 dark:hover:bg-primary-900/20 transition-all">
+              <i data-lucide="message-circle" class="w-4 h-4"></i>
+              Ask AI
+            </button>
+            <button id="glossary-toggle" class="inline-flex items-center gap-2 px-4 py-2 bg-white dark:bg-gray-800 border-2 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg text-sm font-semibold hover:bg-gray-50 dark:hover:bg-gray-700 transition-all">
+              <i data-lucide="book-open" class="w-4 h-4"></i>
+              <span>Glossary</span>
+              <span class="text-xs opacity-60">Off</span>
+            </button>
+          </div>
+          
+          <!-- Important Note -->
+          <div class="p-4 bg-blue-50 dark:bg-blue-900/20 border-l-4 border-blue-500 rounded-r mb-6">
+            <p class="text-sm font-semibold text-blue-800 dark:text-blue-400 mb-2">Important</p>
+            <p class="text-sm text-blue-700 dark:text-blue-300">
+              Checked-in pages cannot be edited until they are checked out. Changes made to pages that are checked out do not take effect until the page is checked in. New pages are automatically checked out and assigned to the creator.
+            </p>
+          </div>
+          
+          <!-- Check In/Out Overview -->
+          <h2 id="overview">Overview</h2>
+          <p>The check-in/check-out system in <span class="glossary-term" data-term="cms" data-definition="Content Management System - a software application that allows users to create, manage, and publish content.">Ingeniux CMS</span> prevents multiple users from editing the same page simultaneously, which could result in conflicting changes. This <span class="glossary-term" data-term="version-control" data-definition="A system that records changes to files over time so that specific versions can be recalled later.">version control</span> mechanism ensures content integrity.</p>
+          
+          <h3 id="checking-out">Checking Out Pages</h3>
+          <p>Before you can edit a page, you must check it out. This locks the page to your user account, preventing other users from making changes until you check it back in or undo the checkout.</p>
+          
+          <ol style="padding-left: 1.5rem; margin-bottom: 1.5rem; list-style-type: decimal;">
+            <li style="margin-bottom: 0.5rem;">Navigate to the page in the Site Tree</li>
+            <li style="margin-bottom: 0.5rem;">Right-click the page and select "Check Out"</li>
+            <li style="margin-bottom: 0.5rem;">The page icon will update to show it's checked out to you</li>
+            <li style="margin-bottom: 0.5rem;">Make your edits in the Edit tab</li>
+            <li style="margin-bottom: 0.5rem;">Save your changes regularly to preserve your work</li>
+          </ol>
+          
+          <p>You can also check out pages programmatically using the CMS API:</p>
+          
+          <!-- Code Block with AI -->
+          <div class="not-prose mb-6">
+            <div class="flex items-center justify-between mb-2">
+              <button class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-gradient-to-r from-primary-600 to-blue-600 text-white rounded-md text-xs font-semibold hover:from-primary-700 hover:to-blue-700">
+                <i data-lucide="sparkles" class="w-3 h-3"></i>
+                Explain this code
+              </button>
+              <button class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-gray-700 dark:bg-gray-800 text-white rounded-md text-xs font-semibold hover:bg-gray-600">
+                <i data-lucide="copy" class="w-3 h-3"></i>
+                Copy
+              </button>
+            </div>
+            <pre class="bg-black rounded-lg p-4 overflow-x-auto" style="margin: 0;"><code style="font-size: 14px; color: #e5e7eb; line-height: 1.7;"><span style="color: #9ca3af;">// Check out a page for editing</span>
+<span style="color: #f472b6;">const</span> <span style="color: #fbbf24;">checkout</span> = <span style="color: #f472b6;">await</span> <span style="color: #60a5fa;">cmsAPI</span>.<span style="color: #34d399;">checkoutPage</span>({
+  <span style="color: #fbbf24;">pageId</span>: <span style="color: #34d399;">'x456'</span>,
+  <span style="color: #fbbf24;">userId</span>: <span style="color: #34d399;">'currentUser'</span>
+});</code></pre>
+          </div>
+          
+          <h3 id="checking-in">Checking In Pages</h3>
+          <p>When you've finished editing a page, check it back in to make your changes available to other users and save a new <span class="glossary-term" data-term="version" data-definition="A specific state of content at a point in time, allowing rollback to previous states.">version</span> of the page.</p>
+          
+          <ol style="padding-left: 1.5rem; margin-bottom: 1.5rem; list-style-type: decimal;">
+            <li style="margin-bottom: 0.5rem;">Ensure all your changes are saved</li>
+            <li style="margin-bottom: 0.5rem;">Right-click the page in the Site Tree</li>
+            <li style="margin-bottom: 0.5rem;">Select "Check In" from the context menu</li>
+            <li style="margin-bottom: 0.5rem;">Add an optional version comment to describe your changes</li>
+            <li style="margin-bottom: 0.5rem;">Click "Check In" to release the page</li>
+          </ol>
+          
+          <h3 id="undoing-checkout">Undoing Checked Out Pages</h3>
+          <p>If you need to abandon changes and release a page without saving, you can undo the checkout. This reverts the page to its last checked-in state.</p>
+          
+          <ol style="padding-left: 1.5rem; margin-bottom: 1.5rem; list-style-type: decimal;">
+            <li style="margin-bottom: 0.5rem;">Right-click the checked-out page in the Site Tree</li>
+            <li style="margin-bottom: 0.5rem;">Select "Undo Check Out" from the context menu</li>
+            <li style="margin-bottom: 0.5rem;">Confirm that you want to discard your changes</li>
+            <li style="margin-bottom: 0.5rem;">The page will revert to its previous state and become available to other users</li>
+          </ol>
+          
+          <!-- Best Practices -->
+          <h2 id="best-practices">Best Practices</h2>
+          <p>Following these best practices will help ensure smooth collaboration and content management:</p>
+          
+          <ul style="padding-left: 1.5rem; margin-bottom: 1.5rem; list-style-type: disc;">
+            <li style="margin-bottom: 0.5rem;">Always check in pages when you're done editing, even for small changes</li>
+            <li style="margin-bottom: 0.5rem;">Add meaningful version comments when checking in to create a clear <span class="glossary-term" data-term="audit-trail" data-definition="A chronological record of system activities that enables reconstruction and review of past events.">audit trail</span></li>
+            <li style="margin-bottom: 0.5rem;">Don't keep pages checked out longer than necessary</li>
+            <li style="margin-bottom: 0.5rem;">Use "Undo Check Out" if you need to abandon changes</li>
+            <li style="margin-bottom: 0.5rem;">Check the page status in the Site Tree before attempting edits</li>
+            <li style="margin-bottom: 0.5rem;">Communicate with team members when working on related content</li>
+          </ul>
+          
+          <h3 id="page-status">Understanding Page Status Indicators</h3>
+          <p>The Site Tree displays visual indicators to show the check-out status of pages. Icons and colors help you quickly identify which pages are available for editing and which are currently locked by other users.</p>
+          <p>When you hover over a checked-out page, you'll see who has it checked out and when. This helps coordinate work among team members and prevents editing conflicts.</p>
+          
+          <h3 id="version-control">Version Control Benefits</h3>
+          <p>Each time you check in a page, the <span class="glossary-term" data-term="cms" data-definition="Content Management System - a software application that allows users to create, manage, and publish content.">CMS</span> creates a new version with a timestamp and your user information. This allows you to review the page's history and revert to previous versions if needed.</p>
+          <p>Version comments you add during check-in become part of the permanent record, making it easier to understand why changes were made and track content evolution over time.</p>
+          
+          <h3 id="api-integration">API Integration</h3>
+          <p>For automated workflows, you can manage page check-in/check-out via the CMS API:</p>
+          
+          <!-- Code Block with AI -->
+          <div class="not-prose mb-6">
+            <div class="flex items-center justify-between mb-2">
+              <button class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-gradient-to-r from-primary-600 to-blue-600 text-white rounded-md text-xs font-semibold hover:from-primary-700 hover:to-blue-700">
+                <i data-lucide="sparkles" class="w-3 h-3"></i>
+                Explain this code
+              </button>
+              <button class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-gray-700 dark:bg-gray-800 text-white rounded-md text-xs font-semibold hover:bg-gray-600">
+                <i data-lucide="copy" class="w-3 h-3"></i>
+                Copy
+              </button>
+            </div>
+            <pre class="bg-black rounded-lg p-4 overflow-x-auto" style="margin: 0;"><code style="font-size: 14px; color: #e5e7eb; line-height: 1.7;"><span style="color: #9ca3af;">// Get available schemas for a parent page</span>
+<span style="color: #f472b6;">const</span> <span style="color: #fbbf24;">schemas</span> = <span style="color: #f472b6;">await</span> <span style="color: #60a5fa;">cmsAPI</span>.<span style="color: #34d399;">getAvailableSchemas</span>({
+  <span style="color: #fbbf24;">parentId</span>: <span style="color: #34d399;">'x123'</span>,
+  <span style="color: #fbbf24;">filterBy</span>: <span style="color: #34d399;">'pageCreationRules'</span>
+});
+
+<span style="color: #9ca3af;">// Filter schemas by type</span>
+<span style="color: #f472b6;">const</span> <span style="color: #fbbf24;">articleSchemas</span> = <span style="color: #fbbf24;">schemas</span>.<span style="color: #34d399;">filter</span>(<span style="color: #fbbf24;">s</span> => 
+  <span style="color: #fbbf24;">s</span>.<span style="color: #fbbf24;">type</span> === <span style="color: #34d399;">'article'</span> || <span style="color: #fbbf24;">s</span>.<span style="color: #fbbf24;">type</span> === <span style="color: #34d399;">'documentation'</span>
+);</code></pre>
+          </div>
+          
+          <!-- Related Topics -->
+          <h2 id="related-topics">Related Topics</h2>
+          <p>Now that you understand how to check pages in and out, explore these related topics to enhance your content management workflow:</p>
+          
+          <ul style="padding-left: 1.5rem; margin-bottom: 1.5rem; list-style-type: disc;">
+            <li style="margin-bottom: 0.5rem;"><a href="doc-page.html" class="text-primary-600 dark:text-primary-400 hover:underline">Creating Pages</a> - Learn how to create new pages in the Site Tree</li>
+            <li style="margin-bottom: 0.5rem;"><a href="#" class="text-primary-600 dark:text-primary-400 hover:underline">Saving Pages</a> - Save your work while editing</li>
+            <li style="margin-bottom: 0.5rem;"><a href="#" class="text-primary-600 dark:text-primary-400 hover:underline">Using History</a> - Review and revert to previous page versions</li>
+            <li style="margin-bottom: 0.5rem;"><a href="#" class="text-primary-600 dark:text-primary-400 hover:underline">Publishing Content</a> - Publish your completed pages</li>
+          </ul>
+          
+          <h3 id="workflow-integration">Workflow Integration</h3>
+          <p>Check-in/check-out works seamlessly with the <span class="glossary-term" data-term="workflow" data-definition="A sequence of connected steps that content must pass through from creation to publication.">workflow</span> system. When pages are part of a workflow, checking in may trigger automatic workflow transitions or notifications to reviewers.</p>
+          
+          <p>Example of managing checkout state programmatically:</p>
+          
+          <!-- Code Block with AI -->
+          <div class="not-prose mb-6">
+            <div class="flex items-center justify-between mb-2">
+              <button class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-gradient-to-r from-primary-600 to-blue-600 text-white rounded-md text-xs font-semibold hover:from-primary-700 hover:to-blue-700">
+                <i data-lucide="sparkles" class="w-3 h-3"></i>
+                Explain this code
+              </button>
+              <button class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-gray-700 dark:bg-gray-800 text-white rounded-md text-xs font-semibold hover:bg-gray-600">
+                <i data-lucide="copy" class="w-3 h-3"></i>
+                Copy
+              </button>
+            </div>
+            <pre class="bg-black rounded-lg p-4 overflow-x-auto" style="margin: 0;"><code style="font-size: 14px; color: #e5e7eb; line-height: 1.7;"><span style="color: #9ca3af;">// Check out a page for editing</span>
+<span style="color: #f472b6;">const</span> <span style="color: #fbbf24;">checkout</span> = <span style="color: #f472b6;">await</span> <span style="color: #60a5fa;">cmsAPI</span>.<span style="color: #34d399;">checkoutPage</span>({
+  <span style="color: #fbbf24;">pageId</span>: <span style="color: #34d399;">'x456'</span>,
+  <span style="color: #fbbf24;">userId</span>: <span style="color: #34d399;">'user123'</span>
+});
+
+<span style="color: #f472b6;">if</span> (<span style="color: #fbbf24;">checkout</span>.<span style="color: #fbbf24;">success</span>) {
+  <span style="color: #9ca3af;">// Update page content</span>
+  <span style="color: #f472b6;">await</span> <span style="color: #60a5fa;">cmsAPI</span>.<span style="color: #34d399;">updatePage</span>({
+    <span style="color: #fbbf24;">pageId</span>: <span style="color: #34d399;">'x456'</span>,
+    <span style="color: #fbbf24;">title</span>: <span style="color: #34d399;">'Updated Title'</span>,
+    <span style="color: #fbbf24;">markForPublish</span>: <span style="color: #60a5fa;">true</span>
+  });
+}</code></pre>
+          </div>
+          
+          <h3>Review and Publish</h3>
+          <p>Preview your changes before <span class="glossary-term" data-term="publishing" data-definition="The process of deploying content from the CMS to a live website or delivery platform.">publishing</span> to ensure everything looks correct. Mark the page for publish when ready, and submit through <span class="glossary-term" data-term="workflow" data-definition="A series of steps and approvals that content must go through before publication.">workflow</span> if configured for your site.</p>
+          
+        </article>
+
+        <!-- Feedback Section -->
+        <div class="mt-12 pt-8 border-t border-gray-200 dark:border-gray-700">
+          <p class="text-sm font-semibold text-gray-900 dark:text-white mb-4 text-center">Was this article helpful?</p>
+          <div class="flex items-center justify-center gap-4 mb-12">
+            <button class="flex items-center gap-2 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-300 hover:border-green-500 hover:text-green-600 dark:hover:text-green-400 hover:bg-green-50 dark:hover:bg-green-900/20 transition-colors">
+              <i data-lucide="thumbs-up" class="w-4 h-4"></i>
+              <span>Yes</span>
+            </button>
+            <button class="flex items-center gap-2 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-300 hover:border-red-500 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors">
+              <i data-lucide="thumbs-down" class="w-4 h-4"></i>
+              <span>No</span>
+            </button>
+          </div>
+        </div>
+        
+        <!-- Next/Previous Navigation (Centered) -->
+        <nav class="flex items-center justify-between">
+          <a href="doc-page.html" class="flex items-start gap-3 text-sm hover:text-primary-600 dark:hover:text-primary-400 transition-colors group">
+            <i data-lucide="arrow-left" class="w-5 h-5 text-gray-400 group-hover:text-primary-600 dark:group-hover:text-primary-400 mt-1"></i>
+            <div>
+              <p class="text-xs text-gray-500 dark:text-gray-400 mb-1">Previous</p>
+              <p class="font-semibold text-gray-900 dark:text-white">Creating Pages</p>
+            </div>
+          </a>
+          <a href="#" class="flex items-start gap-3 text-sm hover:text-primary-600 dark:hover:text-primary-400 transition-colors group text-right">
+            <div>
+              <p class="text-xs text-gray-500 dark:text-gray-400 mb-1">Next</p>
+              <p class="font-semibold text-gray-900 dark:text-white">Saving Pages</p>
+            </div>
+            <i data-lucide="arrow-right" class="w-5 h-5 text-gray-400 group-hover:text-primary-600 dark:group-hover:text-primary-400 mt-1"></i>
+          </a>
+        </nav>
+
+      </div>
+    </main>
+
+      <!-- Right Sidebar - "On this page" TOC (Syntax-style) -->
+      <aside class="hidden lg:block fixed right-0 top-16 bottom-0 w-64 bg-white dark:bg-gray-900 border-l border-gray-200 dark:border-gray-700 overflow-y-auto" style="right: max(0px, calc(50% - 768px))">
+        <nav class="p-6">
+        <h2 class="text-xs font-semibold text-gray-900 dark:text-white uppercase tracking-wide mb-4">On this page</h2>
+        <ul class="space-y-3 text-sm">
+          <li><a href="#overview" class="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white block">Overview</a>
+            <ul class="ml-4 mt-2 space-y-2 text-xs">
+              <li><a href="#checking-out" class="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white block">Checking Out Pages</a></li>
+              <li><a href="#checking-in" class="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white block">Checking In Pages</a></li>
+              <li><a href="#undoing-checkout" class="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white block">Undoing Checkouts</a></li>
+            </ul>
+          </li>
+          <li><a href="#best-practices" class="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white block">Best Practices</a>
+            <ul class="ml-4 mt-2 space-y-2 text-xs">
+              <li><a href="#page-status" class="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white block">Page Status Indicators</a></li>
+              <li><a href="#version-control" class="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white block">Version Control</a></li>
+              <li><a href="#api-integration" class="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white block">API Integration</a></li>
+            </ul>
+          </li>
+          <li><a href="#related-topics" class="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white block">Related Topics</a></li>
+        </ul>
+        </nav>
+      </aside>
+
+    </div>
+  </div>
+  
+<!-- Footer (outside flex container for full width) -->
+<footer class="bg-gray-900 dark:bg-black text-white py-12" style="width: 100vw; position: relative; left: 0; right: 0;">
+    <div class="max-w-screen-2xl mx-auto px-6">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div class="col-span-1">
+          <div class="flex items-center space-x-2 mb-4">
+            <svg class="w-8 h-8 text-indigo-400" viewBox="0 0 32 32" fill="currentColor">
+              <path d="M16 2L3 9v14l13 7 13-7V9L16 2zm0 3.24L25.08 9 16 13.76 6.92 9 16 5.24zM5 10.92l10 5.38v10.46l-10-5.38V10.92zm12 15.84V16.3l10-5.38v10.46l-10 5.38z"/>
+            </svg>
+            <span class="font-bold text-lg">Discover CX</span>
+          </div>
+        </div>
+        <div>
+          <h3 class="font-bold mb-4">Products</h3>
+          <div class="space-y-2 text-sm text-gray-400">
+            <a href="#" class="block hover:text-white">Discover CX Platform</a>
+            <a href="#" class="block hover:text-white">Discover CX</a>
+            <a href="#" class="block hover:text-white">AI Assists</a>
+            <a href="#" class="block hover:text-white">InSite Search</a>
+          </div>
+        </div>
+        <div>
+          <h3 class="font-bold mb-4">Resources</h3>
+          <div class="space-y-2 text-sm text-gray-400">
+            <a href="#" class="block hover:text-white">Documentation</a>
+            <a href="#" class="block hover:text-white">API Reference</a>
+            <a href="#" class="block hover:text-white">Knowledge Base</a>
+            <a href="#" class="block hover:text-white">Blog</a>
+          </div>
+        </div>
+        <div>
+          <h3 class="font-bold mb-4">Company</h3>
+          <div class="space-y-2 text-sm text-gray-400">
+            <a href="#" class="block hover:text-white">About Us</a>
+            <a href="#" class="block hover:text-white">Careers</a>
+            <a href="#" class="block hover:text-white">Contact Sales</a>
+            <a href="#" class="block hover:text-white">Support</a>
+          </div>
+        </div>
+      </div>
+      <div class="border-t border-gray-700 mt-8 pt-8 text-center text-sm text-gray-500">
+        © 2025 Discover CX by Ingeniux. All rights reserved.
+      </div>
+    </div>
+  </footer>
+
+  <!-- Command K Search Modal -->
+  <div id="cmd-k-modal" class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-50 p-4 md:p-8">
+    <div class="max-w-3xl mx-auto mt-20">
+      <!-- Search Container -->
+      <div class="bg-white dark:bg-gray-900 rounded-xl shadow-2xl border border-gray-200 dark:border-gray-700 overflow-hidden">
+        
+        <!-- Search Input -->
+        <div class="flex items-center gap-3 px-4 py-4 border-b border-gray-200 dark:border-gray-700">
+          <i data-lucide="search" class="w-5 h-5 text-gray-400"></i>
+          <input 
+            id="cmd-k-input"
+            type="text" 
+            placeholder="Search documentation or ask AI..." 
+            class="flex-1 bg-transparent text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none text-lg"
+            autocomplete="off"
+          />
+          <button id="cmd-k-close" class="p-1.5 hover:bg-gray-100 dark:hover:bg-gray-800 rounded">
+            <i data-lucide="x" class="w-5 h-5 text-gray-400"></i>
+          </button>
+        </div>
+        
+        <!-- Filters -->
+        <div class="flex items-center gap-2 px-4 py-3 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800">
+          <span class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide">Filter:</span>
+          <div class="flex gap-2">
+            <button class="filter-btn active px-3 py-1.5 rounded-lg text-xs font-semibold bg-primary-600 text-white">
+              All Results
+            </button>
+            <button class="filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-600">
+              Documentation
+            </button>
+            <button class="filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-600">
+              AI Answers
+            </button>
+          </div>
+        </div>
+        
+        <!-- Search Results -->
+        <div id="cmd-k-results" class="max-h-96 overflow-y-auto">
+          
+          <!-- Recent Searches (when empty) -->
+          <div id="recent-searches" class="p-4">
+            <p class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-3">Recent Searches</p>
+            <div class="space-y-1">
+              <button class="w-full flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-left">
+                <i data-lucide="clock" class="w-4 h-4 text-gray-400"></i>
+                <span class="text-sm text-gray-700 dark:text-gray-300">Getting started with component schemas</span>
+              </button>
+              <button class="w-full flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-left">
+                <i data-lucide="clock" class="w-4 h-4 text-gray-400"></i>
+                <span class="text-sm text-gray-700 dark:text-gray-300">API authentication methods</span>
+              </button>
+              <button class="w-full flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-left">
+                <i data-lucide="clock" class="w-4 h-4 text-gray-400"></i>
+                <span class="text-sm text-gray-700 dark:text-gray-300">Workflow automation examples</span>
+              </button>
+            </div>
+          </div>
+          
+          <!-- Search Results (when searching) -->
+          <div id="search-results" class="hidden">
+            <!-- AI Answers (Top Priority) -->
+            <div class="p-4 bg-gradient-to-r from-primary-50 to-blue-50 dark:from-primary-900/10 dark:to-blue-900/10">
+              <p class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-3 flex items-center gap-2">
+                <i data-lucide="sparkles" class="w-4 h-4 text-primary-600 dark:text-primary-400"></i>
+                AI Answer
+              </p>
+              <div class="space-y-4">
+                <div class="p-4 rounded-lg bg-white dark:bg-gray-800 border border-primary-200 dark:border-primary-700">
+                  <p class="text-base font-semibold text-gray-900 dark:text-white mb-3 flex items-center gap-2">
+                    <i data-lucide="zap" class="w-5 h-5 text-primary-600 dark:text-primary-400"></i>
+                    Quick Answer
+                  </p>
+                  <p class="text-sm text-gray-700 dark:text-gray-300 leading-relaxed mb-4">
+                    Component schemas in Discover CX allow you to define reusable content structures with custom fields, validation rules, and relationships. They act as templates for your content, ensuring consistency and enabling powerful content modeling capabilities across your entire system.
+                  </p>
+                  
+                  <!-- Key Points -->
+                  <div class="bg-gray-50 dark:bg-gray-900 rounded-lg p-3 mb-3">
+                    <p class="text-xs font-semibold text-gray-700 dark:text-gray-300 mb-2">Key Features:</p>
+                    <ul class="text-xs text-gray-600 dark:text-gray-400 space-y-1 ml-4 list-disc">
+                      <li>Define custom fields with validation</li>
+                      <li>Create relationships between content types</li>
+                      <li>Reusable across multiple projects</li>
+                      <li>Version control and migration support</li>
+                    </ul>
+                  </div>
+                  
+                  <div class="flex flex-wrap gap-2">
+                    <a href="doc-page.html" class="inline-flex items-center gap-1 text-xs text-primary-600 dark:text-primary-400 font-semibold hover:underline">
+                      <i data-lucide="book-open" class="w-3 h-3"></i>
+                      Read full guide
+                    </a>
+                    <a href="#" class="inline-flex items-center gap-1 text-xs text-primary-600 dark:text-primary-400 font-semibold hover:underline">
+                      <i data-lucide="code" class="w-3 h-3"></i>
+                      View examples
+                    </a>
+                    <a href="#" class="inline-flex items-center gap-1 text-xs text-primary-600 dark:text-primary-400 font-semibold hover:underline">
+                      <i data-lucide="play-circle" class="w-3 h-3"></i>
+                      Watch tutorial
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Documentation Results -->
+            <div class="p-4">
+              <p class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-3 flex items-center justify-between">
+                <span>Documentation</span>
+                <span class="text-gray-400">8 results</span>
+              </p>
+              <div class="space-y-1">
+                <!-- Result 1 -->
+                <a href="doc-page.html" class="flex items-start gap-3 px-3 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors group">
+                  <i data-lucide="file-text" class="w-5 h-5 text-blue-600 dark:text-blue-400 flex-shrink-0 mt-0.5"></i>
+                  <div class="flex-1 min-w-0">
+                    <p class="text-sm font-semibold text-gray-900 dark:text-white group-hover:text-primary-600 dark:group-hover:text-primary-400">Component Schemas Overview</p>
+                    <p class="text-xs text-gray-600 dark:text-gray-400 mt-1 line-clamp-2">Learn how to define reusable content structures with custom fields, validation rules, and relationships between content types.</p>
+                    <div class="flex items-center gap-3 mt-2">
+                      <span class="text-xs text-gray-500 dark:text-gray-400">Core Concepts</span>
+                      <span class="text-xs text-gray-400">•</span>
+                      <span class="text-xs text-gray-500 dark:text-gray-400">5 min read</span>
+                    </div>
+                  </div>
+                  <span class="text-xs px-2 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 rounded font-semibold flex-shrink-0">Guide</span>
+                </a>
+                
+                <!-- Result 2 -->
+                <a href="#" class="flex items-start gap-3 px-3 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors group">
+                  <i data-lucide="code" class="w-5 h-5 text-primary-600 dark:text-primary-400 flex-shrink-0 mt-0.5"></i>
+                  <div class="flex-1 min-w-0">
+                    <p class="text-sm font-semibold text-gray-900 dark:text-white group-hover:text-primary-600 dark:group-hover:text-primary-400">Schema API Reference</p>
+                    <p class="text-xs text-gray-600 dark:text-gray-400 mt-1 line-clamp-2">Complete API documentation for creating, updating, and managing component schemas programmatically.</p>
+                    <div class="flex items-center gap-3 mt-2">
+                      <span class="text-xs text-gray-500 dark:text-gray-400">API Reference</span>
+                      <span class="text-xs text-gray-400">•</span>
+                      <span class="text-xs text-gray-500 dark:text-gray-400">Reference</span>
+                    </div>
+                  </div>
+                  <span class="text-xs px-2 py-1 bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300 rounded font-semibold flex-shrink-0">API</span>
+                </a>
+                
+                <!-- Result 3 -->
+                <a href="#" class="flex items-start gap-3 px-3 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors group">
+                  <i data-lucide="play-circle" class="w-5 h-5 text-green-600 dark:text-green-400 flex-shrink-0 mt-0.5"></i>
+                  <div class="flex-1 min-w-0">
+                    <p class="text-sm font-semibold text-gray-900 dark:text-white group-hover:text-primary-600 dark:group-hover:text-primary-400">Building Your First Schema</p>
+                    <p class="text-xs text-gray-600 dark:text-gray-400 mt-1 line-clamp-2">Step-by-step tutorial with code examples showing how to create a blog post schema with title, content, and author fields.</p>
+                    <div class="flex items-center gap-3 mt-2">
+                      <span class="text-xs text-gray-500 dark:text-gray-400">Tutorials</span>
+                      <span class="text-xs text-gray-400">•</span>
+                      <span class="text-xs text-gray-500 dark:text-gray-400">12 min</span>
+                    </div>
+                  </div>
+                  <span class="text-xs px-2 py-1 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 rounded font-semibold flex-shrink-0">Tutorial</span>
+                </a>
+                
+                <!-- Result 4 -->
+                <a href="#" class="flex items-start gap-3 px-3 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors group">
+                  <i data-lucide="file-code" class="w-5 h-5 text-orange-600 dark:text-orange-400 flex-shrink-0 mt-0.5"></i>
+                  <div class="flex-1 min-w-0">
+                    <p class="text-sm font-semibold text-gray-900 dark:text-white group-hover:text-primary-600 dark:group-hover:text-primary-400">Schema Field Types</p>
+                    <p class="text-xs text-gray-600 dark:text-gray-400 mt-1 line-clamp-2">Reference for all available field types including text, rich text, media, relationships, and custom validators.</p>
+                    <div class="flex items-center gap-3 mt-2">
+                      <span class="text-xs text-gray-500 dark:text-gray-400">Reference</span>
+                      <span class="text-xs text-gray-400">•</span>
+                      <span class="text-xs text-gray-500 dark:text-gray-400">Updated 2 days ago</span>
+                    </div>
+                  </div>
+                  <span class="text-xs px-2 py-1 bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-300 rounded font-semibold flex-shrink-0">Reference</span>
+                </a>
+                
+                <!-- Result 5 -->
+                <a href="#" class="flex items-start gap-3 px-3 py-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors group">
+                  <i data-lucide="lightbulb" class="w-5 h-5 text-yellow-600 dark:text-yellow-400 flex-shrink-0 mt-0.5"></i>
+                  <div class="flex-1 min-w-0">
+                    <p class="text-sm font-semibold text-gray-900 dark:text-white group-hover:text-primary-600 dark:group-hover:text-primary-400">Schema Best Practices</p>
+                    <p class="text-xs text-gray-600 dark:text-gray-400 mt-1 line-clamp-2">Design patterns and recommendations for building maintainable, scalable content schemas.</p>
+                    <div class="flex items-center gap-3 mt-2">
+                      <span class="text-xs text-gray-500 dark:text-gray-400">Best Practices</span>
+                      <span class="text-xs text-gray-400">•</span>
+                      <span class="text-xs text-gray-500 dark:text-gray-400">8 min read</span>
+                    </div>
+                  </div>
+                  <span class="text-xs px-2 py-1 bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-300 rounded font-semibold flex-shrink-0">Guide</span>
+                </a>
+                
+                <!-- View all results -->
+                <a href="search-results.html" class="block w-full text-center py-3 text-sm text-primary-600 dark:text-primary-400 font-semibold hover:bg-primary-50 dark:hover:bg-primary-900/20 rounded-lg transition-colors">
+                  View all 8 results →
+                </a>
+              </div>
+            </div>
+            
+            <!-- Related Topics -->
+            <div class="p-4 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800">
+              <p class="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-3">Related Topics</p>
+              <div class="flex flex-wrap gap-2">
+                <a href="#" class="px-3 py-1.5 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-full text-xs font-medium text-gray-700 dark:text-gray-300 hover:border-primary-500 dark:hover:border-primary-400 transition-colors">
+                  Content Types
+                </a>
+                <a href="#" class="px-3 py-1.5 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-full text-xs font-medium text-gray-700 dark:text-gray-300 hover:border-primary-500 dark:hover:border-primary-400 transition-colors">
+                  Field Validation
+                </a>
+                <a href="#" class="px-3 py-1.5 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-full text-xs font-medium text-gray-700 dark:text-gray-300 hover:border-primary-500 dark:hover:border-primary-400 transition-colors">
+                  Relationships
+                </a>
+                <a href="#" class="px-3 py-1.5 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-full text-xs font-medium text-gray-700 dark:text-gray-300 hover:border-primary-500 dark:hover:border-primary-400 transition-colors">
+                  Migration
+                </a>
+              </div>
+            </div>
+          </div>
+          
+        </div>
+        
+        <!-- Footer hint -->
+        <div class="flex items-center justify-between px-4 py-3 bg-gray-50 dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700">
+          <div class="flex items-center gap-4 text-xs text-gray-500 dark:text-gray-400">
+            <span class="flex items-center gap-1.5">
+              <kbd class="px-1.5 py-0.5 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded text-xs">↑↓</kbd>
+              Navigate
+            </span>
+            <span class="flex items-center gap-1.5">
+              <kbd class="px-1.5 py-0.5 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded text-xs">↵</kbd>
+              Select
+            </span>
+            <span class="flex items-center gap-1.5">
+              <kbd class="px-1.5 py-0.5 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded text-xs">esc</kbd>
+              Close
+            </span>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <!-- AI Modals & Panels -->
+  
+  <!-- Summarize Modal -->
+  <div id="summarize-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white dark:bg-gray-800 rounded-2xl max-w-2xl w-full max-h-[80vh] overflow-hidden shadow-2xl">
+      <!-- Header -->
+      <div class="bg-gradient-to-r from-primary-600 to-blue-600 px-6 py-4 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <i data-lucide="sparkles" class="w-6 h-6 text-white"></i>
+          <h3 class="text-xl font-bold text-white">AI Summary</h3>
+        </div>
+        <button onclick="document.getElementById('summarize-modal').classList.add('hidden')" class="text-white hover:bg-white/20 p-2 rounded-lg transition-colors">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+      
+      <!-- Content -->
+      <div class="p-6 overflow-y-auto max-h-[60vh]">
+        
+        <!-- Summary Length Selector -->
+        <div class="flex items-center gap-2 mb-6">
+          <span class="text-sm text-gray-600 dark:text-gray-400">Summary length:</span>
+          <div class="flex gap-2">
+            <button class="px-3 py-1.5 bg-primary-600 text-white rounded-lg text-xs font-semibold">Short</button>
+            <button class="px-3 py-1.5 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg text-xs font-semibold hover:bg-gray-300 dark:hover:bg-gray-600">Medium</button>
+            <button class="px-3 py-1.5 bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg text-xs font-semibold hover:bg-gray-300 dark:hover:bg-gray-600">Detailed</button>
+          </div>
+        </div>
+        
+        <!-- AI Generated Summary (Prose) -->
+        <div class="bg-gradient-to-br from-primary-50 to-blue-50 dark:from-primary-900/20 dark:to-blue-900/20 border-2 border-primary-200 dark:border-primary-800 rounded-xl p-6 mb-6">
+          <div class="flex items-start gap-3 mb-4">
+            <i data-lucide="sparkles" class="w-5 h-5 text-primary-600 flex-shrink-0 mt-1"></i>
+            <div class="flex-1">
+              <h4 class="font-bold text-gray-900 dark:text-white mb-3">AI-Generated Summary</h4>
+              <div class="prose prose-sm dark:prose-invert max-w-none">
+                <p class="text-gray-700 dark:text-gray-300 leading-relaxed mb-3">
+                  This comprehensive guide introduces CacheAdvance, a predictive caching library designed to optimize application performance by preemptively caching resources before users need them. The article walks through the complete setup process, from initial installation via npm to advanced configuration options.
+                </p>
+                <p class="text-gray-700 dark:text-gray-300 leading-relaxed mb-3">
+                  You'll learn how to install the <code class="text-xs bg-primary-100 dark:bg-primary-900 px-1.5 py-0.5 rounded text-primary-700 dark:text-primary-300">@tailwindlabs/cache-advance</code> package, configure the caching strategy in your config file, and implement basic caching patterns in your application. The guide covers essential concepts like predictive strategies, CPU allocation for cache operations, and backup storage configuration.
+                </p>
+                <p class="text-gray-700 dark:text-gray-300 leading-relaxed">
+                  Advanced topics include middleware integration, cache clearing mechanisms, and troubleshooting common issues. Whether you're new to caching or looking to implement advanced patterns, this guide provides practical examples and best practices to get you started in under 30 minutes.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Key Points (Optional expansion) -->
+        <details class="mb-6">
+          <summary class="cursor-pointer font-semibold text-gray-900 dark:text-white mb-3 hover:text-primary-600 dark:hover:text-primary-400">
+            Key Points (expand for details)
+          </summary>
+          <div class="space-y-2 pl-4 border-l-2 border-primary-200 dark:border-primary-800">
+            <div class="text-sm text-gray-700 dark:text-gray-300">
+              <strong class="text-gray-900 dark:text-white">Installation:</strong> Quick setup using npm package manager
+            </div>
+            <div class="text-sm text-gray-700 dark:text-gray-300">
+              <strong class="text-gray-900 dark:text-white">Configuration:</strong> Flexible strategy options including predictive caching
+            </div>
+            <div class="text-sm text-gray-700 dark:text-gray-300">
+              <strong class="text-gray-900 dark:text-white">Performance:</strong> CPU allocation controls for optimal cache operations
+            </div>
+            <div class="text-sm text-gray-700 dark:text-gray-300">
+              <strong class="text-gray-900 dark:text-white">Storage:</strong> Customizable backup locations for persistent caching
+            </div>
+          </div>
+        </details>
+        
+        <!-- Reading Stats -->
+        <div class="grid grid-cols-2 gap-4 mb-6">
+          <div class="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg p-4">
+            <div class="flex items-center gap-2 text-gray-600 dark:text-gray-400 mb-1">
+              <i data-lucide="clock" class="w-4 h-4"></i>
+              <span class="text-xs uppercase tracking-wide">Reading Time</span>
+            </div>
+            <p class="text-2xl font-bold text-gray-900 dark:text-white">8 min</p>
+          </div>
+          <div class="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg p-4">
+            <div class="flex items-center gap-2 text-gray-600 dark:text-gray-400 mb-1">
+              <i data-lucide="layers" class="w-4 h-4"></i>
+              <span class="text-xs uppercase tracking-wide">Sections</span>
+            </div>
+            <p class="text-2xl font-bold text-gray-900 dark:text-white">5</p>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Footer -->
+      <div class="border-t border-gray-200 dark:border-gray-700 px-6 py-4 bg-gray-50 dark:bg-gray-900 flex items-center justify-between">
+        <div class="flex gap-3">
+          <button class="text-primary-600 dark:text-primary-400 hover:text-primary-700 text-sm font-semibold flex items-center gap-2">
+            <i data-lucide="copy" class="w-4 h-4"></i>
+            Copy Summary
+          </button>
+          <button class="text-primary-600 dark:text-primary-400 hover:text-primary-700 text-sm font-semibold flex items-center gap-2">
+            <i data-lucide="refresh-cw" class="w-4 h-4"></i>
+            Regenerate
+          </button>
+        </div>
+        <button onclick="document.getElementById('summarize-modal').classList.add('hidden')" class="px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors font-semibold text-sm">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Listen Player Modal -->
+  <div id="listen-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white dark:bg-gray-800 rounded-2xl max-w-lg w-full overflow-hidden shadow-2xl">
+      <!-- Header -->
+      <div class="bg-gradient-to-r from-blue-600 to-cyan-600 px-6 py-4 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <i data-lucide="headphones" class="w-6 h-6 text-white"></i>
+          <h3 class="text-xl font-bold text-white">Listen to Article</h3>
+        </div>
+        <button onclick="document.getElementById('listen-modal').classList.add('hidden')" class="text-white hover:bg-white/20 p-2 rounded-lg transition-colors">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+      
+      <!-- Player -->
+      <div class="p-8">
+        <!-- Waveform Visualization (Mock) -->
+        <div class="bg-gradient-to-r from-blue-100 to-cyan-100 dark:from-blue-900/30 dark:to-cyan-900/30 rounded-xl p-6 mb-6">
+          <div class="flex items-center justify-center gap-1 h-20">
+            <div class="w-1 bg-blue-500 rounded-full" style="height: 40%"></div>
+            <div class="w-1 bg-blue-500 rounded-full" style="height: 70%"></div>
+            <div class="w-1 bg-blue-500 rounded-full" style="height: 50%"></div>
+            <div class="w-1 bg-blue-500 rounded-full" style="height: 90%"></div>
+            <div class="w-1 bg-blue-500 rounded-full" style="height: 60%"></div>
+            <div class="w-1 bg-cyan-500 rounded-full" style="height: 80%"></div>
+            <div class="w-1 bg-cyan-500 rounded-full" style="height: 55%"></div>
+            <div class="w-1 bg-cyan-500 rounded-full" style="height: 75%"></div>
+            <div class="w-1 bg-blue-400 rounded-full" style="height: 45%"></div>
+            <div class="w-1 bg-blue-400 rounded-full" style="height: 65%"></div>
+          </div>
+        </div>
+        
+        <!-- Progress Bar -->
+        <div class="mb-4">
+          <div class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-400 mb-2">
+            <span>2:34</span>
+            <span>8:15</span>
+          </div>
+          <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+            <div class="bg-gradient-to-r from-blue-600 to-cyan-600 h-2 rounded-full" style="width: 31%"></div>
+          </div>
+        </div>
+        
+        <!-- Controls -->
+        <div class="flex items-center justify-center gap-4 mb-6">
+          <button class="p-3 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+            <i data-lucide="skip-back" class="w-5 h-5 text-gray-700 dark:text-gray-300"></i>
+          </button>
+          <button class="p-4 rounded-full bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 transition-colors shadow-lg">
+            <i data-lucide="pause" class="w-6 h-6 text-white"></i>
+          </button>
+          <button class="p-3 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+            <i data-lucide="skip-forward" class="w-5 h-5 text-gray-700 dark:text-gray-300"></i>
+          </button>
+        </div>
+        
+        <!-- Speed & Voice Settings -->
+        <div class="flex items-center justify-between pt-6 border-t border-gray-200 dark:border-gray-700">
+          <div class="flex items-center gap-2">
+            <i data-lucide="gauge" class="w-4 h-4 text-gray-600 dark:text-gray-400"></i>
+            <select class="text-sm bg-gray-100 dark:bg-gray-700 rounded-lg px-3 py-1.5 border-0 text-gray-900 dark:text-white">
+              <option>1x</option>
+              <option>1.25x</option>
+              <option>1.5x</option>
+              <option>2x</option>
+            </select>
+          </div>
+          <div class="flex items-center gap-2">
+            <i data-lucide="mic" class="w-4 h-4 text-gray-600 dark:text-gray-400"></i>
+            <select class="text-sm bg-gray-100 dark:bg-gray-700 rounded-lg px-3 py-1.5 border-0 text-gray-900 dark:text-white">
+              <option>Natural Voice</option>
+              <option>Professional Voice</option>
+              <option>Casual Voice</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Inline AI Chat Area (appears below "Ask AI" button when clicked) -->
+  <div id="inline-chat" class="hidden">
+    <!-- This will be inserted into the page by JavaScript -->
+  </div>
+  
+  <!-- Glossary Tooltip (appears on hover) -->
+  <div id="glossary-tooltip" class="fixed hidden z-50 max-w-xs pointer-events-none">
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl border border-gray-200 dark:border-gray-700 overflow-hidden">
+      <div class="bg-primary-600 px-3 py-1.5">
+        <h4 id="glossary-term-title" class="text-xs font-semibold text-white uppercase tracking-wide">
+          <!-- Term name here -->
+        </h4>
+      </div>
+      <div class="p-3">
+        <p id="glossary-definition" class="text-sm text-gray-700 dark:text-gray-300 leading-relaxed">
+          <!-- Definition here -->
+        </p>
+      </div>
+      <!-- Tooltip Arrow -->
+      <div class="absolute -top-1.5 left-4 w-3 h-3 bg-primary-600 rotate-45"></div>
+    </div>
+  </div>
+  
+  <!-- Text Selection AI Tooltip (Grammarly-style) -->
+  <div id="selection-tooltip" class="fixed hidden z-50 max-w-sm" style="pointer-events: auto;">
+    <div class="bg-white dark:bg-gray-800 rounded-xl shadow-2xl border border-gray-200 dark:border-gray-700 overflow-hidden">
+      <!-- Tooltip Header -->
+      <div class="bg-gradient-to-r from-primary-600 to-pink-600 px-4 py-2 flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <i data-lucide="sparkles" class="w-4 h-4 text-white"></i>
+          <span class="text-sm font-semibold text-white">AI Explain</span>
+        </div>
+        <button onclick="document.getElementById('selection-tooltip').classList.add('hidden')" class="text-white hover:bg-white/20 p-1 rounded transition-colors">
+          <i data-lucide="x" class="w-3 h-3"></i>
+        </button>
+      </div>
+      
+      <!-- Tooltip Content -->
+      <div class="p-4 max-h-72 overflow-y-auto">
+        <!-- Selected Text (smaller) -->
+        <div class="mb-3">
+          <p id="selected-text-tooltip" class="text-xs text-gray-900 dark:text-white font-medium bg-primary-50 dark:bg-primary-900/30 px-2 py-1 rounded italic border-l-2 border-primary-600">
+            <!-- Selected text here -->
+          </p>
+        </div>
+        
+        <!-- Quick Explanation -->
+        <div class="mb-3">
+          <p class="text-sm text-gray-700 dark:text-gray-300 leading-relaxed">
+            This concept refers to a caching strategy that anticipates future user actions and preloads content before it's requested.
+          </p>
+        </div>
+        
+        <!-- Quick Actions (compact) -->
+        <div class="flex flex-wrap gap-1.5 pt-3 border-t border-gray-200 dark:border-gray-700">
+          <button class="inline-flex items-center gap-1 px-2 py-1 bg-primary-50 dark:bg-primary-900/20 border border-primary-300 dark:border-primary-700 rounded-full hover:bg-primary-100 dark:hover:bg-primary-900/40 transition-colors text-xs text-primary-700 dark:text-primary-300 font-medium">
+            <i data-lucide="book-open" class="w-3 h-3"></i>
+            <span>Learn more</span>
+          </button>
+          <button class="inline-flex items-center gap-1 px-2 py-1 bg-primary-50 dark:bg-primary-900/20 border border-primary-300 dark:border-primary-700 rounded-full hover:bg-primary-100 dark:hover:bg-primary-900/40 transition-colors text-xs text-primary-700 dark:text-primary-300 font-medium">
+            <i data-lucide="code" class="w-3 h-3"></i>
+            <span>See example</span>
+          </button>
+          <button class="inline-flex items-center gap-1 px-2 py-1 bg-primary-50 dark:bg-primary-900/20 border border-primary-300 dark:border-primary-700 rounded-full hover:bg-primary-100 dark:hover:bg-primary-900/40 transition-colors text-xs text-primary-700 dark:text-primary-300 font-medium">
+            <i data-lucide="link" class="w-3 h-3"></i>
+            <span>Related docs</span>
+          </button>
+        </div>
+      </div>
+      
+      <!-- Tooltip Arrow (pointing to selection) -->
+      <div class="absolute -top-2 left-1/2 transform -translate-x-1/2 w-4 h-4 bg-gradient-to-br from-primary-600 to-pink-600 rotate-45"></div>
+    </div>
+  </div>
+
+  <!-- Explain Code Modal -->
+  <div id="explain-code-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white dark:bg-gray-800 rounded-2xl max-w-3xl w-full max-h-[80vh] overflow-hidden shadow-2xl">
+      <!-- Header -->
+      <div class="bg-gradient-to-r from-emerald-600 to-teal-600 px-6 py-4 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <i data-lucide="code-2" class="w-6 h-6 text-white"></i>
+          <h3 class="text-xl font-bold text-white">Code Explanation</h3>
+        </div>
+        <button onclick="document.getElementById('explain-code-modal').classList.add('hidden')" class="text-white hover:bg-white/20 p-2 rounded-lg transition-colors">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+      
+      <!-- Content -->
+      <div class="p-6 overflow-y-auto max-h-[calc(80vh-180px)]">
+        <!-- Code Block -->
+        <div class="bg-gray-900 rounded-xl p-4 mb-6 font-mono text-sm">
+          <pre class="text-gray-300"><code><span class="text-gray-500">// cache-advance.config.js</span>
+<span class="text-pink-400">export default</span> {
+  <span class="text-yellow-400">strategy</span>: <span class="text-emerald-400">'predictive'</span>,
+  <span class="text-yellow-400">engine</span>: {
+    <span class="text-yellow-400">cpus</span>: <span class="text-cyan-400">12</span>,
+    <span class="text-yellow-400">backups</span>: [<span class="text-emerald-400">'./storage/cache.wtf'</span>],
+  },
+}</code></pre>
+        </div>
+        
+        <!-- Explanation -->
+        <div class="space-y-4">
+          <div class="bg-emerald-50 dark:bg-emerald-900/20 border-2 border-emerald-200 dark:border-emerald-800 rounded-xl p-4">
+            <h4 class="font-bold text-emerald-900 dark:text-emerald-100 mb-2 flex items-center gap-2">
+              <i data-lucide="lightbulb" class="w-5 h-5"></i>
+              What This Code Does
+            </h4>
+            <p class="text-gray-700 dark:text-gray-300 text-sm">
+              This configuration file exports a default object that sets up your CacheAdvance instance with specific performance and storage options.
+            </p>
+          </div>
+          
+          <!-- Line by Line -->
+          <div class="space-y-3">
+            <h4 class="font-semibold text-gray-900 dark:text-white">Line-by-line breakdown:</h4>
+            
+            <div class="flex gap-3">
+              <div class="w-8 h-8 rounded-full bg-yellow-100 dark:bg-yellow-900/30 flex items-center justify-center flex-shrink-0">
+                <span class="text-xs font-bold text-yellow-700 dark:text-yellow-300">1</span>
+              </div>
+              <div class="flex-1">
+                <p class="text-sm font-mono text-primary-600 dark:text-primary-400">strategy: 'predictive'</p>
+                <p class="text-sm text-gray-700 dark:text-gray-300 mt-1">
+                  Sets the caching strategy to <strong>predictive</strong>, which anticipates user behavior to pre-load content.
+                </p>
+              </div>
+            </div>
+            
+            <div class="flex gap-3">
+              <div class="w-8 h-8 rounded-full bg-yellow-100 dark:bg-yellow-900/30 flex items-center justify-center flex-shrink-0">
+                <span class="text-xs font-bold text-yellow-700 dark:text-yellow-300">2</span>
+              </div>
+              <div class="flex-1">
+                <p class="text-sm font-mono text-primary-600 dark:text-primary-400">cpus: 12</p>
+                <p class="text-sm text-gray-700 dark:text-gray-300 mt-1">
+                  Allocates <strong>12 CPU cores</strong> for cache operations to maximize performance.
+                </p>
+              </div>
+            </div>
+            
+            <div class="flex gap-3">
+              <div class="w-8 h-8 rounded-full bg-yellow-100 dark:bg-yellow-900/30 flex items-center justify-center flex-shrink-0">
+                <span class="text-xs font-bold text-yellow-700 dark:text-yellow-300">3</span>
+              </div>
+              <div class="flex-1">
+                <p class="text-sm font-mono text-primary-600 dark:text-primary-400">backups: ['./storage/cache.wtf']</p>
+                <p class="text-sm text-gray-700 dark:text-gray-300 mt-1">
+                  Specifies the backup location for persistent cache storage.
+                </p>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Related Links -->
+          <div class="border-t border-gray-200 dark:border-gray-700 pt-4 mt-6">
+            <h4 class="font-semibold text-gray-900 dark:text-white mb-3">Related documentation:</h4>
+            <div class="space-y-2">
+              <a href="#" class="flex items-center gap-2 text-sm text-emerald-600 dark:text-emerald-400 hover:underline">
+                <i data-lucide="book-open" class="w-4 h-4"></i>
+                Cache Strategies Guide
+              </a>
+              <a href="#" class="flex items-center gap-2 text-sm text-emerald-600 dark:text-emerald-400 hover:underline">
+                <i data-lucide="settings" class="w-4 h-4"></i>
+                Configuration Options
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Footer -->
+      <div class="border-t border-gray-200 dark:border-gray-700 px-6 py-4 bg-gray-50 dark:bg-gray-900 flex items-center justify-between">
+        <button class="text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 text-sm font-semibold flex items-center gap-2">
+          <i data-lucide="copy" class="w-4 h-4"></i>
+          Copy Code
+        </button>
+        <button onclick="document.getElementById('explain-code-modal').classList.add('hidden')" class="px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition-colors font-semibold text-sm">
+          Got it!
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- JavaScript -->
+  <script src="js/main.js"></script>
+  
+  <!-- Navigation Dropdown -->
+  <script>
+    // Hamburger menu dropdown
+    const navMenuBtn = document.getElementById('mobile-menu-btn');
+    const navMenu = document.getElementById('mobile-menu');
+    
+    navMenuBtn?.addEventListener('click', function(e) {
+      e.stopPropagation();
+      navMenu?.classList.toggle('hidden');
+      lucide.createIcons();
+    });
+    
+    // Close when clicking outside
+    document.addEventListener('click', function(e) {
+      if (navMenu && !navMenu.contains(e.target) && !navMenuBtn?.contains(e.target)) {
+        navMenu?.classList.add('hidden');
+      }
+    });
+  </script>
+  
+  <!-- Theme Switcher in User Menu -->
+  <script>
+    // Theme switching
+    function setTheme(theme) {
+      if (theme === 'dark') {
+        document.documentElement.classList.add('dark');
+        localStorage.setItem('theme', 'dark');
+      } else if (theme === 'light') {
+        document.documentElement.classList.remove('dark');
+        localStorage.setItem('theme', 'light');
+      } else {
+        // Auto mode - use system preference
+        if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+          document.documentElement.classList.add('dark');
+        } else {
+          document.documentElement.classList.remove('dark');
+        }
+        localStorage.setItem('theme', 'auto');
+      }
+      updateThemeButtons(theme);
+    }
+    
+    function updateThemeButtons(activeTheme) {
+      const buttons = {
+        auto: document.getElementById('theme-auto'),
+        light: document.getElementById('theme-light'),
+        dark: document.getElementById('theme-dark')
+      };
+      
+      // Reset all
+      Object.values(buttons).forEach(btn => {
+        btn?.classList.remove('bg-yellow-100', 'dark:bg-yellow-900/30', 'bg-gray-700', 'bg-gray-100');
+        btn?.classList.add('hover:bg-gray-100', 'dark:hover:bg-gray-700');
+      });
+      
+      // Highlight active
+      if (activeTheme === 'light') {
+        buttons.light?.classList.add('bg-yellow-100', 'dark:bg-yellow-900/30');
+        buttons.light?.classList.remove('hover:bg-gray-100', 'dark:hover:bg-gray-700');
+      } else if (activeTheme === 'dark') {
+        buttons.dark?.classList.add('bg-gray-100', 'dark:bg-gray-700');
+      } else {
+        buttons.auto?.classList.add('bg-gray-100', 'dark:bg-gray-700');
+      }
+      
+      lucide.createIcons();
+    }
+    
+    // Load saved theme
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    setTheme(savedTheme);
+    
+    // Theme button listeners
+    document.getElementById('theme-auto')?.addEventListener('click', () => setTheme('auto'));
+    document.getElementById('theme-light')?.addEventListener('click', () => setTheme('light'));
+    document.getElementById('theme-dark')?.addEventListener('click', () => setTheme('dark'));
+  </script>
+  
+  <!-- Command K Search -->
+  <script>
+    const cmdKModal = document.getElementById('cmd-k-modal');
+    const cmdKTrigger = document.getElementById('cmd-k-trigger');
+    const cmdKInput = document.getElementById('cmd-k-input');
+    const cmdKClose = document.getElementById('cmd-k-close');
+    const recentSearches = document.getElementById('recent-searches');
+    const searchResults = document.getElementById('search-results');
+    
+    // Open modal
+    function openCmdK() {
+      cmdKModal?.classList.remove('hidden');
+      setTimeout(() => {
+        cmdKInput?.focus();
+        lucide.createIcons();
+      }, 100);
+    }
+    
+    // Close modal
+    function closeCmdK() {
+      cmdKModal?.classList.add('hidden');
+      if (cmdKInput) cmdKInput.value = '';
+      recentSearches?.classList.remove('hidden');
+      searchResults?.classList.add('hidden');
+    }
+    
+    // Keyboard shortcut: Cmd/Ctrl + K
+    document.addEventListener('keydown', (e) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault();
+        openCmdK();
+      }
+      
+      // ESC to close
+      if (e.key === 'Escape' && !cmdKModal?.classList.contains('hidden')) {
+        closeCmdK();
+      }
+    });
+    
+    // Click trigger button
+    cmdKTrigger?.addEventListener('click', openCmdK);
+    
+    // Click close button
+    cmdKClose?.addEventListener('click', closeCmdK);
+    
+    // Click outside modal
+    cmdKModal?.addEventListener('click', (e) => {
+      if (e.target === cmdKModal) {
+        closeCmdK();
+      }
+    });
+    
+    // Search input - show results when typing
+    cmdKInput?.addEventListener('input', (e) => {
+      if (e.target.value.trim().length > 0) {
+        recentSearches?.classList.add('hidden');
+        searchResults?.classList.remove('hidden');
+      } else {
+        recentSearches?.classList.remove('hidden');
+        searchResults?.classList.add('hidden');
+      }
+    });
+    
+    // Filter buttons
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        document.querySelectorAll('.filter-btn').forEach(b => {
+          b.classList.remove('bg-primary-600', 'text-white');
+          b.classList.add('bg-white', 'dark:bg-gray-700', 'text-gray-700', 'dark:text-gray-300', 'border', 'border-gray-300', 'dark:border-gray-600');
+        });
+        
+        this.classList.remove('bg-white', 'dark:bg-gray-700', 'text-gray-700', 'dark:text-gray-300', 'border', 'border-gray-300', 'dark:border-gray-600');
+        this.classList.add('bg-primary-600', 'text-white');
+      });
+    });
+  </script>
+  
+  <!-- AI Interactions -->
+  <script>
+    // Enhanced IGXDocs object with AI features
+    IGXDocs.inlineChatOpen = false;
+    IGXDocs.glossaryActive = false;
+    
+    IGXDocs.closeSelectionTooltip = function() {
+      document.getElementById('selection-tooltip').classList.add('hidden');
+    };
+    
+    // Toggle Glossary
+    IGXDocs.toggleGlossary = function() {
+      this.glossaryActive = !this.glossaryActive;
+      const article = document.querySelector('article');
+      const toggleBtn = document.getElementById('glossary-toggle');
+      const statusText = toggleBtn?.querySelector('.opacity-60');
+      
+      if (this.glossaryActive) {
+        article?.classList.add('glossary-active');
+        if (toggleBtn) {
+          toggleBtn.classList.remove('border-gray-300', 'dark:border-gray-600', 'text-gray-700', 'dark:text-gray-300');
+          toggleBtn.classList.add('border-primary-600', 'text-primary-600', 'dark:text-primary-400', 'bg-primary-50', 'dark:bg-primary-900/20');
+        }
+        if (statusText) statusText.textContent = 'On';
+      } else {
+        article?.classList.remove('glossary-active');
+        if (toggleBtn) {
+          toggleBtn.classList.remove('border-primary-600', 'text-primary-600', 'dark:text-primary-400', 'bg-primary-50', 'dark:bg-primary-900/20');
+          toggleBtn.classList.add('border-gray-300', 'dark:border-gray-600', 'text-gray-700', 'dark:text-gray-300');
+        }
+        if (statusText) statusText.textContent = 'Off';
+      }
+    };
+    
+    // Show glossary tooltip on hover
+    IGXDocs.showGlossaryTooltip = function(element, term, definition) {
+      const tooltip = document.getElementById('glossary-tooltip');
+      const rect = element.getBoundingClientRect();
+      
+      // Update content
+      document.getElementById('glossary-term-title').textContent = term.replace(/-/g, ' ');
+      document.getElementById('glossary-definition').textContent = definition;
+      
+      // Position below term
+      const tooltipWidth = 300; // max-w-xs
+      const left = Math.max(10, Math.min(window.innerWidth - tooltipWidth - 10, rect.left + (rect.width / 2) - (tooltipWidth / 2)));
+      const top = rect.bottom + window.scrollY + 8;
+      
+      tooltip.style.left = left + 'px';
+      tooltip.style.top = top + 'px';
+      tooltip.classList.remove('hidden');
+    };
+    
+    IGXDocs.hideGlossaryTooltip = function() {
+      document.getElementById('glossary-tooltip').classList.add('hidden');
+    };
+    
+    // Show Summarize Modal
+    document.querySelectorAll('button:has([data-lucide="sparkles"])').forEach(btn => {
+      if (btn.textContent.includes('Summarize')) {
+        btn.addEventListener('click', () => {
+          document.getElementById('summarize-modal').classList.remove('hidden');
+          lucide.createIcons();
+        });
+      }
+    });
+    
+    // Show Listen Modal
+    document.querySelectorAll('button:has([data-lucide="headphones"])').forEach(btn => {
+      if (btn.textContent.includes('Listen')) {
+        btn.addEventListener('click', () => {
+          document.getElementById('listen-modal').classList.remove('hidden');
+          lucide.createIcons();
+        });
+      }
+    });
+    
+    // Inline Ask AI - Show chat area below button
+    document.querySelectorAll('button:has([data-lucide="message-circle"])').forEach(btn => {
+      if (btn.textContent.includes('Ask')) {
+        btn.addEventListener('click', (e) => {
+          if (IGXDocs.inlineChatOpen) return;
+          
+          const buttonContainer = btn.parentElement;
+          const chatHTML = `
+            <div id="inline-chat-area" class="mt-6 bg-gradient-to-br from-primary-50 to-pink-50 dark:from-primary-900/20 dark:to-pink-900/20 border-2 border-primary-200 dark:border-primary-800 rounded-xl p-5 animate-fadeIn">
+              <div class="flex items-start gap-3 mb-4">
+                <i data-lucide="message-circle" class="w-5 h-5 text-primary-600 flex-shrink-0 mt-1"></i>
+                <div class="flex-1">
+                  <h4 class="font-bold text-gray-900 dark:text-white mb-1">Ask about this article</h4>
+                  <p class="text-xs text-gray-600 dark:text-gray-400">Click a common question or ask your own</p>
+                </div>
+                <button onclick="this.closest('#inline-chat-area').remove(); IGXDocs.inlineChatOpen = false;" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
+                  <i data-lucide="x" class="w-4 h-4"></i>
+                </button>
+              </div>
+              
+              <!-- Common Questions (Bubble style) -->
+              <div class="flex flex-wrap gap-2 mb-4">
+                <button class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white dark:bg-gray-800 border border-primary-300 dark:border-primary-700 rounded-full hover:bg-primary-100 dark:hover:bg-primary-900/30 transition-colors text-xs text-gray-900 dark:text-white font-medium">
+                  <span>How to get started?</span>
+                </button>
+                <button class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white dark:bg-gray-800 border border-primary-300 dark:border-primary-700 rounded-full hover:bg-primary-100 dark:hover:bg-primary-900/30 transition-colors text-xs text-gray-900 dark:text-white font-medium">
+                  <span>Strategy differences?</span>
+                </button>
+                <button class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white dark:bg-gray-800 border border-primary-300 dark:border-primary-700 rounded-full hover:bg-primary-100 dark:hover:bg-primary-900/30 transition-colors text-xs text-gray-900 dark:text-white font-medium">
+                  <span>Why predictive?</span>
+                </button>
+                <button class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white dark:bg-gray-800 border border-primary-300 dark:border-primary-700 rounded-full hover:bg-primary-100 dark:hover:bg-primary-900/30 transition-colors text-xs text-gray-900 dark:text-white font-medium">
+                  <span>Common mistakes?</span>
+                </button>
+                <button class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white dark:bg-gray-800 border border-primary-300 dark:border-primary-700 rounded-full hover:bg-primary-100 dark:hover:bg-primary-900/30 transition-colors text-xs text-gray-900 dark:text-white font-medium">
+                  <span>Best practices?</span>
+                </button>
+                <button class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white dark:bg-gray-800 border border-primary-300 dark:border-primary-700 rounded-full hover:bg-primary-100 dark:hover:bg-primary-900/30 transition-colors text-xs text-gray-900 dark:text-white font-medium">
+                  <span>Configuration options?</span>
+                </button>
+              </div>
+              
+              <!-- Custom Question -->
+              <div class="border-t border-primary-200 dark:border-primary-800 pt-4">
+                <div class="flex gap-2">
+                  <input 
+                    type="text" 
+                    placeholder="Or ask your own question..." 
+                    class="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-900 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 text-sm"
+                  />
+                  <button class="px-4 py-2 bg-gradient-to-r from-primary-600 to-pink-600 text-white rounded-lg hover:from-primary-700 hover:to-pink-700 transition-colors">
+                    <i data-lucide="send" class="w-4 h-4"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          `;
+          
+          buttonContainer.insertAdjacentHTML('afterend', chatHTML);
+          lucide.createIcons();
+          IGXDocs.inlineChatOpen = true;
+        });
+      }
+    });
+    
+    // Text Selection AI - Show Grammarly-style tooltip
+    let selectionTimeout;
+    document.addEventListener('mouseup', (e) => {
+      // Don't show if clicking inside the tooltip itself
+      if (e.target.closest('#selection-tooltip')) return;
+      
+      clearTimeout(selectionTimeout);
+      selectionTimeout = setTimeout(() => {
+        const selection = window.getSelection();
+        const selectedText = selection.toString().trim();
+        const tooltip = document.getElementById('selection-tooltip');
+        
+        if (!selectedText || selectedText.length < 5 || selectedText.length > 200) {
+          tooltip.classList.add('hidden');
+          return;
+        }
+        
+        // Check if selection is within article (more robust check)
+        let node = selection.anchorNode;
+        let isInArticle = false;
+        
+        while (node && node !== document.body) {
+          if (node.tagName === 'ARTICLE') {
+            isInArticle = true;
+            break;
+          }
+          node = node.parentElement || node.parentNode;
+        }
+        
+        if (isInArticle) {
+          const range = selection.getRangeAt(0);
+          const rect = range.getBoundingClientRect();
+          
+          // Position tooltip below selection (Grammarly-style)
+          const tooltipWidth = 350; // max-w-sm
+          const left = Math.max(10, Math.min(window.innerWidth - tooltipWidth - 10, rect.left + (rect.width / 2) - (tooltipWidth / 2)));
+          const top = rect.bottom + window.scrollY + 10;
+          
+          tooltip.style.left = left + 'px';
+          tooltip.style.top = top + 'px';
+          tooltip.classList.remove('hidden');
+          
+          // Update selected text in tooltip
+          document.getElementById('selected-text-tooltip').textContent = selectedText;
+          
+          lucide.createIcons();
+        } else {
+          tooltip.classList.add('hidden');
+        }
+      }, 200);
+    });
+    
+    // Hide tooltip on click outside
+    document.addEventListener('mousedown', (e) => {
+      const tooltip = document.getElementById('selection-tooltip');
+      if (tooltip && !e.target.closest('#selection-tooltip')) {
+        tooltip.classList.add('hidden');
+      }
+    });
+    
+    // User Dropdown Menu
+    document.getElementById('user-menu-btn')?.addEventListener('click', function(e) {
+      e.stopPropagation();
+      const dropdown = document.getElementById('user-dropdown');
+      dropdown?.classList.toggle('hidden');
+      lucide.createIcons();
+    });
+    
+    // Close dropdown when clicking outside
+    document.addEventListener('click', (e) => {
+      const dropdown = document.getElementById('user-dropdown');
+      const button = document.getElementById('user-menu-btn');
+      if (dropdown && !dropdown.contains(e.target) && !button?.contains(e.target)) {
+        dropdown.classList.add('hidden');
+      }
+    });
+    
+    // Show Explain Code Modal
+    document.querySelectorAll('button').forEach(btn => {
+      if (btn.textContent.includes('Explain this code')) {
+        btn.addEventListener('click', () => {
+          document.getElementById('explain-code-modal').classList.remove('hidden');
+          lucide.createIcons();
+        });
+      }
+    });
+    
+    // Close modals on backdrop click
+    document.querySelectorAll('[id$="-modal"]').forEach(modal => {
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          modal.classList.add('hidden');
+        }
+      });
+    });
+    
+    // Glossary Toggle Button
+    document.getElementById('glossary-toggle')?.addEventListener('click', () => {
+      IGXDocs.toggleGlossary();
+    });
+    
+    // Glossary Term Hover Events
+    document.querySelectorAll('.glossary-term').forEach(term => {
+      term.addEventListener('mouseenter', function() {
+        const termName = this.dataset.term;
+        const definition = this.dataset.definition;
+        IGXDocs.showGlossaryTooltip(this, termName, definition);
+      });
+      
+      term.addEventListener('mouseleave', function() {
+        // Small delay before hiding to allow moving to tooltip
+        setTimeout(() => {
+          IGXDocs.hideGlossaryTooltip();
+        }, 100);
+      });
+    });
+  </script>
+  
+  <!-- Initialize Lucide Icons -->
+  <script>
+    lucide.createIcons();
+  </script>
+  
+  <!-- Left Navigation Toggle Script -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Setup left nav section toggles
+      const navToggles = document.querySelectorAll('.nav-section-toggle');
+      navToggles.forEach(button => {
+        button.addEventListener('click', function() {
+          const content = this.nextElementSibling;
+          const chevronContainer = this.querySelector('i, svg');
+          
+          if (content) {
+            content.classList.toggle('hidden');
+            
+            // Toggle chevron state
+            const currentState = this.getAttribute('data-chevron-state');
+            const newState = currentState === 'up' ? 'down' : 'up';
+            this.setAttribute('data-chevron-state', newState);
+            
+            // Replace icon
+            if (chevronContainer) {
+              const newIcon = document.createElement('i');
+              newIcon.setAttribute('data-lucide', `chevron-${newState}`);
+              newIcon.className = 'w-4 h-4';
+              chevronContainer.replaceWith(newIcon);
+              lucide.createIcons();
+            }
+          }
+        });
+      });
+      
+      // Version Dropdown Toggle
+      const versionDropdownBtn = document.getElementById('version-dropdown-btn');
+      const versionDropdown = document.getElementById('version-dropdown');
+      
+      if (versionDropdownBtn && versionDropdown) {
+        versionDropdownBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          versionDropdown.classList.toggle('hidden');
+        });
+        
+        // Close dropdown when clicking outside
+        document.addEventListener('click', () => {
+          versionDropdown.classList.add('hidden');
+        });
+        
+        // Prevent dropdown from closing when clicking inside it
+        versionDropdown.addEventListener('click', (e) => {
+          e.stopPropagation();
+        });
+      }
+      
+      // Hide/Show Table of Contents
+      const hideTocBtn = document.getElementById('hide-toc-btn');
+      const showTocBtn = document.getElementById('show-toc-btn');
+      const leftSidebar = document.querySelector('aside.fixed.left-0');
+      const mainContent = document.querySelector('main.flex-1');
+      
+      function toggleToc() {
+        const isCurrentlyVisible = leftSidebar.classList.contains('lg:block');
+        
+        if (isCurrentlyVisible) {
+          // Hide TOC
+          leftSidebar.classList.remove('lg:block');
+          leftSidebar.classList.add('lg:hidden');
+          mainContent.classList.remove('lg:ml-64');
+          showTocBtn.classList.remove('hidden');
+          showTocBtn.classList.add('block');
+          
+          if (hideTocBtn) {
+            hideTocBtn.setAttribute('title', 'Show table of contents');
+            const icon = hideTocBtn.querySelector('i');
+            if (icon) {
+              icon.setAttribute('data-lucide', 'panel-left-open');
+              lucide.createIcons();
+            }
+          }
+        } else {
+          // Show TOC
+          leftSidebar.classList.remove('lg:hidden');
+          leftSidebar.classList.add('lg:block');
+          mainContent.classList.add('lg:ml-64');
+          showTocBtn.classList.remove('block');
+          showTocBtn.classList.add('hidden');
+          
+          if (hideTocBtn) {
+            hideTocBtn.setAttribute('title', 'Hide table of contents');
+            const icon = hideTocBtn.querySelector('i');
+            if (icon) {
+              icon.setAttribute('data-lucide', 'panel-left-close');
+              lucide.createIcons();
+            }
+          }
+        }
+      }
+      
+      if (hideTocBtn && leftSidebar && mainContent) {
+        hideTocBtn.addEventListener('click', toggleToc);
+      }
+      
+      if (showTocBtn && leftSidebar && mainContent) {
+        showTocBtn.addEventListener('click', toggleToc);
+      }
+      
+      // Expand All Sections
+      const expandAllBtn = document.getElementById('expand-all-btn');
+      if (expandAllBtn) {
+        expandAllBtn.addEventListener('click', function() {
+          const allSections = document.querySelectorAll('.nav-section-toggle');
+          allSections.forEach(button => {
+            const content = button.nextElementSibling;
+            const icon = button.querySelector('i, svg');
+            
+            if (content && content.classList.contains('hidden')) {
+              content.classList.remove('hidden');
+              button.setAttribute('data-chevron-state', 'up');
+              
+              if (icon) {
+                const newIcon = document.createElement('i');
+                newIcon.setAttribute('data-lucide', 'chevron-up');
+                newIcon.className = 'w-4 h-4';
+                icon.replaceWith(newIcon);
+              }
+            }
+          });
+          lucide.createIcons();
+        });
+      }
+      
+      // Collapse All Sections
+      const collapseAllBtn = document.getElementById('collapse-all-btn');
+      if (collapseAllBtn) {
+        collapseAllBtn.addEventListener('click', function() {
+          const allSections = document.querySelectorAll('.nav-section-toggle');
+          allSections.forEach(button => {
+            const content = button.nextElementSibling;
+            const icon = button.querySelector('i, svg');
+            
+            if (content && !content.classList.contains('hidden')) {
+              content.classList.add('hidden');
+              button.setAttribute('data-chevron-state', 'down');
+              
+              if (icon) {
+                const newIcon = document.createElement('i');
+                newIcon.setAttribute('data-lucide', 'chevron-down');
+                newIcon.className = 'w-4 h-4';
+                icon.replaceWith(newIcon);
+              }
+            }
+          });
+          lucide.createIcons();
+        });
+      }
+    });
+  </script>
+  
+  <!-- Mobile Search Modal -->
+  <div id="mobile-search-modal" class="hidden fixed inset-0 z-50 bg-black/50 backdrop-blur-sm">
+    <div class="fixed inset-0 bg-white dark:bg-gray-900 p-4">
+      <div class="max-w-2xl mx-auto">
+        <!-- Header -->
+        <div class="flex items-center justify-between mb-6">
+          <h2 class="text-xl font-semibold text-gray-900 dark:text-white">Search</h2>
+          <button id="mobile-search-close" class="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg">
+            <i data-lucide="x" class="w-6 h-6 text-gray-600 dark:text-gray-400"></i>
+          </button>
+        </div>
+        
+        <!-- Search Input -->
+        <div class="relative mb-6">
+          <div class="relative flex items-center gap-4 h-14 px-5 border-2 border-gray-300 dark:border-gray-700 rounded-xl bg-white dark:bg-gray-800">
+            <i data-lucide="search" class="w-6 h-6 text-gray-400"></i>
+            <input 
+              type="text" 
+              id="mobile-search-input"
+              placeholder="Search documentation or ask AI..."
+              class="flex-1 text-lg text-gray-900 dark:text-white bg-transparent border-none outline-none placeholder-gray-500 dark:placeholder-gray-400"
+              autofocus
+            />
+            <button id="mobile-search-submit" class="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg">
+              <i data-lucide="arrow-right" class="w-5 h-5 text-primary-600 dark:text-primary-400"></i>
+            </button>
+          </div>
+        </div>
+        
+        <!-- Quick Links -->
+        <div class="space-y-2">
+          <p class="text-sm font-medium text-gray-500 dark:text-gray-400 mb-3">Popular searches:</p>
+          <a href="doc-page.html" class="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+            <i data-lucide="book-open" class="w-5 h-5 text-gray-400"></i>
+            <span class="text-gray-900 dark:text-white">Getting Started</span>
+          </a>
+          <a href="#" class="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+            <i data-lucide="key" class="w-5 h-5 text-gray-400"></i>
+            <span class="text-gray-900 dark:text-white">API Authentication</span>
+          </a>
+          <a href="#" class="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+            <i data-lucide="alert-circle" class="w-5 h-5 text-gray-400"></i>
+            <span class="text-gray-900 dark:text-white">Error Codes</span>
+          </a>
+          <a href="#" class="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+            <i data-lucide="link" class="w-5 h-5 text-gray-400"></i>
+            <span class="text-gray-900 dark:text-white">Integration Guide</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile TOC Full-Screen Modal -->
+  <div id="mobile-toc-modal" class="hidden fixed inset-0 z-50 bg-white dark:bg-gray-900">
+    <!-- Modal Header -->
+    <div class="sticky top-0 z-10 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700 px-6 py-4">
+      <div class="flex items-center justify-between mb-4">
+        <h2 class="text-lg font-bold text-gray-900 dark:text-white">Table of Contents</h2>
+        <button id="close-mobile-toc" class="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors">
+          <i data-lucide="x" class="w-6 h-6 text-gray-600 dark:text-gray-400"></i>
+        </button>
+      </div>
+      
+      <!-- Expand/Collapse All -->
+      <div class="flex items-center gap-3">
+        <button id="mobile-expand-all-btn" class="flex items-center gap-1 text-xs text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400">
+          <i data-lucide="chevron-down" class="w-3 h-3"></i>
+          <span>Expand</span>
+        </button>
+        <button id="mobile-collapse-all-btn" class="flex items-center gap-1 text-xs text-gray-600 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400">
+          <i data-lucide="chevron-up" class="w-3 h-3"></i>
+          <span>Collapse</span>
+        </button>
+      </div>
+    </div>
+    
+    <!-- Modal Content (Scrollable) -->
+    <nav class="overflow-y-auto p-6" style="height: calc(100vh - 100px);">
+      <!-- Section: Getting Started -->
+      <div class="mb-6">
+        <button class="mobile-nav-section-toggle flex items-center justify-between w-full text-xs font-semibold text-gray-900 dark:text-white uppercase tracking-wide mb-3 hover:text-primary-600 dark:hover:text-primary-400" data-chevron-state="down">
+          <span>Getting Started</span>
+          <i data-lucide="chevron-down" class="w-4 h-4"></i>
+        </button>
+        <ul class="space-y-2 text-sm mobile-nav-section-content hidden">
+          <li><a href="#" class="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">Logging In</a></li>
+          <li><a href="#" class="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">Navigation Bar</a></li>
+          <li><a href="#" class="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">Dashboard</a></li>
+        </ul>
+      </div>
+      
+      <!-- Section: Authoring Basics -->
+      <div class="mb-6">
+        <button class="mobile-nav-section-toggle flex items-center justify-between w-full text-xs font-semibold text-gray-900 dark:text-white uppercase tracking-wide mb-3 hover:text-primary-600 dark:hover:text-primary-400" data-chevron-state="up">
+          <span>Authoring Basics</span>
+          <i data-lucide="chevron-up" class="w-4 h-4"></i>
+        </button>
+        <ul class="space-y-2 text-sm mobile-nav-section-content">
+          <li><a href="doc-page.html" class="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">Creating Pages</a></li>
+          <li><a href="doc-page-checking-in-out.html" class="text-primary-600 dark:text-primary-400 font-semibold">Checking Pages In/Out</a></li>
+          <li><a href="#" class="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">Saving Pages</a></li>
+          <li><a href="#" class="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">Deleting & Restoring</a></li>
+          <li><a href="#" class="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">Publishing Content</a></li>
+        </ul>
+      </div>
+      
+      <!-- Section: Editing Basics -->
+      <div class="mb-6">
+        <button class="mobile-nav-section-toggle flex items-center justify-between w-full text-xs font-semibold text-gray-900 dark:text-white uppercase tracking-wide mb-3 hover:text-primary-600 dark:hover:text-primary-400" data-chevron-state="down">
+          <span>Editing Basics</span>
+          <i data-lucide="chevron-down" class="w-4 h-4"></i>
+        </button>
+        <ul class="space-y-2 text-sm mobile-nav-section-content hidden">
+          <li><a href="#" class="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">In-Context Editing</a></li>
+          <li><a href="#" class="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">Page Builder</a></li>
+          <li><a href="#" class="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">Using History</a></li>
+          <li><a href="#" class="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">Managing Pages</a></li>
+          <li><a href="#" class="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">XHTML Editor</a></li>
+        </ul>
+      </div>
+      
+      <!-- Section: Assets Manager -->
+      <div class="mb-6">
+        <button class="mobile-nav-section-toggle flex items-center justify-between w-full text-xs font-semibold text-gray-900 dark:text-white uppercase tracking-wide mb-3 hover:text-primary-600 dark:hover:text-primary-400" data-chevron-state="down">
+          <span>Assets Manager</span>
+          <i data-lucide="chevron-down" class="w-4 h-4"></i>
+        </button>
+        <ul class="space-y-2 text-sm mobile-nav-section-content hidden">
+          <li><a href="#" class="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">Uploading Assets</a></li>
+          <li><a href="#" class="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">Managing Assets</a></li>
+          <li><a href="#" class="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">Asset Metadata</a></li>
+          <li><a href="#" class="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">Asset History</a></li>
+        </ul>
+      </div>
+      
+      <!-- Section: Administration -->
+      <div class="mb-6">
+        <button class="mobile-nav-section-toggle flex items-center justify-between w-full text-xs font-semibold text-gray-900 dark:text-white uppercase tracking-wide mb-3 hover:text-primary-600 dark:hover:text-primary-400" data-chevron-state="down">
+          <span>Administration</span>
+          <i data-lucide="chevron-down" class="w-4 h-4"></i>
+        </button>
+        <ul class="space-y-2 text-sm mobile-nav-section-content hidden">
+          <li><a href="#" class="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">User Management</a></li>
+          <li><a href="#" class="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">Security & Permissions</a></li>
+          <li><a href="#" class="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">Workflows</a></li>
+          <li><a href="#" class="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">System Configuration</a></li>
+        </ul>
+      </div>
+    </nav>
+  </div>
+  
+  <!-- Mobile TOC Modal JavaScript -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // ======================================
+      // Mobile Search Modal Functionality
+      // ======================================
+      
+      const mobileSearchBtn = document.getElementById('mobile-search-btn');
+      const mobileSearchModal = document.getElementById('mobile-search-modal');
+      const mobileSearchClose = document.getElementById('mobile-search-close');
+      const mobileSearchInput = document.getElementById('mobile-search-input');
+      const mobileSearchSubmit = document.getElementById('mobile-search-submit');
+      
+      function openMobileSearch() {
+        mobileSearchModal?.classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+        setTimeout(() => mobileSearchInput?.focus(), 100);
+        lucide.createIcons();
+      }
+      
+      function closeMobileSearch() {
+        mobileSearchModal?.classList.add('hidden');
+        document.body.style.overflow = '';
+        if (mobileSearchInput) mobileSearchInput.value = '';
+      }
+      
+      mobileSearchBtn?.addEventListener('click', (e) => {
+        e.stopPropagation();
+        openMobileSearch();
+      });
+      
+      mobileSearchClose?.addEventListener('click', closeMobileSearch);
+      
+      mobileSearchSubmit?.addEventListener('click', () => {
+        const query = mobileSearchInput?.value.trim();
+        if (query) {
+          window.location.href = `search-results.html?q=${encodeURIComponent(query)}`;
+        }
+      });
+      
+      mobileSearchInput?.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          const query = mobileSearchInput.value.trim();
+          if (query) {
+            window.location.href = `search-results.html?q=${encodeURIComponent(query)}`;
+          }
+        } else if (e.key === 'Escape') {
+          closeMobileSearch();
+        }
+      });
+      
+      // Close modal when clicking backdrop
+      mobileSearchModal?.addEventListener('click', (e) => {
+        if (e.target === mobileSearchModal) {
+          closeMobileSearch();
+        }
+      });
+      
+      const mobileTocBtn = document.getElementById('mobile-toc-btn');
+      const mobileTocModal = document.getElementById('mobile-toc-modal');
+      const closeMobileToc = document.getElementById('close-mobile-toc');
+      
+      // Open mobile TOC modal
+      if (mobileTocBtn && mobileTocModal) {
+        mobileTocBtn.addEventListener('click', function() {
+          mobileTocModal.classList.remove('hidden');
+          document.body.style.overflow = 'hidden';
+          setTimeout(() => lucide.createIcons(), 10);
+        });
+      }
+      
+      // Close mobile TOC modal
+      if (closeMobileToc && mobileTocModal) {
+        closeMobileToc.addEventListener('click', function() {
+          mobileTocModal.classList.add('hidden');
+          document.body.style.overflow = '';
+        });
+      }
+      
+      // Setup mobile nav section toggles
+      const mobileNavToggles = document.querySelectorAll('.mobile-nav-section-toggle');
+      mobileNavToggles.forEach(button => {
+        button.addEventListener('click', function() {
+          const content = this.nextElementSibling;
+          const icon = this.querySelector('i, svg');
+          
+          if (content) {
+            content.classList.toggle('hidden');
+            
+            const currentState = this.getAttribute('data-chevron-state');
+            const newState = currentState === 'up' ? 'down' : 'up';
+            this.setAttribute('data-chevron-state', newState);
+            
+            if (icon) {
+              const newIcon = document.createElement('i');
+              newIcon.setAttribute('data-lucide', `chevron-${newState}`);
+              newIcon.className = 'w-4 h-4';
+              icon.replaceWith(newIcon);
+              lucide.createIcons();
+            }
+          }
+        });
+      });
+      
+      // Mobile Expand All
+      const mobileExpandAllBtn = document.getElementById('mobile-expand-all-btn');
+      if (mobileExpandAllBtn) {
+        mobileExpandAllBtn.addEventListener('click', function() {
+          const allSections = document.querySelectorAll('.mobile-nav-section-toggle');
+          allSections.forEach(button => {
+            const content = button.nextElementSibling;
+            const icon = button.querySelector('i, svg');
+            
+            if (content && content.classList.contains('hidden')) {
+              content.classList.remove('hidden');
+              button.setAttribute('data-chevron-state', 'up');
+              
+              if (icon) {
+                const newIcon = document.createElement('i');
+                newIcon.setAttribute('data-lucide', 'chevron-up');
+                newIcon.className = 'w-4 h-4';
+                icon.replaceWith(newIcon);
+              }
+            }
+          });
+          lucide.createIcons();
+        });
+      }
+      
+      // Mobile Collapse All
+      const mobileCollapseAllBtn = document.getElementById('mobile-collapse-all-btn');
+      if (mobileCollapseAllBtn) {
+        mobileCollapseAllBtn.addEventListener('click', function() {
+          const allSections = document.querySelectorAll('.mobile-nav-section-toggle');
+          allSections.forEach(button => {
+            const content = button.nextElementSibling;
+            const icon = button.querySelector('i, svg');
+            
+            if (content && !content.classList.contains('hidden')) {
+              content.classList.add('hidden');
+              button.setAttribute('data-chevron-state', 'down');
+              
+              if (icon) {
+                const newIcon = document.createElement('i');
+                newIcon.setAttribute('data-lucide', 'chevron-down');
+                newIcon.className = 'w-4 h-4';
+                icon.replaceWith(newIcon);
+              }
+            }
+          });
+          lucide.createIcons();
+        });
+      }
+      
+      // Close modal when clicking a link
+      const mobileTocLinks = mobileTocModal?.querySelectorAll('a');
+      if (mobileTocLinks) {
+        mobileTocLinks.forEach(link => {
+          link.addEventListener('click', function() {
+            mobileTocModal.classList.add('hidden');
+            document.body.style.overflow = '';
+          });
+        });
+      }
+    });
+  </script>
+
+</body>
+</html>
+

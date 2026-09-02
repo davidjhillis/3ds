@@ -1,0 +1,625 @@
+/* IGX Documentation Portal - Premium Enterprise Theme with Dark Mode */
+/* High-end, Brand-forward Design */
+
+/* ========================================
+   CSS Variables - Light & Dark Mode
+   ======================================== */
+
+:root {
+  /* Premium Brand Colors - Deep Purple/Plum Theme */
+  --brand-primary: #220929;           /* Deep purple/plum */
+  --brand-primary-light: #3d1548;
+  --brand-primary-dark: #160419;
+  
+  /* IGX Accent Colors */
+  --brand-accent: #7C3AED;            /* Vibrant purple */
+  --brand-accent-light: #9F67FF;
+  --brand-accent-hover: #6D28D9;
+  
+  /* Light Mode Colors */
+  --color-bg-primary: #FFFFFF;
+  --color-bg-secondary: #F8F9FA;
+  --color-bg-tertiary: #F1F3F5;
+  --color-bg-elevated: #FFFFFF;
+  
+  --color-text-primary: #212529;
+  --color-text-secondary: #495057;
+  --color-text-tertiary: #6C757D;
+  --color-text-inverse: #FFFFFF;
+  
+  --color-border-default: #E7E9EC;
+  --color-border-subtle: #F1F3F5;
+  --color-border-strong: #CED4DA;
+  
+  /* Shadows - Elevated, Premium */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -1px rgba(0, 0, 0, 0.04);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.04);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.08), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  
+  /* Typography - Source Sans Pro inspired */
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', 'SF Mono', 'Monaco', 'Cascadia Code', monospace;
+  
+  /* Spacing */
+  --header-height: 70px;
+  --sidebar-width: 280px;
+  --toc-width: 260px;
+  --content-max-width: 850px;
+  
+  /* Border Radius - Subtle, refined */
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  
+  /* Transitions */
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-base: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Dark Mode Variables */
+:root.dark {
+  /* Dark Mode Colors */
+  --color-bg-primary: #0D1117;
+  --color-bg-secondary: #161B22;
+  --color-bg-tertiary: #1C2128;
+  --color-bg-elevated: #21262D;
+  
+  --color-text-primary: #E6EDF3;
+  --color-text-secondary: #8D96A0;
+  --color-text-tertiary: #6E7681;
+  --color-text-inverse: #0D1117;
+  
+  --color-border-default: #30363D;
+  --color-border-subtle: #21262D;
+  --color-border-strong: #444C56;
+  
+  /* Dark Mode Shadows - More subtle */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -2px rgba(0, 0, 0, 0.4);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.6), 0 10px 10px -5px rgba(0, 0, 0, 0.5);
+}
+
+/* ========================================
+   Base Styles
+   ======================================== */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--color-text-primary);
+  background-color: var(--color-bg-primary);
+  transition: background-color var(--transition-base), color var(--transition-base);
+}
+
+/* ========================================
+   Typography - Premium Enterprise Style
+   ======================================== */
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--color-text-primary);
+  letter-spacing: -0.02em;
+}
+
+h1 { font-size: 2.5rem; margin-bottom: 1rem; }
+h2 { font-size: 2rem; margin-bottom: 0.875rem; margin-top: 2rem; }
+h3 { font-size: 1.5rem; margin-bottom: 0.75rem; margin-top: 1.5rem; }
+h4 { font-size: 1.25rem; margin-bottom: 0.625rem; margin-top: 1.25rem; }
+
+p {
+  margin-bottom: 1rem;
+  color: var(--color-text-secondary);
+}
+
+a {
+  color: var(--brand-accent);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+a:hover {
+  color: var(--brand-accent-hover);
+}
+
+/* ========================================
+   Header - Premium, 70px Height
+   ======================================== */
+
+header {
+  height: var(--header-height);
+  background-color: var(--color-bg-elevated);
+  border-bottom: 1px solid var(--color-border-default);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  backdrop-filter: blur(12px);
+  background-color: rgba(255, 255, 255, 0.95);
+  transition: all var(--transition-base);
+}
+
+:root.dark header {
+  background-color: rgba(13, 17, 23, 0.95);
+}
+
+.header-container {
+  max-width: 100%;
+  height: 100%;
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Logo - Premium Brand Styling */
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-weight: 700;
+  font-size: 1.25rem;
+  color: var(--brand-primary);
+  transition: opacity var(--transition-fast);
+}
+
+:root.dark .logo {
+  color: var(--color-text-primary);
+}
+
+.logo:hover {
+  opacity: 0.8;
+}
+
+.logo-icon {
+  width: 36px;
+  height: 36px;
+  fill: var(--brand-primary);
+}
+
+:root.dark .logo-icon {
+  fill: var(--brand-accent);
+}
+
+/* Search Bar - Prominent, Premium */
+.search-container {
+  flex: 1;
+  max-width: 600px;
+  margin: 0 3rem;
+}
+
+.search-input {
+  width: 100%;
+  height: 44px;
+  padding: 0 1rem 0 2.75rem;
+  font-size: 0.9375rem;
+  background-color: var(--color-bg-secondary);
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--radius-lg);
+  color: var(--color-text-primary);
+  transition: all var(--transition-base);
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: var(--brand-accent);
+  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
+  background-color: var(--color-bg-primary);
+}
+
+.search-input::placeholder {
+  color: var(--color-text-tertiary);
+}
+
+/* ========================================
+   Buttons - Premium Enterprise Style
+   ======================================== */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  height: 40px;
+  padding: 0 1.25rem;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  border-radius: var(--radius-md);
+  border: none;
+  cursor: pointer;
+  transition: all var(--transition-base);
+  text-decoration: none;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--brand-primary) 0%, var(--brand-primary-light) 100%);
+  color: var(--color-text-inverse);
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+  background: linear-gradient(135deg, var(--brand-primary-light) 0%, var(--brand-primary) 100%);
+}
+
+.btn-secondary {
+  background-color: var(--color-bg-secondary);
+  color: var(--color-text-primary);
+  border: 1px solid var(--color-border-default);
+}
+
+.btn-secondary:hover {
+  background-color: var(--color-bg-tertiary);
+  border-color: var(--color-border-strong);
+}
+
+.btn-accent {
+  background: linear-gradient(135deg, var(--brand-accent) 0%, var(--brand-accent-light) 100%);
+  color: white;
+  box-shadow: 0 4px 12px rgba(124, 58, 237, 0.25);
+}
+
+.btn-accent:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(124, 58, 237, 0.35);
+}
+
+.btn-icon {
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-center;
+  border-radius: var(--radius-md);
+  background-color: transparent;
+  color: var(--color-text-secondary);
+  border: none;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.btn-icon:hover {
+  background-color: var(--color-bg-secondary);
+  color: var(--color-text-primary);
+}
+
+/* ========================================
+   Cards - Premium, Elevated Design
+   ======================================== */
+
+.card {
+  background-color: var(--color-bg-elevated);
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  box-shadow: var(--shadow-sm);
+  transition: all var(--transition-base);
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--color-border-strong);
+}
+
+.card-premium {
+  background: linear-gradient(135deg, rgba(124, 58, 237, 0.05) 0%, rgba(124, 58, 237, 0.02) 100%);
+  border: 1px solid rgba(124, 58, 237, 0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+.card-premium::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--brand-accent) 0%, var(--brand-accent-light) 100%);
+}
+
+/* ========================================
+   Sidebar Navigation - Premium
+   ======================================== */
+
+.sidebar {
+  width: var(--sidebar-width);
+  height: calc(100vh - var(--header-height));
+  position: fixed;
+  left: 0;
+  top: var(--header-height);
+  background-color: var(--color-bg-secondary);
+  border-right: 1px solid var(--color-border-default);
+  overflow-y: auto;
+  padding: 1.5rem;
+}
+
+.nav-section {
+  margin-bottom: 2rem;
+}
+
+.nav-section-title {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--color-text-tertiary);
+  margin-bottom: 0.75rem;
+  padding: 0 0.75rem;
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  padding: 0.625rem 0.75rem;
+  border-radius: var(--radius-md);
+  font-size: 0.9375rem;
+  color: var(--color-text-secondary);
+  transition: all var(--transition-fast);
+  margin-bottom: 0.25rem;
+}
+
+.nav-link:hover {
+  background-color: var(--color-bg-tertiary);
+  color: var(--color-text-primary);
+}
+
+.nav-link.active {
+  background-color: var(--brand-primary);
+  color: white;
+  font-weight: 500;
+}
+
+:root.dark .nav-link.active {
+  background-color: var(--brand-accent);
+}
+
+/* ========================================
+   Code Blocks - Premium, Dark Theme
+   ======================================== */
+
+pre, code {
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+}
+
+pre {
+  background-color: #1E1E1E;
+  color: #D4D4D4;
+  padding: 1.5rem;
+  border-radius: var(--radius-lg);
+  overflow-x: auto;
+  margin: 1.5rem 0;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  position: relative;
+}
+
+:root.dark pre {
+  background-color: #0D1117;
+  border-color: var(--color-border-default);
+}
+
+code {
+  background-color: var(--color-bg-tertiary);
+  color: var(--brand-accent);
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.875em;
+}
+
+pre code {
+  background-color: transparent;
+  color: inherit;
+  padding: 0;
+}
+
+.code-block-wrapper {
+  position: relative;
+  margin: 1.5rem 0;
+}
+
+.code-actions {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  display: flex;
+  gap: 0.5rem;
+  opacity: 0;
+  transition: opacity var(--transition-base);
+}
+
+.code-block-wrapper:hover .code-actions {
+  opacity: 1;
+}
+
+.code-action-btn {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: var(--radius-sm);
+  color: rgba(255, 255, 255, 0.7);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.code-action-btn:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: white;
+}
+
+/* ========================================
+   AI Features - Premium Purple Brand
+   ======================================== */
+
+.ai-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.375rem 0.75rem;
+  background: linear-gradient(135deg, rgba(124, 58, 237, 0.1) 0%, rgba(159, 103, 255, 0.1) 100%);
+  border: 1px solid rgba(124, 58, 237, 0.3);
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--brand-accent);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.ai-glow {
+  animation: ai-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes ai-pulse {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(124, 58, 237, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(124, 58, 237, 0.5);
+  }
+}
+
+/* ========================================
+   Dark Mode Toggle
+   ======================================== */
+
+.theme-toggle {
+  position: relative;
+  width: 60px;
+  height: 32px;
+  background-color: var(--color-bg-tertiary);
+  border-radius: 9999px;
+  border: 1px solid var(--color-border-default);
+  cursor: pointer;
+  transition: all var(--transition-base);
+}
+
+.theme-toggle::after {
+  content: '';
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 24px;
+  height: 24px;
+  background-color: white;
+  border-radius: 50%;
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--transition-base);
+}
+
+:root.dark .theme-toggle {
+  background-color: var(--brand-accent);
+}
+
+:root.dark .theme-toggle::after {
+  transform: translateX(28px);
+  background-color: var(--brand-primary);
+}
+
+/* ========================================
+   Responsive Design
+   ======================================== */
+
+@media (max-width: 1024px) {
+  .sidebar {
+    transform: translateX(-100%);
+    transition: transform var(--transition-slow);
+  }
+  
+  .sidebar.open {
+    transform: translateX(0);
+  }
+}
+
+@media (max-width: 768px) {
+  :root {
+    --header-height: 60px;
+  }
+  
+  .header-container {
+    padding: 0 1rem;
+  }
+  
+  .search-container {
+    margin: 0 1rem;
+    max-width: none;
+  }
+  
+  h1 { font-size: 2rem; }
+  h2 { font-size: 1.5rem; }
+  h3 { font-size: 1.25rem; }
+}
+
+/* ========================================
+   Print Styles
+   ======================================== */
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  
+  header {
+    position: relative;
+    border-bottom: 2px solid #000;
+  }
+  
+  .sidebar {
+    display: none;
+  }
+}
+
+/* ========================================
+   Accessibility
+   ======================================== */
+
+*:focus-visible {
+  outline: 2px solid var(--brand-accent);
+  outline-offset: 2px;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* Reduce motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+

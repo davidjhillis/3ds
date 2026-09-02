@@ -1,0 +1,321 @@
+@model CMSPageRequest
+@using Ingeniux.Runtime
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    // ── Page content ────────────────────────────────────────
+    var title       = Model.GetElementValue("Title");
+    var body        = Model.GetElementValue("Body");
+    var lastUpdated = Model.GetElementValue("LastUpdated");
+    var readTime    = Model.GetElementValue("ReadTime");
+    var sectionName = Model.GetElementValue("Section");   // e.g. "Authoring Basics"
+    var pdfUrl      = Model.GetElementValue("PdfUrl");    // Pre-built PDF asset URL
+
+    // ── Navigations ─────────────────────────────────────────
+    ICMSLinkElement[] sidebarNav = Model.GetNavigationItems("SidebarNavigation", NavigationElementType.Navigation)
+        .Where(p => p.Schema != "Folder").ToArray();
+    ICMSLinkElement[] breadcrumbs = Model.GetNavigationItems("AncestorNavigation")
+        .Where(p => p.Schema != "Folder").ToArray();
+
+    // ── Versions (e.g. CMS 10.6, CMS 10.5 ...) ──────────────
+    ICMSLinkElement[] versions = Model.GetLinkItems("Versions").ToArray();
+    ICMSLinkElement currentVersion = versions.FirstOrDefault();
+
+    // ── Previous / Next article (optional, per-article) ─────
+    ICMSLinkElement prevArticle = Model.GetLinkItem("PrevArticle");
+    ICMSLinkElement nextArticle = Model.GetLinkItem("NextArticle");
+
+    // ── Tags (optional link list, points at search-results pages) ─
+    ICMSLinkElement[] tags = Model.GetLinkItems("Tags").ToArray();
+
+    // ── Feature flags from SiteControl (default: on) ────────
+    ICMSElement siteControl = _Functions.GetSiteControl(Model);
+    bool featBookmarks   = siteControl?.GetElementValue("FeatureBookmarks") != "false";
+    bool featWatched     = siteControl?.GetElementValue("FeatureWatched")   != "false";
+    bool featShare       = siteControl?.GetElementValue("FeatureShare")     != "false";
+    bool featFeedback    = siteControl?.GetElementValue("FeatureFeedback")  != "false";
+    bool featPDF         = siteControl?.GetElementValue("FeaturePDF")       == "true";
+    bool aiSummarize     = siteControl?.GetElementValue("AISummarization")  != "false";
+    bool aiListen        = siteControl?.GetElementValue("AIListen")         == "true";
+    bool aiGlossary      = siteControl?.GetElementValue("AIGlossary")       == "true";
+}
+
+@* The page ID is set on body via inline JS so article-actions.js can read it.
+   The <body> tag itself is rendered by _Layout.cshtml. *@
+<script>document.body.setAttribute('data-page-id', '@Model.ID');</script>
+
+<div class="flex">
+
+    @* ── Left Sidebar: Documentation Tree (from Navigation field) ── *@
+    @if (sidebarNav.Length > 0)
+    {
+        <aside class="hidden lg:block w-64 flex-shrink-0 border-r border-neutral-200 dark:border-neutral-700 overflow-y-auto sticky top-16 h-[calc(100vh-4rem)] p-4">
+            <nav class="space-y-1">
+                @foreach (var item in sidebarNav)
+                {
+                    var isActive = item.ID == Model.ID;
+                    var children = item.ChildLinks?.Where(c => c.Schema != "Folder").ToArray();
+                    <div class="mb-4">
+                        <a href="@_Functions.GetLinkAction(item, Url)"
+                           class="block px-3 py-2 text-sm rounded-lg transition-colors @(isActive ? "bg-primary-50 dark:bg-primary-900/20 text-primary-600 dark:text-primary-400 font-semibold" : "text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800")">
+                            @_Functions.GetLinkName(item, useNavName: true)
+                        </a>
+                        @if (children != null && children.Length > 0)
+                        {
+                            <div class="ml-4 mt-1 space-y-1">
+                                @foreach (var child in children)
+                                {
+                                    var childActive = child.ID == Model.ID;
+                                    <a href="@_Functions.GetLinkAction(child, Url)"
+                                       class="block px-3 py-1.5 text-sm rounded-lg transition-colors @(childActive ? "text-primary-600 dark:text-primary-400 font-medium" : "text-neutral-500 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white")">
+                                        @_Functions.GetLinkName(child, useNavName: true)
+                                    </a>
+                                }
+                            </div>
+                        }
+                    </div>
+                }
+            </nav>
+        </aside>
+    }
+
+    @* ── Main Article Content ─────────────────────────────── *@
+    <div class="flex-1 max-w-4xl px-6 lg:px-12 py-8">
+
+        @* Breadcrumbs *@
+        @if (breadcrumbs.Length > 0)
+        {
+            <nav class="flex items-center gap-2 text-sm text-neutral-500 dark:text-neutral-400 mb-6">
+                @for (int i = 0; i < breadcrumbs.Length; i++)
+                {
+                    if (i > 0) { <i data-lucide="chevron-right" class="w-3 h-3"></i> }
+                    <a href="@_Functions.GetLinkAction(breadcrumbs[i], Url)" class="hover:text-primary-600 dark:hover:text-primary-400">
+                        @_Functions.GetLinkName(breadcrumbs[i], useNavName: true)
+                    </a>
+                }
+            </nav>
+        }
+
+        @* Article Toolbar: prev/next + actions *@
+        <div class="flex items-center justify-between mb-6">
+            @* Prev / Next navigation *@
+            <div class="flex items-center gap-1">
+                @if (prevArticle != null)
+                {
+                    <a href="@_Functions.GetLinkAction(prevArticle, Url)"
+                       class="p-2 hover:bg-neutral-100 dark:hover:bg-neutral-700 rounded-lg transition-colors"
+                       title="Previous: @_Functions.GetLinkName(prevArticle)">
+                        <i data-lucide="chevron-left" class="w-5 h-5 text-neutral-600 dark:text-neutral-400"></i>
+                    </a>
+                }
+                @if (nextArticle != null)
+                {
+                    <a href="@_Functions.GetLinkAction(nextArticle, Url)"
+                       class="p-2 hover:bg-neutral-100 dark:hover:bg-neutral-700 rounded-lg transition-colors"
+                       title="Next: @_Functions.GetLinkName(nextArticle)">
+                        <i data-lucide="chevron-right" class="w-5 h-5 text-neutral-600 dark:text-neutral-400"></i>
+                    </a>
+                }
+            </div>
+
+            @* Action buttons *@
+            <div class="flex items-center gap-2">
+                @if (featBookmarks)
+                {
+                    <button id="bookmark-toggle"
+                            class="p-2 hover:bg-neutral-100 dark:hover:bg-neutral-700 rounded-lg transition-colors"
+                            title="Bookmark this page">
+                        <i data-lucide="bookmark" class="w-5 h-5 text-neutral-600 dark:text-neutral-400"></i>
+                    </button>
+                }
+                @if (featWatched)
+                {
+                    <button id="watch-toggle"
+                            class="p-2 hover:bg-neutral-100 dark:hover:bg-neutral-700 rounded-lg transition-colors"
+                            title="Watch for changes">
+                        <i data-lucide="eye" class="w-5 h-5 text-neutral-600 dark:text-neutral-400"></i>
+                    </button>
+                }
+                @if (featPDF && !string.IsNullOrEmpty(pdfUrl))
+                {
+                    <a href="@pdfUrl"
+                       class="p-2 hover:bg-neutral-100 dark:hover:bg-neutral-700 rounded-lg transition-colors inline-flex"
+                       title="Download PDF"
+                       download>
+                        <i data-lucide="download" class="w-5 h-5 text-neutral-600 dark:text-neutral-400"></i>
+                    </a>
+                }
+                @if (featShare)
+                {
+                    <div class="relative">
+                        <button id="share-btn"
+                                class="p-2 hover:bg-neutral-100 dark:hover:bg-neutral-700 rounded-lg transition-colors"
+                                title="Share">
+                            <i data-lucide="share-2" class="w-5 h-5 text-neutral-600 dark:text-neutral-400"></i>
+                        </button>
+                        <div id="share-menu"
+                             class="hidden absolute right-0 mt-2 w-56 bg-white dark:bg-neutral-800 rounded-xl shadow-2xl border border-neutral-200 dark:border-neutral-700 py-2 z-50">
+                            <button id="share-copy-link"
+                                    class="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors text-left">
+                                <i data-lucide="link" class="w-4 h-4"></i>
+                                <span>Copy link</span>
+                            </button>
+                            <a href="" id="share-email"
+                               class="flex items-center gap-3 px-4 py-2.5 text-sm text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors">
+                                <i data-lucide="mail" class="w-4 h-4"></i>
+                                <span>Share via email</span>
+                            </a>
+                            <a href="" id="share-x" target="_blank"
+                               class="flex items-center gap-3 px-4 py-2.5 text-sm text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors">
+                                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                                <span>Share to X</span>
+                            </a>
+                            <a href="" id="share-linkedin" target="_blank"
+                               class="flex items-center gap-3 px-4 py-2.5 text-sm text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors">
+                                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                                <span>Share to LinkedIn</span>
+                            </a>
+                        </div>
+                    </div>
+                }
+                @if (featFeedback)
+                {
+                    <button id="feedback-btn"
+                            class="p-2 hover:bg-neutral-100 dark:hover:bg-neutral-700 rounded-lg transition-colors"
+                            title="Feedback">
+                        <i data-lucide="message-square" class="w-5 h-5 text-neutral-600 dark:text-neutral-400"></i>
+                    </button>
+                }
+            </div>
+        </div>
+
+        @* Article Header: title + version selector + metadata *@
+        <h1 class="text-3xl font-bold text-neutral-900 dark:text-white mb-4"
+            @_Helpers.RenderICEAttribute(Model.Element("Title"))>
+            @title
+        </h1>
+
+        @* Version + metadata + tags row *@
+        <div class="flex flex-wrap items-center gap-3 mb-6 pb-4 border-b border-neutral-200 dark:border-neutral-700">
+            @if (versions.Length > 0 && currentVersion != null)
+            {
+                <div class="flex items-center gap-2 relative">
+                    <span class="text-sm text-neutral-600 dark:text-neutral-400">Version:</span>
+                    <button id="version-dropdown-btn"
+                            class="group inline-flex items-center gap-2 border-b-2 border-primary-600 dark:border-primary-400 pb-1 hover:border-primary-700 dark:hover:border-primary-300 transition-colors">
+                        <span class="text-primary-600 dark:text-primary-400 font-medium group-hover:text-primary-700 dark:group-hover:text-primary-300">
+                            @_Functions.GetLinkName(currentVersion)
+                        </span>
+                        <i data-lucide="chevron-down" class="w-4 h-4 text-neutral-600 dark:text-neutral-400"></i>
+                    </button>
+                    <div id="version-dropdown"
+                         class="hidden absolute top-full left-0 mt-2 w-48 bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-lg shadow-lg z-50">
+                        <div class="py-2">
+                            @for (int i = 0; i < versions.Length; i++)
+                            {
+                                var v = versions[i];
+                                var isCurrent = i == 0;
+                                <a href="@_Functions.GetLinkAction(v, Url)"
+                                   class="block px-4 py-2 text-sm @(isCurrent ? "text-primary-600 dark:text-primary-400 font-medium bg-primary-50 dark:bg-primary-900/20" : "text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-700")">
+                                    @_Functions.GetLinkName(v)@(isCurrent ? " (Latest)" : "")
+                                </a>
+                            }
+                        </div>
+                    </div>
+                </div>
+                <span class="text-neutral-400">|</span>
+            }
+            @if (!string.IsNullOrEmpty(lastUpdated))
+            {
+                <span class="text-sm text-neutral-600 dark:text-neutral-400">Last updated @lastUpdated</span>
+            }
+            @if (!string.IsNullOrEmpty(readTime))
+            {
+                <span class="text-neutral-400">|</span>
+                <span class="text-sm text-neutral-600 dark:text-neutral-400">@readTime min read</span>
+            }
+            @if (!string.IsNullOrEmpty(sectionName))
+            {
+                <span class="text-neutral-400">|</span>
+                <span class="text-sm text-neutral-600 dark:text-neutral-400">@sectionName</span>
+            }
+            @if (tags.Length > 0)
+            {
+                <div class="flex items-center gap-2 ml-auto flex-wrap">
+                    @foreach (var tag in tags)
+                    {
+                        <a href="@_Functions.GetLinkAction(tag, Url)"
+                           class="px-3 py-1 bg-primary-100 dark:bg-primary-900/20 text-primary-700 dark:text-primary-300 text-xs font-semibold rounded-full hover:bg-primary-200 dark:hover:bg-primary-900/40 transition-colors">
+                            @_Functions.GetLinkName(tag)
+                        </a>
+                    }
+                </div>
+            }
+        </div>
+
+        @* AI Tools bar (Summarize, Listen, Glossary) *@
+        @if (aiSummarize || aiListen || aiGlossary)
+        {
+            <div id="ai-tools-container" class="flex flex-wrap gap-2 mb-6">
+                @if (aiSummarize)
+                {
+                    <button id="generate-summary-btn"
+                            class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white dark:bg-neutral-800 border border-neutral-300 dark:border-neutral-600 text-neutral-700 dark:text-neutral-300 rounded-lg text-xs font-medium hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-all">
+                        <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
+                        Summarize
+                    </button>
+                }
+                @if (aiListen)
+                {
+                    <button id="listen-btn"
+                            class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white dark:bg-neutral-800 border border-neutral-300 dark:border-neutral-600 text-neutral-700 dark:text-neutral-300 rounded-lg text-xs font-medium hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-all">
+                        <i data-lucide="headphones" class="w-3.5 h-3.5"></i>
+                        Listen
+                    </button>
+                }
+                @if (aiGlossary)
+                {
+                    <button id="glossary-toggle"
+                            class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white dark:bg-neutral-800 border border-neutral-300 dark:border-neutral-600 text-neutral-700 dark:text-neutral-300 rounded-lg text-xs font-medium hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-all">
+                        <i data-lucide="book-open" class="w-3.5 h-3.5"></i>
+                        Glossary <span class="opacity-60 ml-1">Off</span>
+                    </button>
+                }
+            </div>
+        }
+
+        @* AI Summary container (populated by ai-assists.js when user clicks Summarize) *@
+        @if (aiSummarize)
+        {
+            <div id="ai-summary-container" class="hidden mb-6 p-4 bg-gradient-to-br from-primary-50 to-blue-50 dark:from-primary-900/20 dark:to-blue-900/20 rounded-lg border border-primary-200 dark:border-primary-700">
+                <div class="flex items-start justify-between mb-2">
+                    <h3 class="text-sm font-bold text-neutral-900 dark:text-white flex items-center gap-2">
+                        <i data-lucide="sparkles" class="w-4 h-4 text-primary-600 dark:text-primary-400"></i>
+                        AI Summary
+                    </h3>
+                    <button class="close-summary-btn p-1 hover:bg-neutral-200 dark:hover:bg-neutral-700 rounded transition-colors">
+                        <i data-lucide="x" class="w-4 h-4 text-neutral-500"></i>
+                    </button>
+                </div>
+                <div id="ai-summary-text" class="text-sm text-neutral-700 dark:text-neutral-300"></div>
+            </div>
+        }
+
+        @* Body Content *@
+        <article class="article-content prose max-w-none"
+                 @_Helpers.RenderICEAttribute(Model.Element("Body"))>
+            @Html.Raw(body)
+        </article>
+
+        @* Trays within article (code blocks, callouts, etc.) *@
+        @if (Model.Element("ArticleTrays") != null)
+        {
+            Html.RenderPartial("Editable/Trays", Model.Element("ArticleTrays"));
+        }
+    </div>
+</div>
+
+@section AddToFooter {
+    <!-- Article actions: share menu, bookmark, watch, version dropdown, feedback -->
+    <script src="@Url.Content("~/Scripts/article-actions.js")"></script>
+}

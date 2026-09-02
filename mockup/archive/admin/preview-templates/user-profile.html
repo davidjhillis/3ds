@@ -1,0 +1,1076 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Profile - Discover CX Docs</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="../assets/theme-loader.js"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            // Semantic color tokens mapped to CSS variables
+            primary: {
+              50: 'rgb(var(--color-primary-50))',
+              100: 'rgb(var(--color-primary-100))',
+              200: 'rgb(var(--color-primary-200))',
+              300: 'rgb(var(--color-primary-300))',
+              400: 'rgb(var(--color-primary-400))',
+              500: 'rgb(var(--color-primary-500))',
+              600: 'rgb(var(--color-primary-600))',
+              700: 'rgb(var(--color-primary-700))',
+              800: 'rgb(var(--color-primary-800))',
+              900: 'rgb(var(--color-primary-900))',
+              950: 'rgb(var(--color-primary-950))',
+            },
+            accent: {
+              50: 'rgb(var(--color-accent-50))',
+              100: 'rgb(var(--color-accent-100))',
+              200: 'rgb(var(--color-accent-200))',
+              300: 'rgb(var(--color-accent-300))',
+              400: 'rgb(var(--color-accent-400))',
+              500: 'rgb(var(--color-accent-500))',
+              600: 'rgb(var(--color-accent-600))',
+              700: 'rgb(var(--color-accent-700))',
+              800: 'rgb(var(--color-accent-800))',
+              900: 'rgb(var(--color-accent-900))',
+              950: 'rgb(var(--color-accent-950))',
+            },
+            neutral: {
+              50: 'rgb(var(--color-neutral-50))',
+              100: 'rgb(var(--color-neutral-100))',
+              200: 'rgb(var(--color-neutral-200))',
+              300: 'rgb(var(--color-neutral-300))',
+              400: 'rgb(var(--color-neutral-400))',
+              500: 'rgb(var(--color-neutral-500))',
+              600: 'rgb(var(--color-neutral-600))',
+              700: 'rgb(var(--color-neutral-700))',
+              800: 'rgb(var(--color-neutral-800))',
+              900: 'rgb(var(--color-neutral-900))',
+              950: 'rgb(var(--color-neutral-950))',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    /* Default theme CSS variables (Indigo) */
+    :root {
+      --color-primary-50: 238 242 255;
+      --color-primary-100: 224 231 255;
+      --color-primary-200: 199 210 254;
+      --color-primary-300: 165 180 252;
+      --color-primary-400: 129 140 248;
+      --color-primary-500: 99 102 241;
+      --color-primary-600: 79 70 229;
+      --color-primary-700: 67 56 202;
+      --color-primary-800: 55 48 163;
+      --color-primary-900: 49 46 129;
+      --color-primary-950: 30 27 75;
+      
+      --color-accent-50: 238 242 255;
+      --color-accent-100: 224 231 255;
+      --color-accent-200: 199 210 254;
+      --color-accent-300: 165 180 252;
+      --color-accent-400: 129 140 248;
+      --color-accent-500: 99 102 241;
+      --color-accent-600: 79 70 229;
+      --color-accent-700: 67 56 202;
+      --color-accent-800: 55 48 163;
+      --color-accent-900: 49 46 129;
+      --color-accent-950: 30 27 75;
+      
+      --color-neutral-50: 249 250 251;
+      --color-neutral-100: 243 244 246;
+      --color-neutral-200: 229 231 235;
+      --color-neutral-300: 209 213 219;
+      --color-neutral-400: 156 163 175;
+      --color-neutral-500: 107 114 128;
+      --color-neutral-600: 75 85 99;
+      --color-neutral-700: 65 65 65;
+      --color-neutral-800: 50 50 50;
+      --color-neutral-900: 37 37 37;
+      --color-neutral-950: 20 20 20;
+    }
+    
+    * { margin: 0; padding: 0; }
+  </style>
+</head>
+<body class="bg-neutral-50 dark:bg-neutral-900 text-neutral-900 dark:text-white">
+
+  <!-- Header -->
+  <header class="sticky top-0 z-50 bg-neutral-50 dark:bg-neutral-900 border-b border-neutral-200 dark:border-neutral-700">
+    <div class="mx-auto px-6">
+      <div class="flex items-center justify-between h-16">
+        
+        <!-- Mobile Menu Button with Dropdown -->
+        <div class="relative md:hidden">
+          <button id="mobile-menu-btn" class="p-2 hover:bg-neutral-100 dark:hover:bg-neutral-700 rounded-lg">
+            <i data-lucide="menu" class="w-6 h-6 text-neutral-600 dark:text-neutral-400"></i>
+          </button>
+          
+          <!-- Mobile Menu Dropdown -->
+          <div id="mobile-menu" class="hidden absolute right-0 top-full mt-2 w-64 bg-white dark:bg-neutral-800 rounded-xl shadow-2xl border border-neutral-200 dark:border-neutral-700 z-50 py-2">
+            <nav class="py-2">
+              <a href="index.html" class="flex items-center gap-3 px-4 py-3 hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors">
+                <i data-lucide="home" class="w-4 h-4 text-neutral-600 dark:text-neutral-400"></i>
+                <span class="text-sm font-medium text-neutral-900 dark:text-white">Home</span>
+              </a>
+              <a href="doc-page.html" class="flex items-center gap-3 px-4 py-3 hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors">
+                <i data-lucide="book-open" class="w-4 h-4 text-neutral-600 dark:text-neutral-400"></i>
+                <span class="text-sm font-medium text-neutral-900 dark:text-white">Documentation</span>
+              </a>
+              <a href="#" class="flex items-center gap-3 px-4 py-3 hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors">
+                <i data-lucide="life-buoy" class="w-4 h-4 text-neutral-600 dark:text-neutral-400"></i>
+                <span class="text-sm font-medium text-neutral-900 dark:text-white">Support</span>
+              </a>
+            </nav>
+          </div>
+        </div>
+        
+        <!-- Logo (Always visible) -->
+        <a href="index.html" class="flex items-center gap-3 hover:opacity-90 transition-opacity flex-shrink-0 mr-8">
+          <img src="../assets/discover-cx-logo.svg" alt="Discover CX" class="h-7 w-auto dark:hidden">
+          <img src="../assets/discover-cx-logo-white.svg" alt="Discover CX" class="h-7 w-auto hidden dark:block">
+          <span class="hidden lg:inline font-normal text-lg text-neutral-600 dark:text-neutral-400 whitespace-nowrap">Product Documentation</span>
+        </a>
+        
+        <!-- Command K Search Trigger (Big search bar - desktop only, centered to screen) -->
+        <button id="cmd-k-trigger" class="absolute left-1/2 -translate-x-1/2 max-w-2xl w-full mx-4 hidden lg:flex items-center gap-3 px-4 py-2 border border-neutral-300 dark:border-neutral-600 rounded-lg bg-white dark:bg-neutral-800 text-left hover:border-primary-500 dark:hover:border-primary-400 transition-colors group">
+          <i data-lucide="search" class="w-5 h-5 text-neutral-400 group-hover:text-primary-600 dark:group-hover:text-primary-400"></i>
+          <span class="flex-1 text-sm text-neutral-500 dark:text-neutral-400">Search or ask a question</span>
+          <kbd class="hidden lg:inline-flex items-center gap-1 px-2 py-1 text-xs font-semibold text-neutral-600 dark:text-neutral-400 bg-neutral-100 dark:bg-neutral-700 border border-neutral-300 dark:border-neutral-600 rounded">
+            <span class="text-xs">⌘</span>K
+          </kbd>
+        </button>
+        
+        <!-- Right Actions -->
+        <div class="flex items-center gap-3 ml-auto">
+          <!-- Mobile/Tablet Search Icon Button -->
+          <button id="mobile-search-btn" class="lg:hidden p-2 hover:bg-neutral-100 dark:hover:bg-neutral-700 rounded-lg">
+            <i data-lucide="search" class="w-6 h-6 text-neutral-600 dark:text-neutral-400"></i>
+          </button>
+          <!-- Menu Button with Dropdown -->
+          <div class="relative">
+            <button id="mobile-menu-btn" class="p-2 hover:bg-neutral-100 dark:hover:bg-neutral-700 rounded-lg flex-shrink-0">
+              <i data-lucide="menu" class="w-6 h-6 text-neutral-600 dark:text-neutral-400"></i>
+            </button>
+            
+            <!-- Mobile Menu Dropdown -->
+            <div id="mobile-menu" class="hidden absolute right-0 top-full mt-2 w-64 bg-neutral-50 dark:bg-neutral-900 rounded-xl shadow-2xl border border-neutral-200 dark:border-neutral-700 z-50 py-2">
+              <nav class="py-2">
+                <a href="index.html#products" class="flex items-center gap-3 px-4 py-3 hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors">
+                  <i data-lucide="package" class="w-4 h-4 text-neutral-600 dark:text-neutral-400"></i>
+                  <span class="text-sm font-medium text-neutral-900 dark:text-white">Products</span>
+                </a>
+                <a href="doc-page.html" class="flex items-center gap-3 px-4 py-3 hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors">
+                  <i data-lucide="book-open" class="w-4 h-4 text-neutral-600 dark:text-neutral-400"></i>
+                  <span class="text-sm font-medium text-neutral-900 dark:text-white">Documentation</span>
+                </a>
+                <a href="#" class="flex items-center gap-3 px-4 py-3 hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors">
+                  <i data-lucide="life-buoy" class="w-4 h-4 text-neutral-600 dark:text-neutral-400"></i>
+                  <span class="text-sm font-medium text-neutral-900 dark:text-white">Support</span>
+                </a>
+              </nav>
+            </div>
+          </div>
+          
+          <!-- User Avatar Dropdown -->
+        <div class="relative">
+          <button id="user-menu-btn" class="flex items-center gap-2 p-1.5 hover:bg-neutral-100 dark:hover:bg-neutral-700 rounded-lg transition-colors">
+            <div class="w-8 h-8 rounded-full bg-gradient-to-br from-neutral-600 to-neutral-700 flex items-center justify-center text-white font-semibold text-sm">
+              JD
+            </div>
+            <i data-lucide="chevron-down" class="w-4 h-4 text-neutral-600 dark:text-neutral-400 hidden sm:block"></i>
+          </button>
+          
+          <!-- Dropdown Menu -->
+          <div id="user-dropdown" class="hidden absolute right-0 mt-2 w-56 bg-white dark:bg-neutral-800 rounded-xl shadow-2xl border border-neutral-200 dark:border-neutral-700 py-2 z-50">
+              <!-- User Info -->
+              <div class="px-4 py-3 border-b border-neutral-200 dark:border-neutral-700">
+                <p class="text-sm font-semibold text-neutral-900 dark:text-white">Jane Doe</p>
+                <p class="text-xs text-neutral-600 dark:text-neutral-400">jane.doe@company.com</p>
+              </div>
+              
+              <!-- Theme Selector -->
+              <div class="px-4 py-3 border-b border-neutral-200 dark:border-neutral-700">
+                <div class="flex items-center justify-between gap-2">
+                  <button id="theme-auto" class="flex-1 p-2 rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors" title="Auto">
+                    <i data-lucide="monitor" class="w-4 h-4 mx-auto text-neutral-600 dark:text-neutral-400"></i>
+                  </button>
+                  <button id="theme-light" class="flex-1 p-2 rounded-lg bg-yellow-100 dark:bg-yellow-900/30 transition-colors" title="Light">
+                    <i data-lucide="sun" class="w-4 h-4 mx-auto text-yellow-600 dark:text-yellow-400"></i>
+                  </button>
+                  <button id="theme-dark" class="flex-1 p-2 rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors" title="Dark">
+                    <i data-lucide="moon" class="w-4 h-4 mx-auto text-neutral-600 dark:text-neutral-400"></i>
+                  </button>
+                </div>
+              </div>
+              
+              <!-- Menu Items -->
+              <div class="py-2">
+                <a href="#profile-tab" class="flex items-center gap-3 px-4 py-2 hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors">
+                  <i data-lucide="user" class="w-4 h-4 text-neutral-600 dark:text-neutral-400"></i>
+                  <span class="text-sm text-neutral-900 dark:text-white">My Profile</span>
+                </a>
+                <a href="#" class="flex items-center gap-3 px-4 py-2 hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors">
+                  <i data-lucide="bookmark" class="w-4 h-4 text-neutral-600 dark:text-neutral-400"></i>
+                  <span class="text-sm text-neutral-900 dark:text-white">Bookmarks</span>
+                </a>
+                <a href="#" class="flex items-center gap-3 px-4 py-2 hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors">
+                  <i data-lucide="clock" class="w-4 h-4 text-neutral-600 dark:text-neutral-400"></i>
+                  <span class="text-sm text-neutral-900 dark:text-white">Reading History</span>
+                </a>
+                <a href="#" class="flex items-center gap-3 px-4 py-2 hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors">
+                  <i data-lucide="settings" class="w-4 h-4 text-neutral-600 dark:text-neutral-400"></i>
+                  <span class="text-sm text-neutral-900 dark:text-white">Settings</span>
+                </a>
+              </div>
+              
+              <!-- Divider -->
+              <div class="border-t border-neutral-200 dark:border-neutral-700 my-2"></div>
+              
+              <!-- Logout -->
+              <div class="py-2">
+                <a href="login.html" class="flex items-center gap-3 px-4 py-2 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors">
+                  <i data-lucide="log-out" class="w-4 h-4 text-red-600 dark:text-red-400"></i>
+                  <span class="text-sm text-red-600 dark:text-red-400 font-semibold">Log Out</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="max-w-screen-2xl mx-auto px-6 py-12">
+    
+    <!-- Page Header -->
+    <div class="mb-8">
+      <h1 class="text-3xl font-bold text-neutral-900 dark:text-white mb-2">My Profile</h1>
+      <p class="text-neutral-600 dark:text-neutral-400">Manage your account settings and preferences</p>
+    </div>
+
+    <!-- Profile Layout - 2 Columns -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      
+      <!-- Left Column - Profile Overview -->
+      <div class="lg:col-span-1 space-y-6">
+        
+        <!-- Profile Card -->
+        <div class="bg-neutral-50 dark:bg-neutral-900 rounded-xl border border-neutral-200 dark:border-neutral-700 overflow-hidden">
+          <!-- Cover/Header -->
+          <div class="h-24 bg-neutral-800 dark:bg-neutral-700"></div>
+          
+          <!-- Avatar & Basic Info -->
+          <div class="px-6 pb-6">
+            <div class="flex flex-col items-center -mt-12">
+              <!-- Avatar with Edit Button -->
+              <div class="relative">
+                <div class="w-24 h-24 rounded-full bg-gradient-to-br from-neutral-600 to-neutral-700 flex items-center justify-center text-white font-bold text-3xl border-4 border-white dark:border-neutral-900">
+                  JD
+                </div>
+                <button class="absolute bottom-0 right-0 w-8 h-8 bg-white dark:bg-neutral-800 border-2 border-neutral-200 dark:border-neutral-700 rounded-full flex items-center justify-center hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors">
+                  <i data-lucide="camera" class="w-4 h-4 text-neutral-600 dark:text-neutral-400"></i>
+                </button>
+              </div>
+              
+              <!-- Name & Role -->
+              <h2 class="mt-4 text-xl font-bold text-neutral-900 dark:text-white">Jane Doe</h2>
+              <p class="text-sm text-neutral-600 dark:text-neutral-400">Senior Developer</p>
+              <p class="text-xs text-neutral-500 dark:text-neutral-500 mt-1">jane.doe@company.com</p>
+              
+              <!-- Quick Stats -->
+              <div class="flex items-center gap-4 mt-4 w-full">
+                <div class="flex-1 text-center py-2 bg-white dark:bg-neutral-800 rounded-lg">
+                  <p class="text-lg font-bold text-neutral-900 dark:text-white">127</p>
+                  <p class="text-xs text-neutral-600 dark:text-neutral-400">Articles Read</p>
+                </div>
+                <div class="flex-1 text-center py-2 bg-white dark:bg-neutral-800 rounded-lg">
+                  <p class="text-lg font-bold text-neutral-900 dark:text-white">23</p>
+                  <p class="text-xs text-neutral-600 dark:text-neutral-400">Bookmarks</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick Links -->
+        <div class="bg-neutral-50 dark:bg-neutral-900 rounded-xl border border-neutral-200 dark:border-neutral-700 p-6">
+          <h3 class="font-semibold text-neutral-900 dark:text-white mb-4">Quick Links</h3>
+          <div class="space-y-2">
+            <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors text-neutral-700 dark:text-neutral-300">
+              <i data-lucide="bookmark" class="w-4 h-4 text-primary-600"></i>
+              <span class="text-sm">My Bookmarks</span>
+            </a>
+            <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors text-neutral-700 dark:text-neutral-300">
+              <i data-lucide="clock" class="w-4 h-4 text-primary-600"></i>
+              <span class="text-sm">Reading History</span>
+            </a>
+            <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors text-neutral-700 dark:text-neutral-300">
+              <i data-lucide="star" class="w-4 h-4 text-primary-600"></i>
+              <span class="text-sm">Saved Searches</span>
+            </a>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Right Column - Settings & Preferences -->
+      <div class="lg:col-span-2 space-y-6">
+        
+        <!-- Tabs -->
+        <div class="bg-neutral-50 dark:bg-neutral-900 rounded-xl border border-neutral-200 dark:border-neutral-700">
+          <div class="border-b border-neutral-200 dark:border-neutral-700">
+            <nav class="flex gap-2 px-6">
+              <button data-tab="profile" class="tab-btn px-4 py-3 border-b-2 border-primary-600 text-primary-600 dark:text-primary-400 font-semibold text-sm">
+                Profile
+              </button>
+              <button data-tab="notifications" class="tab-btn px-4 py-3 border-b-2 border-transparent text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white font-semibold text-sm">
+                Notifications
+              </button>
+              <button data-tab="subscriptions" class="tab-btn px-4 py-3 border-b-2 border-transparent text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white font-semibold text-sm">
+                Subscriptions
+              </button>
+            </nav>
+          </div>
+          
+          <!-- Profile Tab Content -->
+          <div id="profile-tab" class="tab-content p-6">
+            
+            <!-- Personal Information -->
+            <div class="mb-8">
+              <h3 class="text-lg font-semibold text-neutral-900 dark:text-white mb-4">Personal Information</h3>
+              <div class="space-y-4">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label class="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1.5">First Name</label>
+                    <input 
+                      type="text" 
+                      value="Jane" 
+                      class="w-full px-4 py-2 border border-neutral-300 dark:border-neutral-600 rounded-lg bg-white dark:bg-neutral-800 text-neutral-900 dark:text-white focus:outline-none focus:outline-none focus:ring-2 focus:ring-primary-500"
+                    />
+                  </div>
+                  <div>
+                    <label class="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1.5">Last Name</label>
+                    <input 
+                      type="text" 
+                      value="Doe" 
+                      class="w-full px-4 py-2 border border-neutral-300 dark:border-neutral-600 rounded-lg bg-white dark:bg-neutral-800 text-neutral-900 dark:text-white focus:outline-none focus:outline-none focus:ring-2 focus:ring-primary-500"
+                    />
+                  </div>
+                </div>
+                
+                <div>
+                  <label class="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1.5">Email Address</label>
+                  <input 
+                    type="email" 
+                    value="jane.doe@company.com" 
+                    class="w-full px-4 py-2 border border-neutral-300 dark:border-neutral-600 rounded-lg bg-white dark:bg-neutral-800 text-neutral-900 dark:text-white focus:outline-none focus:outline-none focus:ring-2 focus:ring-primary-500"
+                  />
+                </div>
+                
+                <div>
+                  <label class="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1.5">Job Title</label>
+                  <input 
+                    type="text" 
+                    value="Senior Developer" 
+                    class="w-full px-4 py-2 border border-neutral-300 dark:border-neutral-600 rounded-lg bg-white dark:bg-neutral-800 text-neutral-900 dark:text-white focus:outline-none focus:outline-none focus:ring-2 focus:ring-primary-500"
+                  />
+                </div>
+                
+                <div>
+                  <label class="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1.5">Company</label>
+                  <input 
+                    type="text" 
+                    value="Acme Corporation" 
+                    class="w-full px-4 py-2 border border-neutral-300 dark:border-neutral-600 rounded-lg bg-white dark:bg-neutral-800 text-neutral-900 dark:text-white focus:outline-none focus:outline-none focus:ring-2 focus:ring-primary-500"
+                  />
+                </div>
+                
+                <div>
+                  <label class="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1.5">Bio</label>
+                  <textarea 
+                    rows="3" 
+                    class="w-full px-4 py-2 border border-neutral-300 dark:border-neutral-600 rounded-lg bg-white dark:bg-neutral-800 text-neutral-900 dark:text-white focus:outline-none focus:outline-none focus:ring-2 focus:ring-primary-500 resize-none"
+                    placeholder="Tell us about yourself...">Senior developer with 10+ years experience in enterprise content management.</textarea>
+                </div>
+              </div>
+            </div>
+
+            <!-- Preferences -->
+            <div class="mb-8 border-t border-neutral-200 dark:border-neutral-700 pt-8">
+              <h3 class="text-lg font-semibold text-neutral-900 dark:text-white mb-4">Preferences</h3>
+              <div class="space-y-4">
+                
+                <!-- Language -->
+                <div>
+                  <label class="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1.5">Language</label>
+                  <select class="w-full px-4 py-2 border border-neutral-300 dark:border-neutral-600 rounded-lg bg-white dark:bg-neutral-800 text-neutral-900 dark:text-white focus:outline-none focus:outline-none focus:ring-2 focus:ring-primary-500">
+                    <option>English (US)</option>
+                    <option>English (UK)</option>
+                    <option>Spanish</option>
+                    <option>French</option>
+                    <option>German</option>
+                  </select>
+                </div>
+                
+                <!-- Timezone -->
+                <div>
+                  <label class="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-1.5">Timezone</label>
+                  <select class="w-full px-4 py-2 border border-neutral-300 dark:border-neutral-600 rounded-lg bg-white dark:bg-neutral-800 text-neutral-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500">
+                    <option>Pacific Time (PT)</option>
+                    <option>Mountain Time (MT)</option>
+                    <option>Central Time (CT)</option>
+                    <option>Eastern Time (ET)</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <!-- Save Button -->
+            <div class="flex items-center justify-end gap-3 pt-6 border-t border-neutral-200 dark:border-neutral-700">
+              <button class="px-4 py-2 border border-neutral-300 dark:border-neutral-600 text-neutral-700 dark:text-neutral-300 rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors font-semibold text-sm">
+                Cancel
+              </button>
+              <button class="px-6 py-2 bg-gradient-to-r from-primary-600 to-blue-600 text-white rounded-lg hover:from-primary-700 hover:to-blue-700 transition-all font-semibold text-sm shadow-lg shadow-primary-500/20">
+                Save Changes
+              </button>
+            </div>
+
+          </div>
+        </div>
+        
+        <!-- Notifications Tab Content -->
+        <div id="notifications-tab" class="tab-content hidden p-6">
+          <div class="flex items-center justify-between mb-6">
+            <div>
+              <h3 class="text-lg font-semibold text-neutral-900 dark:text-white">Notifications</h3>
+              <p class="text-sm text-neutral-600 dark:text-neutral-400 mt-1">Stay updated on documentation changes</p>
+            </div>
+            <button class="text-sm text-primary-600 dark:text-primary-400 hover:text-primary-700 font-semibold">
+              Mark all as read
+            </button>
+          </div>
+          
+          <!-- Notifications List -->
+          <div class="space-y-3">
+            <!-- Notification 1 - Unread -->
+            <div class="flex gap-4 p-4 bg-white dark:bg-neutral-800 border-2 border-primary-200 dark:border-primary-900/50 rounded-lg">
+              <div class="flex-shrink-0 w-10 h-10 rounded-full bg-primary-100 dark:bg-primary-900/30 flex items-center justify-center">
+                <i data-lucide="file-text" class="w-5 h-5 text-primary-600 dark:text-primary-400"></i>
+              </div>
+              <div class="flex-1">
+                <p class="text-sm font-semibold text-neutral-900 dark:text-white">New Article Published</p>
+                <p class="text-sm text-neutral-600 dark:text-neutral-400 mt-1">"Advanced Caching Strategies" is now available in Core Concepts</p>
+                <p class="text-xs text-neutral-500 dark:text-neutral-500 mt-2">2 hours ago</p>
+              </div>
+              <button class="text-neutral-400 hover:text-neutral-600 dark:hover:text-neutral-300 transition-colors">
+                <i data-lucide="x" class="w-4 h-4"></i>
+              </button>
+            </div>
+            
+            <!-- Notification 2 - Read -->
+            <div class="flex gap-4 p-4 bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-lg hover:border-neutral-300 dark:hover:border-neutral-600 transition-colors">
+              <div class="flex-shrink-0 w-10 h-10 rounded-full bg-neutral-100 dark:bg-neutral-700 flex items-center justify-center">
+                <i data-lucide="book-open" class="w-5 h-5 text-neutral-600 dark:text-neutral-400"></i>
+              </div>
+              <div class="flex-1">
+                <p class="text-sm font-semibold text-neutral-900 dark:text-white">Documentation Updated</p>
+                <p class="text-sm text-neutral-600 dark:text-neutral-400 mt-1">"Getting Started Guide" was updated with new examples</p>
+                <p class="text-xs text-neutral-500 dark:text-neutral-500 mt-2">Yesterday</p>
+              </div>
+              <button class="text-neutral-400 hover:text-neutral-600 dark:hover:text-neutral-300 transition-colors">
+                <i data-lucide="x" class="w-4 h-4"></i>
+              </button>
+            </div>
+            
+            <!-- Notification 3 - Read -->
+            <div class="flex gap-4 p-4 bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-lg hover:border-neutral-300 dark:hover:border-neutral-600 transition-colors">
+              <div class="flex-shrink-0 w-10 h-10 rounded-full bg-neutral-100 dark:bg-neutral-700 flex items-center justify-center">
+                <i data-lucide="star" class="w-5 h-5 text-neutral-600 dark:text-neutral-400"></i>
+              </div>
+              <div class="flex-1">
+                <p class="text-sm font-semibold text-neutral-900 dark:text-white">Product Release</p>
+                <p class="text-sm text-neutral-600 dark:text-neutral-400 mt-1">Ingeniux CMS v11.5 documentation is now available</p>
+                <p class="text-xs text-neutral-500 dark:text-neutral-500 mt-2">2 days ago</p>
+              </div>
+              <button class="text-neutral-400 hover:text-neutral-600 dark:hover:text-neutral-300 transition-colors">
+                <i data-lucide="x" class="w-4 h-4"></i>
+              </button>
+            </div>
+          </div>
+          
+          <!-- Empty State (hidden when notifications exist) -->
+          <div class="hidden text-center py-12">
+            <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-neutral-100 dark:bg-neutral-800 flex items-center justify-center">
+              <i data-lucide="bell-off" class="w-8 h-8 text-neutral-400"></i>
+            </div>
+            <p class="text-neutral-600 dark:text-neutral-400 font-medium mb-1">No notifications</p>
+            <p class="text-sm text-neutral-500">You're all caught up!</p>
+          </div>
+        </div>
+        
+        <!-- Subscriptions Tab Content -->
+        <div id="subscriptions-tab" class="tab-content hidden p-6">
+          <div class="mb-6">
+            <h3 class="text-lg font-semibold text-neutral-900 dark:text-white">Email Subscriptions</h3>
+            <p class="text-sm text-neutral-600 dark:text-neutral-400 mt-1">Manage your documentation email preferences</p>
+          </div>
+          
+          <div class="space-y-4">
+            <!-- Documentation Updates -->
+            <div class="bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-lg p-5">
+              <div class="flex items-start justify-between mb-4">
+                <div class="flex items-center gap-3">
+                  <div class="w-10 h-10 rounded-lg bg-primary-100 dark:bg-primary-900/30 flex items-center justify-center">
+                    <i data-lucide="book-open" class="w-5 h-5 text-primary-600 dark:text-primary-400"></i>
+                  </div>
+                  <div>
+                    <h4 class="font-semibold text-neutral-900 dark:text-white">Documentation Updates</h4>
+                    <p class="text-sm text-neutral-600 dark:text-neutral-400 mt-0.5">Get notified about new and updated articles</p>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="space-y-3 ml-13">
+                <label class="flex items-center justify-between py-2">
+                  <span class="text-sm text-neutral-700 dark:text-neutral-300">New articles published</span>
+                  <div class="relative inline-flex items-center cursor-pointer">
+                    <input type="checkbox" checked class="sr-only peer">
+                    <div class="w-11 h-6 bg-neutral-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-primary-500 rounded-full peer dark:bg-neutral-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-600"></div>
+                  </div>
+                </label>
+                
+                <label class="flex items-center justify-between py-2">
+                  <span class="text-sm text-neutral-700 dark:text-neutral-300">Bookmarked articles updated</span>
+                  <div class="relative inline-flex items-center cursor-pointer">
+                    <input type="checkbox" checked class="sr-only peer">
+                    <div class="w-11 h-6 bg-neutral-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-primary-500 rounded-full peer dark:bg-neutral-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-600"></div>
+                  </div>
+                </label>
+                
+                <label class="flex items-center justify-between py-2">
+                  <span class="text-sm text-neutral-700 dark:text-neutral-300">Weekly digest</span>
+                  <div class="relative inline-flex items-center cursor-pointer">
+                    <input type="checkbox" class="sr-only peer">
+                    <div class="w-11 h-6 bg-neutral-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-primary-500 rounded-full peer dark:bg-neutral-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-600"></div>
+                  </div>
+                </label>
+              </div>
+            </div>
+            
+            <!-- Product Updates -->
+            <div class="bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-lg p-5">
+              <div class="flex items-start justify-between mb-4">
+                <div class="flex items-center gap-3">
+                  <div class="w-10 h-10 rounded-lg bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center">
+                    <i data-lucide="package" class="w-5 h-5 text-blue-600 dark:text-blue-400"></i>
+                  </div>
+                  <div>
+                    <h4 class="font-semibold text-neutral-900 dark:text-white">Product Updates</h4>
+                    <p class="text-sm text-neutral-600 dark:text-neutral-400 mt-0.5">Stay informed about releases and features</p>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="space-y-3 ml-13">
+                <label class="flex items-center justify-between py-2">
+                  <span class="text-sm text-neutral-700 dark:text-neutral-300">Release announcements</span>
+                  <div class="relative inline-flex items-center cursor-pointer">
+                    <input type="checkbox" checked class="sr-only peer">
+                    <div class="w-11 h-6 bg-neutral-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-primary-500 rounded-full peer dark:bg-neutral-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-600"></div>
+                  </div>
+                </label>
+                
+                <label class="flex items-center justify-between py-2">
+                  <span class="text-sm text-neutral-700 dark:text-neutral-300">Beta program updates</span>
+                  <div class="relative inline-flex items-center cursor-pointer">
+                    <input type="checkbox" class="sr-only peer">
+                    <div class="w-11 h-6 bg-neutral-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-primary-500 rounded-full peer dark:bg-neutral-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-600"></div>
+                  </div>
+                </label>
+              </div>
+            </div>
+            
+            <!-- Tips & Resources -->
+            <div class="bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-lg p-5">
+              <div class="flex items-start justify-between mb-4">
+                <div class="flex items-center gap-3">
+                  <div class="w-10 h-10 rounded-lg bg-green-100 dark:bg-green-900/30 flex items-center justify-center">
+                    <i data-lucide="lightbulb" class="w-5 h-5 text-green-600 dark:text-green-400"></i>
+                  </div>
+                  <div>
+                    <h4 class="font-semibold text-neutral-900 dark:text-white">Tips & Resources</h4>
+                    <p class="text-sm text-neutral-600 dark:text-neutral-400 mt-0.5">Best practices and helpful guides</p>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="space-y-3 ml-13">
+                <label class="flex items-center justify-between py-2">
+                  <span class="text-sm text-neutral-700 dark:text-neutral-300">Monthly tips & tricks</span>
+                  <div class="relative inline-flex items-center cursor-pointer">
+                    <input type="checkbox" checked class="sr-only peer">
+                    <div class="w-11 h-6 bg-neutral-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-primary-500 rounded-full peer dark:bg-neutral-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-600"></div>
+                  </div>
+                </label>
+                
+                <label class="flex items-center justify-between py-2">
+                  <span class="text-sm text-neutral-700 dark:text-neutral-300">Case studies</span>
+                  <div class="relative inline-flex items-center cursor-pointer">
+                    <input type="checkbox" class="sr-only peer">
+                    <div class="w-11 h-6 bg-neutral-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-primary-500 rounded-full peer dark:bg-neutral-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-600"></div>
+                  </div>
+                </label>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Save Button -->
+          <div class="flex items-center justify-end gap-3 mt-6 pt-6 border-t border-neutral-200 dark:border-neutral-700">
+            <button class="px-4 py-2 border border-neutral-300 dark:border-neutral-600 text-neutral-700 dark:text-neutral-300 rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors font-semibold text-sm">
+              Cancel
+            </button>
+            <button class="px-6 py-2 bg-gradient-to-r from-primary-600 to-blue-600 text-white rounded-lg hover:from-primary-700 hover:to-blue-700 transition-all font-semibold text-sm shadow-lg shadow-primary-500/20">
+              Save Preferences
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  
+  <!-- Delete Account Confirmation Modal -->
+  <div id="delete-account-modal" class="hidden fixed inset-0 bg-neutral-950/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div class="bg-neutral-50 dark:bg-neutral-900 rounded-xl max-w-md w-full p-6 shadow-2xl">
+      <div class="flex items-start gap-4 mb-4">
+        <div class="flex-shrink-0 w-12 h-12 rounded-full bg-red-100 dark:bg-red-900/30 flex items-center justify-center">
+          <i data-lucide="alert-triangle" class="w-6 h-6 text-red-600 dark:text-red-400"></i>
+        </div>
+        <div class="flex-1">
+          <h3 class="text-lg font-semibold text-neutral-900 dark:text-white mb-2">Delete Account?</h3>
+          <p class="text-sm text-neutral-600 dark:text-neutral-400">
+            This action cannot be undone. Your account and all associated data will be permanently deleted.
+          </p>
+        </div>
+      </div>
+      
+      <div class="flex gap-3 mt-6">
+        <button id="cancel-delete-btn" class="flex-1 px-4 py-2 border border-neutral-300 dark:border-neutral-600 text-neutral-700 dark:text-neutral-300 rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors font-semibold text-sm">
+          Cancel
+        </button>
+        <button id="confirm-delete-btn" class="flex-1 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors font-semibold text-sm">
+          Delete Account
+        </button>
+      </div>
+    </div>
+  </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-neutral-900 dark:bg-neutral-950 text-white py-12 mt-20" style="width: 100vw; position: relative; left: 0; right: 0;">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div class="col-span-1">
+          <div class="flex items-center space-x-2 mb-4">
+            <svg class="w-8 h-8 text-accent-400" viewBox="0 0 32 32" fill="currentColor">
+              <path d="M16 2L3 9v14l13 7 13-7V9L16 2zm0 3.24L25.08 9 16 13.76 6.92 9 16 5.24zM5 10.92l10 5.38v10.46l-10-5.38V10.92zm12 15.84V16.3l10-5.38v10.46l-10 5.38z"/>
+            </svg>
+            <span class="font-bold text-lg">Discover CX</span>
+          </div>
+        </div>
+        <div>
+          <h3 class="font-bold mb-4">Products</h3>
+          <div class="space-y-2 text-sm text-neutral-400">
+            <a href="#" class="block hover:text-white">Discover CX Platform</a>
+            <a href="#" class="block hover:text-white">AI Assists</a>
+            <a href="#" class="block hover:text-white">InSite Search</a>
+          </div>
+        </div>
+        <div>
+          <h3 class="font-bold mb-4">Resources</h3>
+          <div class="space-y-2 text-sm text-neutral-400">
+            <a href="#" class="block hover:text-white">Documentation</a>
+            <a href="#" class="block hover:text-white">API Reference</a>
+            <a href="#" class="block hover:text-white">Knowledge Base</a>
+          </div>
+        </div>
+        <div>
+          <h3 class="font-bold mb-4">Company</h3>
+          <div class="space-y-2 text-sm text-neutral-400">
+            <a href="#" class="block hover:text-white">About Us</a>
+            <a href="#" class="block hover:text-white">Contact Sales</a>
+            <a href="#" class="block hover:text-white">Support</a>
+          </div>
+        </div>
+      </div>
+      <div class="border-t border-neutral-700 mt-8 pt-8 text-center text-sm text-neutral-500">
+        © 2025 Discover CX by Ingeniux. All rights reserved.
+      </div>
+    </div>
+  </footer>
+
+  <!-- Command K Search Modal -->
+  <div id="cmd-k-modal" class="hidden fixed inset-0 bg-neutral-950/50 backdrop-blur-sm z-50 p-4 md:p-8">
+    <div class="max-w-3xl mx-auto mt-20">
+      <!-- Search Container -->
+      <div class="bg-neutral-50 dark:bg-neutral-900 rounded-xl shadow-2xl border border-neutral-200 dark:border-neutral-700 overflow-hidden">
+        
+        <!-- Search Input -->
+        <div class="flex items-center gap-3 px-4 py-4 border-b border-neutral-200 dark:border-neutral-700">
+          <i data-lucide="search" class="w-5 h-5 text-neutral-400"></i>
+          <input 
+            id="cmd-k-input"
+            type="text" 
+            placeholder="Search documentation or ask AI..." 
+            class="flex-1 bg-transparent text-neutral-900 dark:text-white placeholder-gray-400 focus:outline-none text-lg"
+            autocomplete="off"
+          />
+          <button id="cmd-k-close" class="p-1.5 hover:bg-neutral-100 dark:hover:bg-neutral-700 rounded">
+            <i data-lucide="x" class="w-5 h-5 text-neutral-400"></i>
+          </button>
+        </div>
+        
+        <!-- Filters -->
+        <div class="flex items-center gap-2 px-4 py-3 border-b border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-800">
+          <span class="text-xs font-semibold text-neutral-500 dark:text-neutral-400 uppercase tracking-wide">Filter:</span>
+          <div class="flex gap-2">
+            <button class="filter-btn active px-3 py-1.5 rounded-lg text-xs font-semibold bg-primary-600 text-white">
+              All Results
+            </button>
+            <button class="filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-neutral-50 dark:bg-neutral-700 text-neutral-700 dark:text-neutral-300 border border-neutral-300 dark:border-neutral-600 hover:bg-neutral-100 dark:hover:bg-neutral-600">
+              Documentation
+            </button>
+            <button class="filter-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-neutral-50 dark:bg-neutral-700 text-neutral-700 dark:text-neutral-300 border border-neutral-300 dark:border-neutral-600 hover:bg-neutral-100 dark:hover:bg-neutral-600">
+              AI Answers
+            </button>
+          </div>
+        </div>
+        
+        <!-- Search Results -->
+        <div id="cmd-k-results" class="max-h-96 overflow-y-auto">
+          
+          <!-- Recent Searches (when empty) -->
+          <div id="recent-searches" class="p-4">
+            <p class="text-xs font-semibold text-neutral-500 dark:text-neutral-400 uppercase tracking-wide mb-3">Recent Searches</p>
+            <div class="space-y-1">
+              <button class="w-full flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors text-left">
+                <i data-lucide="clock" class="w-4 h-4 text-neutral-400"></i>
+                <span class="text-sm text-neutral-700 dark:text-neutral-300">Profile settings</span>
+              </button>
+              <button class="w-full flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors text-left">
+                <i data-lucide="clock" class="w-4 h-4 text-neutral-400"></i>
+                <span class="text-sm text-neutral-700 dark:text-neutral-300">Notification preferences</span>
+              </button>
+              <button class="w-full flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors text-left">
+                <i data-lucide="clock" class="w-4 h-4 text-neutral-400"></i>
+                <span class="text-sm text-neutral-700 dark:text-neutral-300">Two-factor authentication</span>
+              </button>
+            </div>
+          </div>
+          
+          <!-- Search Results (when searching) -->
+          <div id="search-results" class="hidden">
+            <!-- Documentation Results -->
+            <div class="p-4">
+              <p class="text-xs font-semibold text-neutral-500 dark:text-neutral-400 uppercase tracking-wide mb-3">Documentation</p>
+              <div class="space-y-1">
+                <a href="doc-page.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors">
+                  <i data-lucide="file-text" class="w-5 h-5 text-blue-600 dark:text-blue-400"></i>
+                  <div class="flex-1">
+                    <p class="text-sm font-semibold text-neutral-900 dark:text-white">Getting Started</p>
+                    <p class="text-xs text-neutral-600 dark:text-neutral-400">Learn the basics of Discover CX</p>
+                  </div>
+                  <span class="text-xs text-neutral-400">Guide</span>
+                </a>
+              </div>
+            </div>
+            
+            <!-- AI Answers -->
+            <div class="p-4 border-t border-neutral-200 dark:border-neutral-700">
+              <p class="text-xs font-semibold text-neutral-500 dark:text-neutral-400 uppercase tracking-wide mb-3 flex items-center gap-2">
+                <i data-lucide="sparkles" class="w-3 h-3"></i>
+                AI Answers
+              </p>
+              <div class="space-y-3">
+                <div class="px-3 py-3 rounded-lg bg-primary-50 dark:bg-primary-900/20 border border-primary-200 dark:border-primary-800">
+                  <p class="text-sm font-semibold text-neutral-900 dark:text-white mb-2 flex items-center gap-2">
+                    <i data-lucide="sparkles" class="w-4 h-4 text-primary-600 dark:text-primary-400"></i>
+                    Quick Answer
+                  </p>
+                  <p class="text-sm text-neutral-700 dark:text-neutral-300">You can update your profile information in the Profile tab. Changes will be saved when you click "Save Changes".</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+        </div>
+        
+        <!-- Footer hint -->
+        <div class="flex items-center justify-between px-4 py-3 bg-white dark:bg-neutral-800 border-t border-neutral-200 dark:border-neutral-700">
+          <div class="flex items-center gap-4 text-xs text-neutral-500 dark:text-neutral-400">
+            <span class="flex items-center gap-1.5">
+              <kbd class="px-1.5 py-0.5 bg-neutral-50 dark:bg-neutral-700 border border-neutral-300 dark:border-neutral-600 rounded text-xs">↑↓</kbd>
+              Navigate
+            </span>
+            <span class="flex items-center gap-1.5">
+              <kbd class="px-1.5 py-0.5 bg-neutral-50 dark:bg-neutral-700 border border-neutral-300 dark:border-neutral-600 rounded text-xs">↵</kbd>
+              Select
+            </span>
+            <span class="flex items-center gap-1.5">
+              <kbd class="px-1.5 py-0.5 bg-neutral-50 dark:bg-neutral-700 border border-neutral-300 dark:border-neutral-600 rounded text-xs">esc</kbd>
+              Close
+            </span>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <!-- JavaScript -->
+  <script src="js/main.js"></script>
+  
+  <!-- Theme Switcher in User Menu -->
+  <script>
+    // Theme switching
+    function setTheme(theme) {
+      if (theme === 'dark') {
+        document.documentElement.classList.add('dark');
+        localStorage.setItem('theme', 'dark');
+      } else if (theme === 'light') {
+        document.documentElement.classList.remove('dark');
+        localStorage.setItem('theme', 'light');
+      } else {
+        // Auto mode - use system preference
+        if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+          document.documentElement.classList.add('dark');
+        } else {
+          document.documentElement.classList.remove('dark');
+        }
+        localStorage.setItem('theme', 'auto');
+      }
+      updateThemeButtons(theme);
+    }
+    
+    function updateThemeButtons(activeTheme) {
+      const buttons = {
+        auto: document.getElementById('theme-auto'),
+        light: document.getElementById('theme-light'),
+        dark: document.getElementById('theme-dark')
+      };
+      
+      // Reset all
+      Object.values(buttons).forEach(btn => {
+        btn?.classList.remove('bg-yellow-100', 'dark:bg-yellow-900/30', 'bg-neutral-700', 'bg-neutral-100');
+        btn?.classList.add('hover:bg-neutral-100', 'dark:hover:bg-neutral-700');
+      });
+      
+      // Highlight active
+      if (activeTheme === 'light') {
+        buttons.light?.classList.add('bg-yellow-100', 'dark:bg-yellow-900/30');
+        buttons.light?.classList.remove('hover:bg-neutral-100', 'dark:hover:bg-neutral-700');
+      } else if (activeTheme === 'dark') {
+        buttons.dark?.classList.add('bg-neutral-100', 'dark:bg-neutral-700');
+      } else {
+        buttons.auto?.classList.add('bg-neutral-100', 'dark:bg-neutral-700');
+      }
+      
+      lucide.createIcons();
+    }
+    
+    // Load saved theme
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    setTheme(savedTheme);
+    
+    // Theme button listeners
+    document.getElementById('theme-auto')?.addEventListener('click', () => setTheme('auto'));
+    document.getElementById('theme-light')?.addEventListener('click', () => setTheme('light'));
+    document.getElementById('theme-dark')?.addEventListener('click', () => setTheme('dark'));
+    
+    // User dropdown for profile page
+    // User dropdown toggle
+    document.getElementById('user-menu-btn')?.addEventListener('click', function(e) {
+      e.stopPropagation();
+      const dropdown = document.getElementById('user-dropdown');
+      const mobileMenu = document.getElementById('mobile-menu');
+      dropdown?.classList.toggle('hidden');
+      mobileMenu?.classList.add('hidden'); // Close mobile menu if open
+      lucide.createIcons();
+    });
+    
+    // Mobile menu toggle
+    document.getElementById('mobile-menu-btn')?.addEventListener('click', function(e) {
+      e.stopPropagation();
+      const mobileMenu = document.getElementById('mobile-menu');
+      const userDropdown = document.getElementById('user-dropdown');
+      mobileMenu?.classList.toggle('hidden');
+      userDropdown?.classList.add('hidden'); // Close user dropdown if open
+      lucide.createIcons();
+    });
+    
+    // Close dropdowns when clicking outside
+    document.addEventListener('click', () => {
+      document.getElementById('user-dropdown')?.classList.add('hidden');
+      document.getElementById('mobile-menu')?.classList.add('hidden');
+    });
+  </script>
+  
+  <!-- Command K Search -->
+  <script>
+    const cmdKModal = document.getElementById('cmd-k-modal');
+    const cmdKTrigger = document.getElementById('cmd-k-trigger');
+    const cmdKInput = document.getElementById('cmd-k-input');
+    const cmdKClose = document.getElementById('cmd-k-close');
+    const recentSearches = document.getElementById('recent-searches');
+    const searchResults = document.getElementById('search-results');
+    
+    // Open modal
+    function openCmdK() {
+      cmdKModal?.classList.remove('hidden');
+      setTimeout(() => {
+        cmdKInput?.focus();
+        lucide.createIcons();
+      }, 100);
+    }
+    
+    // Close modal
+    function closeCmdK() {
+      cmdKModal?.classList.add('hidden');
+      if (cmdKInput) cmdKInput.value = '';
+      recentSearches?.classList.remove('hidden');
+      searchResults?.classList.add('hidden');
+    }
+    
+    // Keyboard shortcut: Cmd/Ctrl + K
+    document.addEventListener('keydown', (e) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault();
+        openCmdK();
+      }
+      
+      // ESC to close
+      if (e.key === 'Escape' && !cmdKModal?.classList.contains('hidden')) {
+        closeCmdK();
+      }
+    });
+    
+    // Click trigger button
+    cmdKTrigger?.addEventListener('click', openCmdK);
+    
+    // Click close button
+    cmdKClose?.addEventListener('click', closeCmdK);
+    
+    // Click outside modal
+    cmdKModal?.addEventListener('click', (e) => {
+      if (e.target === cmdKModal) {
+        closeCmdK();
+      }
+    });
+    
+    // Search input - show results when typing
+    cmdKInput?.addEventListener('input', (e) => {
+      if (e.target.value.trim().length > 0) {
+        recentSearches?.classList.add('hidden');
+        searchResults?.classList.remove('hidden');
+      } else {
+        recentSearches?.classList.remove('hidden');
+        searchResults?.classList.add('hidden');
+      }
+    });
+    
+    // Filter buttons
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        document.querySelectorAll('.filter-btn').forEach(b => {
+          b.classList.remove('bg-primary-600', 'text-white');
+          b.classList.add('bg-neutral-50', 'dark:bg-neutral-700', 'text-neutral-700', 'dark:text-neutral-300', 'border', 'border-neutral-300', 'dark:border-neutral-600');
+        });
+        
+        this.classList.remove('bg-neutral-50', 'dark:bg-neutral-700', 'text-neutral-700', 'dark:text-neutral-300', 'border', 'border-neutral-300', 'dark:border-neutral-600');
+        this.classList.add('bg-primary-600', 'text-white');
+      });
+    });
+  </script>
+  
+  <!-- Tab Switching -->
+  <script>
+    // Tab switching functionality
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const tabName = this.dataset.tab;
+        
+        // Update tab buttons
+        document.querySelectorAll('.tab-btn').forEach(b => {
+          b.classList.remove('border-primary-600', 'text-primary-600', 'dark:text-primary-400');
+          b.classList.add('border-transparent', 'text-neutral-600', 'dark:text-neutral-400');
+        });
+        
+        this.classList.remove('border-transparent', 'text-neutral-600', 'dark:text-neutral-400');
+        this.classList.add('border-primary-600', 'text-primary-600', 'dark:text-primary-400');
+        
+        // Update tab content
+        document.querySelectorAll('.tab-content').forEach(content => {
+          content.classList.add('hidden');
+        });
+        
+        document.getElementById(tabName + '-tab')?.classList.remove('hidden');
+        
+        // Reinitialize icons
+        lucide.createIcons();
+      });
+    });
+    
+    // Delete Account Modal
+    const deleteAccountBtn = document.getElementById('delete-account-btn');
+    const deleteAccountModal = document.getElementById('delete-account-modal');
+    const cancelDeleteBtn = document.getElementById('cancel-delete-btn');
+    const confirmDeleteBtn = document.getElementById('confirm-delete-btn');
+    
+    if (deleteAccountBtn && deleteAccountModal) {
+      deleteAccountBtn.addEventListener('click', () => {
+        deleteAccountModal.classList.remove('hidden');
+        lucide.createIcons();
+      });
+      
+      cancelDeleteBtn?.addEventListener('click', () => {
+        deleteAccountModal.classList.add('hidden');
+      });
+      
+      confirmDeleteBtn?.addEventListener('click', () => {
+        // Handle account deletion here
+        console.log('Account deletion confirmed');
+        deleteAccountModal.classList.add('hidden');
+        // In a real app, this would trigger the deletion process
+      });
+      
+      // Close modal when clicking outside
+      deleteAccountModal.addEventListener('click', (e) => {
+        if (e.target === deleteAccountModal) {
+          deleteAccountModal.classList.add('hidden');
+        }
+      });
+    }
+  </script>
+  
+  <!-- Initialize Lucide Icons -->
+  <script>
+    lucide.createIcons();
+  </script>
+
+  <!-- Support Chatbot Widget -->
+  <script src="../../assets/js/chatbot-widget.js"></script>
+
+</body>
+</html>
+

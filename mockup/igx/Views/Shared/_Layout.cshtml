@@ -1,0 +1,110 @@
+@using Ingeniux.Runtime
+@model ICMSEnvironment
+@using Cartella.Interfaces
+@{
+    CMSPageRequest page = (CMSPageRequest)Model;
+    ICMSElement siteControl = _Functions.GetSiteControl(page);
+
+    String title = !string.IsNullOrWhiteSpace(page?.GetElementValue("BrowserBarTitle"))
+        ? page.GetElementValue("BrowserBarTitle")
+        : page?.GetElementValue("Title");
+    title = ViewBag.Title ?? title;
+
+    IUser user = Utilities.CurrentUser();
+    bool isLoggedIn = user != null;
+
+    // Language - derive from page locale or default to "en"
+    String lang = page?.GetElementValue("Locale") ?? "en";
+
+    // Available translations (linked localized pages)
+    ICMSLinkElement[] translations = page?.GetNavigationItems("LocaleLinks")
+        ?.Where(p => p.Schema != "Folder").ToArray() ?? new ICMSLinkElement[0];
+
+    // Theme selection (per-client compiled CSS)
+    var activeTheme = (siteControl?.GetElementValue("ActiveTheme") ?? "Broadway").ToLower();
+    var themeFile = "styles.css";
+    if (activeTheme == "metro") { themeFile = "styles-metro.css"; }
+    else if (activeTheme == "terrace") { themeFile = "styles-terrace.css"; }
+
+    // Feature flags from SiteControl (default: enabled)
+    bool featureChatDocs  = siteControl?.GetElementValue("AIChatDocs")     != "false";
+    bool featureDarkMode  = siteControl?.GetElementValue("FeatureDarkMode") != "false";
+}
+<!DOCTYPE html>
+<html lang="@lang" class="h-full">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@Html.Raw(title) - Discover CX Docs</title>
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <!-- Compiled Tailwind + Design System (per-client theme) -->
+    <link rel="stylesheet" href="@Url.Content("~/Content/css/" + themeFile)">
+    <link rel="icon" href="@Url.Content("~/Content/images/favicon.ico")">
+    <script src="https://unpkg.com/lucide@@latest"></script>
+
+    @{
+        var posthogKey = siteControl?.GetElementValue("PostHogApiKey");
+        var posthogHost = siteControl?.GetElementValue("PostHogHost") ?? "https://us.i.posthog.com";
+    }
+    @if (!string.IsNullOrEmpty(posthogKey))
+    {
+        <script>
+            !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.async=!0,p.src=s.api_host+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="capture identify alias people.set people.set_once set_config register register_once unregister opt_out_capturing has_opted_out_capturing opt_in_capturing reset isFeatureEnabled onFeatureFlags getFeatureFlag getFeatureFlagPayload reloadFeatureFlags group updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures getActiveMatchingSurveys getSurveys onSessionId".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+            posthog.init('@posthogKey', { api_host: '@posthogHost', person_profiles: 'identified_only' });
+        </script>
+    }
+
+    @RenderSection("AddToHead", false)
+    @Html.Raw(siteControl?.GetElementValue("HeadScript"))
+    @Html.Raw(page?.GetElementValue("HeadScript"))
+</head>
+<body class="bg-neutral-50 dark:bg-neutral-900 text-neutral-900 dark:text-white min-h-screen flex flex-col">
+
+    @if (siteControl != null)
+    {
+        Html.RenderPartial("PageLayout/Header", siteControl);
+    }
+
+    <main class="flex-1">
+        @RenderBody()
+
+        @if (page?.Element("Trays") != null)
+        {
+            Html.RenderPartial("Editable/Trays", page.Element("Trays"));
+        }
+    </main>
+
+    @if (siteControl != null)
+    {
+        Html.RenderPartial("PageLayout/Footer", siteControl);
+    }
+
+    <!-- Shared Components -->
+    @if (isLoggedIn)
+    {
+        <script src="@Url.Content("~/Scripts/user-dropdown.js")"></script>
+    }
+    <script src="@Url.Content("~/Scripts/main.js")"></script>
+    <script src="@Url.Content("~/Scripts/ai-assists.js")"></script>
+    <script src="@Url.Content("~/Scripts/analytics.js")"></script>
+    <script src="@Url.Content("~/Scripts/command-k-widget.js")"></script>
+    @if (featureChatDocs)
+    {
+        <script src="@Url.Content("~/Scripts/chatbot-widget.js")"></script>
+    }
+    @if (isLoggedIn)
+    {
+        <script>DCXAnalytics.identify('@user.ID', { name: '@user.DisplayName', email: '@user.Email' });</script>
+    }
+
+    @RenderSection("AddToFooter", false)
+    @Html.Raw(siteControl?.GetElementValue("FooterScript"))
+    @Html.Raw(page?.GetElementValue("FooterScript"))
+
+    <!-- Render Lucide icons now that all data-lucide elements are in the DOM -->
+    <script>if (typeof lucide !== 'undefined') { lucide.createIcons(); }</script>
+</body>
+</html>

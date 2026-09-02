@@ -1,0 +1,19 @@
+@model ICMSElement
+@using Ingeniux.Runtime
+
+<div @Html.Raw(Model.RootElementName == "Tray" ? _Helpers.RenderICEAttribute(Model, true).ToString() : "")>
+    @{
+        ICMSElement comp = Model.RootElementName == "Tray" ? Model.Elements().FirstOrDefault() : Model;
+        if (comp != null)
+        {
+            try
+            {
+                Html.RenderPartial("Editable/" + comp.RootElementName + "_Unit", comp);
+            }
+            catch (Exception e)
+            {
+                <!-- Error displaying Editable/@(comp?.RootElementName): @e.Message -->
+            }
+        }
+    }
+</div>

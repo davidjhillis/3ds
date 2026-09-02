@@ -1,0 +1,127 @@
+<!-- IGX Documentation Portal - Left Sidebar Navigation Component -->
+
+<aside class="sidebar-nav fixed left-0 top-16 bottom-0 w-72 bg-gray-50 border-r border-gray-200 overflow-y-auto no-print lg:block hidden">
+  <nav class="p-4 space-y-1">
+    
+    <!-- Getting Started Section -->
+    <div class="nav-section">
+      <h3 class="nav-section-title">Getting Started</h3>
+      <ul class="nav-list space-y-1">
+        <li><a href="#" class="nav-link active">Introduction</a></li>
+        <li><a href="#" class="nav-link">Quick Start</a></li>
+        <li><a href="#" class="nav-link">Installation</a></li>
+        <li><a href="#" class="nav-link">Configuration</a></li>
+      </ul>
+    </div>
+    
+    <!-- Products Section -->
+    <div class="nav-section mt-6">
+      <h3 class="nav-section-title">Products</h3>
+      <ul class="nav-list space-y-1">
+        <li><a href="#" class="nav-link">CMS</a></li>
+        <li><a href="#" class="nav-link">Portal Builder</a></li>
+        <li><a href="#" class="nav-link">InSite Search</a></li>
+        <li><a href="#" class="nav-link">Analytics</a></li>
+        <li><a href="#" class="nav-link">API Platform</a></li>
+      </ul>
+    </div>
+    
+    <!-- Guides Section -->
+    <div class="nav-section mt-6">
+      <h3 class="nav-section-title">Guides</h3>
+      <ul class="nav-list space-y-1">
+        <li><a href="#" class="nav-link">User Management</a></li>
+        <li><a href="#" class="nav-link">Content Creation</a></li>
+        <li><a href="#" class="nav-link">Workflows</a></li>
+        <li><a href="#" class="nav-link">Publishing</a></li>
+        <li><a href="#" class="nav-link">Integration</a></li>
+      </ul>
+    </div>
+    
+    <!-- API Reference Section -->
+    <div class="nav-section mt-6">
+      <h3 class="nav-section-title">API Reference</h3>
+      <ul class="nav-list space-y-1">
+        <li><a href="#" class="nav-link">Authentication</a></li>
+        <li><a href="#" class="nav-link">REST API</a></li>
+        <li><a href="#" class="nav-link">GraphQL API</a></li>
+        <li><a href="#" class="nav-link">Webhooks</a></li>
+        <li><a href="#" class="nav-link">SDKs</a></li>
+      </ul>
+    </div>
+    
+    <!-- Resources Section -->
+    <div class="nav-section mt-6">
+      <h3 class="nav-section-title">Resources</h3>
+      <ul class="nav-list space-y-1">
+        <li><a href="#" class="nav-link">Tutorials</a></li>
+        <li><a href="#" class="nav-link">Best Practices</a></li>
+        <li><a href="#" class="nav-link">FAQ</a></li>
+        <li><a href="#" class="nav-link">Release Notes</a></li>
+        <li><a href="#" class="nav-link">Support</a></li>
+      </ul>
+    </div>
+    
+    <!-- AI Features Promo -->
+    <div class="mt-8 p-4 card-ai">
+      <div class="flex items-start space-x-3">
+        <div class="flex-shrink-0">
+          <svg class="w-6 h-6 text-purple-600" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M10 2a8 8 0 100 16 8 8 0 000-16zm1 11H9v-2h2v2zm0-4H9V5h2v4z"/>
+          </svg>
+        </div>
+        <div>
+          <h4 class="font-semibold text-sm text-gray-900 mb-1">Try AI Assistant</h4>
+          <p class="text-xs text-gray-600 mb-3">Get instant answers to your questions</p>
+          <button class="btn-ai text-xs py-1 px-3">
+            Ask AI
+          </button>
+        </div>
+      </div>
+    </div>
+    
+  </nav>
+</aside>
+
+<!-- Mobile Sidebar Overlay -->
+<div id="mobile-menu" class="sidebar-slide closed fixed inset-0 z-40 lg:hidden">
+  <!-- Backdrop -->
+  <div class="fixed inset-0 bg-gray-900 bg-opacity-50" onclick="IGXDocs.toggleMobileMenu()"></div>
+  
+  <!-- Sidebar Content -->
+  <aside class="fixed left-0 top-0 bottom-0 w-72 bg-white border-r border-gray-200 overflow-y-auto shadow-xl">
+    <div class="flex items-center justify-between p-4 border-b border-gray-200">
+      <span class="font-bold text-lg">Menu</span>
+      <button class="btn-icon" onclick="IGXDocs.toggleMobileMenu()" aria-label="Close menu">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+    
+    <!-- Same nav content as desktop -->
+    <nav class="p-4 space-y-1">
+      <div class="nav-section">
+        <h3 class="nav-section-title">Getting Started</h3>
+        <ul class="nav-list space-y-1">
+          <li><a href="#" class="nav-link active">Introduction</a></li>
+          <li><a href="#" class="nav-link">Quick Start</a></li>
+          <li><a href="#" class="nav-link">Installation</a></li>
+          <li><a href="#" class="nav-link">Configuration</a></li>
+        </ul>
+      </div>
+      
+      <div class="nav-section mt-6">
+        <h3 class="nav-section-title">Products</h3>
+        <ul class="nav-list space-y-1">
+          <li><a href="#" class="nav-link">CMS</a></li>
+          <li><a href="#" class="nav-link">Portal Builder</a></li>
+          <li><a href="#" class="nav-link">InSite Search</a></li>
+          <li><a href="#" class="nav-link">Analytics</a></li>
+          <li><a href="#" class="nav-link">API Platform</a></li>
+        </ul>
+      </div>
+    </nav>
+  </aside>
+</div>
+

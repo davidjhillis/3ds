@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Configuration - Admin Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+    
+    * {
+      font-family: 'Inter', -apple-system, system-ui, sans-serif;
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body { overflow: hidden; }
+    
+    /* Elegant scrollbar */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.15); }
+    
+    /* Collapsible sections */
+    .section-header { transition: all 0.12s ease; }
+    .section-header:hover { background: rgba(255,255,255,0.03); }
+    .section-content { 
+      overflow: hidden;
+      transition: max-height 0.2s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.15s;
+    }
+    .section-content.collapsed { max-height: 0 !important; opacity: 0; }
+    
+    /* Toggle switch (elegant) */
+    .ai-toggle {
+      position: relative;
+      width: 36px;
+      height: 20px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    
+    .ai-toggle.active {
+      background: #8b5cf6;
+    }
+    
+    .ai-toggle::before {
+      content: '';
+      position: absolute;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: white;
+      top: 2px;
+      left: 2px;
+      transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .ai-toggle.active::before {
+      transform: translateX(16px);
+    }
+    
+    /* Feature card */
+    .feature-card {
+      border: 1px solid rgba(255,255,255,0.08);
+      transition: all 0.15s ease;
+    }
+    
+    .feature-card:hover {
+      border-color: rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.02);
+    }
+    
+    .feature-card.active {
+      border-color: #8b5cf6;
+      background: rgba(139,92,246,0.05);
+    }
+    
+    /* Input styling */
+    .elegant-input {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 6px;
+      padding: 7px 10px;
+      font-size: 13px;
+      color: rgba(255,255,255,0.9);
+      transition: all 0.12s;
+      width: 100%;
+    }
+    
+    .elegant-input:hover {
+      background: rgba(255,255,255,0.05);
+      border-color: rgba(255,255,255,0.12);
+    }
+    
+    .elegant-input:focus {
+      outline: none;
+      background: rgba(255,255,255,0.06);
+      border-color: #8b5cf6;
+      box-shadow: 0 0 0 2px rgba(139,92,246,0.15);
+    }
+    
+    /* Divider */
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.06), transparent);
+      margin: 12px 0;
+    }
+    
+    /* Badge */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    
+    .badge.success { background: rgba(16,185,129,0.15); color: #34d399; }
+    .badge.warning { background: rgba(245,158,11,0.15); color: #fbbf24; }
+    .badge.danger { background: rgba(239,68,68,0.15); color: #f87171; }
+    .badge.info { background: rgba(59,130,246,0.15); color: #60a5fa; }
+  </style>
+</head>
+<body class="bg-[#252525] text-white">
+
+  <!-- Split View Container -->
+  <div class="flex h-screen">
+    
+    <!-- LEFT PANEL: AI Configuration (360px) -->
+    <div class="w-[360px] bg-[#1a1a1a] border-r border-white/[0.08] flex flex-col">
+      
+      <!-- Header -->
+      <div class="px-4 py-3 border-b border-white/[0.08] flex items-center justify-between flex-shrink-0">
+        <div class="flex items-center gap-2.5">
+          <a href="index.html" class="w-7 h-7 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-md flex items-center justify-center hover:opacity-90 transition-opacity">
+            <i data-lucide="arrow-left" class="w-4 h-4 text-white"></i>
+          </a>
+          <div>
+            <div class="text-[13px] font-semibold text-white/90">AI Configuration</div>
+            <div class="text-[11px] text-white/40">Models, API Keys & Safety</div>
+          </div>
+        </div>
+        
+        <!-- Status Badge -->
+        <div class="badge success">
+          <i data-lucide="check-circle" class="w-3 h-3"></i>
+          <span>Active</span>
+        </div>
+      </div>
+
+      <!-- Scrollable Content -->
+      <div class="flex-1 overflow-y-auto px-4 py-4">
+        
+        <!-- AI Features Section -->
+        <div class="section mb-4">
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-[11px] font-semibold text-white/50 uppercase tracking-wider">AI Features</span>
+            <span class="text-[11px] text-white/30 font-medium" id="features-count">3 of 6 enabled</span>
+          </div>
+          <div class="space-y-2">
+            
+            <!-- Feature: AI Summary -->
+            <div class="feature-card active p-3 rounded-lg">
+              <div class="flex items-start justify-between mb-2">
+                <div class="flex items-start gap-2.5">
+                  <div class="w-8 h-8 bg-purple-600/15 rounded-md flex items-center justify-center flex-shrink-0">
+                    <i data-lucide="file-text" class="w-4 h-4 text-purple-400"></i>
+                  </div>
+                  <div class="flex-1">
+                    <div class="text-[13px] font-semibold text-white/90 mb-0.5">Summary</div>
+                    <div class="text-[11px] text-white/40 leading-relaxed">Auto-generate TL;DR summaries for long articles</div>
+                  </div>
+                </div>
+                <div class="ai-toggle active" data-feature="summary"></div>
+              </div>
+            </div>
+
+            <!-- Feature: Code Explain -->
+            <div class="feature-card active p-3 rounded-lg">
+              <div class="flex items-start justify-between mb-2">
+                <div class="flex items-start gap-2.5">
+                  <div class="w-8 h-8 bg-indigo-600/15 rounded-md flex items-center justify-center flex-shrink-0">
+                    <i data-lucide="code-2" class="w-4 h-4 text-indigo-400"></i>
+                  </div>
+                  <div class="flex-1">
+                    <div class="text-[13px] font-semibold text-white/90 mb-0.5">Code Explain</div>
+                    <div class="text-[11px] text-white/40 leading-relaxed">Explain code snippets in plain language</div>
+                  </div>
+                </div>
+                <div class="ai-toggle active" data-feature="codeExplain"></div>
+              </div>
+            </div>
+
+            <!-- Feature: Highlighter -->
+            <div class="feature-card active p-3 rounded-lg">
+              <div class="flex items-start justify-between mb-2">
+                <div class="flex items-start gap-2.5">
+                  <div class="w-8 h-8 bg-amber-600/15 rounded-md flex items-center justify-center flex-shrink-0">
+                    <i data-lucide="highlighter" class="w-4 h-4 text-amber-400"></i>
+                  </div>
+                  <div class="flex-1">
+                    <div class="text-[13px] font-semibold text-white/90 mb-0.5">Content Highlighter</div>
+                    <div class="text-[11px] text-white/40 leading-relaxed">Smart highlighting of key information</div>
+                  </div>
+                </div>
+                <div class="ai-toggle active" data-feature="highlighter"></div>
+              </div>
+            </div>
+
+            <!-- Feature: Voice -->
+            <div class="feature-card p-3 rounded-lg">
+              <div class="flex items-start justify-between mb-2">
+                <div class="flex items-start gap-2.5">
+                  <div class="w-8 h-8 bg-white/[0.05] rounded-md flex items-center justify-center flex-shrink-0">
+                    <i data-lucide="mic" class="w-4 h-4 text-white/30"></i>
+                  </div>
+                  <div class="flex-1">
+                    <div class="text-[13px] font-semibold text-white/90 mb-0.5">Voice Assistant</div>
+                    <div class="text-[11px] text-white/40 leading-relaxed">Voice-powered search and navigation</div>
+                  </div>
+                </div>
+                <div class="ai-toggle" data-feature="voice"></div>
+              </div>
+            </div>
+
+            <!-- Feature: Search Enhancement -->
+            <div class="feature-card active p-3 rounded-lg">
+              <div class="flex items-start justify-between mb-2">
+                <div class="flex items-start gap-2.5">
+                  <div class="w-8 h-8 bg-cyan-600/15 rounded-md flex items-center justify-center flex-shrink-0">
+                    <i data-lucide="search" class="w-4 h-4 text-cyan-400"></i>
+                  </div>
+                  <div class="flex-1">
+                    <div class="text-[13px] font-semibold text-white/90 mb-0.5">Search Enhancement</div>
+                    <div class="text-[11px] text-white/40 leading-relaxed">AI-powered semantic search</div>
+                  </div>
+                </div>
+                <div class="ai-toggle active" data-feature="searchEnhancement"></div>
+              </div>
+            </div>
+
+            <!-- Feature: Chatbot -->
+            <div class="feature-card p-3 rounded-lg">
+              <div class="flex items-start justify-between mb-2">
+                <div class="flex items-start gap-2.5">
+                  <div class="w-8 h-8 bg-white/[0.05] rounded-md flex items-center justify-center flex-shrink-0">
+                    <i data-lucide="message-circle" class="w-4 h-4 text-white/30"></i>
+                  </div>
+                  <div class="flex-1">
+                    <div class="text-[13px] font-semibold text-white/90 mb-0.5">Conversational Chatbot</div>
+                    <div class="text-[11px] text-white/40 leading-relaxed">Chat with your documentation</div>
+                  </div>
+                </div>
+                <div class="ai-toggle" data-feature="chatbot"></div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- AI Model Section -->
+        <div class="section mb-4">
+          <button class="section-header w-full flex items-center justify-between py-2 px-2 -mx-2 rounded-md">
+            <div class="flex items-center gap-2">
+              <i data-lucide="chevron-down" class="w-3.5 h-3.5 text-white/40 transition-transform"></i>
+              <span class="text-[13px] font-medium text-white/90">AI Model</span>
+            </div>
+            <span id="model-label" class="text-[11px] text-white/40 font-medium">GPT-4</span>
+          </button>
+          <div class="section-content pl-5 pr-2 pt-3" style="max-height: 600px;">
+            
+            <!-- Model Selection -->
+            <div class="space-y-2 mb-4">
+              <button class="model-option selected w-full flex items-center gap-3 p-2.5 rounded-lg border border-purple-600 bg-purple-600/10" data-model="gpt-4">
+                <div class="w-6 h-6 rounded-md bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center flex-shrink-0">
+                  <span class="text-[10px] font-bold text-white">AI</span>
+                </div>
+                <div class="flex-1 text-left">
+                  <div class="text-[12px] font-semibold text-white/90">GPT-4</div>
+                  <div class="text-[10px] text-white/40">Most capable, best quality</div>
+                </div>
+                <i data-lucide="check" class="w-4 h-4 text-purple-400"></i>
+              </button>
+
+              <button class="model-option w-full flex items-center gap-3 p-2.5 rounded-lg border border-white/[0.08] hover:border-white/[0.12]" data-model="gpt-3.5-turbo">
+                <div class="w-6 h-6 rounded-md bg-gradient-to-br from-blue-500 to-cyan-600 flex items-center justify-center flex-shrink-0">
+                  <span class="text-[10px] font-bold text-white">AI</span>
+                </div>
+                <div class="flex-1 text-left">
+                  <div class="text-[12px] font-semibold text-white/90">GPT-3.5 Turbo</div>
+                  <div class="text-[10px] text-white/40">Fast and efficient</div>
+                </div>
+              </button>
+
+              <button class="model-option w-full flex items-center gap-3 p-2.5 rounded-lg border border-white/[0.08] hover:border-white/[0.12]" data-model="claude-3.5-sonnet">
+                <div class="w-6 h-6 rounded-md bg-gradient-to-br from-purple-500 to-pink-600 flex items-center justify-center flex-shrink-0">
+                  <span class="text-[10px] font-bold text-white">CL</span>
+                </div>
+                <div class="flex-1 text-left">
+                  <div class="text-[12px] font-semibold text-white/90">Claude 3.5 Sonnet</div>
+                  <div class="text-[10px] text-white/40">Balanced performance</div>
+                </div>
+              </button>
+
+              <button class="model-option w-full flex items-center gap-3 p-2.5 rounded-lg border border-white/[0.08] hover:border-white/[0.12]" data-model="claude-3-opus">
+                <div class="w-6 h-6 rounded-md bg-gradient-to-br from-purple-500 to-indigo-600 flex items-center justify-center flex-shrink-0">
+                  <span class="text-[10px] font-bold text-white">CL</span>
+                </div>
+                <div class="flex-1 text-left">
+                  <div class="text-[12px] font-semibold text-white/90">Claude 3 Opus</div>
+                  <div class="text-[10px] text-white/40">Highest intelligence</div>
+                </div>
+              </button>
+            </div>
+
+            <!-- BYOK Section -->
+            <div class="p-3 bg-white/[0.02] rounded-lg border border-white/[0.06] mb-4">
+              <div class="flex items-center gap-2 mb-2">
+                <i data-lucide="key" class="w-3.5 h-3.5 text-white/40"></i>
+                <span class="text-[11px] font-semibold text-white/70">Bring Your Own Key</span>
+              </div>
+              <input 
+                type="text" 
+                placeholder="sk-..." 
+                class="elegant-input text-[11px]"
+                id="api-key-input"
+              >
+              <div class="text-[10px] text-white/30 mt-1.5">OpenAI or Anthropic API key</div>
+            </div>
+
+            <!-- Model Parameters -->
+            <div class="space-y-3">
+              <div>
+                <div class="flex items-center justify-between mb-1.5">
+                  <span class="text-[11px] text-white/40 font-medium">Temperature</span>
+                  <span class="text-[11px] text-white/60" id="temp-value">0.7</span>
+                </div>
+                <input type="range" id="temp-slider" class="w-full h-1 bg-white/[0.06] rounded-full" min="0" max="2" step="0.1" value="0.7">
+                <div class="flex justify-between text-[9px] text-white/25 mt-1">
+                  <span>Precise</span>
+                  <span>Creative</span>
+                </div>
+              </div>
+
+              <div>
+                <div class="flex items-center justify-between mb-1.5">
+                  <span class="text-[11px] text-white/40 font-medium">Max Tokens</span>
+                  <span class="text-[11px] text-white/60" id="tokens-value">2048</span>
+                </div>
+                <input type="range" id="tokens-slider" class="w-full h-1 bg-white/[0.06] rounded-full" min="512" max="8192" step="512" value="2048">
+                <div class="flex justify-between text-[9px] text-white/25 mt-1">
+                  <span>512</span>
+                  <span>8192</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- Safety & Guardrails Section -->
+        <div class="section mb-4">
+          <button class="section-header w-full flex items-center justify-between py-2 px-2 -mx-2 rounded-md">
+            <div class="flex items-center gap-2">
+              <i data-lucide="chevron-down" class="w-3.5 h-3.5 text-white/40 transition-transform"></i>
+              <span class="text-[13px] font-medium text-white/90">Safety & Guardrails</span>
+            </div>
+            <div class="badge warning">
+              <i data-lucide="shield" class="w-3 h-3"></i>
+              <span>Medium</span>
+            </div>
+          </button>
+          <div class="section-content pl-5 pr-2 pt-3" style="max-height: 600px;">
+            
+            <!-- Safety Level Preset -->
+            <div class="mb-4">
+              <div class="text-[11px] text-white/40 mb-2 font-medium">Safety Level</div>
+              <div class="flex gap-1.5 p-0.5 bg-white/[0.03] rounded-lg">
+                <button class="safety-level flex-1 px-2 py-1.5 rounded-md text-[11px] font-medium transition-all text-white/50" data-level="low">Low</button>
+                <button class="safety-level flex-1 px-2 py-1.5 rounded-md text-[11px] font-medium transition-all bg-white/[0.08] text-white/90" data-level="medium">Medium</button>
+                <button class="safety-level flex-1 px-2 py-1.5 rounded-md text-[11px] font-medium transition-all text-white/50" data-level="high">High</button>
+              </div>
+            </div>
+
+            <!-- Individual Safety Controls -->
+            <div class="space-y-2.5">
+              <label class="flex items-center justify-between cursor-pointer group">
+                <div class="flex items-center gap-2">
+                  <i data-lucide="shield-check" class="w-3.5 h-3.5 text-white/30"></i>
+                  <span class="text-[12px] text-white/70 group-hover:text-white/90 transition-colors">Jailbreak Protection</span>
+                </div>
+                <div class="ai-toggle active" data-safety="jailbreak"></div>
+              </label>
+
+              <label class="flex items-center justify-between cursor-pointer group">
+                <div class="flex items-center gap-2">
+                  <i data-lucide="filter" class="w-3.5 h-3.5 text-white/30"></i>
+                  <span class="text-[12px] text-white/70 group-hover:text-white/90 transition-colors">Content Filtering</span>
+                </div>
+                <div class="ai-toggle active" data-safety="contentFilter"></div>
+              </label>
+
+              <label class="flex items-center justify-between cursor-pointer group">
+                <div class="flex items-center gap-2">
+                  <i data-lucide="alert-triangle" class="w-3.5 h-3.5 text-white/30"></i>
+                  <span class="text-[12px] text-white/70 group-hover:text-white/90 transition-colors">Toxicity Detection</span>
+                </div>
+                <div class="ai-toggle active" data-safety="toxicity"></div>
+              </label>
+
+              <label class="flex items-center justify-between cursor-pointer group">
+                <div class="flex items-center gap-2">
+                  <i data-lucide="lock" class="w-3.5 h-3.5 text-white/30"></i>
+                  <span class="text-[12px] text-white/70 group-hover:text-white/90 transition-colors">PII Filtering</span>
+                </div>
+                <div class="ai-toggle active" data-safety="pii"></div>
+              </label>
+            </div>
+
+            <!-- Rate Limiting -->
+            <div class="mt-4 p-3 bg-white/[0.02] rounded-lg border border-white/[0.06]">
+              <div class="flex items-center gap-2 mb-2.5">
+                <i data-lucide="timer" class="w-3.5 h-3.5 text-white/40"></i>
+                <span class="text-[11px] font-semibold text-white/70">Rate Limiting</span>
+              </div>
+              <div class="space-y-2">
+                <div class="flex items-center justify-between">
+                  <span class="text-[11px] text-white/50">Per minute</span>
+                  <input type="number" value="10" class="elegant-input text-[11px] py-1 px-2 w-16 text-center" min="1" max="100">
+                </div>
+                <div class="flex items-center justify-between">
+                  <span class="text-[11px] text-white/50">Per hour</span>
+                  <input type="number" value="100" class="elegant-input text-[11px] py-1 px-2 w-16 text-center" min="10" max="1000">
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Footer Actions -->
+      <div class="px-4 py-3 border-t border-white/[0.08] flex gap-2 flex-shrink-0">
+        <button id="apply-ai-btn" class="flex-1 px-3 py-2.5 bg-purple-600 hover:bg-purple-700 rounded-lg text-[13px] font-semibold transition-colors flex items-center justify-center gap-2">
+          <i data-lucide="check" class="w-4 h-4"></i>
+          <span>Apply & Save</span>
+        </button>
+        <button id="reset-ai-btn" class="px-3 py-2.5 hover:bg-white/[0.05] rounded-lg transition-colors" title="Reset to defaults">
+          <i data-lucide="rotate-ccw" class="w-4 h-4 text-white/60"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- RIGHT PANEL: Live Preview -->
+    <div class="flex-1 bg-[#252525] flex flex-col">
+      
+      <!-- Preview Toolbar -->
+      <div class="px-6 py-3 border-b border-white/[0.08] flex items-center justify-between flex-shrink-0">
+        <div class="flex items-center gap-4">
+          <span class="text-[13px] font-semibold text-white/90">Live Preview</span>
+          
+          <!-- Device Toggle -->
+          <div class="flex items-center gap-0.5 bg-white/[0.03] rounded-lg p-0.5">
+            <button data-device="desktop" class="device-btn px-2.5 py-1 rounded-md text-[11px] font-medium transition-all bg-white/[0.08] text-white/90">
+              <i data-lucide="monitor" class="w-3.5 h-3.5"></i>
+            </button>
+            <button data-device="tablet" class="device-btn px-2.5 py-1 rounded-md text-[11px] font-medium transition-all text-white/40 hover:text-white/60">
+              <i data-lucide="tablet" class="w-3.5 h-3.5"></i>
+            </button>
+            <button data-device="mobile" class="device-btn px-2.5 py-1 rounded-md text-[11px] font-medium transition-all text-white/40 hover:text-white/60">
+              <i data-lucide="smartphone" class="w-3.5 h-3.5"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Page Selector -->
+        <div class="flex items-center gap-2">
+          <span class="text-[11px] text-white/30 font-medium">Page:</span>
+          <select id="page-select" class="elegant-input text-[12px] py-1 px-2 bg-white/[0.03] border border-white/[0.08] rounded-md text-white/70">
+            <option value="index.html">Home</option>
+            <option value="doc-page.html">Documentation</option>
+            <option value="search-results.html">Search Results</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Preview Container -->
+      <div id="preview-container" class="flex-1 flex items-center justify-center p-6 overflow-auto">
+        <div id="preview-wrapper" class="transition-all duration-300" style="width: 100%; height: 100%;">
+          <iframe 
+            id="preview-iframe" 
+            src="preview-templates/doc-page.html" 
+            class="w-full h-full bg-white dark:bg-gray-900 rounded-lg shadow-2xl border border-white/[0.08]"
+          ></iframe>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <script type="module">
+    lucide.createIcons();
+
+    // ========================================
+    // State Management
+    // ========================================
+    
+    let aiConfig = {
+      features: {
+        summary: true,
+        codeExplain: true,
+        highlighter: true,
+        voice: false,
+        searchEnhancement: true,
+        chatbot: false
+      },
+      model: 'gpt-4',
+      apiKey: '',
+      parameters: {
+        temperature: 0.7,
+        maxTokens: 2048
+      },
+      safety: {
+        level: 'medium',
+        jailbreak: true,
+        contentFilter: true,
+        toxicity: true,
+        pii: true,
+        rateLimit: {
+          perMinute: 10,
+          perHour: 100
+        }
+      }
+    };
+
+    // ========================================
+    // Feature Toggles
+    // ========================================
+    
+    document.querySelectorAll('.ai-toggle[data-feature]').forEach(toggle => {
+      toggle.addEventListener('click', function() {
+        const feature = this.dataset.feature;
+        aiConfig.features[feature] = !aiConfig.features[feature];
+        
+        this.classList.toggle('active');
+        
+        // Update parent card
+        const card = this.closest('.feature-card');
+        card.classList.toggle('active');
+        
+        // Update icon background
+        const iconBg = card.querySelector('[class*="bg-"]');
+        if (aiConfig.features[feature]) {
+          iconBg.classList.remove('bg-white/[0.05]');
+          const icon = iconBg.querySelector('i');
+          icon.classList.remove('text-white/30');
+        } else {
+          iconBg.className = 'w-8 h-8 bg-white/[0.05] rounded-md flex items-center justify-center flex-shrink-0';
+          const icon = iconBg.querySelector('i');
+          icon.className += ' text-white/30';
+        }
+        
+        updateFeatureCount();
+        applyToPreview();
+      });
+    });
+
+    function updateFeatureCount() {
+      const enabled = Object.values(aiConfig.features).filter(v => v).length;
+      const total = Object.keys(aiConfig.features).length;
+      document.getElementById('features-count').textContent = `${enabled} of ${total} enabled`;
+    }
+
+    // ========================================
+    // Model Selection
+    // ========================================
+    
+    document.querySelectorAll('.model-option').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const model = this.dataset.model;
+        aiConfig.model = model;
+        
+        // Update UI
+        document.querySelectorAll('.model-option').forEach(b => {
+          b.classList.remove('selected', 'border-purple-600', 'bg-purple-600/10');
+          b.classList.add('border-white/[0.08]');
+          const check = b.querySelector('[data-lucide="check"]');
+          if (check) check.remove();
+        });
+        
+        this.classList.add('selected', 'border-purple-600', 'bg-purple-600/10');
+        this.classList.remove('border-white/[0.08]');
+        this.innerHTML += '<i data-lucide="check" class="w-4 h-4 text-purple-400"></i>';
+        
+        document.getElementById('model-label').textContent = model.toUpperCase().replace(/-/g, ' ');
+        
+        lucide.createIcons();
+        applyToPreview();
+      });
+    });
+
+    // ========================================
+    // Safety Toggles
+    // ========================================
+    
+    document.querySelectorAll('.ai-toggle[data-safety]').forEach(toggle => {
+      toggle.addEventListener('click', function() {
+        const safety = this.dataset.safety;
+        const current = aiConfig.safety[safety === 'contentFilter' ? 'contentFilter' : safety === 'jailbreak' ? 'jailbreak' : safety === 'toxicity' ? 'toxicity' : 'pii'];
+        
+        if (safety === 'jailbreak') aiConfig.safety.jailbreak = !aiConfig.safety.jailbreak;
+        else if (safety === 'contentFilter') aiConfig.safety.contentFilter = !aiConfig.safety.contentFilter;
+        else if (safety === 'toxicity') aiConfig.safety.toxicity = !aiConfig.safety.toxicity;
+        else if (safety === 'pii') aiConfig.safety.pii = !aiConfig.safety.pii;
+        
+        this.classList.toggle('active');
+      });
+    });
+
+    // Safety level presets
+    document.querySelectorAll('.safety-level').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const level = this.dataset.level;
+        aiConfig.safety.level = level;
+        
+        // Update UI
+        document.querySelectorAll('.safety-level').forEach(b => {
+          b.classList.remove('bg-white/[0.08]', 'text-white/90');
+          b.classList.add('text-white/50');
+        });
+        this.classList.add('bg-white/[0.08]', 'text-white/90');
+        this.classList.remove('text-white/50');
+        
+        // Update badge
+        const badge = document.querySelector('.section-header .badge');
+        badge.className = `badge ${level === 'high' ? 'success' : level === 'low' ? 'danger' : 'warning'}`;
+        badge.innerHTML = `<i data-lucide="shield" class="w-3 h-3"></i><span>${level.charAt(0).toUpperCase() + level.slice(1)}</span>`;
+        lucide.createIcons();
+      });
+    });
+
+    // ========================================
+    // Parameter Sliders
+    // ========================================
+    
+    document.getElementById('temp-slider').addEventListener('input', function() {
+      aiConfig.parameters.temperature = parseFloat(this.value);
+      document.getElementById('temp-value').textContent = this.value;
+    });
+
+    document.getElementById('tokens-slider').addEventListener('input', function() {
+      aiConfig.parameters.maxTokens = parseInt(this.value);
+      document.getElementById('tokens-value').textContent = this.value;
+    });
+
+    // ========================================
+    // Apply to Preview
+    // ========================================
+    
+    function applyToPreview() {
+      const iframe = document.getElementById('preview-iframe');
+      if (!iframe || !iframe.contentDocument) return;
+      
+      const doc = iframe.contentDocument;
+      
+      // Show/hide AI features in preview
+      const aiElements = {
+        summary: doc.querySelectorAll('[data-ai-feature="summary"]'),
+        codeExplain: doc.querySelectorAll('[data-ai-feature="code-explain"]'),
+        highlighter: doc.querySelectorAll('[data-ai-feature="highlighter"]'),
+        voice: doc.querySelectorAll('[data-ai-feature="voice"]'),
+        chatbot: doc.querySelectorAll('[data-ai-feature="chatbot"]')
+      };
+      
+      Object.entries(aiConfig.features).forEach(([feature, enabled]) => {
+        const elements = aiElements[feature];
+        if (elements) {
+          elements.forEach(el => {
+            el.style.display = enabled ? '' : 'none';
+          });
+        }
+      });
+    }
+
+    // ========================================
+    // Collapsible Sections
+    // ========================================
+    
+    document.querySelectorAll('.section-header').forEach(header => {
+      header.addEventListener('click', function() {
+        const content = this.nextElementSibling;
+        const chevron = this.querySelector('[data-lucide^="chevron"]');
+        
+        content.classList.toggle('collapsed');
+        
+        if (content.classList.contains('collapsed')) {
+          chevron.style.transform = 'rotate(-90deg)';
+        } else {
+          chevron.style.transform = 'rotate(0deg)';
+        }
+      });
+    });
+
+    // ========================================
+    // Page Selector & Device Toggle
+    // ========================================
+    
+    document.getElementById('page-select').addEventListener('change', function() {
+      const iframe = document.getElementById('preview-iframe');
+      iframe.src = `preview-templates/${this.value}`;
+      iframe.onload = () => applyToPreview();
+    });
+
+    document.querySelectorAll('.device-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const device = this.dataset.device;
+        const wrapper = document.getElementById('preview-wrapper');
+        
+        document.querySelectorAll('.device-btn').forEach(b => {
+          b.classList.remove('bg-white/[0.08]', 'text-white/90');
+          b.classList.add('text-white/40');
+        });
+        
+        this.classList.add('bg-white/[0.08]', 'text-white/90');
+        this.classList.remove('text-white/40');
+        
+        if (device === 'tablet') {
+          wrapper.style.width = '768px';
+          wrapper.style.height = '1024px';
+        } else if (device === 'mobile') {
+          wrapper.style.width = '375px';
+          wrapper.style.height = '812px';
+        } else {
+          wrapper.style.width = '100%';
+          wrapper.style.height = '100%';
+        }
+      });
+    });
+
+    // ========================================
+    // Apply Button
+    // ========================================
+    
+    document.getElementById('apply-ai-btn').addEventListener('click', () => {
+      // Save configuration
+      showNotification('AI configuration saved successfully!', 'success');
+    });
+
+    document.getElementById('reset-ai-btn').addEventListener('click', () => {
+      if (confirm('Reset all AI settings to defaults?')) {
+        location.reload();
+      }
+    });
+
+    // ========================================
+    // Notifications
+    // ========================================
+    
+    function showNotification(message, type = 'success') {
+      const notification = document.createElement('div');
+      notification.className = `fixed top-4 right-4 px-4 py-2.5 rounded-lg text-[13px] font-medium z-50 flex items-center gap-2 ${
+        type === 'success' ? 'bg-green-600 text-white' : 'bg-red-600 text-white'
+      }`;
+      notification.innerHTML = `
+        <i data-lucide="${type === 'success' ? 'check-circle' : 'alert-circle'}" class="w-4 h-4"></i>
+        <span>${message}</span>
+      `;
+      document.body.appendChild(notification);
+      lucide.createIcons();
+      
+      setTimeout(() => {
+        notification.style.opacity = '0';
+        notification.style.transition = 'opacity 0.2s';
+        setTimeout(() => notification.remove(), 200);
+      }, 3000);
+    }
+
+    // ========================================
+    // Initialization
+    // ========================================
+    
+    const iframe = document.getElementById('preview-iframe');
+    iframe.onload = () => {
+      applyToPreview();
+    };
+  </script>
+
+</body>
+</html>
+

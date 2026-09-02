@@ -1,0 +1,86 @@
+@model CMSPageRequest
+@using Ingeniux.Runtime
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var title = Model.GetElementValue("Title");
+    var subtitle = Model.GetElementValue("Subtitle");
+    var searchPrompt = Model.GetElementValue("SearchPrompt") ?? "Search or ask a question";
+    ICMSLinkElement searchLink = Model.GetLinkItem("SearchResults");
+}
+
+<!-- Hero / Search (fixed page element, not a tray) -->
+<section class="py-16 px-6">
+    <div class="max-w-screen-xl mx-auto text-center">
+        <h1 class="text-4xl font-bold text-neutral-900 dark:text-white mb-4"
+            @_Helpers.RenderICEAttribute(Model.Element("Title"))>
+            @title
+        </h1>
+        <p class="text-lg text-neutral-600 dark:text-neutral-400 mb-8 max-w-2xl mx-auto"
+           @_Helpers.RenderICEAttribute(Model.Element("Subtitle"))>
+            @subtitle
+        </p>
+
+        <form method="get" action="@_Functions.GetLinkAction(searchLink, Url)" class="max-w-2xl mx-auto">
+            <div class="relative">
+                <i data-lucide="search" class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-neutral-400"></i>
+                <input type="text" name="term" placeholder="@searchPrompt"
+                       class="w-full pl-12 pr-4 py-3 border border-neutral-300 dark:border-neutral-600 rounded-xl bg-white dark:bg-neutral-800 text-neutral-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500 text-lg" />
+            </div>
+        </form>
+    </div>
+</section>
+
+<!--
+    All content below the hero comes from Trays (Page Builder drop zones).
+    The schema defines these List fields with CompTypes:
+
+    ProductCards  → List (Component), CompTypes: "DCXProductCard"
+    ActionCards   → List (Component), CompTypes: "DCXActionCard"
+    Trays         → List (Component), CompTypes: "DCXProductCard|DCXActionCard|DCXCodeBlock|DCXCallout|DCXCTASection"
+
+    Each renders through the standard Tray dispatch:
+    Trays.cshtml → Tray.cshtml → {ComponentName}_Unit.cshtml
+
+    The wrapping HTML (grid, background color) is handled by the _Unit view,
+    not by this page view. This keeps the page flexible for editors.
+-->
+
+@{
+    // Named drop zones — each is a List field accepting specific component types
+    ICMSElement productCards = Model.Element("ProductCards");
+    ICMSElement actionCards = Model.Element("ActionCards");
+}
+
+@if (productCards != null)
+{
+    <section id="products" class="py-12 px-6" @_Helpers.RenderICEAttribute(productCards, true)>
+        <div class="max-w-screen-xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                @foreach (ICMSElement comp in productCards.Elements())
+                {
+                    Html.RenderPartial("Editable/Tray", comp);
+                }
+            </div>
+        </div>
+    </section>
+}
+
+@if (actionCards != null)
+{
+    <section class="py-12 px-6 bg-neutral-100 dark:bg-neutral-800/50" @_Helpers.RenderICEAttribute(actionCards, true)>
+        <div class="max-w-screen-xl mx-auto">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                @foreach (ICMSElement comp in actionCards.Elements())
+                {
+                    Html.RenderPartial("Editable/Tray", comp);
+                }
+            </div>
+        </div>
+    </section>
+}
+
+<!--
+    The generic "Trays" field is rendered by _Layout.cshtml after RenderBody().
+    Editors can add any additional content blocks there via Page Builder.
+-->

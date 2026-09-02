@@ -1,0 +1,169 @@
+@model ICMSElement
+@using Ingeniux.Runtime
+@using Cartella.Interfaces
+@{
+    var header = Model.Element("DCXHeader").Elements().FirstOrDefault();
+    var logoUrl = header?.GetElementValue("Logo");
+    var logoUrlDark = header?.GetElementValue("LogoDark");
+    var siteName = Model.GetElementValue("SiteName");
+
+    ICMSElement[] menuItems = Model.Elements("DCXNavigationTab").ToArray();
+    ICMSLinkElement searchLink = header?.GetLinkItem("SearchResults");
+    ICMSLinkElement loginLink = header?.GetLinkItem("LoginPage");
+
+    // Language - from page's locale links (linked translations)
+    var currentPage = Model.Page as CMSPageRequest;
+    String currentLang = currentPage?.GetElementValue("Locale") ?? "en";
+    ICMSLinkElement[] translations = currentPage?.GetNavigationItems("LocaleLinks")
+        ?.Where(p => p.Schema != "Folder").ToArray() ?? new ICMSLinkElement[0];
+
+    // Language display names
+    var langNames = new Dictionary<string, string> {
+        {"en", "English"}, {"es", "Spanish"}, {"fr", "French"},
+        {"de", "German"}, {"ja", "Japanese"}, {"zh", "Chinese"},
+        {"pt", "Portuguese"}, {"ko", "Korean"}, {"it", "Italian"}
+    };
+
+    IUser user = Utilities.CurrentUser();
+    bool isLoggedIn = user != null;
+    var initials = "";
+    if (isLoggedIn)
+    {
+        var name = user.DisplayName ?? "";
+        var parts = name.Split(' ');
+        initials = parts.Length > 1
+            ? "" + parts[0][0] + parts.Last()[0]
+            : name.Length >= 2 ? name.Substring(0, 2) : "U";
+    }
+}
+<header class="sticky top-0 z-50 bg-white dark:bg-neutral-900 border-b border-neutral-200 dark:border-neutral-800 px-6">
+    <div class="max-w-screen-2xl mx-auto">
+        <div class="flex items-center justify-between h-16">
+
+            <!-- Logo -->
+            <a href="/" class="flex items-center gap-3 hover:opacity-90 transition-opacity flex-shrink-0 mr-8">
+                @if (!string.IsNullOrEmpty(logoUrl))
+                {
+                    <img src="@logoUrl" alt="@siteName" class="h-7 w-auto dark:hidden">
+                }
+                @if (!string.IsNullOrEmpty(logoUrlDark))
+                {
+                    <img src="@logoUrlDark" alt="@siteName" class="h-7 w-auto hidden dark:block">
+                }
+                <span class="hidden lg:inline font-normal text-lg text-neutral-600 dark:text-neutral-400 whitespace-nowrap">Product Documentation</span>
+            </a>
+
+            <!-- Primary Nav (from Navigation field) -->
+            <nav class="hidden md:flex items-center gap-6 absolute left-1/2 -translate-x-1/2">
+                @foreach (ICMSElement menuItem in menuItems)
+                {
+                    var tabLink = menuItem.GetLinkItem("TabLink");
+                    if (tabLink != null)
+                    {
+                        <a href="@_Functions.GetLinkAction(tabLink, Url)"
+                           class="text-neutral-700 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white font-medium whitespace-nowrap">
+                            @_Functions.GetLinkName(tabLink, useNavName: true)
+                        </a>
+                    }
+                }
+            </nav>
+
+            <!-- Right Actions -->
+            <div class="flex items-center gap-3 ml-auto">
+                <!-- Search Icon (opens Cmd+K modal) -->
+                <button id="cmd-k-trigger" class="p-2 hover:bg-neutral-100 dark:hover:bg-neutral-700 rounded-lg transition-colors" title="Search (&#8984;K)">
+                    <i data-lucide="search" class="w-5 h-5 text-neutral-600 dark:text-neutral-400"></i>
+                </button>
+
+                <!-- Language Switcher (only if translations exist) -->
+                @if (translations.Length > 0)
+                {
+                    <div class="relative">
+                        <button id="lang-switcher-btn" class="flex items-center gap-1.5 px-2 py-1.5 hover:bg-neutral-100 dark:hover:bg-neutral-700 rounded-lg transition-colors text-sm text-neutral-600 dark:text-neutral-400">
+                            <i data-lucide="globe" class="w-4 h-4"></i>
+                            <span class="hidden sm:inline">@currentLang.ToUpper()</span>
+                        </button>
+                        <div id="lang-switcher-menu" class="hidden absolute right-0 mt-2 w-44 bg-white dark:bg-neutral-800 rounded-xl shadow-2xl border border-neutral-200 dark:border-neutral-700 py-1 z-50">
+                            @foreach (ICMSLinkElement translation in translations)
+                            {
+                                var locale = translation.GetAttributeValue("Locale") ?? translation.LinkName;
+                                var displayName = langNames.ContainsKey(locale) ? langNames[locale] : locale;
+                                var isCurrent = locale == currentLang;
+                                <a href="@_Functions.GetLinkAction(translation, Url)"
+                                   class="flex items-center justify-between px-4 py-2 text-sm @(isCurrent ? "text-primary-600 dark:text-primary-400 font-medium" : "text-neutral-700 dark:text-neutral-300") hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors">
+                                    <span>@displayName</span>
+                                    @if (isCurrent) { <i data-lucide="check" class="w-4 h-4"></i> }
+                                </a>
+                            }
+                        </div>
+                    </div>
+                }
+
+                <!-- Mobile Menu -->
+                <div class="relative md:hidden">
+                    <button id="mobile-menu-btn" class="p-2 hover:bg-neutral-100 dark:hover:bg-neutral-700 rounded-lg flex-shrink-0">
+                        <i data-lucide="menu" class="w-6 h-6 text-neutral-600 dark:text-neutral-400"></i>
+                    </button>
+                    <div id="mobile-menu" class="hidden absolute right-0 top-full mt-2 w-64 bg-white dark:bg-neutral-900 rounded-xl shadow-2xl border border-neutral-200 dark:border-neutral-700 z-50 py-2">
+                        <nav class="py-2">
+                            @foreach (ICMSElement menuItem in menuItems)
+                            {
+                                var tabLink = menuItem.GetLinkItem("TabLink");
+                                if (tabLink != null)
+                                {
+                                    <a href="@_Functions.GetLinkAction(tabLink, Url)"
+                                       class="flex items-center gap-3 px-4 py-3 hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors">
+                                        <span class="text-sm font-medium text-neutral-900 dark:text-white">
+                                            @_Functions.GetLinkName(tabLink, useNavName: true)
+                                        </span>
+                                    </a>
+                                }
+                            }
+                        </nav>
+                    </div>
+                </div>
+
+                @if (isLoggedIn)
+                {
+                    <!-- Logged in: Avatar + Dropdown (injected by user-dropdown.js) -->
+                    <div class="relative">
+                        <button id="user-menu-btn" class="flex items-center gap-2 p-1.5 hover:bg-neutral-100 dark:hover:bg-neutral-700 rounded-lg transition-colors">
+                            <div class="w-8 h-8 rounded-full bg-gradient-to-br from-neutral-600 to-neutral-700 flex items-center justify-center text-white font-semibold text-sm">
+                                @initials
+                            </div>
+                            <i data-lucide="chevron-down" class="w-4 h-4 text-neutral-600 dark:text-neutral-400 hidden sm:block"></i>
+                        </button>
+                        <div id="user-dropdown" class="hidden absolute right-0 mt-2 w-56 bg-white dark:bg-neutral-800 rounded-xl shadow-2xl border border-neutral-200 dark:border-neutral-700 py-2 z-50">
+                            <!-- Injected by user-dropdown.js -->
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <!-- Anonymous: Sign In link -->
+                    <a href="@(loginLink != null ? _Functions.GetLinkAction(loginLink, Url) : "/login")"
+                       class="px-4 py-2 text-sm font-semibold bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors">
+                        Sign In
+                    </a>
+                }
+            </div>
+        </div>
+    </div>
+</header>
+<script>
+    // Language switcher toggle
+    (function() {
+        document.addEventListener('click', function(e) {
+            var btn = document.getElementById('lang-switcher-btn');
+            var menu = document.getElementById('lang-switcher-menu');
+            if (!btn || !menu) return;
+            if (btn.contains(e.target)) {
+                e.stopPropagation();
+                menu.classList.toggle('hidden');
+                if (typeof lucide !== 'undefined') lucide.createIcons();
+            } else if (!menu.contains(e.target)) {
+                menu.classList.add('hidden');
+            }
+        });
+    })();
+</script>

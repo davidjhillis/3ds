@@ -1,0 +1,6 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import "./design-system/content.css";
+@import "./design-system/shell.css";

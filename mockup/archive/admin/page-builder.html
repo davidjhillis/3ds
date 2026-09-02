@@ -1,0 +1,2311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Discover CX · Page Builder</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+          },
+          colors: {
+            primary: {
+              50: '#eef2ff',
+              100: '#e0e7ff',
+              200: '#c7d2fe',
+              300: '#a5b4fc',
+              400: '#818cf8',
+              500: '#6366f1',
+              600: '#4f46e5',
+              700: '#4338ca',
+              800: '#3730a3',
+              900: '#312e81',
+            }
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    :root {
+      --bg-gradient-start: #1d1d1f;
+      --bg-gradient-end: #252525;
+      --panel-surface: #252525;
+      --panel-border: #2f2f2f;
+      --panel-border-light: #3a3a3a;
+      --accent: #8b9bff;
+      --accent-strong: #c2cbff;
+      --accent-soft: rgba(139, 155, 255, 0.18);
+      --text-primary: #f6f7ff;
+      --text-secondary: #c2c7e8;
+      --text-muted: #8f94b5;
+      --dropzone: rgba(139, 155, 255, 0.16);
+      --dropzone-border: rgba(139, 155, 255, 0.55);
+      --inspector-card: rgba(31, 31, 43, 0.94);
+    }
+
+    * {
+      box-sizing: border-box;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: linear-gradient(160deg, var(--bg-gradient-start), var(--bg-gradient-end));
+      color: var(--text-primary);
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      padding: 16px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(82, 82, 110, 0.35);
+      backdrop-filter: blur(16px);
+      background: rgba(37, 37, 37, 0.92);
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .header-left .back-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border-radius: 12px;
+      border: 1px solid rgba(132, 142, 220, 0.35);
+      padding: 8px 12px;
+      font-size: 13px;
+      color: var(--text-secondary);
+      background: rgba(91, 107, 255, 0.12);
+      cursor: pointer;
+    }
+
+    .header-left h1 {
+      margin: 0;
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    .template-select {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      border-radius: 12px;
+      background: rgba(30, 31, 45, 0.82);
+      border: 1px solid rgba(132, 142, 220, 0.35);
+      padding: 10px 14px;
+    }
+
+    .template-select label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--text-muted);
+    }
+
+    .template-select select {
+      appearance: none;
+      background: rgba(26, 26, 30, 0.9);
+      border: 1px solid rgba(108, 118, 210, 0.4);
+      border-radius: 8px;
+      color: var(--text-primary);
+      padding: 6px 12px;
+      font-size: 13px;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .header-actions button {
+      border-radius: 12px;
+      border: 1px solid rgba(132, 142, 220, 0.4);
+      background: rgba(33, 35, 54, 0.9);
+      color: var(--text-secondary);
+      font-size: 13px;
+      padding: 8px 14px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+    }
+
+    main {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 300px minmax(0, 1fr) 340px;
+      gap: 0;
+      background: transparent;
+    }
+
+    .sidebar,
+    .inspector,
+    .canvas-wrapper {
+      background: var(--panel-surface);
+    }
+
+    .sidebar {
+      display: flex;
+      flex-direction: column;
+      border-right: 1px solid var(--panel-border);
+      padding: 20px;
+      gap: 12px;
+    }
+
+    .sidebar h2 {
+      margin: 0;
+      font-size: 12px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .sidebar-section {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid rgba(82, 86, 132, 0.18);
+    }
+
+    .sidebar-section:last-of-type {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .section-title {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      cursor: pointer;
+      user-select: none;
+      padding: 6px 0;
+    }
+
+    .section-title .title-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .section-title .section-toggle {
+      transition: transform 0.2s ease;
+    }
+
+    .sidebar-section.collapsed .section-toggle {
+      transform: rotate(-90deg);
+    }
+
+    .preset-grid,
+    .component-grid {
+      display: grid;
+      gap: 10px;
+    }
+
+    .preset-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .component-grid { grid-template-columns: repeat(1, minmax(0, 1fr)); }
+    .layout-option-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+
+    .sidebar-section.collapsed .preset-grid,
+    .sidebar-section.collapsed .component-grid,
+    .sidebar-section.collapsed .layout-option-grid {
+      display: none;
+    }
+
+    .layout-option-card .card-line {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 600;
+      color: var(--text-primary);
+      letter-spacing: 0.02em;
+    }
+
+    .layout-option-card .card-line i {
+      width: 16px;
+      height: 16px;
+      color: rgba(182, 192, 255, 0.9);
+    }
+
+    .layout-option-card .card-meta {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: rgba(160, 167, 210, 0.75);
+    }
+
+    .sidebar-card {
+      border-radius: 12px;
+      border: 1px solid rgba(116, 124, 188, 0.35);
+      background: rgba(40, 40, 55, 0.84);
+      padding: 12px 14px;
+      color: var(--text-secondary);
+      font-size: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      cursor: grab;
+      transition: border 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
+    }
+
+    .sidebar-card:active { cursor: grabbing; }
+
+    .sidebar-card:hover {
+      border-color: rgba(139, 155, 255, 0.55);
+      box-shadow: 0 18px 34px rgba(70, 80, 160, 0.35);
+      transform: translateY(-1px);
+    }
+
+    .sidebar-card .card-meta {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .canvas-wrapper {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      border-right: 1px solid rgba(53, 53, 70, 0.6);
+      background: linear-gradient(180deg, rgba(28, 28, 36, 0.94) 0%, rgba(28, 28, 34, 0.9) 60%, rgba(27, 27, 32, 0.92) 100%);
+    }
+
+    .preview-toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 24px;
+      border-bottom: 1px solid rgba(62, 63, 88, 0.65);
+      background: rgba(23, 23, 30, 0.95);
+      backdrop-filter: blur(16px);
+    }
+
+    .breadcrumb {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 11px;
+      color: rgba(156, 163, 210, 0.72);
+    }
+
+    .preview-controls {
+      display: flex;
+      gap: 10px;
+    }
+
+    .preview-controls button {
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      border: 1px solid rgba(108, 118, 210, 0.35);
+      background: rgba(29, 30, 44, 0.92);
+      color: rgba(176, 182, 240, 0.85);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+    }
+
+    .preview-controls .device-btn.active {
+      background: rgba(107, 124, 255, 0.28);
+      border-color: rgba(139, 155, 255, 0.65);
+      color: #ffffff;
+      box-shadow: 0 12px 28px rgba(66, 77, 176, 0.45);
+    }
+
+    .preview-frame {
+      flex: 1;
+      overflow: auto;
+      padding: 24px 0 48px;
+      display: flex;
+      justify-content: center;
+      background: linear-gradient(180deg, rgba(22, 23, 30, 0.95) 0%, rgba(26, 26, 34, 0.94) 50%, rgba(23, 23, 28, 0.96) 100%);
+    }
+
+    .canvas-stage {
+      position: relative;
+      width: 100%;
+      max-width: 1200px;
+      border-radius: 36px;
+      box-shadow: 0 45px 85px rgba(11, 12, 18, 0.65);
+      background: rgba(18, 18, 24, 0.85);
+    }
+
+    .template-surface {
+      position: relative;
+      z-index: 1;
+      border-radius: 36px;
+      overflow: hidden;
+      background: #111116;
+      min-height: calc(100vh - 260px);
+    }
+
+    .builder-overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 5;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      padding: 48px 64px 96px;
+      pointer-events: auto;
+      overflow: visible;
+    }
+
+    .drop-zone {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      width: min(var(--drop-width, 1180px), calc(100% - 72px));
+      margin: 12px auto;
+      padding: 12px 10px;
+      border-radius: 10px;
+      border: 1.5px dashed rgba(139, 155, 255, 0.45);
+      background: rgba(28, 29, 45, 0.6);
+      color: rgba(168, 173, 220, 0.78);
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      font-size: 10px;
+      transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+      min-height: 48px;
+      pointer-events: auto;
+      box-shadow: 0 10px 24px rgba(15, 16, 26, 0.55);
+    }
+
+    .row-block,
+    .column,
+    .column-placeholder,
+    .component-instance {
+      pointer-events: auto;
+    }
+
+    .drop-zone::before {
+      content: '+';
+      width: 16px;
+      height: 16px;
+      border-radius: 4px;
+      border: 2px solid var(--accent);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--accent);
+    }
+
+    .drop-zone::after {
+      content: 'ADD SECTION';
+      letter-spacing: 0.22em;
+    }
+
+    .drop-zone.active,
+    .drop-zone:hover {
+      border-color: rgba(166, 178, 255, 0.95);
+      background: rgba(57, 61, 104, 0.9);
+      color: #ffffff;
+      transform: translateY(-1px);
+    }
+
+    .drop-zone.tail {
+      margin-top: 20px;
+      margin-bottom: 80px;
+    }
+
+    .drop-marker {
+      pointer-events: auto;
+    }
+
+    #preview-wrapper {
+      position: relative;
+    }
+
+    #builder-overlay {
+      pointer-events: auto;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      overflow: auto;
+      padding: 48px 0 96px;
+      gap: 18px;
+      background: transparent;
+    }
+
+    #builder-overlay::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    #builder-overlay::-webkit-scrollbar-thumb {
+      background: rgba(120, 120, 180, 0.32);
+      border-radius: 3px;
+    }
+
+    .row-block {
+      position: relative;
+      border: 1.5px dashed rgba(138, 146, 232, 0.45);
+      border-radius: 16px;
+      padding: 24px;
+      margin: 24px auto;
+      background: rgba(20, 21, 32, 0.32);
+      box-shadow: 0 18px 38px rgba(4, 5, 12, 0.65);
+      max-width: var(--row-width, 1180px);
+      width: calc(100% - 72px);
+      transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease, background 0.2s ease;
+      backdrop-filter: blur(10px);
+    }
+
+    .row-block::before {
+      content: attr(data-label);
+      position: absolute;
+      top: -18px;
+      left: 32px;
+      background: rgba(24, 25, 38, 0.95);
+      border-radius: 999px;
+      padding: 6px 16px;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: rgba(173, 181, 236, 0.92);
+      border: 1px solid rgba(116, 124, 206, 0.75);
+      box-shadow: 0 10px 24px rgba(10, 11, 22, 0.6);
+    }
+
+    .row-toolbar {
+      position: absolute;
+      top: 14px;
+      right: 18px;
+      display: flex;
+      gap: 8px;
+      opacity: 0;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+
+    .row-handle {
+      position: absolute;
+      top: 14px;
+      left: 18px;
+      width: 32px;
+      height: 32px;
+      border-radius: 999px;
+      border: 1px solid rgba(116, 124, 206, 0.6);
+      background: rgba(30, 32, 54, 0.92);
+      color: rgba(189, 195, 255, 0.92);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: grab;
+      box-shadow: 0 10px 26px rgba(5, 6, 15, 0.7);
+    }
+
+    .row-handle:active { cursor: grabbing; }
+
+    .row-block:hover .row-toolbar,
+    .row-block.selected .row-toolbar { 
+      opacity: 1; 
+      transform: translateY(-2px);
+    }
+
+    .row-toolbar button {
+      width: 30px;
+      height: 30px;
+      border-radius: 8px;
+      border: 1px solid rgba(114, 122, 198, 0.5);
+      background: rgba(33, 35, 58, 0.95);
+      color: rgba(186, 192, 255, 0.85);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 8px 18px rgba(8, 9, 20, 0.65);
+    }
+
+    .columns {
+      display: flex;
+      gap: 28px;
+      position: relative;
+    }
+
+    .column {
+      border: 1.5px dashed rgba(135, 142, 230, 0.35);
+      border-radius: 14px;
+      padding: 24px;
+      min-height: 148px;
+      background: rgba(21, 22, 36, 0.7);
+      transition: border 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+      position: relative;
+      box-shadow: inset 0 0 0 1px rgba(79, 83, 140, 0.35);
+      backdrop-filter: blur(8px);
+    }
+
+    .column.active {
+      border-color: rgba(166, 178, 255, 0.9);
+      background: rgba(45, 47, 88, 0.88);
+      box-shadow: 0 18px 34px rgba(8, 10, 22, 0.6);
+    }
+
+    .column-placeholder {
+      text-align: center;
+      font-size: 11px;
+      color: rgba(163, 170, 225, 0.7);
+      border: 1.2px dashed rgba(139, 155, 255, 0.38);
+      border-radius: 12px;
+      padding: 22px;
+      background: rgba(32, 33, 54, 0.6);
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+    }
+
+    .column-resize-handle {
+      position: absolute;
+      top: 0;
+      right: -10px;
+      width: 12px;
+      height: 100%;
+      cursor: col-resize;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .column-resize-handle::after {
+      content: '';
+      width: 2px;
+      height: 44px;
+      border-radius: 2px;
+      background: rgba(139, 155, 255, 0.4);
+      transition: background 0.2s ease;
+    }
+
+    .column-resize-handle:hover::after {
+      background: rgba(168, 180, 255, 0.85);
+    }
+
+    .column-resize-handle i {
+      width: 12px;
+      height: 12px;
+      color: rgba(116, 103, 245, 0.7);
+    }
+
+    .column-resize-handle:hover {
+      background: rgba(118, 106, 246, 0.14);
+      border-color: rgba(118, 106, 246, 0.45);
+    }
+
+    .component-instance {
+      border-radius: 16px;
+      border: 1.5px dashed rgba(140, 148, 238, 0.48);
+      background: rgba(18, 19, 30, 0.42);
+      padding: 0;
+      position: relative;
+      min-height: 136px;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+      backdrop-filter: blur(8px);
+    }
+
+    .component-instance::after {
+      content: '';
+      position: absolute;
+      inset: 6px;
+      border-radius: 12px;
+      background: rgba(25, 26, 40, 0.78);
+      box-shadow: inset 0 0 0 1px rgba(86, 94, 155, 0.5);
+      pointer-events: none;
+    }
+
+    .component-instance.selected {
+      border-color: rgba(86, 73, 232, 0.9);
+      box-shadow: 0 14px 32px rgba(90, 105, 206, 0.28);
+    }
+
+    .instance-overlay {
+      position: absolute;
+      inset: 0;
+      border-radius: 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 18px 20px;
+      mix-blend-mode: normal;
+    }
+
+    .instance-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      pointer-events: auto;
+    }
+
+    .instance-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: rgba(107, 124, 255, 0.16);
+      border: 1px solid rgba(139, 155, 255, 0.45);
+      text-transform: uppercase;
+      letter-spacing: 0.26em;
+      font-size: 10px;
+      color: rgba(214, 219, 255, 0.9);
+      box-shadow: 0 8px 22px rgba(10, 12, 26, 0.55);
+    }
+
+    .instance-toolbar {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      pointer-events: auto;
+    }
+
+    .instance-toolbar button,
+    .instance-remove {
+      border: none;
+      background: rgba(36, 38, 60, 0.95);
+      border-radius: 10px;
+      width: 28px;
+      height: 28px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: rgba(187, 194, 255, 0.9);
+      cursor: pointer;
+      box-shadow: 0 10px 26px rgba(8, 10, 22, 0.6);
+    }
+
+    .instance-toolbar button:hover,
+    .instance-remove:hover {
+      background: rgba(107, 124, 255, 0.22);
+      color: #ffffff;
+    }
+
+    .instance-toolbar button.active {
+      background: rgba(91, 107, 255, 0.15);
+      color: rgba(67, 79, 233, 0.95);
+    }
+
+    .instance-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      pointer-events: auto;
+    }
+
+    .instance-hint {
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(180, 186, 236, 0.8);
+      background: rgba(29, 31, 48, 0.9);
+      padding: 6px 10px;
+      border-radius: 8px;
+      border: 1px solid rgba(88, 96, 162, 0.55);
+    }
+
+    .instance-status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(32, 50, 43, 0.9);
+      border: 1px solid rgba(88, 171, 141, 0.5);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: rgba(133, 236, 193, 0.92);
+    }
+
+    .instance-status-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: rgba(34, 197, 94, 0.85);
+      box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.15);
+    }
+
+    .instance-status-label {
+      font-weight: 600;
+      letter-spacing: 0.04em;
+    }
+
+    .instance-body {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+      pointer-events: auto;
+    }
+
+    .instance-field {
+      border-radius: 999px;
+      border: 1px solid rgba(116, 124, 204, 0.45);
+      padding: 4px 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      font-size: 9px;
+      color: rgba(198, 204, 255, 0.85);
+      background: rgba(35, 37, 58, 0.9);
+      cursor: pointer;
+      transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+    }
+
+    .instance-field:hover {
+      background: rgba(107, 124, 255, 0.25);
+      color: #ffffff;
+      border-color: rgba(156, 170, 255, 0.75);
+    }
+
+    .component-muted {
+      border-color: rgba(94, 100, 150, 0.45);
+    }
+
+    .component-muted::after {
+      background: rgba(24, 24, 32, 0.75);
+      box-shadow: inset 0 0 0 1px rgba(65, 70, 112, 0.55);
+    }
+
+    .component-muted .instance-chip {
+      background: rgba(55, 58, 90, 0.6);
+      color: rgba(150, 156, 210, 0.85);
+      border-color: rgba(70, 74, 118, 0.7);
+    }
+
+    .component-muted .instance-status-pill {
+      background: rgba(30, 34, 42, 0.85);
+      border-color: rgba(74, 86, 120, 0.6);
+      color: rgba(160, 168, 210, 0.8);
+    }
+
+    .inspector-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(36, 38, 56, 0.9);
+      border: 1px solid rgba(96, 103, 170, 0.55);
+      color: rgba(192, 197, 240, 0.9);
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      font-size: 10px;
+    }
+
+    .inspector {
+      border-left: 1px solid var(--panel-border);
+      display: flex;
+      flex-direction: column;
+      padding: 20px;
+      gap: 14px;
+    }
+
+    .inspector h2 {
+      font-size: 14px;
+      margin: 0 0 12px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .inspector-card {
+      background: var(--inspector-card);
+      border: 1px solid rgba(124, 124, 168, 0.2);
+      border-radius: 12px;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .inspector-card h3 {
+      margin: 0;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .controls-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 10px;
+      align-items: start;
+    }
+
+    .controls-grid .input-row {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 6px;
+    }
+
+    .controls-grid .input-row label {
+      flex: 0 0 auto;
+    }
+
+    .column-controls {
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    }
+
+    .input-row input[type="number"],
+    .input-row select {
+      flex: 1;
+      background: rgba(12, 12, 28, 0.85);
+      border: 1px solid rgba(124,124,168,0.3);
+      border-radius: 8px;
+      padding: 6px 10px;
+      color: var(--text-primary);
+      font-size: 12px;
+    }
+
+    .input-row button {
+      border-radius: 8px;
+      border: 1px solid rgba(124,124,168,0.35);
+      background: rgba(18,18,40,0.7);
+      color: var(--text-secondary);
+      width: 32px;
+      height: 32px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    .inspect-empty {
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 13px;
+      padding: 40px 20px;
+      border: 1px dashed rgba(124,124,168,0.25);
+      border-radius: 12px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-left">
+      <button class="back-button" id="back-button">
+        <i data-lucide="arrow-left"></i>
+        Theme Editor
+      </button>
+      <h1>Page Builder</h1>
+      <div class="template-select">
+        <label for="page-select">Page</label>
+        <select id="page-select">
+          <option value="index.html">Reader · Default</option>
+          <option value="doc-page.html">Reader · Documentation</option>
+          <option value="search-results.html">Search Results</option>
+        </select>
+      </div>
+    </div>
+    <div class="header-actions">
+      <button id="export-json"><i data-lucide="download"></i>Export JSON</button>
+      <button id="preview-btn"><i data-lucide="eye"></i>Preview</button>
+    </div>
+  </header>
+
+  <main>
+    <aside class="sidebar">
+      <h2>components</h2>
+      <div class="sidebar-section">
+        <div class="section-title">
+          <span class="title-label"><i data-lucide="layout"></i>Layouts</span>
+          <i class="section-toggle" data-lucide="chevron-down"></i>
+        </div>
+        <div class="preset-grid">
+          <div class="sidebar-card" draggable="true" data-drag="layout" data-columns="1">1 × 1 <span class="card-meta">Full width</span></div>
+          <div class="sidebar-card" draggable="true" data-drag="layout" data-columns="2" data-preset="50-50">2 × 2 <span class="card-meta">50 / 50</span></div>
+          <div class="sidebar-card" draggable="true" data-drag="layout" data-columns="3" data-preset="33-33-33">3 × 3 <span class="card-meta">Equal thirds</span></div>
+          <div class="sidebar-card" draggable="true" data-drag="layout" data-columns="3" data-preset="50-25-25">3 × 3 <span class="card-meta">50 / 25 / 25</span></div>
+        </div>
+      </div>
+
+      <div class="sidebar-section">
+        <div class="section-title">
+          <span class="title-label"><i data-lucide="sparkles"></i>Layout options</span>
+          <i class="section-toggle" data-lucide="chevron-down"></i>
+        </div>
+        <div class="layout-option-grid">
+          <div class="sidebar-card layout-option-card" draggable="true" data-drag="layout-option" data-option="simple-block">
+            <div class="card-line"><i data-lucide="square"></i>Simple block</div>
+            <span class="card-meta">Single container</span>
+          </div>
+          <div class="sidebar-card layout-option-card" draggable="true" data-drag="layout-option" data-option="section">
+            <div class="card-line"><i data-lucide="layers"></i>Section</div>
+            <span class="card-meta">Stacked wrapper</span>
+          </div>
+          <div class="sidebar-card layout-option-card" draggable="true" data-drag="layout-option" data-option="columns">
+            <div class="card-line"><i data-lucide="columns-3"></i>Columns</div>
+            <span class="card-meta">Multi column</span>
+          </div>
+          <div class="sidebar-card layout-option-card" draggable="true" data-drag="layout-option" data-option="conditional-visibility">
+            <div class="card-line"><i data-lucide="eye"></i>Conditional visibility</div>
+            <span class="card-meta">Audience rules</span>
+          </div>
+          <div class="sidebar-card layout-option-card" draggable="true" data-drag="layout-option" data-option="collapsible">
+            <div class="card-line"><i data-lucide="chevron-down"></i>Collapsible</div>
+            <span class="card-meta">Accordion group</span>
+          </div>
+          <div class="sidebar-card layout-option-card" draggable="true" data-drag="layout-option" data-option="floating-menu">
+            <div class="card-line"><i data-lucide="panel-right"></i>Floating menu</div>
+            <span class="card-meta">Pinned navigator</span>
+          </div>
+          <div class="sidebar-card layout-option-card" draggable="true" data-drag="layout-option" data-option="modal">
+            <div class="card-line"><i data-lucide="square-dot"></i>Modal</div>
+            <span class="card-meta">Overlay panel</span>
+          </div>
+          <div class="sidebar-card layout-option-card" draggable="true" data-drag="layout-option" data-option="modal-close">
+            <div class="card-line"><i data-lucide="x"></i>Modal close button</div>
+            <span class="card-meta">Utility action</span>
+          </div>
+          <div class="sidebar-card layout-option-card" draggable="true" data-drag="layout-option" data-option="vertical-tabs">
+            <div class="card-line"><i data-lucide="layout-panel-left"></i>Vertical tabs</div>
+            <span class="card-meta">Sidebar tabs</span>
+          </div>
+          <div class="sidebar-card layout-option-card" draggable="true" data-drag="layout-option" data-option="horizontal-tabs">
+            <div class="card-line"><i data-lucide="layout-panel-top"></i>Horizontal tabs</div>
+            <span class="card-meta">Top tabs</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="sidebar-section" data-default-collapsed="true">
+        <div class="section-title">
+          <span class="title-label"><i data-lucide="package"></i>Reader blocks</span>
+          <i class="section-toggle" data-lucide="chevron-down"></i>
+        </div>
+        <div class="component-grid">
+          <div class="sidebar-card" draggable="true" data-drag="component" data-component="hero">
+            Document header
+            <span class="card-meta">Title, metadata, summary</span>
+          </div>
+          <div class="sidebar-card" draggable="true" data-drag="component" data-component="toc">
+            Table of contents
+            <span class="card-meta">Collapsible navigation</span>
+          </div>
+          <div class="sidebar-card" draggable="true" data-drag="component" data-component="topic-grid">
+            Topic grid
+            <span class="card-meta">Curated article tiles</span>
+          </div>
+          <div class="sidebar-card" draggable="true" data-drag="component" data-component="faq">
+            FAQ accordion
+            <span class="card-meta">Question & answer</span>
+          </div>
+          <div class="sidebar-card" draggable="true" data-drag="component" data-component="highlight">
+            Highlight banner
+            <span class="card-meta">Featured announcement</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="sidebar-section" data-default-collapsed="true">
+        <div class="section-title">
+          <span class="title-label"><i data-lucide="sparkles"></i>Utilities & CTAs</span>
+          <i class="section-toggle" data-lucide="chevron-down"></i>
+        </div>
+        <div class="component-grid">
+          <div class="sidebar-card" draggable="true" data-drag="component" data-component="search">
+            Inline search
+            <span class="card-meta">Type ahead queries</span>
+          </div>
+          <div class="sidebar-card" draggable="true" data-drag="component" data-component="callout">
+            Callout box
+            <span class="card-meta">Tips & info blocks</span>
+          </div>
+          <div class="sidebar-card" draggable="true" data-drag="component" data-component="attachments">
+            Attachments
+            <span class="card-meta">Support files</span>
+          </div>
+          <div class="sidebar-card" draggable="true" data-drag="component" data-component="video">
+            Video spotlight
+            <span class="card-meta">Embedded media</span>
+          </div>
+          <div class="sidebar-card" draggable="true" data-drag="component" data-component="cta">
+            Action banner
+            <span class="card-meta">Primary CTA</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="sidebar-section" data-default-collapsed="true">
+        <div class="section-title">
+          <span class="title-label"><i data-lucide="image"></i>Media</span>
+          <i class="section-toggle" data-lucide="chevron-down"></i>
+        </div>
+        <div class="component-grid">
+          <div class="sidebar-card" draggable="true" data-drag="component" data-component="image">
+            Feature image
+            <span class="card-meta">Hero photography</span>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <section class="canvas-wrapper">
+      <div class="preview-toolbar">
+        <div class="breadcrumb">
+          <span>Experience</span>
+          <i data-lucide="chevron-right"></i>
+          <span>Reader</span>
+          <i data-lucide="chevron-right"></i>
+          <span>Default</span>
+        </div>
+        <div class="preview-controls">
+          <button class="device-btn" data-device="desktop"><i data-lucide="monitor"></i></button>
+          <button class="device-btn" data-device="tablet"><i data-lucide="tablet"></i></button>
+          <button class="device-btn" data-device="mobile"><i data-lucide="smartphone"></i></button>
+        </div>
+      </div>
+      <div class="preview-frame">
+        <div id="canvas-stage" class="canvas-stage">
+          <div id="template-surface" class="template-surface"></div>
+          <div id="builder-overlay" class="builder-overlay">
+            <div class="drop-zone" id="overlay-base-drop">Drop section here</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <aside class="inspector">
+      <h2>Inspector</h2>
+      <div id="inspector-content" class="inspect-empty">
+        Select a row, column, or component to edit its layout and spacing.
+      </div>
+    </aside>
+  </main>
+
+  <script>
+    lucide.createIcons();
+
+    const builderOverlay = document.getElementById('builder-overlay');
+    const baseDropZone = document.getElementById('overlay-base-drop');
+    const canvasStage = document.getElementById('canvas-stage');
+    const templateSurface = document.getElementById('template-surface');
+    const deviceButtons = document.querySelectorAll('.device-btn');
+    const templateSelect = document.getElementById('page-select');
+    const inspectorContent = document.getElementById('inspector-content');
+    const sidebarSections = document.querySelectorAll('.sidebar-section');
+    let selectedElement = null;
+    let dragPayload = null;
+    let blockCounter = 0;
+    let rowDragPayload = null;
+    let builderCanvasTarget = null;
+    let currentTemplateSrc;
+
+    const SECTION_WIDTHS = {
+      full: '100%',
+      wide: '1120px',
+      narrow: '880px'
+    };
+
+    const COLUMN_PRESETS = {
+      'auto': null,
+      '50-50': [0.5, 0.5],
+      '40-60': [0.4, 0.6],
+      '33-33-33': [1/3, 1/3, 1/3],
+      '60-30-10': [0.6, 0.3, 0.1],
+      '50-25-25': [0.5, 0.25, 0.25],
+      '25-25-25-25': [0.25, 0.25, 0.25, 0.25]
+    };
+
+    const LAYOUT_OPTION_PRESETS = {
+      'simple-block': { columns: 1, preset: 'auto', label: 'Simple block' },
+      'section': { columns: 1, preset: 'auto', label: 'Section' },
+      'columns': { columns: 3, preset: '33-33-33', label: 'Column layout' },
+      'conditional-visibility': { columns: 1, preset: 'auto', label: 'Conditional visibility' },
+      'collapsible': { columns: 1, preset: 'auto', label: 'Collapsible section' },
+      'floating-menu': { columns: 1, preset: 'auto', label: 'Floating menu' },
+      'modal': { columns: 1, preset: 'auto', label: 'Modal dialog' },
+      'modal-close': { columns: 1, preset: 'auto', label: 'Modal close button' },
+      'vertical-tabs': { columns: 1, preset: 'auto', label: 'Vertical tabs' },
+      'horizontal-tabs': { columns: 1, preset: 'auto', label: 'Horizontal tabs' },
+    };
+
+    const COMPONENT_DEFAULTS = {
+      hero: {
+        heading: 'Self-Service Knowledge Base',
+        subheading: 'Give crews instant access to safety procedures, troubleshooting, and escalations. Structured delivery keeps them aligned.',
+        primaryCta: 'Enable now',
+        secondaryCta: 'Preview experience',
+      },
+      cta: {
+        heading: 'Ready to enable the guided assistant?',
+        body: 'Turn on conversational search, release automation, and instant knowledge gap alerts for every target audience.',
+        primaryCta: 'Enable now',
+        secondaryCta: 'View rollout playbook',
+      },
+      highlight: {
+        heading: 'Discover CX v11.2 introduces AI guided flows',
+        pill: 'Release spotlight',
+        button: "See what's new",
+      },
+      faq: {
+        items: [
+          { question: 'How do I configure SSO?', answer: 'Review the identity provider checklist, map user attributes, and run the validator before publishing.' },
+          { question: 'Where can I import collections?', answer: 'Use the Sources tab to connect Confluence, GitHub, or SharePoint with nightly imports.' },
+          { question: 'Can I embed release notes?', answer: 'Enable the Releases component and designate which collections sync to the portal timeline.' },
+        ],
+      },
+      'topic-grid': {
+        title: 'Browse collections',
+      },
+    };
+
+    const COMPONENT_FIELDS = {
+      hero: [
+        { key: 'heading', label: 'Heading' },
+        { key: 'subheading', label: 'Subheading' },
+        { key: 'primaryCta', label: 'Primary CTA' },
+        { key: 'secondaryCta', label: 'Secondary CTA' },
+      ],
+      cta: [
+        { key: 'heading', label: 'Heading' },
+        { key: 'body', label: 'Body copy' },
+        { key: 'primaryCta', label: 'Primary CTA' },
+        { key: 'secondaryCta', label: 'Secondary CTA' },
+      ],
+      highlight: [
+        { key: 'pill', label: 'Badge' },
+        { key: 'heading', label: 'Heading' },
+        { key: 'button', label: 'Button label' },
+      ],
+      faq: [
+        { key: 'items[0].question', label: 'FAQ 1 question' },
+        { key: 'items[0].answer', label: 'FAQ 1 answer' },
+        { key: 'items[1].question', label: 'FAQ 2 question' },
+        { key: 'items[1].answer', label: 'FAQ 2 answer' },
+        { key: 'items[2].question', label: 'FAQ 3 question' },
+        { key: 'items[2].answer', label: 'FAQ 3 answer' },
+      ],
+    };
+
+    function deepMerge(target, src) {
+      const output = Array.isArray(target) ? [...target] : { ...target };
+      if (src && typeof src === 'object') {
+        Object.keys(src).forEach(key => {
+          const value = src[key];
+          if (Array.isArray(value)) {
+            output[key] = value.map((item, index) =>
+              typeof item === 'object'
+                ? deepMerge(output[key]?.[index] || {}, item)
+                : item
+            );
+          } else if (value && typeof value === 'object') {
+            output[key] = deepMerge(output[key] || {}, value);
+          } else {
+            output[key] = value;
+          }
+        });
+      }
+      return output;
+    }
+
+    function cloneDefaultState(type, overrides = {}) {
+      const base = COMPONENT_DEFAULTS[type]
+        ? JSON.parse(JSON.stringify(COMPONENT_DEFAULTS[type]))
+        : {};
+      return deepMerge(base, overrides);
+    }
+
+    function getComponentState(instance) {
+      try {
+        return instance.dataset.state ? JSON.parse(instance.dataset.state) : {};
+      } catch (error) {
+        console.warn('Failed to parse component state', error);
+        return {};
+      }
+    }
+
+    function setComponentState(instance, state) {
+      instance.dataset.state = JSON.stringify(state);
+    }
+
+    function pathToTokens(path) {
+      return path
+        .replace(/\[(\d+)\]/g, '.$1')
+        .split('.')
+        .filter(token => token.length);
+    }
+
+    function getStateValue(state, path) {
+      const tokens = Array.isArray(path) ? path : pathToTokens(path);
+      return tokens.reduce((acc, token) => {
+        if (acc == null) return undefined;
+        const key = isNaN(Number(token)) ? token : Number(token);
+        return acc[key];
+      }, state);
+    }
+
+    function setStateValue(state, path, value) {
+      const tokens = Array.isArray(path) ? path : pathToTokens(path);
+      let target = state;
+      tokens.forEach((token, index) => {
+        const key = isNaN(Number(token)) ? token : Number(token);
+        if (index === tokens.length - 1) {
+          target[key] = value;
+        } else {
+          const nextToken = tokens[index + 1];
+          const shouldBeArray = !isNaN(Number(nextToken));
+          if (target[key] === undefined) {
+            target[key] = shouldBeArray ? [] : {};
+          }
+          if (shouldBeArray && !Array.isArray(target[key])) {
+            target[key] = [];
+          }
+          target = target[key];
+        }
+      });
+    }
+
+    function getLayoutOptionLabel(option) {
+      return LAYOUT_OPTION_PRESETS[option]?.label || option;
+    }
+
+    const templateRoutes = {
+      'index.html': 'preview-templates/index.html',
+      'doc-page.html': 'preview-templates/doc-page.html',
+      'search-results.html': 'preview-templates/search-results.html',
+    };
+
+    currentTemplateSrc = templateRoutes['index.html'];
+
+    sidebarSections.forEach(section => {
+      const title = section.querySelector('.section-title');
+      if (!title) return;
+      if (section.dataset.defaultCollapsed === 'true') {
+        section.classList.add('collapsed');
+      }
+      title.addEventListener('click', () => {
+        section.classList.toggle('collapsed');
+      });
+    });
+
+    async function loadBaseTemplate(src) {
+      currentTemplateSrc = src || currentTemplateSrc;
+      try {
+        const response = await fetch(currentTemplateSrc);
+        const html = await response.text();
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, 'text/html');
+        templateSurface.innerHTML = '';
+        const bodyChildren = [...doc.body.children].filter(child => child.tagName !== 'SCRIPT');
+        bodyChildren.forEach(child => templateSurface.appendChild(child.cloneNode(true)));
+        builderCanvasTarget =
+          templateSurface.querySelector('[data-builder-target]') ||
+          templateSurface.querySelector('main');
+        if (!builderCanvasTarget) {
+          builderCanvasTarget = document.createElement('main');
+          builderCanvasTarget.setAttribute('data-builder-target', '');
+          templateSurface.appendChild(builderCanvasTarget);
+        }
+        renderPreview();
+        lucide.createIcons();
+      } catch (error) {
+        console.error('Failed to load template', error);
+        templateSurface.innerHTML =
+          '<div class="p-10 text-center text-sm text-neutral-500">Failed to load template.</div>';
+      }
+    }
+
+    function clearDropMarkers() {
+      builderOverlay.querySelectorAll('.drop-marker').forEach(marker => marker.remove());
+    }
+
+    function syncDropMarkerWidth(marker, widthKey) {
+      const value = SECTION_WIDTHS[widthKey] || SECTION_WIDTHS.wide;
+      marker.style.setProperty('--drop-width', value);
+    }
+
+    function createDropMarker(referenceRow, widthKey = 'wide') {
+      const marker = document.createElement('div');
+      marker.className = 'drop-zone drop-marker';
+      marker.textContent = 'Drop section here';
+      syncDropMarkerWidth(marker, widthKey);
+      marker.addEventListener('dragover', e => {
+        if ((dragPayload && (dragPayload.type === 'layout' || dragPayload.type === 'layout-option')) || rowDragPayload) {
+          e.preventDefault();
+          marker.classList.add('active');
+        }
+      });
+      marker.addEventListener('dragleave', () => marker.classList.remove('active'));
+      marker.addEventListener('drop', e => {
+        e.preventDefault();
+        marker.classList.remove('active');
+        if (dragPayload && dragPayload.type === 'layout') {
+          const row = createRow(dragPayload.columns, dragPayload.preset);
+          mountRow(row, referenceRow || baseDropZone, { isNew: true });
+          selectElement(row);
+          dragPayload = null;
+        } else if (dragPayload && dragPayload.type === 'layout-option') {
+          const row = createLayoutOptionRow(dragPayload.option, referenceRow || baseDropZone);
+          selectElement(row);
+          dragPayload = null;
+        } else if (rowDragPayload) {
+          const movingRow = rowDragPayload;
+          const beforeEl = referenceRow || baseDropZone;
+          mountRow(movingRow, beforeEl, { isNew: false });
+          selectElement(movingRow);
+          rowDragPayload = null;
+        }
+        deactivateOverlay();
+        deactivateDropZones();
+      });
+      return marker;
+    }
+
+    function updateDropMarkers() {
+      clearDropMarkers();
+      const rows = [...builderOverlay.querySelectorAll('.row-block')];
+      if (!rows.length) {
+        baseDropZone.style.display = 'flex';
+        return;
+      }
+      baseDropZone.style.display = 'none';
+      rows.forEach(row => {
+        const marker = createDropMarker(row, row.dataset.sectionWidth || 'wide');
+        builderOverlay.insertBefore(marker, row);
+      });
+      const tailWidth = rows[rows.length - 1].dataset.sectionWidth || 'wide';
+      const tailMarker = createDropMarker(null, tailWidth);
+      tailMarker.classList.add('tail');
+      builderOverlay.insertBefore(tailMarker, baseDropZone);
+    }
+
+    function mountRow(row, beforeElement = baseDropZone, { isNew = true } = {}) {
+      clearDropMarkers();
+      builderOverlay.insertBefore(row, beforeElement);
+      if (isNew) {
+        attachColumnListeners(row);
+        makeColumnsResizable(row);
+      }
+      updateDropMarkers();
+      renderPreview();
+      lucide.createIcons();
+    }
+
+    function deactivateDropZones() {
+      builderOverlay.querySelectorAll('.drop-zone').forEach(zone => zone.classList.remove('active'));
+    }
+
+    function seedDefaultLayout() {
+      if (builderOverlay.querySelector('.row-block')) return;
+
+      const heroRow = createRow(2, '40-60', { label: 'Hero split' });
+      mountRow(heroRow, baseDropZone, { isNew: true });
+      const heroCols = heroRow.querySelectorAll('.column');
+      if (heroCols[0]) addComponentToColumn(heroCols[0], 'hero', cloneDefaultState('hero'));
+      if (heroCols[1]) addComponentToColumn(heroCols[1], 'image');
+
+      const highlightRow = createRow(1, 'auto', { label: 'Featured collections' });
+      mountRow(highlightRow, baseDropZone, { isNew: true });
+      const highlightCol = highlightRow.querySelector('.column');
+      if (highlightCol) addComponentToColumn(highlightCol, 'topic-grid', cloneDefaultState('topic-grid'));
+
+      const faqRow = createRow(1, 'auto', { label: 'FAQ accordion' });
+      mountRow(faqRow, baseDropZone, { isNew: true });
+      const faqCol = faqRow.querySelector('.column');
+      if (faqCol) addComponentToColumn(faqCol, 'faq', cloneDefaultState('faq'));
+
+      const ctaRow = createRow(1, 'auto', { label: 'Call to action' });
+      mountRow(ctaRow, baseDropZone, { isNew: true });
+      const ctaCol = ctaRow.querySelector('.column');
+      if (ctaCol) addComponentToColumn(ctaCol, 'cta', cloneDefaultState('cta'));
+
+      selectedElement = null;
+      inspectorContent.innerHTML = 'Select a row, column, or component to edit its layout and spacing.';
+      inspectorContent.className = 'inspect-empty';
+    }
+
+    const layoutCards = document.querySelectorAll('[data-drag="layout"]');
+    const componentCards = document.querySelectorAll('[data-drag="component"]');
+    const layoutOptionCards = document.querySelectorAll('[data-drag="layout-option"]');
+
+    layoutCards.forEach(card => {
+      card.addEventListener('dragstart', e => {
+        dragPayload = {
+          type: 'layout',
+          columns: parseInt(card.dataset.columns, 10),
+          preset: card.dataset.preset || 'auto'
+        };
+        activateOverlay();
+        e.dataTransfer.effectAllowed = 'copy';
+      });
+      card.addEventListener('dragend', () => {
+        dragPayload = null;
+        deactivateOverlay();
+      });
+    });
+
+    componentCards.forEach(card => {
+      card.addEventListener('dragstart', e => {
+        dragPayload = {
+          type: 'component',
+          component: card.dataset.component
+        };
+        activateOverlay();
+        e.dataTransfer.effectAllowed = 'copy';
+      });
+      card.addEventListener('dragend', () => {
+        dragPayload = null;
+        deactivateOverlay();
+      });
+    });
+
+    layoutOptionCards.forEach(card => {
+      card.addEventListener('dragstart', e => {
+        dragPayload = {
+          type: 'layout-option',
+          option: card.dataset.option
+        };
+        activateOverlay();
+        e.dataTransfer.effectAllowed = 'copy';
+      });
+      card.addEventListener('dragend', () => {
+        dragPayload = null;
+        deactivateOverlay();
+      });
+    });
+
+    baseDropZone.addEventListener('dragover', e => {
+      if (!dragPayload && !rowDragPayload) return;
+      e.preventDefault();
+      baseDropZone.classList.add('active');
+    });
+
+    baseDropZone.addEventListener('dragleave', () => {
+      baseDropZone.classList.remove('active');
+    });
+
+    baseDropZone.addEventListener('drop', e => {
+      if (!dragPayload && !rowDragPayload) return;
+      e.preventDefault();
+      if (dragPayload && dragPayload.type === 'layout') {
+        const row = createRow(dragPayload.columns, dragPayload.preset);
+        mountRow(row, baseDropZone, { isNew: true });
+        selectElement(row);
+      } else if (dragPayload && dragPayload.type === 'layout-option') {
+        const row = createLayoutOptionRow(dragPayload.option, baseDropZone);
+        selectElement(row);
+        dragPayload = null;
+      } else if (dragPayload && dragPayload.type === 'component') {
+        const rows = builderOverlay.querySelectorAll('.row-block');
+        if (rows.length === 0) {
+          const row = createRow(1, 'auto');
+          mountRow(row, baseDropZone, { isNew: true });
+          addComponentToColumn(row.querySelector('.column'), dragPayload.component);
+          selectElement(row);
+        }
+      } else if (rowDragPayload) {
+        mountRow(rowDragPayload, baseDropZone, { isNew: false });
+        rowDragPayload = null;
+      }
+      baseDropZone.classList.remove('active');
+      dragPayload = null;
+      deactivateDropZones();
+      builderOverlay.classList.remove('dragging-rows');
+      lucide.createIcons();
+    });
+
+    function activateOverlay() {
+      builderOverlay.classList.add('drag-active');
+      if (dragPayload && dragPayload.type === 'layout') {
+        updateDropMarkers();
+      }
+      baseDropZone.classList.add('active');
+    }
+
+    function deactivateOverlay() {
+      builderOverlay.classList.remove('drag-active');
+      baseDropZone.classList.remove('active');
+      builderOverlay.querySelectorAll('.column').forEach(column => column.classList.remove('active'));
+      deactivateDropZones();
+    }
+
+    function presetToWidths(preset, count) {
+      if (!preset || preset === 'auto') return Array(count).fill(100 / count);
+      if (preset === '50-50') return [50, 50];
+      if (preset === '50-25-25') return [50, 25, 25];
+      if (preset === '33-33-33') return Array(count).fill(33.33);
+      return Array(count).fill(100 / count);
+    }
+
+    function createRow(columnCount, preset, meta = {}) {
+      const row = document.createElement('div');
+      row.className = 'row-block';
+      row.dataset.blockId = `row-${++blockCounter}`;
+      row.dataset.label = meta.label || `${columnCount}-column row`;
+      if (meta.layoutOption) {
+        row.dataset.layoutOption = meta.layoutOption;
+      }
+      row.dataset.columnWidths = JSON.stringify(presetToWidths(preset, columnCount));
+      row.addEventListener('click', () => selectElement(row));
+
+      const toolbar = document.createElement('div');
+      toolbar.className = 'row-toolbar';
+      toolbar.innerHTML = `
+        <button title="Duplicate"><i data-lucide="copy"></i></button>
+        <button title="Delete"><i data-lucide="trash-2"></i></button>`;
+      toolbar.querySelector('[title="Duplicate"]').addEventListener('click', e => {
+        e.stopPropagation();
+        const clone = row.cloneNode(true);
+        clone.dataset.blockId = `row-${++blockCounter}`;
+        const weights = row.dataset.weights ? JSON.parse(row.dataset.weights) : null;
+        clone.dataset.layoutOption = row.dataset.layoutOption || '';
+        let insertBefore = row.nextSibling;
+        while (insertBefore && insertBefore.classList && !insertBefore.classList.contains('row-block') && insertBefore !== baseDropZone) {
+          insertBefore = insertBefore.nextSibling;
+        }
+        mountRow(clone, insertBefore || baseDropZone, { isNew: true });
+        if (weights) {
+          applyWeights(clone, weights);
+        }
+        updateColumnWidths(clone);
+        selectElement(clone);
+      });
+      toolbar.querySelector('[title="Delete"]').addEventListener('click', e => {
+        e.stopPropagation();
+        row.remove();
+        updateDropMarkers();
+        renderPreview();
+        inspectorContent.innerHTML = 'Select a row, column, or component to edit its layout and spacing.';
+        inspectorContent.className = 'inspect-empty';
+      });
+
+      const handle = document.createElement('button');
+      handle.className = 'row-handle';
+      handle.title = 'Drag row';
+      handle.innerHTML = '<i data-lucide="grip-vertical"></i>';
+      handle.setAttribute('draggable', 'true');
+      handle.addEventListener('dragstart', e => {
+        rowDragPayload = row;
+        updateDropMarkers();
+        e.dataTransfer.effectAllowed = 'move';
+        builderOverlay.classList.add('dragging-rows');
+      });
+      handle.addEventListener('dragend', () => {
+        rowDragPayload = null;
+        builderOverlay.classList.remove('dragging-rows');
+        deactivateDropZones();
+      });
+
+      const columnWrapper = document.createElement('div');
+      columnWrapper.className = 'columns';
+
+      for (let i = 0; i < columnCount; i++) {
+        const column = document.createElement('div');
+        column.className = 'column';
+        column.dataset.columnIndex = i;
+        column.addEventListener('dragover', e => {
+          if (!dragPayload || dragPayload.type !== 'component') return;
+          e.preventDefault();
+          column.classList.add('active');
+        });
+        column.addEventListener('dragleave', () => column.classList.remove('active'));
+        column.addEventListener('drop', e => {
+          if (!dragPayload || dragPayload.type !== 'component') return;
+          e.preventDefault();
+          column.classList.remove('active');
+          addComponentToColumn(column, dragPayload.component);
+          dragPayload = null;
+          deactivateOverlay();
+        });
+        column.addEventListener('click', e => {
+          e.stopPropagation();
+          selectElement(column);
+        });
+
+        const placeholder = document.createElement('div');
+        placeholder.className = 'column-placeholder';
+        placeholder.textContent = 'Drop component here';
+        column.appendChild(placeholder);
+        columnWrapper.appendChild(column);
+      }
+
+      row.appendChild(toolbar);
+      row.appendChild(handle);
+      row.appendChild(columnWrapper);
+      attachColumnListeners(row);
+      row.dataset.sectionWidth = 'wide';
+      setRowWidth(row, 'wide');
+      setRowPreset(row, preset, columnCount);
+      return row;
+    }
+
+    function createLayoutOptionRow(option, beforeElement) {
+      const config = LAYOUT_OPTION_PRESETS[option] || { columns: 1, preset: 'auto', label: getLayoutOptionLabel(option) };
+      const row = createRow(config.columns, config.preset, { label: config.label, layoutOption: option });
+      mountRow(row, beforeElement || baseDropZone, { isNew: true });
+      return row;
+    }
+
+    function applyColumnWidths(row) {
+      const widths = JSON.parse(row.dataset.columnWidths || '[]');
+      const columns = row.querySelectorAll('.column');
+      columns.forEach((column, index) => {
+        const width = widths[index] || (100 / columns.length);
+        column.style.flexBasis = `calc(${width}% - 10px)`;
+        column.style.maxWidth = `${width}%`;
+      });
+    }
+
+    function makeColumnsResizable(row) {
+      const columns = row.querySelectorAll('.column');
+      columns.forEach(column => {
+        const existingHandle = column.querySelector('.column-resize-handle');
+        if (existingHandle) existingHandle.remove();
+      });
+      const widths = JSON.parse(row.dataset.columnWidths || '[]');
+      columns.forEach((column, index) => {
+        if (index === columns.length - 1) return;
+        const handle = document.createElement('div');
+        handle.className = 'column-resize-handle';
+        handle.innerHTML = '<i data-lucide="grip-vertical"></i>';
+        column.appendChild(handle);
+        handle.addEventListener('mousedown', e => {
+          e.stopPropagation();
+          e.preventDefault();
+          const wrapperRect = row.querySelector('.columns').getBoundingClientRect();
+          const startX = e.clientX;
+          const startWidths = [...widths];
+
+          const onMouseMove = moveEvent => {
+            const deltaPx = moveEvent.clientX - startX;
+            const deltaPercent = (deltaPx / wrapperRect.width) * 100;
+            const newLeft = Math.max(10, startWidths[index] + deltaPercent);
+            const newRight = Math.max(10, startWidths[index + 1] - deltaPercent);
+            if (newLeft + newRight <= 100) {
+              widths[index] = newLeft;
+              widths[index + 1] = newRight;
+              row.dataset.columnWidths = JSON.stringify(widths);
+              applyColumnWidths(row);
+              renderPreview();
+            }
+          };
+
+          const onMouseUp = () => {
+            window.removeEventListener('mousemove', onMouseMove);
+            window.removeEventListener('mouseup', onMouseUp);
+          };
+
+          window.addEventListener('mousemove', onMouseMove);
+          window.addEventListener('mouseup', onMouseUp);
+        });
+      });
+      applyColumnWidths(row);
+    }
+
+    function attachColumnListeners(row) {
+      row.querySelectorAll('.column').forEach(column => {
+        column.querySelectorAll('.component-instance').forEach(instance => {
+          instance.querySelector('.instance-remove').addEventListener('click', e => {
+            e.stopPropagation();
+            instance.remove();
+          });
+          instance.addEventListener('click', e => {
+            e.stopPropagation();
+            selectElement(instance);
+          });
+        });
+      });
+      createResizeHandles(row);
+    }
+
+    function getPresetWeights(preset, count) {
+      const weights = COLUMN_PRESETS[preset];
+      if (weights && weights.length === count) return [...weights];
+      return Array(count).fill(1 / count);
+    }
+
+    function getRowWeights(row) {
+      if (row.dataset.weights) {
+        try {
+          const parsed = JSON.parse(row.dataset.weights);
+          if (Array.isArray(parsed)) return parsed;
+        } catch (error) {
+          console.warn('Failed to parse row weights', error);
+        }
+      }
+      const columns = row.querySelectorAll('.column');
+      const equal = Array(columns.length).fill(1 / columns.length);
+      row.dataset.weights = JSON.stringify(equal);
+      return equal;
+    }
+
+    function applyWeights(row, weights) {
+      const columns = row.querySelectorAll('.column');
+      if (!weights || weights.length !== columns.length) {
+        weights = Array(columns.length).fill(1 / columns.length);
+      }
+      const total = weights.reduce((acc, value) => acc + value, 0) || 1;
+      const normalized = weights.map(w => w / total);
+      const columnsWrapper = row.querySelector('.columns');
+      columnsWrapper.style.gridTemplateColumns = normalized.map(w => `${(w * 100).toFixed(2)}%`).join(' ');
+      row.dataset.weights = JSON.stringify(normalized);
+      createResizeHandles(row);
+      if (selectedElement === row) {
+        refreshRowInspector(row);
+      }
+    }
+
+    function setRowPreset(row, preset, columnCount) {
+      const columns = row.querySelectorAll('.column');
+      const count = columnCount || columns.length;
+      const weights = getPresetWeights(preset || 'auto', count);
+      applyWeights(row, weights);
+      row.dataset.columnPreset = preset || 'auto';
+      row.dataset.weights = JSON.stringify(weights);
+    }
+
+    function setRowWidth(row, widthKey) {
+      const value = SECTION_WIDTHS[widthKey] || SECTION_WIDTHS.wide;
+      row.style.setProperty('--row-width', value);
+      row.dataset.sectionWidth = widthKey;
+      if (selectedElement === row) {
+        refreshRowInspector(row);
+      }
+      if (row.isConnected) {
+        updateDropMarkers();
+      }
+    }
+
+    function createResizeHandles(row) {
+      const columns = row.querySelectorAll('.column');
+      columns.forEach(column => {
+        column.querySelectorAll('.column-resize-handle').forEach(handle => handle.remove());
+      });
+      columns.forEach((column, index) => {
+        if (index === columns.length - 1) return;
+        const handle = document.createElement('div');
+        handle.className = 'column-resize-handle';
+        handle.addEventListener('mousedown', e => startColumnResize(e, row, index));
+        column.appendChild(handle);
+      });
+    }
+
+    function startColumnResize(event, row, index) {
+      event.preventDefault();
+      const columns = row.querySelectorAll('.column');
+      const totalWidth = Array.from(columns).reduce((sum, column) => sum + column.getBoundingClientRect().width, 0);
+      const weights = getRowWeights(row);
+      const initialLeft = weights[index];
+      const initialRight = weights[index + 1];
+      const startX = event.clientX;
+      const min = 0.08;
+
+      function onMove(moveEvent) {
+        const delta = (moveEvent.clientX - startX) / totalWidth;
+        let left = initialLeft + delta;
+        let right = initialRight - delta;
+        const combined = initialLeft + initialRight;
+        if (left < min) {
+          left = min;
+          right = combined - min;
+        }
+        if (right < min) {
+          right = min;
+          left = combined - min;
+        }
+        const updated = [...weights];
+        updated[index] = left;
+        updated[index + 1] = right;
+        row.dataset.columnPreset = 'custom';
+        applyWeights(row, updated);
+      }
+
+      function onUp() {
+        document.removeEventListener('mousemove', onMove);
+        document.removeEventListener('mouseup', onUp);
+      }
+
+      document.addEventListener('mousemove', onMove);
+      document.addEventListener('mouseup', onUp);
+    }
+
+    function updateColumnWidths(row) {
+      const columnsContainer = row.querySelector('.columns');
+      const columns = [...columnsContainer.querySelectorAll('.column')];
+      const widths = columns.map(col => parseFloat(col.dataset.width || ''));
+      if (widths.every(w => !isNaN(w))) {
+        const total = widths.reduce((sum, val) => sum + val, 0) || 100;
+        const normalized = widths.map(w => `${(w / total) * 100}%`);
+        columnsContainer.style.gridTemplateColumns = normalized.join(' ');
+      } else {
+        columnsContainer.style.gridTemplateColumns = `repeat(${columns.length}, minmax(0, 1fr))`;
+      }
+    }
+
+    function addComponentToColumn(column, componentType, initialState) {
+      const placeholder = column.querySelector('.column-placeholder');
+      if (placeholder) placeholder.remove();
+
+      const instance = document.createElement('div');
+      instance.className = 'component-instance';
+      instance.dataset.component = componentType;
+      instance.innerHTML = `
+        <div class="instance-overlay">
+          <div class="instance-header">
+            <span class="instance-chip">${componentLabel(componentType)}</span>
+            <div class="instance-toolbar">
+              <button class="instance-visibility" title="Toggle visibility"><i data-lucide="eye"></i></button>
+              <button class="instance-settings" title="Configure block"><i data-lucide="settings-2"></i></button>
+              <button class="instance-duplicate" title="Duplicate"><i data-lucide="copy"></i></button>
+              <button class="instance-remove" title="Remove"><i data-lucide="trash-2"></i></button>
+            </div>
+          </div>
+          <div class="instance-body"></div>
+          <div class="instance-footer">
+            <span class="instance-hint">${componentHint(componentType)}</span>
+            <div class="instance-status-pill">
+              <span class="instance-status-dot"></span>
+              <span class="instance-status-label">Synced</span>
+            </div>
+          </div>
+        </div>`;
+
+      const state = cloneDefaultState(componentType, initialState || {});
+      setComponentState(instance, state);
+
+      const fieldDefs = COMPONENT_FIELDS[componentType] || [];
+      const body = instance.querySelector('.instance-body');
+      if (fieldDefs.length) {
+        body.innerHTML = fieldDefs
+          .map(field => `<button type="button" class="instance-field" data-field="${field.key}">${field.label}</button>`)
+          .join('');
+      } else {
+        body.style.display = 'none';
+      }
+
+      const removeBtn = instance.querySelector('.instance-remove');
+      removeBtn.addEventListener('click', e => {
+        e.stopPropagation();
+        instance.remove();
+        if (!column.querySelector('.component-instance')) {
+          const placeholder = document.createElement('div');
+          placeholder.className = 'column-placeholder';
+          placeholder.textContent = 'Drop component here';
+          column.appendChild(placeholder);
+        }
+        renderPreview();
+      });
+
+      const duplicateBtn = instance.querySelector('.instance-duplicate');
+      duplicateBtn.addEventListener('click', e => {
+        e.stopPropagation();
+        addComponentToColumn(column, componentType, getComponentState(instance));
+        renderPreview();
+      });
+
+      const visibilityBtn = instance.querySelector('.instance-visibility');
+      visibilityBtn.addEventListener('click', e => {
+        e.stopPropagation();
+        instance.classList.toggle('component-muted');
+        visibilityBtn.classList.toggle('active');
+        const icon = visibilityBtn.querySelector('i');
+        if (instance.classList.contains('component-muted')) {
+          icon.setAttribute('data-lucide', 'eye-off');
+          instance.dataset.hidden = 'true';
+        } else {
+          icon.setAttribute('data-lucide', 'eye');
+          delete instance.dataset.hidden;
+        }
+        lucide.createIcons();
+        renderPreview();
+      });
+
+      const settingsBtn = instance.querySelector('.instance-settings');
+      settingsBtn.addEventListener('click', e => {
+        e.stopPropagation();
+        alert('Component settings coming soon in MVP+1.');
+      });
+
+      instance.querySelectorAll('.instance-field').forEach(button => {
+        button.addEventListener('click', e => {
+          e.stopPropagation();
+          const fieldKey = button.dataset.field;
+          const currentState = getComponentState(instance);
+          const tokens = pathToTokens(fieldKey);
+          const currentValue = getStateValue(currentState, tokens) ?? '';
+          const nextValue = prompt(`Update ${button.textContent}`, currentValue);
+          if (nextValue !== null) {
+            setStateValue(currentState, tokens, nextValue);
+            setComponentState(instance, currentState);
+            renderPreview();
+          }
+        });
+      });
+
+      instance.addEventListener('click', e => {
+        e.stopPropagation();
+        selectElement(instance);
+      });
+
+      column.appendChild(instance);
+      const parentRow = column.closest('.row-block');
+      attachColumnListeners(parentRow);
+      attachResizeHandles(parentRow);
+      updateColumnWidths(parentRow);
+      lucide.createIcons();
+    }
+
+    function componentLabel(type) {
+      switch (type) {
+        case 'hero': return 'Document Header';
+        case 'toc': return 'Table of Contents';
+        case 'search': return 'Inline Search';
+        case 'callout': return 'Callout';
+        case 'attachments': return 'Attachments';
+        case 'cta': return 'Action Banner';
+        case 'topic-grid': return 'Topic Grid';
+        case 'faq': return 'FAQ Section';
+        case 'highlight': return 'Highlight';
+        case 'video': return 'Video Spotlight';
+        case 'image': return 'Feature Image';
+        default: return 'Component';
+      }
+    }
+
+    function componentHint(type) {
+      switch (type) {
+        case 'hero': return 'Headline + CTA block';
+        case 'toc': return 'Navigation anchors';
+        case 'search': return 'Search widget';
+        case 'callout': return 'Contextual tip';
+        case 'attachments': return 'Files & downloads';
+        case 'cta': return 'Primary conversion';
+        case 'topic-grid': return 'Card grid';
+        case 'faq': return 'Accordion entries';
+        case 'highlight': return 'Release spotlight';
+        case 'video': return 'Embedded media';
+        case 'image': return 'Hero imagery';
+        default: return 'Block';
+      }
+    }
+
+    function componentMarkup(type) {
+      if (type === 'hero') {
+        return `<strong style="font-size:16px;">Document Title Style H1</strong><p style="margin:8px 0;color:${'var(--text-secondary)'};">Editable summary text that introduces the topic and establishes context for readers.</p>`;
+      }
+      if (type === 'toc') {
+        return `<div style="display:flex;flex-direction:column;gap:6px;"><span>Main level</span><span>Sub level collapse</span><span>Sub level highlight</span></div>`;
+      }
+      if (type === 'search') {
+        return `<div style="display:flex;align-items:center;gap:10px;border:1px solid rgba(124,124,168,0.35);background:rgba(12,12,28,0.8);padding:10px;border-radius:10px;"><i data-lucide="search" style="width:16px;height:16px;"></i><span>Search or ask a question…</span></div>`;
+      }
+      if (type === 'topic-grid') {
+        return `<div style="display:grid;gap:8px;grid-template-columns:repeat(3,minmax(0,1fr));"><div style="background:rgba(255,255,255,0.05);padding:12px;border-radius:10px;">Quick Start</div><div style="background:rgba(255,255,255,0.05);padding:12px;border-radius:10px;">API Basics</div><div style="background:rgba(255,255,255,0.05);padding:12px;border-radius:10px;">Release Notes</div></div>`;
+      }
+      if (type === 'faq') {
+        return `<div style="display:flex;flex-direction:column;gap:6px;font-size:12px;">${['How do I publish content?','Can I enable private collections?','Where do I configure SSO?'].map(q => `<details style="background:rgba(18,18,36,0.8);border:1px solid rgba(124,124,168,0.24);border-radius:10px;padding:10px 12px;"><summary>${q}</summary><p style="margin:10px 0 0;color:${'var(--text-secondary)'};">Answer placeholder.</p></details>`).join('')}</div>`;
+      }
+      if (type === 'highlight') {
+        return `<div style="display:flex;justify-content:space-between;align-items:center;background:linear-gradient(135deg,rgba(255,153,102,0.28),rgba(255,214,165,0.24));border:1px solid rgba(255,168,112,0.4);border-radius:12px;padding:12px 14px;"><div><span style="font-size:11px;text-transform:uppercase;letter-spacing:0.12em;color:#ffe0c2;">Release highlight</span><p style="margin:6px 0 0;color:#fff;font-weight:600;">Discover CX v11.2 introduces faster publishing.</p></div><button style="background:#ff9d66;color:#1a1424;border:none;border-radius:10px;padding:8px 12px;font-size:12px;">Explore</button></div>`;
+      }
+      if (type === 'callout') {
+        return `<div style="background:rgba(56,189,248,0.1);border:1px solid rgba(56,189,248,0.35);border-radius:10px;padding:12px;">Use callouts to highlight key tips.</div>`;
+      }
+      if (type === 'attachments') {
+        return `<div style="display:flex;flex-direction:column;gap:6px;font-size:12px;">${['Implementation checklist.pdf','API reference.json','Brand assets.zip'].map(file => `<div style="display:flex;justify-content:space-between;align-items:center;background:rgba(18,18,36,0.8);padding:8px 10px;border-radius:8px;border:1px solid rgba(124,124,168,0.2);"><span>${file}</span><i data-lucide="download" style="width:16px;height:16px;"></i></div>`).join('')}</div>`;
+      }
+      if (type === 'video') {
+        return `<div style="background:rgba(18,18,36,0.8);border-radius:12px;border:1px solid rgba(124,124,168,0.28);padding:10px;display:flex;flex-direction:column;gap:8px;"><div style="position:relative;padding-top:56.25%;background:#05070f;border-radius:8px;"><i data-lucide="play" style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:36px;height:36px;color:rgba(255,255,255,0.8);"></i></div><strong>Watch the guided tour</strong><p style="margin:0;color:${'var(--text-secondary)'};">Embed tutorial or webinar recordings.</p></div>`;
+      }
+      if (type === 'cta') {
+        return `<div style="display:flex;justify-content:space-between;align-items:center;background:linear-gradient(135deg,rgba(99,102,241,0.2),rgba(168,85,247,0.2));padding:14px;border-radius:10px;"><span>Ready to launch?</span><button style="background:#4f46e5;color:#fff;border:none;border-radius:8px;padding:8px 14px;font-size:12px;">Get Started</button></div>`;
+      }
+      if (type === 'image') {
+        return `<div style="position:relative;border-radius:16px;overflow:hidden;border:1px solid rgba(124,124,168,0.2);background:linear-gradient(140deg,rgba(120,105,255,0.35),rgba(56,189,248,0.25));min-height:220px;display:flex;align-items:flex-end;justify-content:flex-start;padding:18px;"><span style="font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:#fff;">Image placeholder</span></div>`;
+      }
+      return '<p>Component preview</p>';
+    }
+
+    function generatePreviewMarkup() {
+      const rows = [...builderOverlay.querySelectorAll('.row-block')];
+      if (!rows.length) {
+        return `<section class="py-20 px-6 bg-white dark:bg-neutral-950 border-b border-neutral-200 dark:border-neutral-800"><div class="max-w-screen-lg mx-auto text-center py-20 text-neutral-500 dark:text-neutral-400">Drag sections to get started.</div></section>`;
+      }
+      return rows.map((row, rowIndex) => {
+        const widths = JSON.parse(row.dataset.columnWidths || '[]');
+        const columns = [...row.querySelectorAll('.column')];
+        const columnMarkup = columns.map((column, index) => {
+          const instances = [...column.querySelectorAll('.component-instance')];
+          const visibleInstances = instances.filter(instance => instance.dataset.hidden !== 'true');
+          if (!visibleInstances.length) {
+            return `<div class="border border-dashed border-neutral-300 dark:border-neutral-700 rounded-lg p-12 text-center text-neutral-400 dark:text-neutral-500 text-sm">Column ${index + 1}</div>`;
+          }
+          return `<div class="space-y-8">${visibleInstances.map(instance => componentPreviewTemplate(instance.dataset.component, getComponentState(instance))).join('')}</div>`;
+        }).join('');
+        return `
+          <section class="py-16 px-6 bg-white dark:bg-neutral-900 border-b border-neutral-200 dark:border-neutral-800">
+            <div class="max-w-screen-2xl mx-auto">
+              <div class="grid gap-8" style="grid-template-columns: ${widths.map(w => w + '%').join(' ')}">
+                ${columnMarkup}
+              </div>
+            </div>
+          </section>`;
+      }).join('');
+    }
+
+    function componentPreviewTemplate(type, state = {}) {
+      switch (type) {
+        case 'hero': {
+          const defaults = COMPONENT_DEFAULTS.hero || {};
+          const heading = state.heading || defaults.heading || 'Self-Service Knowledge Base';
+          const subheading = state.subheading || defaults.subheading || 'Give crews instant access to safety procedures, troubleshooting, and escalations.';
+          const primaryCta = state.primaryCta || defaults.primaryCta || 'Enable now';
+          const secondaryCta = state.secondaryCta || defaults.secondaryCta || 'Preview experience';
+          return `<section class="relative overflow-hidden rounded-[32px] border border-neutral-200 bg-white shadow-[0_35px_60px_rgba(67,76,125,0.18)]">
+            <div class="absolute top-7 left-8 inline-flex items-center gap-2 px-4 py-2 rounded-2xl bg-primary-50 text-primary-600 text-xs font-semibold uppercase tracking-[0.3em] shadow-sm">
+              <i data-lucide="layout-dashboard" class="w-4 h-4"></i>
+              Portal Designer · Full Screen
+            </div>
+            <div class="grid lg:grid-cols-[1.2fr,1fr] gap-12 items-center px-14 py-16">
+              <div class="space-y-7">
+                <div class="inline-flex items-center gap-2 px-4 py-2 rounded-2xl bg-indigo-50 text-indigo-600 text-xs font-semibold uppercase tracking-[0.35em] shadow-sm">
+                  Field Technicians
+                </div>
+                <h1 class="text-5xl lg:text-6xl font-black tracking-tight text-primary-600 leading-[1.05]">${heading}</h1>
+                <p class="text-lg text-neutral-600 leading-relaxed max-w-xl">${subheading}</p>
+                <div class="flex flex-wrap gap-4">
+                  <button class="px-6 py-3 rounded-xl bg-primary-600 text-white font-semibold shadow-lg shadow-primary-600/30 hover:bg-primary-500 transition">${primaryCta}</button>
+                  <button class="px-6 py-3 rounded-xl border border-neutral-300 text-neutral-700 font-semibold bg-white hover:bg-neutral-100 transition">${secondaryCta}</button>
+                </div>
+                <div class="flex flex-wrap gap-3">
+                  <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-50 text-emerald-600 text-xs font-semibold uppercase tracking-[0.25em]"><i data-lucide="sparkles" class="w-3.5 h-3.5"></i> AI layout assist</span>
+                  <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-sky-50 text-sky-600 text-xs font-semibold uppercase tracking-[0.25em]"><i data-lucide="workflow" class="w-3.5 h-3.5"></i> Workflow ready</span>
+                </div>
+              </div>
+              <div class="relative">
+                <div class="absolute -top-12 left-6 inline-flex items-center gap-2 px-4 py-2 rounded-2xl bg-sky-100 text-sky-700 text-xs font-semibold uppercase tracking-[0.3em] shadow-lg">
+                  <i data-lucide="image" class="w-4 h-4"></i> Rich media
+                </div>
+                <div class="relative rounded-[28px] border-[8px] border-purple-300/70 overflow-hidden shadow-[0_45px_80px_rgba(88,69,180,0.25)]">
+                  <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=900&q=80" alt="Field technician" class="w-full h-full object-cover">
+                  <div class="absolute inset-0 bg-gradient-to-tr from-primary-500/5 via-primary-500/0 to-amber-400/20"></div>
+                </div>
+                <div class="absolute -bottom-12 right-8 bg-white shadow-xl border border-neutral-200 rounded-2xl px-5 py-4 text-sm text-neutral-600">
+                  <div class="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.3em] text-primary-500">
+                    <i data-lucide="ruler" class="w-4 h-4"></i> Layout suggestion
+                  </div>
+                  <p class="mt-2 text-neutral-500 leading-snug">Columns: <span class="font-semibold text-neutral-700">40 / 60</span> &middot; Recommended image aspect: 4:3</p>
+                </div>
+              </div>
+            </div>
+          </section>`;
+        }
+        case 'topic-grid': {
+          const defaults = COMPONENT_DEFAULTS['topic-grid'] || {};
+          const title = state.title || defaults.title || 'Browse collections';
+          return `<section class="rounded-[28px] border border-neutral-200 bg-white shadow-[0_30px_60px_rgba(79,86,126,0.12)] p-10">
+            <div class="flex flex-wrap items-center justify-between gap-4 mb-8">
+              <div class="flex items-center gap-3">
+                <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary-50 text-primary-600 text-xs font-semibold uppercase tracking-[0.28em]">
+                  <i data-lucide="layout-list" class="w-3.5 h-3.5"></i> ${title}
+                </span>
+                <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-neutral-100 text-neutral-600 text-xs font-semibold uppercase tracking-[0.2em]">Auto curated</span>
+              </div>
+              <button class="inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-neutral-200 text-neutral-700 font-semibold text-sm bg-white hover:bg-neutral-100 transition">
+                <i data-lucide="settings" class="w-4 h-4"></i> Manage topics
+              </button>
+            </div>
+            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              ${[
+                ['Trains support','Rail maintenance & PM','train-front'],
+                ['Ships support','Fleet routing updates','ship'],
+                ['Trucks support','Logistics, compliance','truck'],
+                ['Plane support','Aircraft readiness','plane'],
+                ['Building support','Facilities & HVAC','building'],
+                ['Software support','Releases & APIs','cpu']
+              ].map(([title, subtitle, icon]) => `
+                <div class="group border border-neutral-200 rounded-2xl bg-white/90 p-6 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all">
+                  <div class="flex items-center justify-between mb-5">
+                    <div class="w-10 h-10 rounded-2xl bg-primary-50 text-primary-600 flex items-center justify-center shadow-inner">
+                      <i data-lucide="${icon}" class="w-5 h-5"></i>
+                    </div>
+                    <button class="opacity-60 group-hover:opacity-100 transition"><i data-lucide="external-link" class="w-4 h-4"></i></button>
+                  </div>
+                  <h4 class="text-lg font-semibold text-neutral-800 mb-2">${title}</h4>
+                  <p class="text-sm text-neutral-500 leading-relaxed">${subtitle}</p>
+                </div>
+              `).join('')}
+            </div>
+          </section>`;
+        }
+        case 'faq': {
+          const defaults = COMPONENT_DEFAULTS.faq || {};
+          const items =
+            (Array.isArray(state.items) && state.items.length ? state.items : defaults.items) ||
+            [];
+          return `<section class="rounded-[28px] border border-neutral-200 bg-white shadow-[0_24px_50px_rgba(90,97,141,0.12)] p-9">
+            <div class="flex items-center justify-between mb-6">
+              <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-purple-50 text-purple-600 text-xs font-semibold uppercase tracking-[0.28em]">
+                <i data-lucide="help-circle" class="w-4 h-4"></i> FAQ Accordion
+              </span>
+              <button class="inline-flex items-center gap-2 text-sm font-semibold text-primary-600 hover:text-primary-500 transition">
+                <i data-lucide="sparkles" class="w-4 h-4"></i> Generate answers with AI
+              </button>
+            </div>
+            <div class="space-y-4">
+              ${[
+                ...items
+              ].map(item => `
+                <details class="group border border-neutral-200 rounded-2xl px-5 py-4 bg-white/90 shadow-sm">
+                  <summary class="cursor-pointer text-sm font-semibold text-neutral-800 flex items-center justify-between gap-4">
+                    <span>${item.question || ''}</span>
+                    <i data-lucide="chevron-down" class="w-4 h-4 text-neutral-400 transition-transform group-open:rotate-180"></i>
+                  </summary>
+                  <p class="mt-3 text-sm text-neutral-500 leading-relaxed">${item.answer || ''}</p>
+                </details>
+              `).join('')}
+            </div>
+          </section>`;
+        }
+        case 'callout':
+          return `<div class="rounded-3xl border border-amber-200 bg-gradient-to-r from-amber-100 via-amber-50 to-white px-8 py-7 text-sm text-neutral-700 shadow-[0_18px_36px_rgba(255,193,94,0.18)]">
+            <div class="flex items-center gap-3 text-amber-600 font-semibold uppercase tracking-[0.3em] text-xs mb-2">
+              <i data-lucide="alert-triangle" class="w-4 h-4"></i> Important tip
+            </div>
+            <p class="leading-relaxed">Pin deployment runbooks to every release so field crews always have the latest escalation path.</p>
+          </div>`;
+        case 'attachments':
+          return `<section class="rounded-3xl border border-neutral-200 bg-white shadow-[0_20px_45px_rgba(83,89,132,0.12)] p-8">
+            <div class="flex items-center justify-between mb-6">
+              <h4 class="text-sm font-semibold text-neutral-800 uppercase tracking-[0.3em]">Resources</h4>
+              <button class="inline-flex items-center gap-2 text-xs font-semibold text-primary-600 uppercase tracking-[0.3em]">
+                <i data-lucide="upload" class="w-4 h-4"></i> Upload new
+              </button>
+            </div>
+            <div class="space-y-3 text-sm">
+              ${['Implementation-checklist.pdf','API-reference.json','Brand-assets.zip'].map(file => `
+                <div class="flex items-center justify-between px-5 py-3 rounded-2xl border border-neutral-200 hover:border-primary-200 hover:bg-primary-50/40 transition">
+                  <div class="flex items-center gap-3">
+                    <i data-lucide="file" class="w-4 h-4 text-primary-500"></i>
+                    <span class="font-medium text-neutral-700">${file}</span>
+                  </div>
+                  <div class="flex items-center gap-3 text-neutral-400">
+                    <span>2.4 MB</span>
+                    <button><i data-lucide="download" class="w-4 h-4"></i></button>
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+          </section>`;
+        case 'cta': {
+          const defaults = COMPONENT_DEFAULTS.cta || {};
+          const heading = state.heading || defaults.heading || 'Ready to enable the guided assistant?';
+          const body = state.body || defaults.body || 'Turn on conversational search, release automation, and instant knowledge gaps alerts for every target audience.';
+          const primaryCta = state.primaryCta || defaults.primaryCta || 'Enable now';
+          const secondaryCta = state.secondaryCta || defaults.secondaryCta || 'View rollout playbook';
+          return `<div class="rounded-[30px] bg-gradient-to-r from-primary-600 via-indigo-500 to-sky-500 text-white p-10 shadow-[0_28px_60px_rgba(62,71,170,0.35)] flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+            <div>
+              <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/20 text-xs font-semibold uppercase tracking-[0.3em] mb-4">Customer launch</span>
+              <h4 class="text-2xl font-semibold mb-2">${heading}</h4>
+              <p class="text-sm/relaxed text-white/80 max-w-xl">${body}</p>
+            </div>
+            <div class="flex flex-wrap gap-3">
+              <button class="px-5 py-3 rounded-xl bg-white text-primary-600 font-semibold shadow-lg shadow-white/30 hover:bg-white/90 transition">${primaryCta}</button>
+              <button class="px-5 py-3 rounded-xl border border-white/50 text-white font-semibold bg-transparent hover:bg-white/10 transition">${secondaryCta}</button>
+            </div>
+          </div>`;
+        }
+        case 'highlight': {
+          const defaults = COMPONENT_DEFAULTS.highlight || {};
+          const pill = state.pill || defaults.pill || 'Release spotlight';
+          const heading = state.heading || defaults.heading || 'Discover CX v11.2 introduces AI guided flows';
+          const button = state.button || defaults.button || "See what's new";
+          return `<div class="rounded-3xl border border-fuchsia-200 bg-gradient-to-r from-fuchsia-50 via-white to-sky-50 px-8 py-8 shadow-[0_22px_44px_rgba(197,116,255,0.18)] flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            <div>
+              <span class="text-xs uppercase tracking-[0.3em] text-fuchsia-500 flex items-center gap-2 mb-2">
+                <i data-lucide="megaphone" class="w-4 h-4"></i> ${pill}
+              </span>
+              <h4 class="text-xl font-semibold text-neutral-800">${heading}</h4>
+            </div>
+            <button class="px-4 py-2 rounded-xl bg-fuchsia-500 text-white font-semibold shadow-lg shadow-fuchsia-500/30 hover:bg-fuchsia-400 transition">${button}</button>
+          </div>`;
+        }
+        case 'video':
+          return `<div class="rounded-[26px] overflow-hidden border border-neutral-200 bg-white shadow-[0_24px_45px_rgba(74,81,122,0.16)]">
+            <div class="relative aspect-video bg-neutral-900">
+              <button class="absolute inset-0 m-auto w-16 h-16 rounded-full bg-white/90 text-neutral-900 flex items-center justify-center shadow-lg hover:bg-white transition">
+                <i data-lucide="play" class="w-7 h-7"></i>
+              </button>
+            </div>
+            <div class="p-6">
+              <h4 class="text-lg font-semibold text-neutral-800 mb-1">Watch the guided tour</h4>
+              <p class="text-sm text-neutral-500">Accelerate onboarding with a 3-minute walkthrough tailored to each persona.</p>
+            </div>
+          </div>`;
+        case 'image':
+          return `<div class="relative rounded-[28px] overflow-hidden border border-primary-500/40 bg-gradient-to-br from-primary-500/20 via-blue-500/15 to-amber-400/30 shadow-[0_32px_70px_rgba(61,72,180,0.25)]">
+            <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=900&q=80" alt="Hero illustration" class="w-full h-full object-cover opacity-80">
+            <div class="absolute top-7 left-7 inline-flex items-center gap-2 px-4 py-2 rounded-2xl bg-white/85 text-xs font-semibold uppercase tracking-[0.3em] text-primary-600 shadow-lg">
+              <i data-lucide="image" class="w-4 h-4"></i> Feature image
+            </div>
+          </div>`;
+        case 'search':
+          return `<div class="rounded-3xl border border-neutral-200 bg-white px-8 py-7 shadow-[0_20px_40px_rgba(83,90,130,0.12)]">
+            <label class="text-xs font-semibold text-neutral-500 uppercase tracking-[0.3em] mb-3 block">Search documentation</label>
+            <div class="relative">
+              <input type="text" placeholder="Ask \"How do I configure SSO?\"" class="w-full bg-neutral-50 border border-neutral-200 rounded-2xl pl-12 pr-4 py-4 text-sm shadow-inner focus:outline-none focus:ring-2 focus:ring-primary-200">
+              <i data-lucide="search" class="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-400"></i>
+            </div>
+            <div class="flex flex-wrap items-center gap-3 mt-4 text-xs text-neutral-400 uppercase tracking-[0.28em]">
+              <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-neutral-100 text-neutral-500">Recents</span>
+              <span>SSO</span>
+              <span>Release notes</span>
+              <span>TOC</span>
+            </div>
+          </div>`;
+        case 'toc':
+          return `<div class="rounded-3xl border border-neutral-200 bg-white px-7 py-6 shadow-[0_18px_38px_rgba(83,90,130,0.1)]">
+            <div class="flex items-center gap-2 mb-4">
+              <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary-50 text-primary-600 text-xs font-semibold uppercase tracking-[0.3em]">Table of contents</span>
+              <span class="text-xs text-neutral-400 uppercase tracking-[0.3em]">Auto anchored</span>
+            </div>
+            <div class="space-y-3 text-sm text-neutral-600">
+              <div class="flex items-center justify-between">
+                <span class="font-semibold text-neutral-800">1. Getting started</span>
+                <div class="flex gap-2">
+                  <span class="px-2 py-1 rounded-full bg-neutral-100 text-xs uppercase tracking-[0.3em] text-neutral-500">Collapse</span>
+                  <span class="px-2 py-1 rounded-full bg-primary-50 text-xs uppercase tracking-[0.3em] text-primary-600">Highlight</span>
+                </div>
+              </div>
+              <div class="pl-5 space-y-2 border-l border-dashed border-neutral-200">
+                <div class="flex items-center justify-between">
+                  <span>1.1 Provision identities</span>
+                  <span class="px-2 py-1 rounded-full bg-neutral-100 text-xs uppercase tracking-[0.3em] text-neutral-500">Focus</span>
+                </div>
+                <div class="pl-4 text-neutral-400 space-y-1 text-xs uppercase tracking-[0.25em]">
+                  <div>1.1.1 Map attributes</div>
+                  <div>1.1.2 Validate SAML</div>
+                  <div>1.1.3 Enable MFA</div>
+                </div>
+              </div>
+            </div>
+          </div>`;
+      }
+    }
+  </script>
+</body>
+</html>

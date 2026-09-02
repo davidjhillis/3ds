@@ -1,0 +1,2446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Content Tables - Discover CX Admin</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+    :root {
+      --bg-page: #fefaf3;
+      --bg-panel: rgba(255, 255, 255, 0.9);
+      --border-panel: rgba(217, 119, 6, 0.18);
+      --shadow-panel: 0 24px 48px rgba(180, 83, 9, 0.12);
+      --text-primary: #1f2933;
+      --text-muted: #7b341e;
+      --accent: #f59e0b;
+      --accent-soft: rgba(245, 158, 11, 0.16);
+      --accent-border: rgba(245, 158, 11, 0.35);
+      --accent-strong: rgba(217, 119, 6, 0.72);
+      --table-header: #fff7ed;
+      --nav-bg: #1f2532;
+      --nav-border: rgba(255, 255, 255, 0.08);
+      --nav-text: rgba(255, 255, 255, 0.92);
+    }
+
+    * {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: var(--bg-page);
+      color: var(--text-primary);
+      overflow-x: hidden;
+    }
+
+    .glass-panel {
+      background: var(--bg-panel);
+      border: 1px solid var(--border-panel);
+      box-shadow: var(--shadow-panel);
+      backdrop-filter: blur(14px);
+    }
+
+    .field-pill {
+      border: 1px dashed var(--accent-border);
+      background: var(--accent-soft);
+      color: var(--text-primary);
+      transition: all 0.16s ease;
+    }
+
+    .field-pill[data-active="true"] {
+      border-style: solid;
+      border-color: var(--accent-strong);
+      background: rgba(245, 158, 11, 0.18);
+      color: var(--accent);
+    }
+
+    .field-pill.dragging {
+      opacity: 0.45;
+    }
+
+    .drop-zone {
+      border: 1.5px dashed var(--accent-border);
+      background: rgba(245, 158, 11, 0.08);
+      transition: all 0.18s ease;
+      color: var(--text-muted);
+    }
+
+    .drop-zone.active {
+      border-color: var(--accent);
+      background: rgba(245, 158, 11, 0.16);
+      color: var(--accent);
+    }
+
+    .table-shell {
+      border: 1px solid var(--border-panel);
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.96);
+      box-shadow: var(--shadow-panel);
+      overflow: hidden;
+      position: relative;
+      min-width: 0;
+    }
+
+    .table-scroll {
+      width: 100%;
+      overflow-x: auto;
+      overflow-y: auto;
+      max-height: calc(100vh - 320px);
+      border-top: 1px solid rgba(214, 158, 46, 0.18);
+    }
+
+    .table-scroll::-webkit-scrollbar {
+      height: 10px;
+    }
+
+    .table-scroll::-webkit-scrollbar-track {
+      background: rgba(248, 250, 252, 0.6);
+      border-radius: 999px;
+    }
+
+    .table-scroll::-webkit-scrollbar-thumb {
+      background: rgba(217, 119, 6, 0.35);
+      border-radius: 999px;
+    }
+
+    .table-scroll::-webkit-scrollbar-thumb:hover {
+      background: rgba(217, 119, 6, 0.5);
+    }
+
+    .ghost-outline-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 16px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      background: rgba(255, 255, 255, 0.85);
+      color: #1f2937;
+      font-size: 14px;
+      font-weight: 500;
+      transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease;
+    }
+
+    .ghost-outline-btn:hover {
+      border-color: rgba(79, 70, 229, 0.45);
+      background: rgba(255, 255, 255, 0.95);
+    }
+
+    .context-actions {
+      border: 1px solid rgba(226, 232, 240, 0.9);
+      border-radius: 18px;
+      padding: 18px;
+      background: #fdfcff;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .actions-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      background: #ffffff;
+      font-size: 12px;
+      font-weight: 600;
+      color: #0f172a;
+      cursor: pointer;
+      transition: border-color 0.18s ease, background 0.18s ease;
+    }
+
+    .actions-toggle:hover {
+      border-color: rgba(79, 70, 229, 0.45);
+      background: #f5f6ff;
+    }
+
+    .actions-tabs {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px;
+      border-radius: 999px;
+      background: rgba(241, 245, 249, 0.9);
+    }
+
+    .actions-tab {
+      flex: 1;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: none;
+      background: transparent;
+      color: #475569;
+      cursor: pointer;
+      transition: background 0.18s ease, color 0.18s ease;
+    }
+
+    .actions-tab.active {
+      background: #1d4ed8;
+      color: #ffffff;
+      box-shadow: 0 9px 18px rgba(29, 78, 216, 0.24);
+    }
+
+    .actions-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .actions-list-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 14px 16px;
+      border-radius: 16px;
+      border: 1px solid rgba(226, 232, 240, 0.9);
+      background: #ffffff;
+      transition: border-color 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease;
+    }
+
+    .actions-list-item:hover {
+      border-color: rgba(37, 99, 235, 0.32);
+      transform: translateY(-1px);
+      box-shadow: 0 14px 30px rgba(15, 23, 42, 0.08);
+    }
+
+    .actions-list-item .details {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .actions-list-item .icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 12px;
+      background: rgba(37, 99, 235, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #1d4ed8;
+    }
+
+    .actions-list-item h4 {
+      font-size: 14px;
+      font-weight: 600;
+      color: #0f172a;
+    }
+
+    .actions-list-item span {
+      font-size: 12px;
+      color: #64748b;
+    }
+
+    .actions-price-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(37, 99, 235, 0.1);
+      color: #1d4ed8;
+    }
+
+    .table-footer {
+      border-top: 1px solid rgba(226, 232, 240, 0.7);
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: #ffffff;
+    }
+
+    .table-footer button {
+      padding: 8px 14px;
+      border-radius: 10px;
+      background: #0f172a;
+      color: #ffffff;
+      border: none;
+      font-size: 13px;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+    }
+
+    .table-footer input {
+      width: 80px;
+      padding: 8px 10px;
+      border-radius: 10px;
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      background: #f8fafc;
+      font-size: 13px;
+      text-align: center;
+      color: #1f2937;
+    }
+
+    .table-footer span {
+      font-size: 13px;
+      color: #64748b;
+    }
+
+    .table-header {
+      background: var(--table-header);
+      border-bottom: 1px solid rgba(214, 158, 46, 0.25);
+    }
+
+    .table-row {
+      transition: background 0.18s ease;
+    }
+
+    .table-row.drag-over {
+      background: rgba(245, 158, 11, 0.08);
+    }
+
+    .table-row.dragging {
+      opacity: 0.6;
+    }
+
+    .ai-badge {
+      background: rgba(16, 185, 129, 0.14);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      color: #047857;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      table-layout: fixed;
+    }
+
+    thead th {
+      background: #f6f7ff;
+      border-bottom: 1px solid #e4e7f5;
+      border-right: 1px solid #eaecf7;
+      padding: 12px 14px;
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #475467;
+    }
+
+    tbody td {
+      border-bottom: 1px solid #edf0fb;
+      border-right: 1px solid #f1f3fc;
+      padding: 16px 14px;
+      background: #ffffff;
+      color: #1d2939;
+      vertical-align: middle;
+      position: relative;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    tbody tr:nth-child(even) td {
+      background: #fafbff;
+    }
+
+    tbody tr:hover td {
+      background: #eef1ff;
+    }
+
+    thead th:last-child,
+    tbody td:last-child {
+      border-right: none;
+    }
+
+    .editable-cell {
+      min-height: 20px;
+      outline: none;
+    }
+
+    .editable-cell:focus {
+      box-shadow: inset 0 0 0 1px rgba(79, 70, 229, 0.4);
+      border-radius: 6px;
+      background: #f4f4ff;
+    }
+
+    .row-number {
+      background: #f3f4ff;
+      border-right: 1px solid #e4e7f5;
+      text-align: center;
+      font-size: 11px;
+      font-weight: 600;
+      color: #475467;
+      padding: 0 10px;
+      user-select: none;
+    }
+
+    .grid-letter {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 24px;
+      padding: 0 6px;
+      height: 20px;
+      border-radius: 8px;
+      border: 1px solid rgba(79, 70, 229, 0.22);
+      background: rgba(79, 70, 229, 0.12);
+      font-size: 11px;
+      font-weight: 600;
+      color: #4f46e5;
+    }
+
+    td[data-cell] {
+      cursor: pointer;
+    }
+
+    .cell-active {
+      background: #eef1ff !important;
+      box-shadow: inset 0 0 0 2px rgba(79, 70, 229, 0.7);
+    }
+
+    .cell-active::after {
+      content: '';
+      position: absolute;
+      bottom: -6px;
+      right: -6px;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #4f46e5;
+    }
+
+    th[data-column].column-selected,
+    td.column-selected {
+      background: #fff4de !important;
+      box-shadow: inset 0 0 0 2px rgba(217, 119, 6, 0.5);
+    }
+
+    .inspector-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      padding: 20px;
+    }
+
+    .inspector-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .inspector-subtitle {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #64748b;
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+
+    .inspector-card {
+      background: #ffffff;
+      border: 1px solid var(--border-panel);
+      border-radius: 16px;
+      padding: 16px;
+      box-shadow: 0 18px 32px rgba(180, 83, 9, 0.08);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .inspector-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 12px;
+    }
+
+    .inspector-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: #0f172a;
+    }
+
+    .inspector-input,
+    .inspector-select,
+    .inspector-textarea {
+      width: 100%;
+      border: 1px solid rgba(217, 119, 6, 0.3);
+      border-radius: 10px;
+      padding: 10px 12px;
+      font-size: 13px;
+      background: #fdf7ec;
+      color: #1f2933;
+      transition: border-color 0.18s ease, background 0.18s ease;
+    }
+
+    .inspector-input:focus,
+    .inspector-select:focus,
+    .inspector-textarea:focus {
+      outline: none;
+      border-color: var(--accent-strong);
+      background: #ffffff;
+      box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.18);
+    }
+
+    .inspector-textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    .toggle-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .toggle-control {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    .toggle-control input {
+      position: absolute;
+      opacity: 0;
+      inset: 0;
+      cursor: pointer;
+    }
+
+    .toggle-track {
+      width: 44px;
+      height: 24px;
+      border-radius: 999px;
+      background: rgba(217, 119, 6, 0.2);
+      border: 1px solid rgba(217, 119, 6, 0.25);
+      position: relative;
+      transition: background 0.2s ease, border-color 0.2s ease;
+      pointer-events: none;
+    }
+
+    .toggle-track::after {
+      content: '';
+      position: absolute;
+      top: 2px;
+      left: 3px;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #ffffff;
+      box-shadow: 0 6px 10px rgba(15, 23, 42, 0.15);
+      transition: transform 0.2s ease;
+    }
+
+    .toggle-control input:checked + .toggle-track {
+      background: rgba(217, 119, 6, 0.85);
+      border-color: rgba(217, 119, 6, 0.6);
+    }
+
+    .toggle-control input:checked + .toggle-track::after {
+      transform: translateX(18px);
+    }
+
+    .toggle-control:focus-visible .toggle-track,
+    .toggle-control input:focus-visible + .toggle-track {
+      box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.25);
+    }
+
+    .sequence-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .sequence-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      padding: 14px;
+      border-radius: 12px;
+      border: 1px solid rgba(217, 119, 6, 0.25);
+      background: rgba(253, 245, 230, 0.92);
+    }
+
+    .sequence-index {
+      min-width: 32px;
+      height: 32px;
+      border-radius: 10px;
+      background: rgba(245, 158, 11, 0.18);
+      border: 1px solid rgba(217, 119, 6, 0.35);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 600;
+      color: #b45309;
+    }
+
+    .sequence-body {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .sequence-header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .sequence-hint {
+      font-size: 11px;
+      color: #9a3412;
+    }
+
+    .sequence-remove {
+      align-self: flex-start;
+      white-space: nowrap;
+    }
+
+    .sequence-actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    .ghost-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 12px;
+      border-radius: 10px;
+      border: 1px dashed rgba(217, 119, 6, 0.35);
+      background: rgba(253, 245, 230, 0.7);
+      font-size: 12px;
+      font-weight: 500;
+      color: #b45309;
+      cursor: pointer;
+      transition: border-color 0.2s ease, background 0.2s ease;
+    }
+
+    .ghost-btn:hover {
+      border-color: rgba(217, 119, 6, 0.6);
+      background: rgba(245, 158, 11, 0.12);
+    }
+
+    .empty-inspector {
+      text-align: center;
+      padding: 28px;
+      border: 1px dashed rgba(217, 119, 6, 0.35);
+      border-radius: 16px;
+      background: rgba(253, 245, 230, 0.6);
+      color: #7b341e;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .empty-inspector strong {
+      color: #0f172a;
+      font-size: 14px;
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      min-width: 280px;
+      border-radius: 16px;
+      padding: 14px 18px;
+      border: 1px solid rgba(79, 70, 229, 0.22);
+      background: #fff;
+      color: var(--text-primary);
+      box-shadow: 0 22px 54px rgba(79, 70, 229, 0.18);
+      opacity: 0;
+      transform: translateY(12px);
+      pointer-events: none;
+      transition: all 0.25s ease;
+      z-index: 90;
+    }
+
+    .toast.active {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    .toggle-input {
+      appearance: none;
+      width: 40px;
+      height: 22px;
+      border-radius: 999px;
+      border: 1px solid rgba(99, 102, 241, 0.3);
+      background: rgba(226, 232, 255, 0.8);
+      position: relative;
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+
+    .toggle-input::after {
+      content: '';
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: white;
+      box-shadow: 0 2px 6px rgba(79, 70, 229, 0.28);
+      transition: all 0.2s ease;
+    }
+
+    .toggle-input:checked {
+      background: rgba(79, 70, 229, 0.9);
+      border-color: rgba(79, 70, 229, 0.95);
+    }
+
+    .toggle-input:checked::after {
+      transform: translateX(18px);
+    }
+
+    #automation-inspector.inspector-empty #inspector-panels,
+    #automation-inspector.inspector-empty #inspector-footer {
+      opacity: 0.4;
+      pointer-events: none;
+    }
+
+    .column-menu {
+      position: absolute;
+      top: 36px;
+      right: 16px;
+      width: 240px;
+      background: #ffffff;
+      border: 1px solid rgba(15, 23, 42, 0.12);
+      border-radius: 12px;
+      box-shadow: 0 18px 42px rgba(15, 23, 42, 0.18);
+      padding: 10px 0;
+      display: none;
+      flex-direction: column;
+      gap: 2px;
+      z-index: 80;
+    }
+
+    .column-menu.active {
+      display: flex;
+    }
+
+    .column-menu button {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 16px;
+      background: none;
+      border: none;
+      font-size: 13px;
+      text-align: left;
+      color: var(--text-primary);
+      cursor: pointer;
+    }
+
+    .column-menu button:hover {
+      background: rgba(79, 70, 229, 0.08);
+    }
+
+    .column-menu .menu-heading {
+      padding: 8px 16px;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="sticky top-0 z-50 border-b transition-colors" style="background: var(--nav-bg); border-color: var(--nav-border);">
+    <div class="max-w-screen-2xl w-full mx-auto px-6">
+      <div class="flex items-center justify-between h-20">
+        <!-- Logo & Title -->
+        <div class="flex items-center gap-5">
+          <a href="/admin/index.html" class="flex items-center gap-3" title="Discover CX Admin Home">
+            <img src="assets/discover-cx-logo-white.svg" alt="Discover CX" class="h-8 dark-logo">
+            <img src="assets/discover-cx-logo-dark.svg" alt="Discover CX" class="h-8 light-logo hidden">
+          </a>
+          <div class="h-5 w-px opacity-20" style="background: var(--nav-text);"></div>
+          <h1 class="text-[24px] font-light leading-tight tracking-tight" style="color: var(--nav-text);">Content Tables</h1>
+        </div>
+
+        <!-- Actions -->
+        <div class="flex items-center gap-4">
+          <a href="index.html" class="flex items-center gap-2 px-3 py-1.5 bg-white/15 hover:bg-white/20 text-white/85 hover:text-white rounded-md transition-colors text-sm">
+            <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
+            <span>Back to Dashboard</span>
+          </a>
+          <div class="relative">
+            <button id="user-menu-trigger" class="flex items-center gap-3 text-sm leading-tight text-white">
+              <div class="w-8 h-8 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center font-semibold">DH</div>
+              <span class="hidden sm:inline text-[13px] font-medium text-white/90">Dave Hillis</span>
+              <i data-lucide="chevron-down" class="w-4 h-4 text-white/70"></i>
+            </button>
+            <div id="user-menu" class="user-menu-surface absolute right-0 mt-2 w-56 rounded-lg shadow-xl hidden">
+              <div class="px-4 py-3 border-b border-white/12">
+                <p class="text-sm font-medium text-white/90">Dave Hillis</p>
+                <p class="text-[12px] text-white/60">dave.hillis@example.com</p>
+              </div>
+              <ul class="py-2 text-sm text-white/80">
+                <li>
+                  <a href="profile.html" class="flex items-center gap-2 px-4 py-2 hover:bg-white/10 transition-colors">
+                    <i data-lucide="user" class="w-4 h-4 text-white/60"></i>
+                    Profile
+                  </a>
+                </li>
+                <li>
+                  <a href="settings.html" class="flex items-center gap-2 px-4 py-2 hover:bg-white/10 transition-colors">
+                    <i data-lucide="settings" class="w-4 h-4 text-white/60"></i>
+                    Account settings
+                  </a>
+                </li>
+                <li>
+                  <a href="notifications.html" class="flex items-center gap-2 px-4 py-2 hover:bg-white/10 transition-colors">
+                    <i data-lucide="bell" class="w-4 h-4 text-white/60"></i>
+                    Notifications
+                  </a>
+                </li>
+              </ul>
+              <div class="border-t border-white/12 py-2">
+                <button id="sign-out-btn" class="w-full flex items-center gap-2 px-4 py-2 text-left text-sm text-rose-300 hover:text-rose-200 hover:bg-rose-500/10 transition-colors">
+                  <i data-lucide="log-out" class="w-4 h-4"></i>
+                  Sign out
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="w-full px-10 py-6 space-y-6">
+
+    <!-- Layout Columns -->
+    <section class="flex flex-nowrap gap-6 overflow-x-auto pb-2 xl:grid xl:grid-cols-[minmax(0,1fr)_320px] xl:overflow-visible xl:pb-0">
+
+      <!-- Table Workspace -->
+      <section class="table-shell shrink-0 min-w-[720px] xl:min-w-0">
+        <div class="table-header px-5 py-4 flex flex-col gap-4">
+          <div class="flex flex-wrap items-center gap-3 justify-between">
+            <div class="flex items-center gap-3">
+              <div class="px-2.5 py-1 rounded-md bg-white text-[12px] text-slate-700 border border-slate-200 flex items-center gap-2 shadow-sm">
+                <i data-lucide="folder-tree" class="w-3.5 h-3.5 text-slate-500"></i>
+                Template: <span class="font-medium text-slate-900">Developer Portal 2.0</span>
+              </div>
+              <button class="px-2.5 py-1 rounded-md bg-white text-[12px] text-slate-600 border border-slate-200 flex items-center gap-1.5 shadow-sm hover:bg-slate-50" id="switch-template">
+                <i data-lucide="chevron-down" class="w-3 h-3"></i>
+                Change
+              </button>
+            </div>
+            <div class="flex items-center gap-2 relative">
+              <button class="px-3 py-1.5 rounded-md bg-emerald-100 border border-emerald-200 text-[12px] text-emerald-700 flex items-center gap-1.5" id="auto-normalize">
+                <i data-lucide="atom" class="w-3.5 h-3.5"></i>
+                Normalize Sources
+              </button>
+              <button class="px-3 py-1.5 rounded-md bg-white border border-slate-200 text-[12px] text-slate-600 flex items-center gap-1.5 shadow-sm hover:bg-slate-50" id="toggle-compare">
+                <i data-lucide="columns-3" class="w-3.5 h-3.5"></i>
+                Compare Drafts
+              </button>
+              <button id="column-menu-trigger" class="px-3 py-1.5 rounded-md bg-white border border-slate-200 text-[12px] text-slate-600 flex items-center gap-1.5 shadow-sm hover:bg-slate-50">
+                <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+                Add column
+              </button>
+              <div id="column-menu" class="column-menu">
+                <div class="menu-heading">Automation</div>
+                <button data-column-action="add-enrichment">
+                  <i data-lucide="sparkles" class="w-4 h-4 text-indigo-500"></i>
+                  Add enrichment
+                </button>
+                <button data-column-action="use-ai">
+                  <i data-lucide="bot" class="w-4 h-4 text-indigo-500"></i>
+                  Use AI
+                </button>
+                <button data-column-action="waterfall">
+                  <i data-lucide="waves" class="w-4 h-4 text-indigo-500"></i>
+                  Waterfall
+                </button>
+                <div class="menu-heading">Structure</div>
+                <button data-column-action="transform">
+                  <i data-lucide="repeat" class="w-4 h-4 text-slate-500"></i>
+                  Transformation
+                </button>
+                <button data-column-action="merge-columns">
+                  <i data-lucide="git-merge" class="w-4 h-4 text-slate-500"></i>
+                  Merge columns
+                </button>
+                <button data-column-action="formula">
+                  <i data-lucide="sigma" class="w-4 h-4 text-slate-500"></i>
+                  Formula
+                </button>
+                <div class="menu-heading">Metadata Fields</div>
+                <button data-column-field="format">
+                  <i data-lucide="file-text" class="w-4 h-4 text-slate-500"></i>
+                  Format
+                </button>
+                <button data-column-field="status">
+                  <i data-lucide="check-circle" class="w-4 h-4 text-slate-500"></i>
+                  Status
+                </button>
+                <button data-column-field="owner">
+                  <i data-lucide="user" class="w-4 h-4 text-slate-500"></i>
+                  Owner
+                </button>
+                <button data-column-field="personas">
+                  <i data-lucide="users" class="w-4 h-4 text-slate-500"></i>
+                  Personas
+                </button>
+                <button data-column-field="channels">
+                  <i data-lucide="radio" class="w-4 h-4 text-slate-500"></i>
+                  Channels
+                </button>
+                <button data-column-field="release">
+                  <i data-lucide="package" class="w-4 h-4 text-slate-500"></i>
+                  Release Train
+                </button>
+                <button data-column-field="translation">
+                  <i data-lucide="languages" class="w-4 h-4 text-slate-500"></i>
+                  Locales
+                </button>
+                <button data-column-field="compliance">
+                  <i data-lucide="shield-check" class="w-4 h-4 text-slate-500"></i>
+                  Compliance
+                </button>
+                <button data-column-field="freshness">
+                  <i data-lucide="clock" class="w-4 h-4 text-slate-500"></i>
+                  Freshness
+                </button>
+                <button data-column-field="score">
+                  <i data-lucide="star" class="w-4 h-4 text-slate-500"></i>
+                  Quality Score
+                </button>
+                <button data-column-field="aiSummary">
+                  <i data-lucide="sparkles" class="w-4 h-4 text-slate-500"></i>
+                  AI Summary
+                </button>
+                <div class="menu-heading">Basic Fields</div>
+                <button data-column-field="text">
+                  <i data-lucide="type" class="w-4 h-4 text-slate-500"></i>
+                  Text
+                </button>
+                <button data-column-field="number">
+                  <i data-lucide="hash" class="w-4 h-4 text-slate-500"></i>
+                  Number
+                </button>
+                <button data-column-field="date">
+                  <i data-lucide="calendar" class="w-4 h-4 text-slate-500"></i>
+                  Date
+                </button>
+                <button data-column-field="url">
+                  <i data-lucide="link" class="w-4 h-4 text-slate-500"></i>
+                  URL
+                </button>
+                <div class="menu-heading" id="column-actions-heading" style="display: none;">Column Actions</div>
+                <button data-column-action="remove" id="column-remove-btn" style="display: none;" class="text-rose-600">
+                  <i data-lucide="trash-2" class="w-4 h-4"></i>
+                  Remove column
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="table-scroll">
+        <table class="min-w-full text-sm table-grid">
+          <thead id="table-head"></thead>
+          <tbody id="table-body"></tbody>
+        </table>
+        </div>
+
+        <div class="table-footer">
+          <button id="add-rows-btn">
+            <i data-lucide="plus" class="w-4 h-4"></i>
+            Add
+          </button>
+          <input type="number" id="add-rows-count" value="10" min="1" max="50" />
+          <span>more rows at the bottom</span>
+        </div>
+      </section>
+
+      <!-- Automation Inspector -->
+      <aside class="glass-panel rounded-2xl p-5 flex flex-col gap-6 shrink-0 w-[320px] xl:w-auto" id="automation-inspector">
+        <header class="flex items-start justify-between gap-3">
+          <div>
+            <p class="text-[11px] uppercase tracking-wide text-slate-400 mb-1">Automation</p>
+            <h3 class="text-base font-semibold text-slate-900" id="inspector-title">No action active</h3>
+            <p class="text-xs text-slate-500" id="inspector-subtitle">Choose an action from the table toolbar to configure it.</p>
+          </div>
+          <button class="px-2.5 py-1 rounded-md bg-white border border-slate-200 text-[12px] text-slate-600 shadow-sm hover:bg-slate-50 hidden" id="inspector-delete">
+            <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+            Remove
+          </button>
+        </header>
+
+        <div class="space-y-5" id="inspector-panels">
+          <section class="border border-slate-200/60 rounded-xl p-4 bg-white/70" id="inspector-stage">
+            <div class="flex items-center justify-between mb-3">
+              <div>
+                <p class="text-[11px] uppercase tracking-wide text-slate-400 mb-1">Action</p>
+                <h4 class="text-sm font-semibold text-slate-900" id="action-name">Select an action</h4>
+              </div>
+              <span class="text-[11px] font-medium px-2 py-1 rounded-md bg-indigo-100 text-indigo-600 border border-indigo-200" id="action-badge">—</span>
+            </div>
+
+            <div class="space-y-4" id="action-body">
+              <p class="text-xs text-slate-500 leading-relaxed">Waterfall chains queries to external providers until a result is returned. Configure the sequence and output below.</p>
+
+              <div class="flex flex-col gap-2">
+                <label class="text-xs font-medium text-slate-600" for="action-datatype">Data Type</label>
+                <select id="action-datatype" class="w-full px-3 py-2 rounded-md border border-slate-200 bg-white text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-400">
+                  <option value="">Select a data type…</option>
+                  <option value="entity">Entity enrichment</option>
+                  <option value="content">Content block</option>
+                  <option value="analysis">Content analysis</option>
+                </select>
+              </div>
+            </div>
+          </section>
+
+          <section class="border border-slate-200/60 rounded-xl p-4 bg-white/70">
+            <div class="flex items-center justify-between mb-3">
+              <div>
+                <p class="text-[11px] uppercase tracking-wide text-slate-400 mb-1">Waterfall sequence</p>
+                <h4 class="text-sm font-semibold text-slate-900">Actions</h4>
+              </div>
+              <div class="flex items-center gap-2">
+                <button class="px-2.5 py-1 rounded-md bg-white border border-slate-200 text-[12px] text-slate-600 shadow-sm hover:bg-slate-50" id="add-action-btn">
+                  <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+                  Add action
+                </button>
+                <button class="px-2.5 py-1 rounded-md bg-white border border-slate-200 text-[12px] text-slate-600 shadow-sm hover:bg-slate-50" id="add-formula-btn">
+                  <i data-lucide="sigma" class="w-3.5 h-3.5"></i>
+                  Add formula
+                </button>
+              </div>
+            </div>
+
+            <div class="space-y-3" id="waterfall-list"></div>
+          </section>
+
+          <section class="border border-slate-200/60 rounded-xl p-4 bg-white/70">
+            <div class="flex items-center justify-between mb-3">
+              <div>
+                <p class="text-[11px] uppercase tracking-wide text-slate-400 mb-1">Additional column settings</p>
+                <h4 class="text-sm font-semibold text-slate-900">Output controls</h4>
+              </div>
+            </div>
+
+            <div class="space-y-3" id="output-settings"></div>
+          </section>
+
+          <section class="border border-slate-200/60 rounded-xl p-4 bg-white/70">
+            <div class="flex items-center justify-between mb-3">
+              <div>
+                <p class="text-[11px] uppercase tracking-wide text-slate-400 mb-1">Run settings</p>
+                <h4 class="text-sm font-semibold text-slate-900">Execution rules</h4>
+              </div>
+            </div>
+
+            <div class="space-y-4">
+            <div class="space-y-3" id="run-settings"></div>
+          </section>
+
+          <section class="context-actions hidden" id="context-actions">
+            <div class="flex items-center justify-between gap-3">
+              <div>
+                <p class="text-[11px] uppercase tracking-wide text-slate-400 mb-1">Contextual actions</p>
+                <h4 class="text-sm font-semibold text-slate-900" id="context-actions-title">Automation library</h4>
+                <p class="text-xs text-slate-500" id="context-actions-subtitle">Select a column to populate automation recommendations.</p>
+              </div>
+              <button class="actions-toggle" id="context-actions-toggle" aria-expanded="true">
+                <span id="context-actions-toggle-label">Hide actions</span>
+                <span class="actions-toggle-icon" id="context-actions-toggle-icon" aria-hidden="true">⟵</span>
+              </button>
+            </div>
+            <div class="actions-tabs">
+              <button class="actions-tab" data-context-actions-tab="sources">Sources</button>
+              <button class="actions-tab active" data-context-actions-tab="enrichments">Enrichments</button>
+              <button class="actions-tab" data-context-actions-tab="signals">Signals</button>
+              <button class="actions-tab" data-context-actions-tab="delivery">Delivery</button>
+            </div>
+            <div class="actions-list" id="context-actions-list">
+              <p class="text-xs text-slate-500">Click a column to see matching actions.</p>
+            </div>
+          </section>
+        </div>
+
+        <footer class="mt-auto flex items-center justify-between" id="inspector-footer">
+          <div class="flex items-center gap-2 text-xs text-slate-500">
+            <i data-lucide="info" class="w-3.5 h-3.5"></i>
+            <span id="inspector-status">No pending runs</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <button class="px-3 py-1.5 rounded-md bg-white border border-slate-200 text-[12px] text-slate-600 shadow-sm hover:bg-slate-50" id="inspector-cancel">Cancel</button>
+            <button class="px-3 py-1.5 rounded-md bg-indigo-500 text-[12px] text-white hover:bg-indigo-600 shadow-sm" id="inspector-save">Save</button>
+          </div>
+        </footer>
+      </aside>
+
+    </section>
+  </main>
+
+  <div id="toast" class="toast">
+    <div class="flex items-start gap-3">
+      <div class="mt-0.5">
+        <i data-lucide="radio" class="w-4 h-4 text-indigo-200"></i>
+      </div>
+      <div>
+        <p class="text-sm font-semibold text-slate-900 mb-1" id="toast-title">Automation queued</p>
+        <p class="text-xs text-slate-500" id="toast-body">AI is processing your job. We will notify you when complete.</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      if (window.lucide && typeof window.lucide.createIcons === 'function') {
+        window.lucide.createIcons();
+      }
+    });
+
+    function columnLetter(index) {
+      let result = '';
+      let num = index + 1;
+      while (num > 0) {
+        const rem = (num - 1) % 26;
+        result = String.fromCharCode(65 + rem) + result;
+        num = Math.floor((num - 1) / 26);
+      }
+      return result;
+    }
+
+    const FIELD_LIBRARY = {
+      format: {
+        label: 'Format',
+        description: 'Source content format or container.',
+        render: item => `<span class="px-2.5 py-1 rounded-full text-[12px] bg-indigo-50 text-indigo-600 border border-indigo-200 font-medium">${item.format}</span>`
+      },
+      status: {
+        label: 'Status',
+        description: 'Current lifecycle state.',
+        render: item => `<span class="px-2 py-1 rounded-full text-[11px] ${item.status === 'Ready' ? 'bg-emerald-100 text-emerald-700 border border-emerald-200' : 'bg-amber-100 text-amber-700 border border-amber-200'} font-medium">${item.status}</span>`
+      },
+      lastUpdated: {
+        label: 'Updated',
+        description: 'Last revision timestamp.',
+        render: item => `<span class="text-slate-600">${item.lastUpdated}</span>`
+      },
+      owner: {
+        label: 'Owner',
+        description: 'Primary content owner.',
+        render: item => `<span class="flex items-center gap-2 text-slate-700"><span class="w-6 h-6 rounded-full bg-slate-100 border border-slate-200 flex items-center justify-center text-[11px] font-medium text-slate-600">${item.ownerInitials}</span>${item.owner}</span>`
+      },
+      personas: {
+        label: 'Personas',
+        description: 'Audience alignment and persona tags.',
+        render: item => `<div class="flex flex-wrap gap-1">${item.personas.map(p => `<span class="px-2 py-1 rounded-md text-[11px] bg-fuchsia-50 text-fuchsia-600 border border-fuchsia-200 font-medium">${p}</span>`).join('')}</div>`
+      },
+      channels: {
+        label: 'Channels',
+        description: 'Delivery channels linked to this content.',
+        render: item => `<div class="flex flex-wrap gap-1">${item.channels.map(c => `<span class="px-2 py-1 rounded-md text-[11px] bg-sky-50 text-sky-600 border border-sky-200 font-medium">${c}</span>`).join('')}</div>`
+      },
+      release: {
+        label: 'Release Train',
+        description: 'Release program or milestone.',
+        render: item => `<span class="px-2.5 py-1 rounded-md text-[12px] bg-purple-50 text-purple-600 border border-purple-200 font-medium">${item.release}</span>`
+      },
+      translation: {
+        label: 'Locales',
+        description: 'Translation coverage snapshot.',
+        render: item => `<span class="text-slate-600">${item.translation}</span>`
+      },
+      metadata: {
+        label: 'Metadata',
+        description: 'Taxonomy tags and enrichment labels.',
+        render: item => {
+          const tags = Array.isArray(item.tags) ? item.tags : [];
+          if (!tags.length) {
+            return `<span class="text-slate-400 text-[12px]">—</span>`;
+          }
+          return `<div class="flex flex-wrap gap-1">${tags.map(tag => `<span class="px-2 py-1 rounded-md text-[11px] bg-amber-50 text-amber-700 border border-amber-200 font-medium">${tag}</span>`).join('')}</div>`;
+        }
+      },
+      aiSummary: {
+        label: 'AI Summary',
+        description: 'Latest automated synopsis.',
+        render: item => `<div class="text-slate-600 text-[12px] leading-relaxed">${item.aiSummary}</div>`
+      },
+      compliance: {
+        label: 'Compliance',
+        description: 'Regulatory or policy flags.',
+        render: item => `<div class="flex flex-wrap gap-1">${item.compliance.map(c => `<span class="px-2 py-1 rounded-md text-[11px] bg-rose-50 text-rose-600 border border-rose-200 font-medium">${c}</span>`).join('')}</div>`
+      },
+      freshness: {
+        label: 'Freshness',
+        description: 'Days until SLA breach.',
+        render: item => `<span class="px-2 py-1 rounded-md text-[12px] bg-lime-50 text-lime-600 border border-lime-200 font-medium">${item.freshness} days</span>`
+      },
+      score: {
+        label: 'Quality Score',
+        description: 'AI-evaluated content grade.',
+        render: item => `<span class="text-slate-700 font-semibold">${item.score}/100</span>`
+      }
+    };
+
+    const ACTIONS_SECTIONS = {
+      sources: {
+        label: 'Sources',
+        description: 'Ingest structured and unstructured documentation from upstream systems.',
+        items: [
+          { icon: 'server', label: 'Sync DITA CCMS', description: 'Pull approved topics from your Component Content Management System via API.', badge: 'Connector' },
+          { icon: 'book-open', label: 'Import FrameMaker books', description: 'Convert FrameMaker deliverables into reusable portal bundles.', badge: 'Batch' },
+          { icon: 'git-branch', label: 'Watch Markdown repo', description: 'Monitor Git branches for Markdown updates and ingest diffs automatically.', badge: 'Continuous' },
+          { icon: 'code', label: 'Ingest OpenAPI specs', description: 'Harvest OpenAPI definitions and generate reference-ready content blocks.', badge: 'API' },
+          { icon: 'upload', label: 'Drop unstructured bundles', description: 'Upload PDFs or Word docs and let the agent classify and segment them.', badge: 'Agent' }
+        ]
+      },
+      enrichments: {
+        label: 'Enrichments',
+        description: 'Enhance content with metadata, chunking, localization, and persona intelligence.',
+        items: [
+          { icon: 'sparkles', label: 'AI metadata enrich', description: 'Generate semantic tags, summaries, and highlights for discovery.', badge: 'AI' },
+          { icon: 'layers', label: 'Semantic chunk & embed', description: 'Chunk docs for vector search and push embeddings to your AI index.', badge: 'Vector' },
+          { icon: 'sitemap', label: 'Taxonomy sync', description: 'Align bundles with your controlled vocabulary and CCMS taxonomy.', badge: 'Governance' },
+          { icon: 'globe-2', label: 'Localization radar', description: 'Track translation coverage and flag locales needing refresh.', badge: 'Localization' },
+          { icon: 'users', label: 'Persona mapping', description: 'Map each topic to target personas and recommended journeys.', badge: 'Audience' }
+        ]
+      },
+      signals: {
+        label: 'Signals',
+        description: 'Monitor experience health, compliance, and delivery readiness in real time.',
+        items: [
+          { icon: 'activity', label: 'Freshness monitor', description: 'Alert on SLA breaches and schedule refresh workflows.', badge: 'Monitor' },
+          { icon: 'link-2', label: 'Broken link watch', description: 'Scan new builds for broken references before publish.', badge: 'QA' },
+          { icon: 'shield-check', label: 'Compliance audit', description: 'Run accessibility, legal, and policy checks on each release.', badge: 'Policy' },
+          { icon: 'bar-chart-3', label: 'Experience analytics', description: 'Surface usage, search, and engagement signals by persona.', badge: 'Insights' },
+          { icon: 'pulse', label: 'Deployment health', description: 'Track bundle promotion jobs across staging and production.', badge: 'Status' }
+        ]
+      },
+      delivery: {
+        label: 'Delivery',
+        description: 'Package, publish, and distribute bundles across every portal touchpoint.',
+        items: [
+          { icon: 'send', label: 'Publish to portal', description: 'Push the latest bundle to the Discover CX reader experience.', badge: 'Portal' },
+          { icon: 'database', label: 'Sync to vector DB', description: 'Update your AI retrieval index with fresh embeddings.', badge: 'AI' },
+          { icon: 'cloud-upload', label: 'Push to CDN', description: 'Ship static assets and HTML to your global CDN edge.', badge: 'Delivery' },
+          { icon: 'monitor', label: 'Generate preview', description: 'Launch an instant preview environment for stakeholder review.', badge: 'Preview' },
+          { icon: 'package', label: 'Export omnichannel bundle', description: 'Assemble downloadable packages for email, in-app, or PDF delivery.', badge: 'Bundle' }
+        ]
+      }
+    };
+
+const WATERFALL_STAGE_LIBRARY = {
+  ingest: {
+    label: 'Smart ingest',
+    description: 'Normalize DITA, Markdown, or YAML sources into a web-ready package.',
+    placeholder: 'Select ingest recipe or connector',
+    defaultLabel: 'Normalize multi-source bundle',
+    defaultProvider: 'DITA → HTML conversion pipeline'
+  },
+  transform: {
+    label: 'Transform & chunk',
+    description: 'Apply transformations, semantic chunking, and embedding jobs.',
+    placeholder: 'Choose transformation or chunking job',
+    defaultLabel: 'Semantic chunk & embed',
+    defaultProvider: 'Chunk + Vector embed workflow'
+  },
+  personalize: {
+    label: 'Personalize & target',
+    description: 'Tailor content to personas, regions, or entitlement rules.',
+    placeholder: 'Select personalization model or rule set',
+    defaultLabel: 'Audience personalization overlay',
+    defaultProvider: 'Persona-specific copy rules'
+  },
+  deploy: {
+    label: 'Deploy & sync',
+    description: 'Push bundles to web experience, vector DB, and downstream apps.',
+    placeholder: 'Choose delivery target or API deployment',
+    defaultLabel: 'Deliver to experience + vector store',
+    defaultProvider: 'Portal deploy + Pinecone sync'
+  },
+  qa: {
+    label: 'Quality checks',
+    description: 'Run policy checks, accessibility audits, or version drift alarms.',
+    placeholder: 'Select QA workflow',
+    defaultLabel: 'Run quality + compliance checks',
+    defaultProvider: 'Accessibility & policy validator'
+  },
+  formula: {
+    label: 'Formula',
+    description: 'Create derived fields using spreadsheet-style expressions.',
+    placeholder: 'e.g. CONCAT(Owner," – ",Audience)',
+    defaultLabel: 'Custom formula',
+    defaultProvider: ''
+  }
+};
+
+function createWaterfallStep(stage = 'transform') {
+  const meta = WATERFALL_STAGE_LIBRARY[stage] || WATERFALL_STAGE_LIBRARY.transform;
+  return {
+    id: generateId(),
+    kind: stage === 'formula' ? 'formula' : 'stage',
+    stage,
+    label: meta.defaultLabel,
+    provider: meta.defaultProvider,
+    expression: '',
+    status: 'pending'
+  };
+}
+
+function createFormulaStep() {
+  const step = createWaterfallStep('formula');
+  step.expression = '';
+  return step;
+}
+
+function escapeHtml(value = '') {
+  return String(value)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+function escapeAttribute(value = '') {
+  return escapeHtml(value);
+}
+
+    const LOCKED_COLUMNS = ['title'];
+    const customColumns = {};
+    let customColumnCount = 0;
+
+    const DATA = [
+      {
+        id: 'DOC-101',
+        title: 'Developer Quickstart',
+        format: 'Markdown',
+        status: 'Ready',
+        owner: 'Aisha Patel',
+        ownerInitials: 'AP',
+        personas: ['Developer', 'Onboarding'],
+        channels: ['Portal', 'API Explorer'],
+        release: 'Winter 25',
+        translation: 'EN, DE',
+        aiSummary: 'Step-by-step API activation guide, with workspace provisioning checklist.',
+        compliance: ['SOC2'],
+        freshness: 24,
+        score: 92,
+        lastUpdated: 'Nov 12, 2025',
+        tags: ['API', 'Quickstart']
+      },
+      {
+        id: 'DOC-118',
+        title: 'Release Notes 5.4',
+        format: 'DITA',
+        status: 'In Review',
+        owner: 'Miguel Chen',
+        ownerInitials: 'MC',
+        personas: ['Admin', 'Executive'],
+        channels: ['Portal', 'Email'],
+        release: 'Winter 25',
+        translation: 'EN, FR, JA',
+        aiSummary: 'Highlights billing updates, dashboard refresh, and new AI assistant guardrails.',
+        compliance: ['Legal'],
+        freshness: 9,
+        score: 84,
+        lastUpdated: 'Nov 10, 2025',
+        tags: ['Release', 'ChangeLog']
+      },
+      {
+        id: 'DOC-094',
+        title: 'API Reference (v3)',
+        format: 'OpenAPI',
+        status: 'Ready',
+        owner: 'Priya Rao',
+        ownerInitials: 'PR',
+        personas: ['Developer'],
+        channels: ['Portal', 'SDK'],
+        release: 'Continuous',
+        translation: 'EN',
+        aiSummary: 'Auto-synced specification with AI-drafted examples for new endpoints.',
+        compliance: ['SOC2', 'GDPR'],
+        freshness: 4,
+        score: 96,
+        lastUpdated: 'Nov 13, 2025',
+        tags: ['API', 'Reference']
+      },
+      {
+        id: 'DOC-077',
+        title: 'Field Service Playbook',
+        format: 'FrameMaker',
+        status: 'Draft',
+        owner: 'Jules Freeman',
+        ownerInitials: 'JF',
+        personas: ['Field Engineer'],
+        channels: ['Portal', 'PDF'],
+        release: 'Spring 26',
+        translation: 'EN, ES, PT',
+        aiSummary: 'Contains updated troubleshooting scripts and AR-assisted workflows.',
+        compliance: ['Safety'],
+        freshness: 41,
+        score: 78,
+        lastUpdated: 'Nov 5, 2025',
+        tags: ['Field Ops']
+      },
+      {
+        id: 'DOC-132',
+        title: 'Support KB: Account Recovery',
+        format: 'Markdown',
+        status: 'Ready',
+        owner: 'Sasha Reed',
+        ownerInitials: 'SR',
+        personas: ['Support', 'Customer'],
+        channels: ['Help Center', 'Chatbot'],
+        release: 'Continuous',
+        translation: 'EN, ES, FR, DE',
+        aiSummary: 'AI ensured parity between chatbot prompts and knowledge base macros.',
+        compliance: ['PII'],
+        freshness: 13,
+        score: 90,
+        lastUpdated: 'Nov 8, 2025',
+        tags: ['Support', 'Recovery']
+      }
+    ];
+
+    function createBlankRecord() {
+      const sequence = DATA.length + 1;
+      const id = `NEW-${String(sequence).padStart(3, '0')}`;
+      return {
+        id,
+        title: `New bundle ${sequence}`,
+        format: 'Markdown',
+        status: 'Draft',
+        owner: 'Unassigned',
+        ownerInitials: 'NA',
+        personas: [],
+        channels: [],
+        release: 'Draft',
+        translation: 'EN',
+        aiSummary: '',
+        compliance: [],
+        freshness: 0,
+        score: 0,
+        lastUpdated: '—',
+        tags: []
+      };
+    }
+
+    let activeColumns = ['title', 'format', 'status', 'translation', 'metadata', 'personas', 'lastUpdated', 'owner'];
+
+    const tableHeadEl = document.getElementById('table-head');
+    const tableBodyEl = document.getElementById('table-body');
+    const toastEl = document.getElementById('toast');
+    const toastTitleEl = document.getElementById('toast-title');
+    const toastBodyEl = document.getElementById('toast-body');
+    const columnMenuTrigger = document.getElementById('column-menu-trigger');
+    const columnMenu = document.getElementById('column-menu');
+    const addRowsBtn = document.getElementById('add-rows-btn');
+    const addRowsInput = document.getElementById('add-rows-count');
+    const contextActionsSection = document.getElementById('context-actions');
+    const contextActionsListEl = document.getElementById('context-actions-list');
+    const contextActionsToggleBtn = document.getElementById('context-actions-toggle');
+    const contextActionsToggleLabel = document.getElementById('context-actions-toggle-label');
+    const contextActionsToggleIcon = document.getElementById('context-actions-toggle-icon');
+    const contextActionsTitleEl = document.getElementById('context-actions-title');
+    const contextActionsSubtitleEl = document.getElementById('context-actions-subtitle');
+    const contextActionsTabs = document.querySelectorAll('[data-context-actions-tab]');
+
+    const inspectorEls = {
+      container: document.getElementById('automation-inspector'),
+      title: document.getElementById('inspector-title'),
+      subtitle: document.getElementById('inspector-subtitle'),
+      deleteBtn: document.getElementById('inspector-delete'),
+      panels: document.getElementById('inspector-panels'),
+      actionName: document.getElementById('action-name'),
+      actionBadge: document.getElementById('action-badge'),
+      actionBody: document.getElementById('action-body'),
+      dataType: document.getElementById('action-datatype'),
+      waterfallList: document.getElementById('waterfall-list'),
+      addActionBtn: document.getElementById('add-action-btn'),
+      addFormulaBtn: document.getElementById('add-formula-btn'),
+      outputSettings: document.getElementById('output-settings'),
+      runSettings: document.getElementById('run-settings'),
+      status: document.getElementById('inspector-status'),
+      cancelBtn: document.getElementById('inspector-cancel'),
+      saveBtn: document.getElementById('inspector-save'),
+      footer: document.getElementById('inspector-footer')
+    };
+
+    const ACTION_LIBRARY = {
+      waterfall: () => ({
+        type: 'waterfall',
+        name: 'Custom Waterfall',
+        subtitle: 'Run multiple actions sequentially until a provider returns a result.',
+        badge: 'Waterfall',
+        description: 'Drag actions to reorder and configure provider steps. We stop the moment a step returns a successful response.',
+        dataType: '',
+    sequence: [
+      createWaterfallStep('ingest'),
+      createWaterfallStep('transform'),
+      createWaterfallStep('personalize'),
+      createWaterfallStep('deploy')
+    ],
+        outputSettings: {
+          providerName: false,
+          hideColumns: false
+        },
+        runSettings: {
+          autoUpdate: true,
+          condition: '',
+          truncate: true
+        },
+        status: 'Draft'
+      }),
+      enrich: () => ({
+        type: 'enrich',
+        name: 'Metadata Enrichment',
+        subtitle: 'Call an enrichment provider to append metadata.',
+        badge: 'Automation',
+        description: 'Pick the provider and configure output handling to keep your columns tidy.',
+        dataType: 'entity',
+        outputSettings: {
+          providerName: true,
+          hideColumns: false
+        },
+        runSettings: {
+          autoUpdate: true,
+          condition: '',
+          truncate: true
+        },
+        status: 'Draft'
+      }),
+      ai: () => ({
+        type: 'ai',
+        name: 'AI Generation',
+        subtitle: 'Generate content using an AI assistant with guardrails.',
+        badge: 'AI',
+        description: 'Provide the prompt template, define inputs, and decide how results write back to the table.',
+        dataType: 'content',
+        outputSettings: {
+          providerName: false,
+          hideColumns: false
+        },
+        runSettings: {
+          autoUpdate: true,
+          condition: '',
+          truncate: true
+        },
+        status: 'Draft'
+      }),
+      message: () => ({
+        type: 'message',
+        name: 'Automated Message',
+        subtitle: 'Send notifications or post to collaboration tools.',
+        badge: 'Messaging',
+        description: 'Configure the channel, recipients, and throttling. Messages send whenever the column updates.',
+        dataType: 'action',
+        outputSettings: null,
+        runSettings: {
+          autoUpdate: true,
+          condition: '',
+          truncate: false
+        },
+        status: 'Draft'
+      }),
+      formula: () => ({
+        type: 'formula',
+        name: 'Formula Column',
+        subtitle: 'Derive values from other columns using expressions.',
+        badge: 'Formula',
+        description: 'Write calculated expressions to populate this column.',
+        dataType: 'calculated',
+        outputSettings: null,
+        runSettings: null,
+        status: 'Draft'
+      })
+    };
+
+    const ACTION_MENU_MAP = {
+      'add-enrichment': 'enrich',
+      'use-ai': 'ai',
+      'message': 'message',
+      'waterfall': 'waterfall',
+      'formula': 'formula'
+    };
+
+    let activeActionsSection = 'enrichments';
+    let contextActionsCollapsed = false;
+
+    function renderContextActions(section, columnId) {
+      if (!contextActionsSection || !contextActionsTabs || !contextActionsListEl) return;
+      const definition = ACTIONS_SECTIONS[section] || ACTIONS_SECTIONS.enrichments;
+      activeActionsSection = definition ? section : 'enrichments';
+
+      contextActionsTabs.forEach(tab => {
+        tab.classList.toggle('active', tab.dataset.contextActionsTab === activeActionsSection);
+      });
+
+      const columnLabel = columnId ? getColumnLabel(columnId) : null;
+      if (contextActionsTitleEl) {
+        contextActionsTitleEl.textContent = columnLabel ? `${columnLabel} actions` : 'Automation library';
+      }
+      if (contextActionsSubtitleEl) {
+        contextActionsSubtitleEl.textContent = definition ? definition.description : 'Click a column to populate automation recommendations.';
+      }
+
+      if (!definition) {
+        contextActionsListEl.innerHTML = '<p class="text-xs text-slate-500">No actions available.</p>';
+        return;
+      }
+
+      contextActionsListEl.innerHTML = definition.items.map(item => `
+        <div class="actions-list-item">
+          <div class="details">
+            <div class="icon">
+              <i data-lucide="${item.icon}" class="w-4 h-4"></i>
+            </div>
+            <div>
+              <h4>${item.label}</h4>
+              <span>${item.description}</span>
+            </div>
+          </div>
+          ${item.badge ? `<span class="actions-price-chip">${item.badge}</span>` : ''}
+        </div>
+      `).join('');
+
+      if (window.lucide && typeof window.lucide.createIcons === 'function') {
+        window.lucide.createIcons();
+      }
+
+      if (!contextActionsCollapsed) {
+        contextActionsSection.classList.remove('hidden');
+      } else {
+        contextActionsSection.classList.add('hidden');
+      }
+
+      updateContextActionsToggle();
+    }
+
+    function updateContextActionsToggle() {
+      if (!contextActionsToggleBtn) return;
+      contextActionsToggleBtn.setAttribute('aria-expanded', String(!contextActionsCollapsed));
+      if (contextActionsToggleLabel) {
+        contextActionsToggleLabel.textContent = contextActionsCollapsed ? 'Show actions' : 'Hide actions';
+      }
+      if (contextActionsToggleIcon) {
+        contextActionsToggleIcon.textContent = contextActionsCollapsed ? '⟶' : '⟵';
+      }
+      if (contextActionsCollapsed && contextActionsSection) {
+        contextActionsSection.classList.add('hidden');
+      }
+    }
+
+    const columnAutomations = {};
+    let selectedColumn = null;
+    let currentActionColumn = null;
+    let currentAction = null;
+    let originalAction = null;
+    let hasUnsavedChanges = false;
+
+    function generateId() {
+      return `id_${Date.now()}_${Math.random().toString(16).slice(2, 6)}`;
+    }
+
+    function deepClone(value) {
+      return value ? JSON.parse(JSON.stringify(value)) : null;
+    }
+
+    function getColumnLabel(columnId) {
+      if (columnId === 'title') return 'Content Item';
+      if (FIELD_LIBRARY[columnId]) return FIELD_LIBRARY[columnId].label;
+      if (customColumns[columnId]) return customColumns[columnId].label;
+      return columnId;
+    }
+
+    function highlightSelectedColumn() {
+      tableHeadEl.querySelectorAll('th[data-column]').forEach(th => th.classList.remove('column-selected'));
+      tableBodyEl.querySelectorAll('td[data-field]').forEach(td => td.classList.remove('column-selected'));
+      if (!selectedColumn) return;
+      const header = tableHeadEl.querySelector(`th[data-column="${selectedColumn}"]`);
+      if (header) header.classList.add('column-selected');
+      tableBodyEl.querySelectorAll(`td[data-field="${selectedColumn}"]`).forEach(td => td.classList.add('column-selected'));
+    }
+
+    function markDirty() {
+      hasUnsavedChanges = true;
+      inspectorEls.status.textContent = 'Unsaved changes';
+      inspectorEls.saveBtn.disabled = false;
+      inspectorEls.cancelBtn.disabled = false;
+    }
+
+    function resetDirty() {
+      hasUnsavedChanges = false;
+      inspectorEls.saveBtn.disabled = true;
+      inspectorEls.cancelBtn.disabled = false;
+    }
+
+    function selectColumn(columnId) {
+      selectedColumn = columnId;
+      currentActionColumn = columnId;
+      if (columnAutomations[columnId]) {
+        currentAction = deepClone(columnAutomations[columnId]);
+        originalAction = deepClone(columnAutomations[columnId]);
+        resetDirty();
+      } else {
+        currentAction = null;
+        originalAction = null;
+        resetDirty();
+      }
+      renderInspector();
+      highlightSelectedColumn();
+      if (selectedColumn) {
+        renderContextActions(activeActionsSection, selectedColumn);
+      } else if (contextActionsSection) {
+        contextActionsSection.classList.add('hidden');
+      }
+    }
+
+    function configureColumnAction(columnId, actionKey) {
+      selectedColumn = columnId;
+      currentActionColumn = columnId;
+      currentAction = ACTION_LIBRARY[actionKey]();
+      originalAction = columnAutomations[columnId] ? deepClone(columnAutomations[columnId]) : null;
+      hasUnsavedChanges = true;
+      renderInspector();
+      highlightSelectedColumn();
+    }
+
+    function createAutomationColumn(actionKey) {
+      customColumnCount += 1;
+      const id = `automation_${customColumnCount}`;
+      const label = ACTION_LIBRARY[actionKey]().name || `Automation ${customColumnCount}`;
+      customColumns[id] = { label, type: 'automation', automation: true };
+      DATA.forEach(item => {
+        item[id] = '';
+      });
+      activeColumns.push(id);
+      renderTable();
+      return id;
+    }
+
+    function removeActionFromColumn(columnId) {
+      delete columnAutomations[columnId];
+      currentAction = null;
+      originalAction = null;
+      hasUnsavedChanges = false;
+      if (customColumns[columnId] && customColumns[columnId].automation) {
+        activeColumns = activeColumns.filter(col => col !== columnId);
+        delete customColumns[columnId];
+        DATA.forEach(item => delete item[columnId]);
+        selectedColumn = null;
+        currentActionColumn = null;
+        renderTable();
+      }
+      renderInspector();
+      highlightSelectedColumn();
+      showToast('Automation removed', 'The automation has been removed from this column.');
+    }
+
+    function renderInspector() {
+      if (!selectedColumn) {
+        inspectorEls.container.classList.add('inspector-empty');
+        inspectorEls.title.textContent = 'No action active';
+        inspectorEls.subtitle.textContent = 'Choose an action from the table toolbar to configure it.';
+        inspectorEls.actionName.textContent = 'Select an action';
+        inspectorEls.actionBadge.textContent = '—';
+        if (inspectorEls.actionBody.querySelector('p')) {
+          inspectorEls.actionBody.querySelector('p').textContent = 'Waterfall chains queries to external providers until a result is returned. Configure the sequence and output below.';
+        }
+        inspectorEls.dataType.value = '';
+        inspectorEls.waterfallList.innerHTML = '';
+        inspectorEls.outputSettings.innerHTML = '';
+        inspectorEls.runSettings.innerHTML = '';
+        inspectorEls.status.textContent = 'No pending runs';
+        inspectorEls.deleteBtn.classList.add('hidden');
+        if (contextActionsSection) contextActionsSection.classList.add('hidden');
+        updateContextActionsToggle();
+        return;
+      }
+
+      inspectorEls.title.textContent = getColumnLabel(selectedColumn);
+
+      if (!currentAction) {
+        inspectorEls.container.classList.add('inspector-empty');
+        inspectorEls.subtitle.textContent = 'No automation is assigned to this column yet.';
+        inspectorEls.actionName.textContent = 'Select an action';
+        inspectorEls.actionBadge.textContent = '—';
+        if (inspectorEls.actionBody.querySelector('p')) {
+          inspectorEls.actionBody.querySelector('p').textContent = 'Use the column menu to assign a Waterfall, AI, or Metadata automation.';
+        }
+        inspectorEls.dataType.value = '';
+        inspectorEls.waterfallList.innerHTML = '<p class="text-xs text-slate-500">Waterfall actions will appear here once configured.</p>';
+        inspectorEls.outputSettings.innerHTML = '<p class="text-xs text-slate-500">Output settings appear once an automation is active.</p>';
+        inspectorEls.runSettings.innerHTML = '<p class="text-xs text-slate-500">Set automation run rules after selecting an action.</p>';
+        inspectorEls.status.textContent = columnAutomations[selectedColumn] ? 'Saved' : 'Not configured';
+        inspectorEls.deleteBtn.classList.toggle('hidden', !(columnAutomations[selectedColumn] || (customColumns[selectedColumn] && customColumns[selectedColumn].automation)));
+        return;
+      }
+
+      inspectorEls.container.classList.remove('inspector-empty');
+      inspectorEls.subtitle.textContent = currentAction.subtitle || 'Configure the behaviour for this automation.';
+      inspectorEls.actionName.textContent = currentAction.name || 'Automation';
+      inspectorEls.actionBadge.textContent = currentAction.badge || 'Automation';
+      inspectorEls.status.textContent = hasUnsavedChanges ? 'Unsaved changes' : (currentAction.status || 'Draft');
+      if (inspectorEls.actionBody.querySelector('p')) {
+        inspectorEls.actionBody.querySelector('p').textContent = currentAction.description || '';
+      }
+      inspectorEls.dataType.value = currentAction.dataType || '';
+      inspectorEls.deleteBtn.classList.toggle('hidden', false);
+
+      renderWaterfallSequence(currentAction);
+      renderOutputSettings(currentAction);
+      renderRunSettings(currentAction);
+
+      lucide.createIcons();
+      if (selectedColumn) {
+        renderContextActions(activeActionsSection, selectedColumn);
+      }
+    }
+
+    function renderWaterfallSequence(action) {
+      if (action.type !== 'waterfall') {
+        inspectorEls.addActionBtn.classList.add('hidden');
+        inspectorEls.addFormulaBtn.classList.add('hidden');
+        inspectorEls.waterfallList.innerHTML = '<p class="text-xs text-slate-500">This automation does not use a waterfall sequence.</p>';
+        return;
+      }
+
+      inspectorEls.addActionBtn.classList.remove('hidden');
+      inspectorEls.addFormulaBtn.classList.remove('hidden');
+
+      if (!action.sequence || !action.sequence.length) {
+        inspectorEls.waterfallList.innerHTML = '<p class="text-xs text-slate-500">Start with a Smart ingest stage, then add transformation, personalization, and deployment steps.</p>';
+        return;
+      }
+
+      inspectorEls.waterfallList.innerHTML = action.sequence.map((step, index) => {
+        const stageKey = step.stage || (step.kind === 'formula' ? 'formula' : 'transform');
+        const meta = WATERFALL_STAGE_LIBRARY[stageKey] || WATERFALL_STAGE_LIBRARY.transform;
+        const stepNumber = String(index + 1).padStart(2, '0');
+
+        if (stageKey === 'formula' || step.kind === 'formula') {
+          return `
+            <div class="sequence-item" data-sequence-id="${step.id}">
+              <div class="sequence-index">${stepNumber}</div>
+              <div class="sequence-body">
+                <div class="sequence-header">
+                  <span class="px-2 py-1 rounded-md bg-indigo-100 text-indigo-700 text-[11px] font-semibold">${meta.label}</span>
+                  <span class="sequence-hint">${meta.description}</span>
+                </div>
+                <textarea class="inspector-textarea sequence-expression" data-sequence-id="${step.id}" placeholder="${escapeAttribute(meta.placeholder)}">${escapeHtml(step.expression || '')}</textarea>
+              </div>
+              <button class="ghost-btn sequence-remove" data-sequence-id="${step.id}">
+                <i data-lucide="x" class="w-3.5 h-3.5"></i>
+                Remove
+              </button>
+            </div>
+          `;
+        }
+
+        const stageOptions = Object.entries(WATERFALL_STAGE_LIBRARY)
+          .filter(([key]) => key !== 'formula')
+          .map(([key, optionMeta]) => `<option value="${key}" ${stageKey === key ? 'selected' : ''}>${optionMeta.label}</option>`)
+          .join('');
+
+        return `
+          <div class="sequence-item" data-sequence-id="${step.id}">
+            <div class="sequence-index">${stepNumber}</div>
+            <div class="sequence-body">
+              <div class="sequence-header">
+                <select class="inspector-select sequence-stage" data-sequence-id="${step.id}">
+                  ${stageOptions}
+                </select>
+                <span class="sequence-hint">${meta.description}</span>
+              </div>
+              <input class="inspector-input sequence-label" data-sequence-id="${step.id}" value="${escapeAttribute(step.label || '')}" placeholder="${escapeAttribute(meta.defaultLabel)}" />
+              <input class="inspector-input sequence-provider" data-sequence-id="${step.id}" value="${escapeAttribute(step.provider || '')}" placeholder="${escapeAttribute(meta.placeholder)}" />
+            </div>
+            <button class="ghost-btn sequence-remove" data-sequence-id="${step.id}">
+              <i data-lucide="x" class="w-3.5 h-3.5"></i>
+              Remove
+            </button>
+          </div>
+        `;
+      }).join('');
+
+      inspectorEls.waterfallList.querySelectorAll('.sequence-stage').forEach(select => {
+        select.addEventListener('change', (evt) => {
+          const seqId = evt.target.dataset.sequenceId;
+          const step = action.sequence.find(s => s.id === seqId);
+          if (!step) return;
+          const oldStage = step.stage;
+          const oldMeta = WATERFALL_STAGE_LIBRARY[oldStage];
+          const newStage = evt.target.value;
+          const newMeta = WATERFALL_STAGE_LIBRARY[newStage] || WATERFALL_STAGE_LIBRARY.transform;
+          step.stage = newStage;
+          step.kind = 'stage';
+          if (!step.label || (oldMeta && step.label === oldMeta.defaultLabel)) {
+            step.label = newMeta.defaultLabel;
+          }
+          if (!step.provider || (oldMeta && step.provider === oldMeta.defaultProvider)) {
+            step.provider = newMeta.defaultProvider;
+          }
+          markDirty();
+          renderWaterfallSequence(action);
+        });
+      });
+
+      inspectorEls.waterfallList.querySelectorAll('.sequence-label').forEach(input => {
+        input.addEventListener('input', (evt) => {
+          const seqId = evt.target.dataset.sequenceId;
+          const step = action.sequence.find(s => s.id === seqId);
+          if (step) {
+            step.label = evt.target.value;
+            markDirty();
+          }
+        });
+      });
+
+      inspectorEls.waterfallList.querySelectorAll('.sequence-provider').forEach(input => {
+        input.addEventListener('input', (evt) => {
+          const seqId = evt.target.dataset.sequenceId;
+          const step = action.sequence.find(s => s.id === seqId);
+          if (step) {
+            step.provider = evt.target.value;
+            markDirty();
+          }
+        });
+      });
+
+      inspectorEls.waterfallList.querySelectorAll('.sequence-expression').forEach(textarea => {
+        textarea.addEventListener('input', (evt) => {
+          const seqId = evt.target.dataset.sequenceId;
+          const step = action.sequence.find(s => s.id === seqId);
+          if (step) {
+            step.expression = evt.target.value;
+            markDirty();
+          }
+        });
+      });
+
+      inspectorEls.waterfallList.querySelectorAll('.sequence-remove').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const seqId = btn.dataset.sequenceId;
+          action.sequence = action.sequence.filter(s => s.id !== seqId);
+          markDirty();
+          renderWaterfallSequence(action);
+        });
+      });
+
+      lucide.createIcons();
+    }
+
+    function renderOutputSettings(action) {
+      if (!action.outputSettings) {
+        inspectorEls.outputSettings.innerHTML = '<p class="text-xs text-slate-500">This automation does not expose additional output settings.</p>';
+        return;
+      }
+
+      inspectorEls.outputSettings.innerHTML = `
+        <div class="toggle-row">
+          <div>
+            <p class="inspector-label">Output provider name</p>
+            <p class="text-xs text-slate-500">Store the name of the successful provider alongside the result.</p>
+          </div>
+          <label class="toggle-control" title="Toggle provider name output">
+            <input type="checkbox" data-setting="providerName" ${action.outputSettings.providerName ? 'checked' : ''} aria-label="Toggle provider name output" />
+            <span class="toggle-track"></span>
+          </label>
+        </div>
+        <div class="toggle-row">
+          <div>
+            <p class="inspector-label">Hide provider columns</p>
+            <p class="text-xs text-slate-500">Keep provider metadata hidden from table views.</p>
+          </div>
+          <label class="toggle-control" title="Toggle provider column visibility">
+            <input type="checkbox" data-setting="hideColumns" ${action.outputSettings.hideColumns ? 'checked' : ''} aria-label="Toggle provider column visibility" />
+            <span class="toggle-track"></span>
+          </label>
+        </div>
+      `;
+
+      inspectorEls.outputSettings.querySelectorAll('.toggle-control input').forEach(input => {
+        input.addEventListener('change', () => {
+          const key = input.dataset.setting;
+          action.outputSettings[key] = input.checked;
+          markDirty();
+        });
+      });
+    }
+
+    function renderRunSettings(action) {
+      if (!action.runSettings) {
+        inspectorEls.runSettings.innerHTML = '<p class="text-xs text-slate-500">Run settings are not available for this automation.</p>';
+        return;
+      }
+
+      inspectorEls.runSettings.innerHTML = `
+        <div class="toggle-row">
+          <div>
+            <p class="inspector-label">Auto-update</p>
+            <p class="text-xs text-slate-500">Rerun this automation whenever source data changes.</p>
+          </div>
+          <label class="toggle-control" title="Toggle auto-update execution">
+            <input type="checkbox" data-run-setting="autoUpdate" ${action.runSettings.autoUpdate ? 'checked' : ''} aria-label="Toggle auto-update execution" />
+            <span class="toggle-track"></span>
+          </label>
+        </div>
+        <div class="flex flex-col gap-2">
+          <p class="inspector-label">Only run if</p>
+          <input class="inspector-input" id="run-condition-input" value="${action.runSettings.condition || ''}" placeholder="{{Field}} > 50" />
+        </div>
+        <div class="toggle-row">
+          <div>
+            <p class="inspector-label">Shorten long outputs</p>
+            <p class="text-xs text-slate-500">Automatically truncate results that exceed cell limits.</p>
+          </div>
+          <label class="toggle-control" title="Toggle truncation of long outputs">
+            <input type="checkbox" data-run-setting="truncate" ${action.runSettings.truncate ? 'checked' : ''} aria-label="Toggle truncation of long outputs" />
+            <span class="toggle-track"></span>
+          </label>
+        </div>
+      `;
+
+      inspectorEls.runSettings.querySelectorAll('.toggle-control input').forEach(input => {
+        input.addEventListener('change', () => {
+          const key = input.dataset.runSetting;
+          action.runSettings[key] = input.checked;
+          markDirty();
+        });
+      });
+
+      const conditionInput = document.getElementById('run-condition-input');
+      if (conditionInput) {
+        conditionInput.addEventListener('input', (evt) => {
+          action.runSettings.condition = evt.target.value;
+          markDirty();
+        });
+      }
+    }
+
+    function renderTable() {
+      const headerHtml = `
+        <tr class="text-[12px] uppercase tracking-wide text-slate-500">
+          <th class="row-number" data-column="row-number">#</th>
+          <th class="py-3 pl-5 pr-3 text-left font-semibold text-slate-600 relative" data-column="record">
+            <div class="flex items-center gap-2">
+              <span class="grid-letter">${columnLetter(0)}</span>
+              <span>Record</span>
+            </div>
+          </th>
+          ${activeColumns.map((column, idx) => {
+            const field = column === 'title' ? { label: 'Content Item' } : FIELD_LIBRARY[column];
+            const customField = customColumns[column];
+            const letter = columnLetter(idx + 1);
+            const columnLabel = customField ? customField.label : (field ? field.label : column);
+            return `
+              <th class="py-3 px-3 text-left font-semibold text-slate-600 relative" data-column="${column}">
+                <div class="flex items-center gap-2">
+                  <span class="grid-letter">${letter}</span>
+                  <span>${columnLabel}</span>
+                  <button class="ml-auto text-slate-400 hover:text-slate-600 transition p-1 rounded hover:bg-slate-100" data-column-menu="${column}" title="Column options">
+                    <i data-lucide="chevron-down" class="w-3.5 h-3.5"></i>
+                  </button>
+                </div>
+              </th>
+            `;
+          }).join('')}
+          <th class="py-3 pr-5 pl-3 text-right font-semibold text-slate-600 relative" data-column="__actions">
+            <div class="flex items-center justify-end gap-2">
+              <span class="grid-letter">${columnLetter(activeColumns.length + 1)}</span>
+              <span>Actions</span>
+            </div>
+          </th>
+        </tr>
+      `;
+
+      const bodyHtml = DATA.map((item, index) => {
+        const rowNumberCell = `<td class="row-number">${index + 1}</td>`;
+        return `
+          <tr class="table-row" data-index="${index}" draggable="true">
+            ${rowNumberCell}
+            <td class="py-3 pl-5 pr-3 text-slate-400" data-cell="true" data-row-index="${index}" data-col-index="0" data-field="record" data-column="record" tabindex="-1">
+              <div class="flex items-center gap-2">
+                <i data-lucide="grip-vertical" class="w-3.5 h-3.5"></i>
+                <span class="text-[12px] text-slate-400 font-medium">${item.id}</span>
+              </div>
+            </td>
+            ${activeColumns.map((column, colIdx) => {
+              const colIndex = colIdx + 1;
+              if (column === 'title') {
+                return `
+                  <td class="py-3 px-3" data-cell="true" data-row-index="${index}" data-col-index="${colIndex}" data-field="${column}" data-column="${column}" tabindex="-1">
+                    <span class="text-[13px] text-slate-900 font-medium">${item.title}</span>
+                  </td>
+                `;
+              }
+              if (customColumns[column]) {
+                const customField = customColumns[column];
+                if (customField.automation) {
+                  return `
+                    <td class="py-3 px-3" data-cell="true" data-row-index="${index}" data-col-index="${colIndex}" data-field="${column}" data-column="${column}" tabindex="-1">
+                      <span class="inline-flex items-center gap-1.5 px-2 py-1 rounded-md bg-amber-100 text-amber-700 text-[11px] font-medium">
+                        <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
+                        Pending run
+                      </span>
+                    </td>
+                  `;
+                }
+                return `
+                  <td class="py-3 px-3" data-cell="true" data-row-index="${index}" data-col-index="${colIndex}" data-field="${column}" data-column="${column}" tabindex="-1">
+                    <div class="editable-cell" contenteditable="true" data-editable="true" data-row-index="${index}" data-field="${column}">${item[column] || ''}</div>
+                  </td>
+                `;
+              }
+              const field = FIELD_LIBRARY[column];
+              return `<td class="py-3 px-3" data-cell="true" data-row-index="${index}" data-col-index="${colIndex}" data-field="${column}" data-column="${column}" tabindex="-1">${field ? field.render(item) : ''}</td>`;
+            }).join('')}
+            <td class="py-3 pr-5 pl-3 text-right" data-column="__actions">
+              <div class="flex items-center justify-end gap-2">
+                <button class="px-2.5 py-1 rounded-md bg-white border border-slate-200 text-[11px] text-slate-600 hover:bg-slate-50 transition shadow-sm" data-row-action="enrich" data-row="${item.id}">
+                  <i data-lucide="wand2" class="w-3.5 h-3.5"></i>
+                </button>
+                <button class="px-2.5 py-1 rounded-md bg-indigo-500 text-[11px] text-white hover:bg-indigo-600 transition shadow-sm" data-row-action="deploy" data-row="${item.id}">
+                  Deploy
+                </button>
+              </div>
+            </td>
+          </tr>
+        `;
+      }).join('');
+
+      tableHeadEl.innerHTML = headerHtml;
+      tableBodyEl.innerHTML = bodyHtml;
+
+      attachHeaderActions();
+      attachRowDragHandlers();
+      attachRowActions();
+      attachEditableCells();
+      attachCellSelection();
+      attachColumnMenus();
+      lucide.createIcons();
+      highlightSelectedColumn();
+    }
+
+    function attachHeaderActions() {
+      // Column dropdown menus are handled in attachColumnMenus
+    }
+
+    function attachColumnMenus() {
+      const menuButtons = tableHeadEl.querySelectorAll('button[data-column-menu]');
+      menuButtons.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const column = btn.dataset.columnMenu;
+          openColumnMenu(btn, column);
+        });
+      });
+    }
+
+    function closeColumnMenu(e) {
+      if (!columnMenu.contains(e.target) && !e.target.closest('button[data-column-menu]')) {
+        columnMenu.style.display = 'none';
+        document.removeEventListener('click', closeColumnMenu);
+      }
+    }
+
+    function attachRowDragHandlers() {
+      const rows = tableBodyEl.querySelectorAll('tr.table-row');
+      let draggedIndex = null;
+
+      rows.forEach(row => {
+        row.addEventListener('dragstart', event => {
+          draggedIndex = Number(row.dataset.index);
+          event.dataTransfer.setData('text/plain', draggedIndex);
+          row.classList.add('dragging');
+        });
+
+        row.addEventListener('dragenter', event => {
+          event.preventDefault();
+          if (Number(row.dataset.index) !== draggedIndex) {
+            row.classList.add('drag-over');
+          }
+        });
+
+        row.addEventListener('dragover', event => {
+          event.preventDefault();
+        });
+
+        row.addEventListener('dragleave', () => {
+          row.classList.remove('drag-over');
+        });
+
+        row.addEventListener('drop', event => {
+          event.preventDefault();
+          const targetIndex = Number(row.dataset.index);
+          if (draggedIndex === null || draggedIndex === targetIndex) return;
+          const moved = DATA.splice(draggedIndex, 1)[0];
+          DATA.splice(targetIndex, 0, moved);
+          renderTable();
+        });
+
+        row.addEventListener('dragend', () => {
+          row.classList.remove('dragging');
+          rows.forEach(r => r.classList.remove('drag-over'));
+        });
+      });
+    }
+
+    function attachRowActions() {
+      tableBodyEl.querySelectorAll('[data-row-action]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const type = btn.dataset.rowAction;
+          const id = btn.dataset.row;
+          if (type === 'enrich') {
+            showToast('AI Enrichment queued', `We are analysing ${id} to expand personas, tags, and freshness signals.`);
+          } else if (type === 'deploy') {
+            showToast('Deploy pipeline queued', `${id} has been added to the staging deployment batch.`);
+          }
+        });
+      });
+    }
+
+    function attachEditableCells() {
+      const editables = tableBodyEl.querySelectorAll('[data-editable="true"]');
+      editables.forEach(cell => {
+        cell.addEventListener('blur', () => {
+          const rowIndex = Number(cell.dataset.rowIndex);
+          const field = cell.dataset.field;
+          DATA[rowIndex][field] = cell.textContent.trim();
+        });
+      });
+    }
+
+    function attachCellSelection() {
+      tableHeadEl.querySelectorAll('th[data-column]').forEach(th => {
+        th.addEventListener('click', (event) => {
+          if (event.target.closest('button')) return;
+          const column = th.dataset.column;
+          if (!column || column === 'row-number' || column === 'record' || column === '__actions') return;
+          selectColumn(column);
+        });
+      });
+    }
+
+    function openColumnMenu(trigger, column = null) {
+      const rect = trigger.getBoundingClientRect();
+      const removeBtn = document.getElementById('column-remove-btn');
+      const actionsHeading = document.getElementById('column-actions-heading');
+
+      if (column && !LOCKED_COLUMNS.includes(column)) {
+        removeBtn.style.display = 'flex';
+        actionsHeading.style.display = 'block';
+      } else {
+        removeBtn.style.display = 'none';
+        actionsHeading.style.display = 'none';
+      }
+
+      columnMenu.style.display = 'flex';
+      columnMenu.style.position = 'fixed';
+      columnMenu.style.top = `${rect.bottom + 4}px`;
+      columnMenu.style.left = `${rect.left}px`;
+      columnMenu.dataset.targetColumn = column || '';
+
+      document.addEventListener('click', closeColumnMenu);
+    }
+
+    columnMenuTrigger.addEventListener('click', (e) => {
+      e.stopPropagation();
+      openColumnMenu(columnMenuTrigger);
+    });
+
+    // Column menu actions
+    columnMenu.querySelectorAll('button[data-column-action], button[data-column-field]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const action = btn.dataset.columnAction || btn.dataset.columnField;
+        let targetColumn = columnMenu.dataset.targetColumn;
+        
+        if (btn.dataset.columnField) {
+          const fieldKey = action;
+          if (FIELD_LIBRARY[fieldKey]) {
+            if (activeColumns.includes(fieldKey)) {
+              showToast('Already visible', `${FIELD_LIBRARY[fieldKey].label} is already on the table.`);
+            } else {
+              activeColumns.push(fieldKey);
+              renderTable();
+              showToast('Column added', `${FIELD_LIBRARY[fieldKey].label} column added.`);
+            }
+          } else {
+            addCustomColumn(fieldKey);
+          }
+          closeColumnMenu({ target: document.body });
+          return;
+        }
+
+        const actionKey = ACTION_MENU_MAP[action];
+        if (actionKey) {
+          if (!targetColumn) {
+            targetColumn = createAutomationColumn(actionKey);
+          }
+          configureColumnAction(targetColumn, actionKey);
+          showToast('Automation ready', `${getColumnLabel(targetColumn)} is ready for configuration.`);
+          closeColumnMenu({ target: document.body });
+          return;
+        }
+
+        if (action === 'transform') {
+          showToast('Transformation', 'Column transformation settings opened.');
+        } else if (action === 'merge-columns') {
+          showToast('Merge columns', 'Select columns to merge.');
+        } else if (action === 'remove') {
+          if (targetColumn && !LOCKED_COLUMNS.includes(targetColumn)) {
+            activeColumns = activeColumns.filter(col => col !== targetColumn);
+            if (targetColumn.startsWith('custom_')) {
+              delete customColumns[targetColumn];
+              DATA.forEach(item => delete item[targetColumn]);
+            }
+            delete columnAutomations[targetColumn];
+            if (selectedColumn === targetColumn) {
+              selectedColumn = null;
+              currentActionColumn = null;
+              currentAction = null;
+              originalAction = null;
+            }
+            renderTable();
+            renderInspector();
+            showToast('Column removed', 'Column has been removed from the table.');
+          }
+        }
+        
+        closeColumnMenu({ target: document.body });
+      });
+    });
+
+    if (inspectorEls.addActionBtn) {
+      inspectorEls.addActionBtn.addEventListener('click', () => {
+        if (!currentAction || currentAction.type !== 'waterfall') {
+          showToast('Select a waterfall', 'Choose a waterfall automation before adding stages.');
+          return;
+        }
+        currentAction.sequence.push(createWaterfallStep('transform'));
+        markDirty();
+        renderWaterfallSequence(currentAction);
+      });
+    }
+
+    if (inspectorEls.addFormulaBtn) {
+      inspectorEls.addFormulaBtn.addEventListener('click', () => {
+        if (!currentAction || currentAction.type !== 'waterfall') {
+          showToast('Select a waterfall', 'Choose a waterfall automation before adding stages.');
+          return;
+        }
+        currentAction.sequence.push(createFormulaStep());
+        markDirty();
+        renderWaterfallSequence(currentAction);
+      });
+    }
+
+    if (addRowsBtn && addRowsInput) {
+      addRowsBtn.addEventListener('click', () => {
+        let count = parseInt(addRowsInput.value, 10);
+        if (Number.isNaN(count) || count < 1) count = 1;
+        if (count > 50) count = 50;
+        for (let i = 0; i < count; i += 1) {
+          DATA.push(createBlankRecord());
+        }
+        renderTable();
+        showToast('Rows added', `${count} placeholder row${count === 1 ? '' : 's'} added to the table.`);
+      });
+    }
+
+    if (contextActionsToggleBtn) {
+      contextActionsToggleBtn.addEventListener('click', () => {
+        contextActionsCollapsed = !contextActionsCollapsed;
+        updateContextActionsToggle();
+      });
+      updateContextActionsToggle();
+    }
+
+    if (contextActionsTabs && contextActionsTabs.length) {
+      contextActionsTabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+          const target = tab.dataset.contextActionsTab;
+          renderContextActions(target, selectedColumn);
+        });
+      });
+    }
+
+    // AI recommend removed - use column dropdown instead
+
+    const generateAutomationBtn = document.getElementById('generate-automation');
+    if (generateAutomationBtn) {
+      generateAutomationBtn.addEventListener('click', () => {
+        showToast('Automation designer', 'Describe the outcome you want and we will craft the automation workflow.');
+      });
+    }
+
+    const newTableViewBtn = document.getElementById('new-table-view');
+    if (newTableViewBtn) {
+      newTableViewBtn.addEventListener('click', () => {
+        showToast('New view created', 'Duplicated current filters into "AI Ops" workspace.');
+      });
+    }
+
+    document.getElementById('switch-template').addEventListener('click', () => {
+      showToast('Template switcher coming soon', 'We will let you bind alternate portal templates to this view.');
+    });
+
+    function addCustomColumn(type) {
+      customColumnCount += 1;
+      const id = `custom_${customColumnCount}`;
+      let labelBase = 'Text';
+      if (type === 'number') labelBase = 'Number';
+      if (type === 'date') labelBase = 'Date';
+      if (type === 'url') labelBase = 'URL';
+      if (type === 'select') labelBase = 'Select';
+      customColumns[id] = {
+        label: `${labelBase} ${customColumnCount}`,
+        type
+      };
+      DATA.forEach(item => {
+        item[id] = '';
+      });
+      activeColumns.push(id);
+      renderTable();
+      showToast('Column added', `${customColumns[id].label} column is ready for editing.`);
+    }
+
+    function showToast(title, body) {
+      toastTitleEl.textContent = title;
+      toastBodyEl.textContent = body;
+      toastEl.classList.add('active');
+      lucide.createIcons();
+      clearTimeout(showToast.timeout);
+      showToast.timeout = setTimeout(() => {
+        toastEl.classList.remove('active');
+      }, 3600);
+    }
+
+    renderTable();
+  </script>
+</body>
+</html>

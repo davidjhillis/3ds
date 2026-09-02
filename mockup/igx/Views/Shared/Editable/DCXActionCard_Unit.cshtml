@@ -1,0 +1,23 @@
+@model ICMSElement
+@using Ingeniux.Runtime
+@{
+    ICMSElement comp = Model.Element((Model as CMSPageRequest)?.RootElementName?.Replace("_Unit", "")) ?? Model;
+    var title = comp.GetElementValue("Title");
+    var description = comp.GetElementValue("Description");
+    ICMSLinkElement link = comp.GetLinkItem("ActionLink");
+}
+<a href="@(link != null ? _Functions.GetLinkAction(link, Url) : "#")"
+   class="block bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-xl p-5 hover:shadow-lg hover:border-primary-300 dark:hover:border-primary-700 transition-all"
+   @_Helpers.RenderICEAttribute(Model, true)>
+    <h3 class="text-sm font-semibold text-neutral-900 dark:text-white mb-1"
+        @_Helpers.RenderICEAttribute(comp.Element("Title"))>
+        @title
+    </h3>
+    @if (!string.IsNullOrEmpty(description))
+    {
+        <p class="text-xs text-neutral-500 dark:text-neutral-400"
+           @_Helpers.RenderICEAttribute(comp.Element("Description"))>
+            @description
+        </p>
+    }
+</a>

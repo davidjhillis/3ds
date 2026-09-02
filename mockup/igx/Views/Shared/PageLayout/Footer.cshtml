@@ -1,0 +1,50 @@
+@model ICMSElement
+@using Ingeniux.Runtime
+@{
+    var footer = Model.Element("DCXFooter").Elements().FirstOrDefault();
+    var logoUrl = footer?.GetElementValue("FooterLogo");
+    var copyright = footer?.GetElementValue("Copyright");
+    var tagline = footer?.GetElementValue("Tagline");
+
+    ICMSElement[] linkGroups = footer?.Elements("FooterLinkGroup").ToArray() ?? new ICMSElement[0];
+}
+<footer class="w-full bg-neutral-900 dark:bg-neutral-950 text-white py-12 border-t border-neutral-800 mt-auto">
+    <div class="max-w-screen-xl mx-auto px-6">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+
+            <!-- Brand -->
+            <div>
+                @if (!string.IsNullOrEmpty(logoUrl))
+                {
+                    <a href="/" class="flex items-center gap-2 mb-4">
+                        <img src="@logoUrl" alt="Discover CX" class="h-6 w-auto">
+                    </a>
+                }
+                @if (!string.IsNullOrEmpty(tagline))
+                {
+                    <p class="text-sm text-neutral-400 leading-relaxed">@tagline</p>
+                }
+            </div>
+
+            <!-- Link Groups (from CMS) -->
+            @foreach (ICMSElement group in linkGroups)
+            {
+                <div>
+                    <h3 class="font-bold mb-4">@group.GetElementValue("GroupTitle")</h3>
+                    <div class="space-y-2 text-sm text-neutral-400">
+                        @foreach (ICMSLinkElement link in group.GetLinkItems("FooterLink"))
+                        {
+                            <a href="@_Functions.GetLinkAction(link, Url)" class="block hover:text-white">
+                                @_Functions.GetLinkName(link)
+                            </a>
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+
+        <div class="border-t border-neutral-800 pt-8 text-center text-sm text-neutral-400">
+            @Html.Raw(copyright?.Replace("{year}", DateTime.Today.Year.ToString()))
+        </div>
+    </div>
+</footer>

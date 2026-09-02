@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Profile - Discover CX Docs</title>
+  <!-- Compiled Tailwind + Design System -->
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="icon" href="assets/images/favicon.ico">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    * { margin: 0; padding: 0; }
+    .scrollbar-hide::-webkit-scrollbar { display: none; }
+    .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+  </style>
+</head>
+<body class="bg-neutral-50 dark:bg-neutral-900 text-neutral-900 dark:text-white min-h-screen flex flex-col">
+
+  <!-- Header -->
+  <header class="sticky top-0 z-50 bg-neutral-50 dark:bg-neutral-900 border-b border-neutral-200 dark:border-neutral-700">
+    <div class="mx-auto px-6">
+      <div class="flex items-center justify-between h-16">
+        <a href="index.html" class="flex items-center gap-3 hover:opacity-90 transition-opacity flex-shrink-0 mr-8">
+          <img src="assets/images/discover-cx-logo.svg" alt="Discover CX" class="h-7 w-auto dark:hidden">
+          <img src="assets/images/discover-cx-logo-white.svg" alt="Discover CX" class="h-7 w-auto hidden dark:block">
+          <span class="hidden lg:inline font-normal text-lg text-neutral-600 dark:text-neutral-400 whitespace-nowrap">Product Documentation</span>
+        </a>
+        <button id="cmd-k-trigger" class="absolute left-1/2 -translate-x-1/2 max-w-2xl w-full mx-4 hidden lg:flex items-center gap-3 px-4 py-2 border border-neutral-300 dark:border-neutral-600 rounded-lg bg-white dark:bg-neutral-800 text-left hover:border-primary-500 dark:hover:border-primary-400 transition-colors group">
+          <i data-lucide="search" class="w-5 h-5 text-neutral-400 group-hover:text-primary-600 dark:group-hover:text-primary-400"></i>
+          <span class="flex-1 text-sm text-neutral-500 dark:text-neutral-400">Search or ask a question</span>
+          <kbd class="hidden lg:inline-flex items-center gap-1 px-2 py-1 text-xs font-semibold text-neutral-600 dark:text-neutral-400 bg-neutral-100 dark:bg-neutral-700 border border-neutral-300 dark:border-neutral-600 rounded"><span class="text-xs">&#8984;</span>K</kbd>
+        </button>
+        <div class="flex items-center gap-3 ml-auto">
+          <button id="mobile-search-btn" class="lg:hidden p-2 hover:bg-neutral-100 dark:hover:bg-neutral-700 rounded-lg">
+            <i data-lucide="search" class="w-6 h-6 text-neutral-600 dark:text-neutral-400"></i>
+          </button>
+          <div class="relative">
+            <button id="mobile-menu-btn" class="p-2 hover:bg-neutral-100 dark:hover:bg-neutral-700 rounded-lg flex-shrink-0">
+              <i data-lucide="menu" class="w-6 h-6 text-neutral-600 dark:text-neutral-400"></i>
+            </button>
+            <div id="mobile-menu" class="hidden absolute right-0 top-full mt-2 w-64 bg-neutral-50 dark:bg-neutral-900 rounded-xl shadow-2xl border border-neutral-200 dark:border-neutral-700 z-50 py-2">
+              <nav class="py-2">
+                <a href="index.html#products" class="flex items-center gap-3 px-4 py-3 hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors">
+                  <i data-lucide="package" class="w-4 h-4 text-neutral-600 dark:text-neutral-400"></i>
+                  <span class="text-sm font-medium text-neutral-900 dark:text-white">Products</span>
+                </a>
+                <a href="doc-page.html" class="flex items-center gap-3 px-4 py-3 hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors">
+                  <i data-lucide="book-open" class="w-4 h-4 text-neutral-600 dark:text-neutral-400"></i>
+                  <span class="text-sm font-medium text-neutral-900 dark:text-white">Documentation</span>
+                </a>
+                <a href="#" class="flex items-center gap-3 px-4 py-3 hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors">
+                  <i data-lucide="life-buoy" class="w-4 h-4 text-neutral-600 dark:text-neutral-400"></i>
+                  <span class="text-sm font-medium text-neutral-900 dark:text-white">Support</span>
+                </a>
+              </nav>
+            </div>
+          </div>
+          <div class="relative">
+            <button id="user-menu-btn" class="flex items-center gap-2 p-1.5 hover:bg-neutral-100 dark:hover:bg-neutral-700 rounded-lg transition-colors">
+              <div class="w-8 h-8 rounded-full bg-gradient-to-br from-neutral-600 to-neutral-700 flex items-center justify-center text-white font-semibold text-sm">JD</div>
+              <i data-lucide="chevron-down" class="w-4 h-4 text-neutral-600 dark:text-neutral-400 hidden sm:block"></i>
+            </button>
+            <div id="user-dropdown" class="hidden absolute right-0 mt-2 w-56 bg-white dark:bg-neutral-800 rounded-xl shadow-2xl border border-neutral-200 dark:border-neutral-700 py-2 z-50">
+              <!-- Injected by js/user-dropdown.js -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="max-w-screen-xl mx-auto px-6 py-8 flex-1">
+
+    <!-- Profile Header -->
+    <div class="flex items-center gap-4 mb-8 pb-8 border-b border-neutral-200 dark:border-neutral-700">
+      <div class="w-14 h-14 rounded-full bg-gradient-to-br from-neutral-600 to-neutral-700 flex items-center justify-center text-white font-bold text-xl flex-shrink-0">JD</div>
+      <div class="flex-1 min-w-0">
+        <h1 class="text-lg font-bold text-neutral-900 dark:text-white">Jane Doe</h1>
+        <p class="text-sm text-neutral-500 dark:text-neutral-400">jane.doe@company.com &middot; Senior Developer at Acme Corporation</p>
+      </div>
+    </div>
+
+    <!-- Tabs -->
+    <nav class="flex overflow-x-auto scrollbar-hide border-b border-neutral-200 dark:border-neutral-700 mb-8 -mx-6 px-6" style="-webkit-overflow-scrolling: touch;">
+      <button data-tab="settings" class="tab-btn flex-shrink-0 px-4 py-2.5 border-b-2 border-primary-600 text-primary-600 dark:text-primary-400 font-semibold text-sm whitespace-nowrap">Profile</button>
+      <button data-tab="subscriptions" class="tab-btn flex-shrink-0 px-4 py-2.5 border-b-2 border-transparent text-neutral-500 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white font-semibold text-sm whitespace-nowrap">Subscriptions</button>
+      <div class="flex-shrink-0 w-px bg-neutral-200 dark:bg-neutral-700 mx-2 my-2"></div>
+      <button data-tab="bookmarks" class="tab-btn flex-shrink-0 px-4 py-2.5 border-b-2 border-transparent text-neutral-500 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white font-semibold text-sm whitespace-nowrap">Bookmarks</button>
+      <button data-tab="watched" class="tab-btn flex-shrink-0 px-4 py-2.5 border-b-2 border-transparent text-neutral-500 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white font-semibold text-sm whitespace-nowrap">Watched</button>
+    </nav>
+
+
+    <!-- ============ SETTINGS ============ -->
+    <div id="settings-tab" class="tab-content max-w-2xl">
+      <section class="mb-10">
+        <h2 class="text-sm font-semibold text-neutral-900 dark:text-white uppercase tracking-wide mb-4">Personal Information</h2>
+        <div class="space-y-4">
+          <div>
+            <label class="block text-sm text-neutral-500 dark:text-neutral-400 mb-2">Photo</label>
+            <div class="flex items-center gap-3">
+              <div id="avatar-display" class="w-10 h-10 rounded-full bg-gradient-to-br from-neutral-600 to-neutral-700 flex items-center justify-center text-white font-semibold text-sm overflow-hidden flex-shrink-0">
+                <span id="avatar-initials">JD</span>
+                <img id="avatar-img" class="hidden w-full h-full object-cover" alt="" />
+              </div>
+              <button onclick="document.getElementById('avatar-upload').click();" class="text-sm text-primary-600 dark:text-primary-400 hover:underline">Upload</button>
+              <button id="avatar-remove" onclick="document.getElementById('avatar-img').classList.add('hidden'); document.getElementById('avatar-img').src=''; document.getElementById('avatar-initials').classList.remove('hidden'); this.classList.add('hidden');" class="hidden text-sm text-red-500 hover:underline">Remove</button>
+              <input id="avatar-upload" type="file" accept="image/*" class="hidden" onchange="
+                var f=this.files[0]; if(!f) return;
+                var r=new FileReader();
+                r.onload=function(e){ document.getElementById('avatar-img').src=e.target.result; document.getElementById('avatar-img').classList.remove('hidden'); document.getElementById('avatar-initials').classList.add('hidden'); document.getElementById('avatar-remove').classList.remove('hidden'); };
+                r.readAsDataURL(f);
+              " />
+            </div>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-sm text-neutral-500 dark:text-neutral-400 mb-1">First Name</label>
+              <input type="text" value="Jane" class="w-full px-3 py-2 text-sm border border-neutral-200 dark:border-neutral-700 rounded-lg bg-white dark:bg-neutral-800 text-neutral-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent" />
+            </div>
+            <div>
+              <label class="block text-sm text-neutral-500 dark:text-neutral-400 mb-1">Last Name</label>
+              <input type="text" value="Doe" class="w-full px-3 py-2 text-sm border border-neutral-200 dark:border-neutral-700 rounded-lg bg-white dark:bg-neutral-800 text-neutral-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent" />
+            </div>
+          </div>
+          <div>
+            <label class="block text-sm text-neutral-500 dark:text-neutral-400 mb-1">Email</label>
+            <input type="email" value="jane.doe@company.com" class="w-full px-3 py-2 text-sm border border-neutral-200 dark:border-neutral-700 rounded-lg bg-white dark:bg-neutral-800 text-neutral-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent" />
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-sm text-neutral-500 dark:text-neutral-400 mb-1">Job Title</label>
+              <input type="text" value="Senior Developer" class="w-full px-3 py-2 text-sm border border-neutral-200 dark:border-neutral-700 rounded-lg bg-white dark:bg-neutral-800 text-neutral-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent" />
+            </div>
+            <div>
+              <label class="block text-sm text-neutral-500 dark:text-neutral-400 mb-1">Company</label>
+              <input type="text" value="Acme Corporation" class="w-full px-3 py-2 text-sm border border-neutral-200 dark:border-neutral-700 rounded-lg bg-white dark:bg-neutral-800 text-neutral-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent" />
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="mb-10 pt-8 border-t border-neutral-200 dark:border-neutral-700">
+        <h2 class="text-sm font-semibold text-neutral-900 dark:text-white uppercase tracking-wide mb-4">Preferences</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm text-neutral-500 dark:text-neutral-400 mb-1">Language</label>
+            <select class="w-full px-3 py-2 text-sm border border-neutral-200 dark:border-neutral-700 rounded-lg bg-white dark:bg-neutral-800 text-neutral-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500">
+              <option>English (US)</option><option>English (UK)</option><option>Spanish</option><option>French</option><option>German</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-sm text-neutral-500 dark:text-neutral-400 mb-1">Timezone</label>
+            <select class="w-full px-3 py-2 text-sm border border-neutral-200 dark:border-neutral-700 rounded-lg bg-white dark:bg-neutral-800 text-neutral-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500">
+              <option>Pacific Time (PT)</option><option>Mountain Time (MT)</option><option>Central Time (CT)</option><option>Eastern Time (ET)</option>
+            </select>
+          </div>
+        </div>
+      </section>
+      <div class="flex items-center justify-end gap-3 pt-6 border-t border-neutral-200 dark:border-neutral-700">
+        <button class="px-4 py-2 text-sm text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white transition-colors">Cancel</button>
+        <button class="px-5 py-2 text-sm font-semibold bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors">Save Changes</button>
+      </div>
+    </div>
+
+    <!-- ============ SUBSCRIPTIONS ============ -->
+    <div id="subscriptions-tab" class="tab-content hidden max-w-2xl">
+      <p class="text-sm text-neutral-500 dark:text-neutral-400 mb-6">Choose what triggers notifications</p>
+
+      <section class="mb-8">
+        <h2 class="text-sm font-semibold text-neutral-900 dark:text-white uppercase tracking-wide mb-3">Documentation</h2>
+        <div class="divide-y divide-neutral-100 dark:divide-neutral-800">
+          <label class="flex items-center justify-between py-3 cursor-pointer">
+            <div>
+              <p class="text-sm text-neutral-900 dark:text-white">New articles published</p>
+              <p class="text-xs text-neutral-500 mt-0.5">When new documentation is added</p>
+            </div>
+            <div class="relative inline-flex items-center"><input type="checkbox" checked class="sr-only peer"><div class="w-9 h-5 bg-neutral-300 dark:bg-neutral-600 rounded-full peer peer-checked:bg-green-500 dark:peer-checked:bg-green-500 after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-full"></div></div>
+          </label>
+          <label class="flex items-center justify-between py-3 cursor-pointer">
+            <div>
+              <p class="text-sm text-neutral-900 dark:text-white">Bookmarked articles updated</p>
+              <p class="text-xs text-neutral-500 mt-0.5">Changes to articles you've saved</p>
+            </div>
+            <div class="relative inline-flex items-center"><input type="checkbox" checked class="sr-only peer"><div class="w-9 h-5 bg-neutral-300 dark:bg-neutral-600 rounded-full peer peer-checked:bg-green-500 dark:peer-checked:bg-green-500 after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-full"></div></div>
+          </label>
+          <label class="flex items-center justify-between py-3 cursor-pointer">
+            <div>
+              <p class="text-sm text-neutral-900 dark:text-white">Watched page changes</p>
+              <p class="text-xs text-neutral-500 mt-0.5">When pages you're watching are modified</p>
+            </div>
+            <div class="relative inline-flex items-center"><input type="checkbox" checked class="sr-only peer"><div class="w-9 h-5 bg-neutral-300 dark:bg-neutral-600 rounded-full peer peer-checked:bg-green-500 dark:peer-checked:bg-green-500 after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-full"></div></div>
+          </label>
+        </div>
+      </section>
+
+      <section class="mb-8 pt-6 border-t border-neutral-200 dark:border-neutral-700">
+        <h2 class="text-sm font-semibold text-neutral-900 dark:text-white uppercase tracking-wide mb-3">Product</h2>
+        <div class="divide-y divide-neutral-100 dark:divide-neutral-800">
+          <label class="flex items-center justify-between py-3 cursor-pointer">
+            <div>
+              <p class="text-sm text-neutral-900 dark:text-white">Release announcements</p>
+              <p class="text-xs text-neutral-500 mt-0.5">Major product releases and updates</p>
+            </div>
+            <div class="relative inline-flex items-center"><input type="checkbox" checked class="sr-only peer"><div class="w-9 h-5 bg-neutral-300 dark:bg-neutral-600 rounded-full peer peer-checked:bg-green-500 dark:peer-checked:bg-green-500 after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-full"></div></div>
+          </label>
+          <label class="flex items-center justify-between py-3 cursor-pointer">
+            <div>
+              <p class="text-sm text-neutral-900 dark:text-white">Beta program updates</p>
+              <p class="text-xs text-neutral-500 mt-0.5">Early access to new features</p>
+            </div>
+            <div class="relative inline-flex items-center"><input type="checkbox" class="sr-only peer"><div class="w-9 h-5 bg-neutral-300 dark:bg-neutral-600 rounded-full peer peer-checked:bg-green-500 dark:peer-checked:bg-green-500 after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-full"></div></div>
+          </label>
+        </div>
+      </section>
+
+      <section class="pt-6 border-t border-neutral-200 dark:border-neutral-700">
+        <h2 class="text-sm font-semibold text-neutral-900 dark:text-white uppercase tracking-wide mb-3">Email</h2>
+        <div class="divide-y divide-neutral-100 dark:divide-neutral-800">
+          <label class="flex items-center justify-between py-3 cursor-pointer">
+            <div>
+              <p class="text-sm text-neutral-900 dark:text-white">Weekly digest</p>
+              <p class="text-xs text-neutral-500 mt-0.5">Summary of new and updated documentation</p>
+            </div>
+            <div class="relative inline-flex items-center"><input type="checkbox" class="sr-only peer"><div class="w-9 h-5 bg-neutral-300 dark:bg-neutral-600 rounded-full peer peer-checked:bg-green-500 dark:peer-checked:bg-green-500 after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-full"></div></div>
+          </label>
+          <label class="flex items-center justify-between py-3 cursor-pointer">
+            <div>
+              <p class="text-sm text-neutral-900 dark:text-white">Tips & best practices</p>
+              <p class="text-xs text-neutral-500 mt-0.5">Monthly recommendations from the documentation team</p>
+            </div>
+            <div class="relative inline-flex items-center"><input type="checkbox" checked class="sr-only peer"><div class="w-9 h-5 bg-neutral-300 dark:bg-neutral-600 rounded-full peer peer-checked:bg-green-500 dark:peer-checked:bg-green-500 after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:after:translate-x-full"></div></div>
+          </label>
+        </div>
+      </section>
+    </div>
+
+    <!-- ============ BOOKMARKS ============ -->
+    <div id="bookmarks-tab" class="tab-content hidden">
+      <div class="flex items-center gap-3 mb-5">
+        <div class="relative flex-1 max-w-xs">
+          <i data-lucide="search" class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-400"></i>
+          <input type="text" placeholder="Search bookmarks..." class="w-full pl-9 pr-3 py-1.5 text-sm border border-neutral-200 dark:border-neutral-700 rounded-lg bg-white dark:bg-neutral-800 text-neutral-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent" />
+        </div>
+        <p class="text-sm text-neutral-500 dark:text-neutral-400">23 articles</p>
+      </div>
+      <div class="divide-y divide-neutral-200 dark:divide-neutral-700">
+        <a href="doc-page.html" class="group flex items-center py-3 hover:bg-neutral-50 dark:hover:bg-neutral-800/50 -mx-3 px-3 rounded-lg transition-colors">
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center gap-2">
+              <p class="text-sm font-medium text-neutral-900 dark:text-white group-hover:text-primary-600 dark:group-hover:text-primary-400 truncate">Getting Started with Discover CX</p>
+              <span class="flex-shrink-0 text-[11px] px-1.5 py-0.5 bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-400 rounded">Guide</span>
+            </div>
+            <p class="text-xs text-neutral-500 mt-0.5">Discover CX &middot; Saved 2 days ago</p>
+          </div>
+          <button onclick="event.preventDefault(); event.stopPropagation();" class="p-1.5 opacity-0 group-hover:opacity-100 text-neutral-400 hover:text-neutral-600 transition-all flex-shrink-0"><i data-lucide="x" class="w-4 h-4"></i></button>
+        </a>
+        <a href="doc-page.html" class="group flex items-center py-3 hover:bg-neutral-50 dark:hover:bg-neutral-800/50 -mx-3 px-3 rounded-lg transition-colors">
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center gap-2">
+              <p class="text-sm font-medium text-neutral-900 dark:text-white group-hover:text-primary-600 dark:group-hover:text-primary-400 truncate">REST API Authentication</p>
+              <span class="flex-shrink-0 text-[11px] px-1.5 py-0.5 bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-400 rounded">API</span>
+            </div>
+            <p class="text-xs text-neutral-500 mt-0.5">Discover CX &middot; Saved 5 days ago</p>
+          </div>
+          <button onclick="event.preventDefault(); event.stopPropagation();" class="p-1.5 opacity-0 group-hover:opacity-100 text-neutral-400 hover:text-neutral-600 transition-all flex-shrink-0"><i data-lucide="x" class="w-4 h-4"></i></button>
+        </a>
+        <a href="doc-page.html" class="group flex items-center py-3 hover:bg-neutral-50 dark:hover:bg-neutral-800/50 -mx-3 px-3 rounded-lg transition-colors">
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center gap-2">
+              <p class="text-sm font-medium text-neutral-900 dark:text-white group-hover:text-primary-600 dark:group-hover:text-primary-400 truncate">Configuring Search Facets</p>
+              <span class="flex-shrink-0 text-[11px] px-1.5 py-0.5 bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-400 rounded">Tutorial</span>
+            </div>
+            <p class="text-xs text-neutral-500 mt-0.5">InSite Search &middot; Saved 1 week ago</p>
+          </div>
+          <button onclick="event.preventDefault(); event.stopPropagation();" class="p-1.5 opacity-0 group-hover:opacity-100 text-neutral-400 hover:text-neutral-600 transition-all flex-shrink-0"><i data-lucide="x" class="w-4 h-4"></i></button>
+        </a>
+        <a href="doc-page.html" class="group flex items-center py-3 hover:bg-neutral-50 dark:hover:bg-neutral-800/50 -mx-3 px-3 rounded-lg transition-colors">
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center gap-2">
+              <p class="text-sm font-medium text-neutral-900 dark:text-white group-hover:text-primary-600 dark:group-hover:text-primary-400 truncate">AI Assists Best Practices</p>
+              <span class="flex-shrink-0 text-[11px] px-1.5 py-0.5 bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-400 rounded">Best Practice</span>
+            </div>
+            <p class="text-xs text-neutral-500 mt-0.5">AI Assists &middot; Saved 2 weeks ago</p>
+          </div>
+          <button onclick="event.preventDefault(); event.stopPropagation();" class="p-1.5 opacity-0 group-hover:opacity-100 text-neutral-400 hover:text-neutral-600 transition-all flex-shrink-0"><i data-lucide="x" class="w-4 h-4"></i></button>
+        </a>
+        <a href="doc-page-checking-in-out.html" class="group flex items-center py-3 hover:bg-neutral-50 dark:hover:bg-neutral-800/50 -mx-3 px-3 rounded-lg transition-colors">
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center gap-2">
+              <p class="text-sm font-medium text-neutral-900 dark:text-white group-hover:text-primary-600 dark:group-hover:text-primary-400 truncate">Checking Pages In and Out</p>
+              <span class="flex-shrink-0 text-[11px] px-1.5 py-0.5 bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-400 rounded">Workflow</span>
+            </div>
+            <p class="text-xs text-neutral-500 mt-0.5">Discover CX &middot; Saved 3 weeks ago</p>
+          </div>
+          <button onclick="event.preventDefault(); event.stopPropagation();" class="p-1.5 opacity-0 group-hover:opacity-100 text-neutral-400 hover:text-neutral-600 transition-all flex-shrink-0"><i data-lucide="x" class="w-4 h-4"></i></button>
+        </a>
+        <a href="doc-page.html" class="group flex items-center py-3 hover:bg-neutral-50 dark:hover:bg-neutral-800/50 -mx-3 px-3 rounded-lg transition-colors">
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center gap-2">
+              <p class="text-sm font-medium text-neutral-900 dark:text-white group-hover:text-primary-600 dark:group-hover:text-primary-400 truncate">Content Schema Configuration</p>
+              <span class="flex-shrink-0 text-[11px] px-1.5 py-0.5 bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-400 rounded">Advanced</span>
+              <span class="flex-shrink-0 text-[11px] px-1.5 py-0.5 bg-amber-50 dark:bg-amber-900/20 text-amber-600 dark:text-amber-400 rounded font-semibold">Updated</span>
+            </div>
+            <p class="text-xs text-neutral-500 mt-0.5">Discover CX &middot; Saved 1 month ago</p>
+          </div>
+          <button onclick="event.preventDefault(); event.stopPropagation();" class="p-1.5 opacity-0 group-hover:opacity-100 text-neutral-400 hover:text-neutral-600 transition-all flex-shrink-0"><i data-lucide="x" class="w-4 h-4"></i></button>
+        </a>
+      </div>
+    </div>
+
+    <!-- ============ WATCHED ============ -->
+    <div id="watched-tab" class="tab-content hidden">
+      <p class="text-sm text-neutral-500 dark:text-neutral-400 mb-5">5 pages &middot; You'll be notified when these are updated</p>
+      <div class="divide-y divide-neutral-200 dark:divide-neutral-700">
+        <a href="doc-page.html" class="group flex items-center py-3 hover:bg-neutral-50 dark:hover:bg-neutral-800/50 -mx-3 px-3 rounded-lg transition-colors">
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center gap-2">
+              <p class="text-sm font-medium text-neutral-900 dark:text-white group-hover:text-primary-600 dark:group-hover:text-primary-400 truncate">REST API Authentication</p>
+              <span class="flex-shrink-0 text-[11px] px-1.5 py-0.5 bg-amber-50 dark:bg-amber-900/20 text-amber-600 dark:text-amber-400 rounded font-semibold">Updated 2h ago</span>
+            </div>
+            <p class="text-xs text-neutral-500 mt-0.5">Discover CX &middot; Watching since Mar 15</p>
+          </div>
+          <span onclick="event.preventDefault(); event.stopPropagation();" class="text-xs text-primary-600 dark:text-primary-400 hover:underline flex-shrink-0 mr-2 cursor-pointer">View changes</span>
+          <button onclick="event.preventDefault(); event.stopPropagation(); this.closest('a').remove();" class="text-xs text-neutral-400 opacity-0 group-hover:opacity-100 hover:text-red-500 transition-all flex-shrink-0">Unwatch</button>
+        </a>
+        <a href="doc-page.html" class="group flex items-center py-3 hover:bg-neutral-50 dark:hover:bg-neutral-800/50 -mx-3 px-3 rounded-lg transition-colors">
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center gap-2">
+              <p class="text-sm font-medium text-neutral-900 dark:text-white group-hover:text-primary-600 dark:group-hover:text-primary-400 truncate">Content Schema Configuration</p>
+              <span class="flex-shrink-0 text-[11px] px-1.5 py-0.5 bg-amber-50 dark:bg-amber-900/20 text-amber-600 dark:text-amber-400 rounded font-semibold">Updated yesterday</span>
+            </div>
+            <p class="text-xs text-neutral-500 mt-0.5">Discover CX &middot; Watching since Feb 28</p>
+          </div>
+          <span onclick="event.preventDefault(); event.stopPropagation();" class="text-xs text-primary-600 dark:text-primary-400 hover:underline flex-shrink-0 mr-2 cursor-pointer">View changes</span>
+          <button onclick="event.preventDefault(); event.stopPropagation(); this.closest('a').remove();" class="text-xs text-neutral-400 opacity-0 group-hover:opacity-100 hover:text-red-500 transition-all flex-shrink-0">Unwatch</button>
+        </a>
+        <a href="doc-page.html" class="group flex items-center py-3 hover:bg-neutral-50 dark:hover:bg-neutral-800/50 -mx-3 px-3 rounded-lg transition-colors">
+          <div class="flex-1 min-w-0">
+            <p class="text-sm font-medium text-neutral-900 dark:text-white group-hover:text-primary-600 dark:group-hover:text-primary-400 truncate">Configuring Search Facets</p>
+            <p class="text-xs text-neutral-500 mt-0.5">InSite Search &middot; Watching since Mar 20</p>
+          </div>
+          <button onclick="event.preventDefault(); event.stopPropagation(); this.closest('a').remove();" class="text-xs text-neutral-400 opacity-0 group-hover:opacity-100 hover:text-red-500 transition-all flex-shrink-0">Unwatch</button>
+        </a>
+        <a href="doc-page.html" class="group flex items-center py-3 hover:bg-neutral-50 dark:hover:bg-neutral-800/50 -mx-3 px-3 rounded-lg transition-colors">
+          <div class="flex-1 min-w-0">
+            <p class="text-sm font-medium text-neutral-900 dark:text-white group-hover:text-primary-600 dark:group-hover:text-primary-400 truncate">Webhook Events Reference</p>
+            <p class="text-xs text-neutral-500 mt-0.5">Discover CX &middot; Watching since Jan 10</p>
+          </div>
+          <button onclick="event.preventDefault(); event.stopPropagation(); this.closest('a').remove();" class="text-xs text-neutral-400 opacity-0 group-hover:opacity-100 hover:text-red-500 transition-all flex-shrink-0">Unwatch</button>
+        </a>
+        <a href="doc-page-checking-in-out.html" class="group flex items-center py-3 hover:bg-neutral-50 dark:hover:bg-neutral-800/50 -mx-3 px-3 rounded-lg transition-colors">
+          <div class="flex-1 min-w-0">
+            <p class="text-sm font-medium text-neutral-900 dark:text-white group-hover:text-primary-600 dark:group-hover:text-primary-400 truncate">Checking Pages In and Out</p>
+            <p class="text-xs text-neutral-500 mt-0.5">Discover CX &middot; Watching since Mar 1</p>
+          </div>
+          <button onclick="event.preventDefault(); event.stopPropagation(); this.closest('a').remove();" class="text-xs text-neutral-400 opacity-0 group-hover:opacity-100 hover:text-red-500 transition-all flex-shrink-0">Unwatch</button>
+        </a>
+      </div>
+    </div>
+
+  </main>
+
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="w-full bg-neutral-900 dark:bg-neutral-950 text-white py-12 border-t border-neutral-800 mt-auto">
+    <div class="max-w-screen-xl mx-auto px-6">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+        <div>
+          <a href="index.html" class="flex items-center gap-2 mb-4">
+            <img src="assets/images/discover-cx-logo-white.svg" alt="Discover CX" class="h-6 w-auto">
+          </a>
+          <p class="text-sm text-neutral-400 leading-relaxed">Enterprise content management and customer experience platform.</p>
+        </div>
+        <div>
+          <h3 class="font-bold mb-4">Products</h3>
+          <div class="space-y-2 text-sm text-neutral-400">
+            <a href="#" class="block hover:text-white">Discover CX CMS</a>
+            <a href="#" class="block hover:text-white">AI Assists</a>
+            <a href="#" class="block hover:text-white">InSite Search</a>
+          </div>
+        </div>
+        <div>
+          <h3 class="font-bold mb-4">Resources</h3>
+          <div class="space-y-2 text-sm text-neutral-400">
+            <a href="doc-page.html" class="block hover:text-white">Getting Started</a>
+            <a href="#" class="block hover:text-white">API Reference</a>
+            <a href="#" class="block hover:text-white">Guides</a>
+          </div>
+        </div>
+        <div>
+          <h3 class="font-bold mb-4">Support</h3>
+          <div class="space-y-2 text-sm text-neutral-400">
+            <a href="#" class="block hover:text-white">Contact Support</a>
+            <a href="#" class="block hover:text-white">Community Forum</a>
+            <a href="#" class="block hover:text-white">Privacy Policy</a>
+          </div>
+        </div>
+      </div>
+      <div class="border-t border-neutral-800 pt-8 text-center text-sm text-neutral-400">
+        &copy; 2025 Discover CX by Ingeniux. All rights reserved.
+      </div>
+    </div>
+  </footer>
+
+  <!-- Command K Search Modal -->
+  <div id="cmd-k-modal" class="hidden fixed inset-0 bg-neutral-950/50 backdrop-blur-sm z-50 p-4 md:p-8">
+    <div class="max-w-3xl mx-auto mt-20">
+      <div class="bg-neutral-50 dark:bg-neutral-900 rounded-xl shadow-2xl border border-neutral-200 dark:border-neutral-700 overflow-hidden">
+        <div class="flex items-center gap-3 px-4 py-4 border-b border-neutral-200 dark:border-neutral-700">
+          <i data-lucide="search" class="w-5 h-5 text-neutral-400"></i>
+          <input id="cmd-k-input" type="text" placeholder="Search documentation or ask AI..." class="flex-1 bg-transparent text-neutral-900 dark:text-white placeholder-gray-400 focus:outline-none text-lg" autocomplete="off" />
+          <button id="cmd-k-close" class="p-1.5 hover:bg-neutral-100 dark:hover:bg-neutral-700 rounded"><i data-lucide="x" class="w-5 h-5 text-neutral-400"></i></button>
+        </div>
+        <div id="cmd-k-results" class="max-h-96 overflow-y-auto p-4">
+          <p class="text-xs font-semibold text-neutral-500 dark:text-neutral-400 uppercase tracking-wide mb-3">Recent</p>
+          <div class="space-y-1">
+            <button class="w-full flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors text-left">
+              <i data-lucide="clock" class="w-4 h-4 text-neutral-400"></i>
+              <span class="text-sm text-neutral-700 dark:text-neutral-300">REST API Authentication</span>
+            </button>
+            <button class="w-full flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-700 transition-colors text-left">
+              <i data-lucide="clock" class="w-4 h-4 text-neutral-400"></i>
+              <span class="text-sm text-neutral-700 dark:text-neutral-300">Content Schema Configuration</span>
+            </button>
+          </div>
+        </div>
+        <div class="flex items-center gap-4 px-4 py-3 bg-white dark:bg-neutral-800 border-t border-neutral-200 dark:border-neutral-700 text-xs text-neutral-500 dark:text-neutral-400">
+          <span class="flex items-center gap-1.5"><kbd class="px-1.5 py-0.5 bg-neutral-50 dark:bg-neutral-700 border border-neutral-300 dark:border-neutral-600 rounded text-xs">&#8593;&#8595;</kbd> Navigate</span>
+          <span class="flex items-center gap-1.5"><kbd class="px-1.5 py-0.5 bg-neutral-50 dark:bg-neutral-700 border border-neutral-300 dark:border-neutral-600 rounded text-xs">&#8629;</kbd> Select</span>
+          <span class="flex items-center gap-1.5"><kbd class="px-1.5 py-0.5 bg-neutral-50 dark:bg-neutral-700 border border-neutral-300 dark:border-neutral-600 rounded text-xs">esc</kbd> Close</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/user-dropdown.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    // Mobile menu toggle
+    document.getElementById('mobile-menu-btn')?.addEventListener('click', function(e) {
+      e.stopPropagation();
+      document.getElementById('mobile-menu')?.classList.toggle('hidden');
+    });
+    document.addEventListener('click', () => {
+      document.getElementById('mobile-menu')?.classList.add('hidden');
+    });
+
+    // Command K
+    const cmdKModal = document.getElementById('cmd-k-modal');
+    const cmdKInput = document.getElementById('cmd-k-input');
+    function openCmdK() { cmdKModal?.classList.remove('hidden'); setTimeout(() => { cmdKInput?.focus(); lucide.createIcons(); }, 100); }
+    function closeCmdK() { cmdKModal?.classList.add('hidden'); if (cmdKInput) cmdKInput.value = ''; }
+    document.getElementById('cmd-k-trigger')?.addEventListener('click', openCmdK);
+    document.getElementById('mobile-search-btn')?.addEventListener('click', openCmdK);
+    document.getElementById('cmd-k-close')?.addEventListener('click', closeCmdK);
+    cmdKModal?.addEventListener('click', (e) => { if (e.target === cmdKModal) closeCmdK(); });
+    document.addEventListener('keydown', (e) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') { e.preventDefault(); openCmdK(); }
+      if (e.key === 'Escape' && !cmdKModal?.classList.contains('hidden')) closeCmdK();
+    });
+
+    // Tab switching
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const tabName = this.dataset.tab;
+        document.querySelectorAll('.tab-btn').forEach(b => {
+          b.classList.remove('border-primary-600', 'text-primary-600', 'dark:text-primary-400');
+          b.classList.add('border-transparent', 'text-neutral-500', 'dark:text-neutral-400');
+        });
+        this.classList.remove('border-transparent', 'text-neutral-500', 'dark:text-neutral-400');
+        this.classList.add('border-primary-600', 'text-primary-600', 'dark:text-primary-400');
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.add('hidden'));
+        document.getElementById(tabName + '-tab')?.classList.remove('hidden');
+        lucide.createIcons();
+      });
+    });
+
+    // Hash routing
+    function activateTabFromHash() {
+      const hash = window.location.hash.replace('#', '');
+      if (hash) { const btn = document.querySelector(`.tab-btn[data-tab="${hash}"]`); if (btn) btn.click(); }
+    }
+    activateTabFromHash();
+    window.addEventListener('hashchange', activateTabFromHash);
+  </script>
+  <script>lucide.createIcons();</script>
+  <script src="assets/js/chatbot-widget.js"></script>
+</body>
+</html>

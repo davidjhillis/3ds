@@ -1,0 +1,31 @@
+{
+  "version": "1.0.0",
+  "name": "Acme Corp Theme",
+  "description": "Corporate blue theme for Acme Corporation",
+  "customer": "acme-corp",
+  "created": "2025-01-17T00:00:00.000Z",
+
+  "colors": {
+    "primary": "blue",
+    "accent": "cyan",
+    "neutral": "slate"
+  },
+
+  "typography": {
+    "heading": "Inter",
+    "body": "Inter",
+    "mono": "JetBrains Mono"
+  },
+
+  "branding": {
+    "logo": "discover-cx-logo.svg",
+    "logoWhite": "discover-cx-logo-white.svg",
+    "favicon": "favicon.ico"
+  },
+
+  "settings": {
+    "darkMode": false,
+    "useGradients": true,
+    "roundedCorners": "md"
+  }
+}

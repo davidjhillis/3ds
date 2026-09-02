@@ -1,0 +1,36 @@
+{
+  "name": "Purple Premium",
+  "description": "Rich purple theme with vibrant accents",
+  "tokens": {
+    "color": {
+      "brand": {
+        "primary": {
+          "50":  { "value": "#FAF5FF", "type": "color" },
+          "100": { "value": "#F3E8FF", "type": "color" },
+          "200": { "value": "#E9D5FF", "type": "color" },
+          "300": { "value": "#D8B4FE", "type": "color" },
+          "400": { "value": "#C084FC", "type": "color" },
+          "500": { "value": "#A855F7", "type": "color" },
+          "600": { "value": "#9333EA", "type": "color" },
+          "700": { "value": "#7E22CE", "type": "color" },
+          "800": { "value": "#6B21A8", "type": "color" },
+          "900": { "value": "#581C87", "type": "color" },
+          "950": { "value": "#3B0764", "type": "color" }
+        },
+        "accent": {
+          "50":  { "value": "#FDF4FF", "type": "color" },
+          "100": { "value": "#FAE8FF", "type": "color" },
+          "200": { "value": "#F5D0FE", "type": "color" },
+          "300": { "value": "#F0ABFC", "type": "color" },
+          "400": { "value": "#E879F9", "type": "color" },
+          "500": { "value": "#D946EF", "type": "color" },
+          "600": { "value": "#C026D3", "type": "color" },
+          "700": { "value": "#A21CAF", "type": "color" },
+          "800": { "value": "#86198F", "type": "color" },
+          "900": { "value": "#701A75", "type": "color" },
+          "950": { "value": "#4A044E", "type": "color" }
+        }
+      }
+    }
+  }
+}

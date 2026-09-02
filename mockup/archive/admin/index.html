@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard - DCX Portal Configuration</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+    
+    * {
+      font-family: 'Inter', -apple-system, system-ui, sans-serif;
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    /* Elegant scrollbar */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.15); }
+    
+    /* Admin cards */
+    .admin-card {
+      background: rgba(255,255,255,0.02);
+      border: 1.5px solid rgba(255,255,255,0.08);
+      transition: all 0.15s ease;
+    }
+    .admin-card:hover {
+      background: rgba(255,255,255,0.04);
+      border-color: rgba(255,255,255,0.15);
+      transform: translateY(-2px);
+    }
+  </style>
+</head>
+<body class="bg-[#252525] text-white overflow-x-hidden">
+
+  <!-- Header -->
+  <header class="sticky top-0 z-50 bg-[#252525] border-b border-white/[0.08]">
+    <div class="max-w-screen-2xl mx-auto px-6">
+      <div class="flex items-center justify-between h-16">
+        <!-- Logo & Title -->
+        <div class="flex items-center gap-4">
+          <img src="assets/discover-cx-logo-white.svg" alt="Discover CX" class="h-7">
+          <div class="h-5 w-px bg-white/[0.15]"></div>
+          <div>
+            <h1 class="text-sm font-medium text-white/90">Admin Dashboard</h1>
+            <p class="text-[11px] text-white/40">Content Delivery Platform</p>
+          </div>
+        </div>
+        
+        <!-- Actions -->
+        <div class="flex items-center gap-2">
+          <button id="preview-btn" class="flex items-center gap-2 px-3 py-1.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-md transition-colors text-sm">
+            <i data-lucide="eye" class="w-3.5 h-3.5"></i>
+            <span class="hidden sm:inline">Preview</span>
+          </button>
+          <a href="../index.html" class="flex items-center gap-2 px-3 py-1.5 bg-white/[0.05] hover:bg-white/[0.08] border border-white/[0.08] text-white/80 hover:text-white rounded-md transition-colors text-sm">
+            <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
+            <span class="hidden sm:inline">Back to Site</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <div class="max-w-screen-2xl mx-auto px-6 py-12">
+    
+    <!-- Welcome Section -->
+    <div class="mb-8">
+      <h2 class="text-2xl font-bold text-white mb-2">Welcome to the Admin Dashboard</h2>
+      <p class="text-sm text-white/50">Configure your portal's design, content, AI features, and integrations.</p>
+    </div>
+
+    <!-- Dashboard Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      
+      <!-- Site Settings Card -->
+      <a href="settings.html" class="admin-card group block p-5 rounded-lg">
+        <div class="flex items-start justify-between mb-4">
+          <div class="w-10 h-10 bg-gradient-to-br from-green-500 to-emerald-500 rounded-lg flex items-center justify-center">
+            <i data-lucide="settings" class="w-5 h-5 text-white"></i>
+          </div>
+          <i data-lucide="arrow-right" class="w-4 h-4 text-white/40 group-hover:text-white/70 group-hover:translate-x-1 transition-all"></i>
+        </div>
+        <h3 class="text-base font-semibold text-white mb-1.5">Site Settings</h3>
+        <p class="text-[13px] text-white/50 mb-3 leading-relaxed">Theme, features, impersonation, and content access</p>
+        <div class="flex items-center gap-1.5 flex-wrap">
+          <span class="px-2 py-0.5 bg-green-500/20 text-green-300 text-[11px] font-medium rounded">Theme</span>
+          <span class="px-2 py-0.5 bg-amber-500/20 text-amber-300 text-[11px] font-medium rounded">Impersonate</span>
+          <span class="px-2 py-0.5 bg-violet-500/20 text-violet-300 text-[11px] font-medium rounded">AI Assists</span>
+        </div>
+      </a>
+
+      <!-- Portal Design Card (Theme + AI UX) -->
+      <a href="theme.html" class="admin-card group block p-5 rounded-lg">
+        <div class="flex items-start justify-between mb-4">
+          <div class="w-10 h-10 bg-gradient-to-br from-purple-500 to-indigo-500 rounded-lg flex items-center justify-center">
+            <i data-lucide="palette" class="w-5 h-5 text-white"></i>
+          </div>
+          <i data-lucide="arrow-right" class="w-4 h-4 text-white/40 group-hover:text-white/70 group-hover:translate-x-1 transition-all"></i>
+        </div>
+        <h3 class="text-base font-semibold text-white mb-1.5">Portal Design</h3>
+        <p class="text-[13px] text-white/50 mb-3 leading-relaxed">Customize colors, typography, and AI-powered UX features</p>
+        <div class="flex items-center gap-1.5 flex-wrap">
+          <span class="px-2 py-0.5 bg-purple-500/20 text-purple-300 text-[11px] font-medium rounded">Colors</span>
+          <span class="px-2 py-0.5 bg-indigo-500/20 text-indigo-300 text-[11px] font-medium rounded">Typography</span>
+          <span class="px-2 py-0.5 bg-violet-500/20 text-violet-300 text-[11px] font-medium rounded">AI UX</span>
+        </div>
+      </a>
+
+      <!-- Content Hub Card -->
+      <a href="content-hub.html" class="admin-card group block p-5 rounded-lg">
+        <div class="flex items-start justify-between mb-4">
+          <div class="w-10 h-10 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-lg flex items-center justify-center">
+            <i data-lucide="database" class="w-5 h-5 text-white"></i>
+          </div>
+          <i data-lucide="arrow-right" class="w-4 h-4 text-white/40 group-hover:text-white/70 group-hover:translate-x-1 transition-all"></i>
+        </div>
+        <h3 class="text-base font-semibold text-white mb-1.5">Content Hub</h3>
+        <p class="text-[13px] text-white/50 mb-3 leading-relaxed">Manage sources, publishing, search, and metadata</p>
+        <div class="flex items-center gap-1.5 flex-wrap">
+          <span class="px-2 py-0.5 bg-blue-500/20 text-blue-300 text-[11px] font-medium rounded">Sources</span>
+          <span class="px-2 py-0.5 bg-cyan-500/20 text-cyan-300 text-[11px] font-medium rounded">Search</span>
+          <span class="px-2 py-0.5 bg-sky-500/20 text-sky-300 text-[11px] font-medium rounded">Metadata</span>
+        </div>
+      </a>
+
+      <!-- Content Tables Card -->
+      <a href="content-tables.html" class="admin-card group block p-5 rounded-lg">
+        <div class="flex items-start justify-between mb-4">
+          <div class="w-10 h-10 bg-gradient-to-br from-slate-500 to-indigo-500 rounded-lg flex items-center justify-center">
+            <i data-lucide="table" class="w-5 h-5 text-white"></i>
+          </div>
+          <i data-lucide="arrow-right" class="w-4 h-4 text-white/40 group-hover:text-white/70 group-hover:translate-x-1 transition-all"></i>
+        </div>
+        <h3 class="text-base font-semibold text-white mb-1.5">Content Tables</h3>
+        <p class="text-[13px] text-white/50 mb-3 leading-relaxed">Orchestrate documentation formats, metadata, and AI automations</p>
+        <div class="flex items-center gap-1.5 flex-wrap">
+          <span class="px-2 py-0.5 bg-indigo-500/20 text-indigo-300 text-[11px] font-medium rounded">Metadata</span>
+          <span class="px-2 py-0.5 bg-slate-500/20 text-slate-300 text-[11px] font-medium rounded">Automations</span>
+          <span class="px-2 py-0.5 bg-violet-500/20 text-violet-300 text-[11px] font-medium rounded">AI Enrich</span>
+        </div>
+      </a>
+
+      <!-- AI Configuration Card (Technical) -->
+      <a href="ai.html" class="admin-card group block p-5 rounded-lg">
+        <div class="flex items-start justify-between mb-4">
+          <div class="w-10 h-10 bg-gradient-to-br from-emerald-500 to-teal-500 rounded-lg flex items-center justify-center">
+            <i data-lucide="sparkles" class="w-5 h-5 text-white"></i>
+          </div>
+          <i data-lucide="arrow-right" class="w-4 h-4 text-white/40 group-hover:text-white/70 group-hover:translate-x-1 transition-all"></i>
+        </div>
+        <h3 class="text-base font-semibold text-white mb-1.5">AI Configuration</h3>
+        <p class="text-[13px] text-white/50 mb-3 leading-relaxed">Configure models, API keys, safety, and compliance</p>
+        <div class="flex items-center gap-1.5 flex-wrap">
+          <span class="px-2 py-0.5 bg-emerald-500/20 text-emerald-300 text-[11px] font-medium rounded">Models</span>
+          <span class="px-2 py-0.5 bg-teal-500/20 text-teal-300 text-[11px] font-medium rounded">API Keys</span>
+          <span class="px-2 py-0.5 bg-green-500/20 text-green-300 text-[11px] font-medium rounded">Safety</span>
+        </div>
+      </a>
+
+      <!-- Users & Access Card -->
+      <a href="users.html" class="admin-card group block p-5 rounded-lg">
+        <div class="flex items-start justify-between mb-4">
+          <div class="w-10 h-10 bg-gradient-to-br from-amber-500 to-orange-500 rounded-lg flex items-center justify-center">
+            <i data-lucide="users" class="w-5 h-5 text-white"></i>
+          </div>
+          <i data-lucide="arrow-right" class="w-4 h-4 text-white/40 group-hover:text-white/70 group-hover:translate-x-1 transition-all"></i>
+        </div>
+        <h3 class="text-base font-semibold text-white mb-1.5">Users & Access</h3>
+        <p class="text-[13px] text-white/50 mb-3 leading-relaxed">Manage users, roles, permissions, and authentication</p>
+        <div class="flex items-center gap-1.5 flex-wrap">
+          <span class="px-2 py-0.5 bg-amber-500/20 text-amber-300 text-[11px] font-medium rounded">Users</span>
+          <span class="px-2 py-0.5 bg-orange-500/20 text-orange-300 text-[11px] font-medium rounded">Roles</span>
+          <span class="px-2 py-0.5 bg-yellow-500/20 text-yellow-300 text-[11px] font-medium rounded">SSO</span>
+        </div>
+      </a>
+
+      <!-- Integrations Card -->
+      <a href="integrations.html" class="admin-card group block p-5 rounded-lg">
+        <div class="flex items-start justify-between mb-4">
+          <div class="w-10 h-10 bg-gradient-to-br from-rose-500 to-pink-500 rounded-lg flex items-center justify-center">
+            <i data-lucide="plug" class="w-5 h-5 text-white"></i>
+          </div>
+          <i data-lucide="arrow-right" class="w-4 h-4 text-white/40 group-hover:text-white/70 group-hover:translate-x-1 transition-all"></i>
+        </div>
+        <h3 class="text-base font-semibold text-white mb-1.5">Integrations</h3>
+        <p class="text-[13px] text-white/50 mb-3 leading-relaxed">Connect analytics, webhooks, and external APIs</p>
+        <div class="flex items-center gap-1.5 flex-wrap">
+          <span class="px-2 py-0.5 bg-rose-500/20 text-rose-300 text-[11px] font-medium rounded">Analytics</span>
+          <span class="px-2 py-0.5 bg-pink-500/20 text-pink-300 text-[11px] font-medium rounded">Webhooks</span>
+          <span class="px-2 py-0.5 bg-fuchsia-500/20 text-fuchsia-300 text-[11px] font-medium rounded">APIs</span>
+        </div>
+      </a>
+
+      <!-- Validation & Preview Card -->
+      <a href="validator.html" class="admin-card group block p-5 rounded-lg">
+        <div class="flex items-start justify-between mb-4">
+          <div class="w-10 h-10 bg-gradient-to-br from-green-500 to-lime-500 rounded-lg flex items-center justify-center">
+            <i data-lucide="check-circle-2" class="w-5 h-5 text-white"></i>
+          </div>
+          <i data-lucide="arrow-right" class="w-4 h-4 text-white/40 group-hover:text-white/70 group-hover:translate-x-1 transition-all"></i>
+        </div>
+        <h3 class="text-base font-semibold text-white mb-1.5">Validation & Preview</h3>
+        <p class="text-[13px] text-white/50 mb-3 leading-relaxed">Check accessibility, compliance, and preview changes</p>
+        <div class="flex items-center gap-1.5 flex-wrap">
+          <span class="px-2 py-0.5 bg-green-500/20 text-green-300 text-[11px] font-medium rounded">WCAG AA</span>
+          <span class="px-2 py-0.5 bg-lime-500/20 text-lime-300 text-[11px] font-medium rounded">Preview</span>
+        </div>
+      </a>
+
+    </div>
+
+    <!-- Configuration Status -->
+    <div class="mt-10 p-5 bg-white/[0.02] border border-white/[0.08] rounded-lg">
+      <div class="flex items-start justify-between mb-4">
+        <div>
+          <h3 class="text-base font-semibold text-white mb-1">Configuration Status</h3>
+          <p class="text-[13px] text-white/40">Current portal settings</p>
+        </div>
+        <button id="export-config-btn" class="flex items-center gap-2 px-3 py-1.5 bg-white/[0.05] hover:bg-white/[0.08] border border-white/[0.08] text-white/80 hover:text-white rounded-md transition-colors text-sm">
+          <i data-lucide="download" class="w-3.5 h-3.5"></i>
+          <span class="text-[13px]">Export</span>
+        </button>
+      </div>
+      
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+        <!-- Portal Design Status -->
+        <div class="p-4 bg-white/[0.02] border border-white/[0.06] rounded-md">
+          <div class="flex items-center gap-2 mb-2">
+            <i data-lucide="palette" class="w-4 h-4 text-purple-400"></i>
+            <h4 class="text-sm font-medium text-white">Portal Design</h4>
+          </div>
+          <p class="text-[13px] text-white/40">Mode: <span id="theme-mode" class="font-medium text-white/70">Dark</span></p>
+          <p class="text-[13px] text-white/40">Primary: <span id="theme-primary" class="font-medium text-white/70">Purple</span></p>
+          <p class="text-[13px] text-white/40">Font: <span id="theme-font" class="font-medium text-white/70">Inter</span></p>
+        </div>
+        
+        <!-- AI Status -->
+        <div class="p-4 bg-white/[0.02] border border-white/[0.06] rounded-md">
+          <div class="flex items-center gap-2 mb-2">
+            <i data-lucide="sparkles" class="w-4 h-4 text-emerald-400"></i>
+            <h4 class="text-sm font-medium text-white">AI Configuration</h4>
+          </div>
+          <p class="text-[13px] text-white/40">Active: <span id="ai-active" class="font-medium text-white/70">4/6</span></p>
+          <p class="text-[13px] text-white/40">Model: <span id="ai-model" class="font-medium text-white/70">GPT-4</span></p>
+          <p class="text-[13px] text-white/40">Safety: <span id="ai-safety" class="font-medium text-white/70">Medium</span></p>
+        </div>
+        
+        <!-- Last Modified -->
+        <div class="p-4 bg-white/[0.02] border border-white/[0.06] rounded-md">
+          <div class="flex items-center gap-2 mb-2">
+            <i data-lucide="clock" class="w-4 h-4 text-blue-400"></i>
+            <h4 class="text-sm font-medium text-white">Last Modified</h4>
+          </div>
+          <p class="text-[13px] text-white/40">Date: <span id="config-date" class="font-medium text-white/70">Nov 1, 2025</span></p>
+          <p class="text-[13px] text-white/40">By: <span id="config-user" class="font-medium text-white/70">Admin</span></p>
+          <p class="text-[13px] text-white/40">Version: <span id="config-version" class="font-medium text-white/70">2.0.0</span></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="mt-4 flex flex-wrap items-center gap-2">
+      <button id="reset-config-btn" class="flex items-center gap-2 px-3 py-1.5 bg-red-500/10 border border-red-500/30 text-red-400 hover:bg-red-500/20 rounded-md transition-colors text-[13px]">
+        <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
+        Reset to Defaults
+      </button>
+      <button id="import-config-btn" class="flex items-center gap-2 px-3 py-1.5 bg-white/[0.05] hover:bg-white/[0.08] border border-white/[0.08] text-white/80 hover:text-white rounded-md transition-colors text-[13px]">
+        <i data-lucide="upload" class="w-3.5 h-3.5"></i>
+        Import Config
+      </button>
+    </div>
+
+  </div>
+
+  <!-- Footer -->
+  <footer class="mt-12 py-6 border-t border-white/[0.08]">
+    <div class="max-w-screen-2xl mx-auto px-6">
+      <div class="flex flex-col md:flex-row items-center justify-between gap-3">
+        <p class="text-[13px] text-white/30">© 2025 Discover CX Admin Dashboard. Built for demonstration purposes.</p>
+        <div class="flex items-center gap-4">
+          <a href="#" class="text-[13px] text-white/40 hover:text-white/70 transition-colors">Documentation</a>
+          <a href="#" class="text-[13px] text-white/40 hover:text-white/70 transition-colors">Support</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script>
+    // Initialize Lucide icons
+    lucide.createIcons();
+
+    // Load configuration and update status display
+    async function loadConfig() {
+      try {
+        const response = await fetch('./config/site-config.json');
+        const config = await response.json();
+        
+        // Update theme status
+        document.getElementById('theme-mode').textContent = config.theme.colors.mode === 'dark' ? 'Dark' : 'Light';
+        document.getElementById('theme-primary').textContent = config.theme.colors.primary.name.charAt(0).toUpperCase() + config.theme.colors.primary.name.slice(1);
+        document.getElementById('theme-font').textContent = config.theme.typography.body.family;
+        
+        // Update AI status
+        const activeFeatures = Object.values(config.ai.features).filter(f => f === true).length;
+        const totalFeatures = Object.keys(config.ai.features).length;
+        document.getElementById('ai-active').textContent = `${activeFeatures}/${totalFeatures}`;
+        document.getElementById('ai-model').textContent = config.ai.models.selected.toUpperCase();
+        document.getElementById('ai-safety').textContent = config.ai.safety.level.charAt(0).toUpperCase() + config.ai.safety.level.slice(1);
+        
+        // Update metadata
+        const date = new Date(config.metadata.lastModified);
+        document.getElementById('config-date').textContent = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+        document.getElementById('config-user').textContent = config.metadata.modifiedBy.charAt(0).toUpperCase() + config.metadata.modifiedBy.slice(1);
+        document.getElementById('config-version').textContent = config.metadata.version;
+      } catch (error) {
+        console.error('Error loading configuration:', error);
+      }
+    }
+
+    // Export configuration
+    document.getElementById('export-config-btn').addEventListener('click', async () => {
+      try {
+        const response = await fetch('./config/site-config.json');
+        const config = await response.json();
+        const dataStr = JSON.stringify(config, null, 2);
+        const dataUri = 'data:application/json;charset=utf-8,' + encodeURIComponent(dataStr);
+        
+        const exportFileDefaultName = `site-config-${Date.now()}.json`;
+        const linkElement = document.createElement('a');
+        linkElement.setAttribute('href', dataUri);
+        linkElement.setAttribute('download', exportFileDefaultName);
+        linkElement.click();
+      } catch (error) {
+        alert('Error exporting configuration');
+      }
+    });
+
+    // Reset configuration (placeholder)
+    document.getElementById('reset-config-btn').addEventListener('click', () => {
+      if (confirm('Are you sure you want to reset all settings to defaults? This cannot be undone.')) {
+        alert('Reset functionality will be implemented in Phase 4');
+      }
+    });
+
+    // Import configuration (placeholder)
+    document.getElementById('import-config-btn').addEventListener('click', () => {
+      alert('Import functionality will be implemented in Phase 4');
+    });
+
+    // Preview button
+    document.getElementById('preview-btn').addEventListener('click', () => {
+      window.location.href = 'theme/preview.html';
+    });
+
+    // Load config on page load
+    loadConfig();
+  </script>
+
+</body>
+</html>
+

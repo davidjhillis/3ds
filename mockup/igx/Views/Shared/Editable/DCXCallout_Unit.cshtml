@@ -1,0 +1,31 @@
+@model ICMSElement
+@using Ingeniux.Runtime
+@{
+    ICMSElement comp = Model.Element((Model as CMSPageRequest)?.RootElementName?.Replace("_Unit", "")) ?? Model;
+    var type = (comp.GetElementValue("Type") ?? "info").ToLower();
+    var title = comp.GetElementValue("Title");
+    var content = comp.GetElementValue("Content");
+
+    // Map type to colors and icons
+    var colors = new Dictionary<string, string> {
+        {"info", "bg-blue-50 dark:bg-blue-900/10 border-blue-500 text-blue-800 dark:text-blue-300"},
+        {"warning", "bg-amber-50 dark:bg-amber-900/10 border-amber-500 text-amber-800 dark:text-amber-300"},
+        {"error", "bg-red-50 dark:bg-red-900/10 border-red-500 text-red-800 dark:text-red-300"},
+        {"success", "bg-green-50 dark:bg-green-900/10 border-green-500 text-green-800 dark:text-green-300"}
+    };
+    var icons = new Dictionary<string, string> {
+        {"info", "info"}, {"warning", "alert-triangle"}, {"error", "x-circle"}, {"success", "check-circle"}
+    };
+    var colorClass = colors.ContainsKey(type) ? colors[type] : colors["info"];
+    var icon = icons.ContainsKey(type) ? icons[type] : icons["info"];
+}
+<div class="flex gap-3 p-4 rounded-lg border-l-4 my-6 @colorClass" @_Helpers.RenderICEAttribute(Model, true)>
+    <i data-lucide="@icon" class="w-5 h-5 flex-shrink-0 mt-0.5"></i>
+    <div class="flex-1">
+        @if (!string.IsNullOrEmpty(title))
+        {
+            <p class="font-semibold mb-1" @_Helpers.RenderICEAttribute(comp.Element("Title"))>@title</p>
+        }
+        <div class="text-sm" @_Helpers.RenderICEAttribute(comp.Element("Content"))>@Html.Raw(content)</div>
+    </div>
+</div>
