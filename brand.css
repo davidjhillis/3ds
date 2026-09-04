@@ -769,8 +769,9 @@ pre, table.doc th { background: var(--mds-navy); }
   flex-shrink: 0;
   accent-color: var(--mds-tertiary);
 }
+/* Chevron hugs the label rather than floating to the row's far edge. */
 .flt-head { display: flex; align-items: flex-start; }
-.flt-head .flt-row { flex: 1 1 auto; min-width: 0; }
+.flt-head .flt-row { flex: 0 1 auto; min-width: 0; }
 .flt-tg {
   width: 26px;
   height: 26px;
@@ -794,7 +795,7 @@ pre, table.doc th { background: var(--mds-navy); }
   display: flex;
   width: 100%;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
   gap: 8px;
   padding: 8px 6px;
   font-family: "3DS_V2", Arial, Helvetica, sans-serif;
