@@ -728,6 +728,81 @@ pre, table.doc th { background: var(--mds-navy); }
   .hub-tile:hover { transform: none; }
 }
 
+/* ── Faceted filters (home flyout + search Refine sidebar) ───────────────
+   Shared taxonomy rendered by filters.js. Styled in the Hub's own language:
+   3DS_V2 group labels, navy type, Steel Blue interactive accents, the same
+   rounded checkbox treatment as the rest of the site. */
+.flt-glabel {
+  font-family: "3DS_V2", Arial, Helvetica, sans-serif;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--mds-navy);
+  margin: 0 0 10px;
+}
+.flt-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  padding: 5px 6px;
+  border-radius: 6px;
+  font-size: 14px;
+  line-height: 1.35;
+  color: #334155;
+  cursor: pointer;
+}
+.flt-row:hover { background: var(--mds-white); color: var(--mds-navy); }
+.flt-row input {
+  width: 16px;
+  height: 16px;
+  margin-top: 2px;
+  flex-shrink: 0;
+  accent-color: var(--mds-tertiary);
+}
+.flt-head { display: flex; align-items: flex-start; }
+.flt-head .flt-row { flex: 1 1 auto; min-width: 0; }
+.flt-tg {
+  width: 26px;
+  height: 26px;
+  margin-top: 1px;
+  display: grid;
+  place-items: center;
+  border-radius: 6px;
+  color: var(--mds-tertiary);
+  flex-shrink: 0;
+}
+.flt-tg:hover { background: var(--mds-white); color: var(--mds-navy); }
+.flt-tg svg { transition: transform .18s ease; }
+.flt-tg[aria-expanded="true"] svg { transform: rotate(90deg); }
+.flt-kids {
+  margin: 2px 0 6px 20px;
+  padding-left: 8px;
+  border-left: 1px solid var(--mds-divider-grey);
+}
+.flt-group + .flt-group { margin-top: 6px; border-top: 1px solid var(--mds-mid-grey); padding-top: 6px; }
+.flt-gbtn {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 8px 6px;
+  font-family: "3DS_V2", Arial, Helvetica, sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--mds-tertiary);
+  border-radius: 6px;
+}
+.flt-gbtn:hover { color: var(--mds-navy); }
+.flt-gbtn svg { transition: transform .18s ease; }
+.flt-gbtn[aria-expanded="false"] svg { transform: rotate(-90deg); }
+
+/* Flyout panel: wider than the search pill on desktop, capped and
+   scrollable like the reference — the pill row stays the anchor. */
+@media (min-width: 640px) {
+  #fpanel { width: min(52rem, 90vw); right: auto; }
+}
+#fpanel { max-height: min(70vh, 34rem); overflow: auto; }
+
 .hub-chip {
   display: inline-flex;
   align-items: center;
