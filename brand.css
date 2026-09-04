@@ -203,7 +203,11 @@ h1, h2, h3, h4,
   max-height: 56rem;
   border-radius: 0 0 4.5rem 4.5rem;
   /* No overflow:hidden here — the search filter flyout must escape the
-     band. The photo layers clip inside .mds-photo__clip instead. */
+     band. The photo layers clip inside .mds-photo__clip instead. And
+     because .mds-photo isolates, the hero is one flattened layer: it
+     needs its own z-index so the flyout paints over later sections
+     (below the z-50 nav). */
+  z-index: 10;
 }
 .mds-photo__clip {
   position: absolute;
