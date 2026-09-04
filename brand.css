@@ -739,6 +739,17 @@ pre, table.doc th { background: var(--mds-navy); }
   .hub-tile:hover { transform: none; }
 }
 
+/* ── Sticky breadcrumb action bar (article pages) ────────────────────────
+   Rides below the nav; when the nav hides on scroll-down, the bar takes
+   the top edge so PDF/Print/Share/Watch/Save stay reachable. */
+.crumb-sticky {
+  position: sticky;
+  top: 5rem;
+  z-index: 40;
+  transition: top .35s cubic-bezier(.19, 1, .22, 1);
+}
+#nav.nav-hidden + .crumb-sticky { top: 0; }
+
 /* ── Faceted filters (home flyout + search Refine sidebar) ───────────────
    Shared taxonomy rendered by filters.js. Styled in the Hub's own language:
    3DS_V2 group labels, navy type, Steel Blue interactive accents, the same
