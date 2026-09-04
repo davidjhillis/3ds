@@ -750,6 +750,51 @@ pre, table.doc th { background: var(--mds-navy); }
 }
 #nav.nav-hidden + .crumb-sticky { top: 0; }
 
+/* Hover help for icon-only buttons: navy bubble below, shown on hover
+   and keyboard focus. Text comes from data-tip. */
+.tip { position: relative; }
+.tip::after {
+  content: attr(data-tip);
+  position: absolute;
+  top: calc(100% + 9px);
+  left: 50%;
+  transform: translateX(-50%) translateY(-4px);
+  background: var(--mds-navy);
+  color: var(--mds-white);
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1;
+  padding: 7px 10px;
+  border-radius: 6px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .15s ease .1s, transform .15s ease .1s;
+  z-index: 70;
+}
+.tip::before {
+  content: "";
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 50%;
+  transform: translateX(-50%) translateY(-4px);
+  border: 5px solid transparent;
+  border-bottom-color: var(--mds-navy);
+  border-top-width: 0;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .15s ease .1s, transform .15s ease .1s;
+  z-index: 70;
+}
+.tip:hover::after, .tip:focus-visible::after,
+.tip:hover::before, .tip:focus-visible::before {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+@media (prefers-reduced-motion: reduce) {
+  .tip::after, .tip::before { transition-delay: 0s; transition-duration: .01ms; }
+}
+
 /* ── Faceted filters (home flyout + search Refine sidebar) ───────────────
    Shared taxonomy rendered by filters.js. Styled in the Hub's own language:
    3DS_V2 group labels, navy type, Steel Blue interactive accents, the same
