@@ -202,7 +202,14 @@ h1, h2, h3, h4,
   height: 48vw;
   max-height: 56rem;
   border-radius: 0 0 4.5rem 4.5rem;
+  /* No overflow:hidden here — the search filter flyout must escape the
+     band. The photo layers clip inside .mds-photo__clip instead. */
+}
+.mds-photo__clip {
+  position: absolute;
+  inset: 0;
   overflow: hidden;
+  border-radius: inherit;
 }
 .mds-photo--hero .mds-photo__img { object-position: 94% 42%; z-index: 1; }
 .mds-photo--hero .mds-photo__img:not(.mds-photo__img--blur) {
